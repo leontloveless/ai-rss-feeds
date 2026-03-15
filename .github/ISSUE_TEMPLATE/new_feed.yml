@@ -1,18 +1,22 @@
 name: "📡 Request New Feed"
-description: "Request an RSS feed for a blog that doesn't have one"
+description: "Request an RSS feed for a blog or GitHub project"
 labels: ["new-feed"]
 body:
   - type: markdown
     attributes:
       value: |
-        Just paste the blog URL below and we'll handle the rest!
-        Our AI will analyze the page structure and generate an RSS feed automatically.
+        Just paste the URL below and we'll handle the rest!
+
+        **Supported URL types:**
+        - 🌐 Blog index page → AI generates CSS selectors automatically
+        - 🐙 GitHub repo (e.g. `https://github.com/owner/repo`) → Uses GitHub Releases API
+        - 📝 GitHub CHANGELOG.md → Uses GitHub Releases API
 
   - type: input
     id: url
     attributes:
-      label: Blog URL
-      description: "The URL of the blog index page (e.g. https://example.com/blog)"
-      placeholder: "https://example.com/blog"
+      label: URL
+      description: "Blog URL or GitHub repo URL"
+      placeholder: "https://github.com/owner/repo or https://example.com/blog"
     validations:
       required: true

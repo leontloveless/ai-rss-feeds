@@ -19,16 +19,28 @@ jobs:
 
       - name: Extract URL from issue
         id: url
-        run: echo "url=$(echo '${{ github.event.issue.body }}' | grep -oP 'https?://\S+' | head -1)" >> $GITHUB_OUTPUT
+        run: |
+          BODY='${{ github.event.issue.body }}'
+          URL=$(echo "$BODY" | grep -oP 'https?://\S+' | head -1)
+          echo "url=$URL" >> $GITHUB_OUTPUT
+          echo "Extracted URL: $URL"
 
-      - name: Add feed
-        run: bun run src/add-feed.ts "${{ steps.url.outputs.url }}"
+      - name: Add feed (smart detection)
+        run: bun run src/add-smart.ts "${{ steps.url.outputs.url }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "feat: add feed for ${{ steps.url.outputs.url }}"
+      - name: Commit changes
+        run: |
+          git config --global user.name "ai-rss-feeds[bot]"
+          git config --global user.email "ai-rss-feeds[bot]@users.noreply.github.com"
+          git add configs/ feeds/
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "feat: add feed for ${{ steps.url.outputs.url }}"
+            git push
+          fi
 
       - name: Comment on issue
         if: success()
@@ -36,13 +48,19 @@ jobs:
         with:
           script: |
             const fs = require('fs');
-            const configs = fs.readdirSync('configs').filter(f => f.endsWith('.json'));
-            const latest = configs[configs.length - 1].replace('.json', '');
+            const configs = fs.readdirSync('configs')
+              .filter(f => f.endsWith('.json'))
+              .sort((a, b) => {
+                const statA = fs.statSync(`configs/${a}`);
+                const statB = fs.statSync(`configs/${b}`);
+                return statB.mtimeMs - statA.mtimeMs;
+              });
+            const latest = configs[0].replace('.json', '');
             await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
-              body: `✅ Feed added successfully!\n\n📖 Subscribe: https://raw.githubusercontent.com/${context.repo.owner}/${context.repo.repo}/main/feeds/${latest}.xml`
+              body: `✅ Feed added successfully!\n\n📖 Subscribe: \`https://raw.githubusercontent.com/${context.repo.owner}/${context.repo.repo}/main/feeds/${latest}.xml\``
             });
             await github.rest.issues.update({
               owner: context.repo.owner,
@@ -60,5 +78,5 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
-              body: `❌ Failed to add feed. The LLM couldn't generate valid selectors for this page. Please check the URL and try again, or open a manual PR.`
+              body: `❌ Failed to add feed. Please check the URL and try again, or open a manual PR.\n\nFor GitHub repos, make sure the repo has published releases.`
             });
