@@ -17,6 +17,18 @@ export interface FeedConfig {
       prefix?: string;
     };
   };
+  parserMode?: "css" | "json"; // default: "css"
+  jsonExtraction?: {
+    scriptSelector: string; // e.g., 'script#__NEXT_DATA__'
+    dataPath: string; // e.g., 'props.pageProps.posts'
+    fields: {
+      title: string; // e.g., 'title'
+      link: string; // e.g., 'slug.current'
+      date?: string; // e.g., 'publishedOn'
+      description?: string; // e.g., 'summary'
+    };
+    linkTemplate?: string; // e.g., 'https://example.com/news/{slug.current}'
+  };
   dateFormat?: string;
   createdAt: string;
   lastHealed?: string;

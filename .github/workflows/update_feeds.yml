@@ -16,7 +16,14 @@ jobs:
       - uses: oven-sh/setup-bun@v2
       - run: bun install
       - run: bun run src/run-all.ts
-      - uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "chore: update feeds"
-          file_pattern: "feeds/*.xml cache/*.json"
+      - name: Commit changes
+        run: |
+          git config --global user.name "ai-rss-feeds[bot]"
+          git config --global user.email "ai-rss-feeds[bot]@users.noreply.github.com"
+          git add feeds/ cache/
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "chore: update feeds"
+            git push
+          fi

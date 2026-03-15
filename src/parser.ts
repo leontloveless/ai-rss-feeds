@@ -96,9 +96,128 @@ function parseDate(raw: string, format?: string): Date | undefined {
 }
 
 /**
+ * Get a nested value from an object using a dot-separated path.
+ * e.g., getPath({a: {b: "c"}}, "a.b") => "c"
+ */
+function getPath(obj: any, path: string): any {
+  return path.split(".").reduce((o, key) => o?.[key], obj);
+}
+
+/**
+ * Parse HTML using JSON extraction from <script> tags.
+ */
+function parseJsonArticles(html: string, config: FeedConfig): Article[] {
+  const $ = cheerio.load(html);
+  const ext = config.jsonExtraction!;
+  const articles: Article[] = [];
+
+  // Find the script element containing JSON data
+  const scriptEl = $(ext.scriptSelector);
+  if (scriptEl.length === 0) {
+    // Try finding JSON in any script tag
+    $("script").each((_, el) => {
+      const text = $(el).html() || "";
+      if (text.includes(ext.dataPath.split(".")[0])) {
+        try {
+          // Try parsing the entire script content as JSON
+          const data = JSON.parse(text);
+          const items = getPath(data, ext.dataPath);
+          if (Array.isArray(items)) {
+            processJsonItems(items, ext, articles);
+          }
+        } catch {
+          // Not valid JSON, skip
+        }
+      }
+    });
+  } else {
+    const raw = scriptEl.html() || "";
+    try {
+      const data = JSON.parse(raw);
+      const items = getPath(data, ext.dataPath);
+      if (Array.isArray(items)) {
+        processJsonItems(items, ext, articles);
+      }
+    } catch {
+      // Try extracting JSON from script text that might have assignments
+    }
+  }
+
+  // If no articles from script tags, try extracting from inline JSON in page source
+  if (articles.length === 0) {
+    // Look for JSON arrays in the raw HTML (common in Next.js/Sanity sites)
+    const jsonMatches = html.match(/\[(?:\{[^[\]]*"title"[^[\]]*\}[,\s]*)+\]/g);
+    if (jsonMatches) {
+      for (const match of jsonMatches) {
+        try {
+          const items = JSON.parse(match);
+          if (Array.isArray(items) && items.length > 0 && items[0].title) {
+            processJsonItems(items, ext, articles);
+            if (articles.length > 0) break;
+          }
+        } catch {
+          // Not valid JSON
+        }
+      }
+    }
+  }
+
+  // Deduplicate
+  const seen = new Set<string>();
+  return articles.filter((a) => {
+    if (seen.has(a.link)) return false;
+    seen.add(a.link);
+    return true;
+  });
+}
+
+function processJsonItems(
+  items: any[],
+  ext: NonNullable<FeedConfig["jsonExtraction"]>,
+  articles: Article[]
+): void {
+  for (const item of items) {
+    const title = getPath(item, ext.fields.title);
+    if (!title || typeof title !== "string") continue;
+
+    let link = "";
+    const linkValue = getPath(item, ext.fields.link);
+    if (ext.linkTemplate && linkValue) {
+      // Replace {field.path} placeholders in template
+      link = ext.linkTemplate.replace(/\{([^}]+)\}/g, (_, path) => {
+        return String(getPath(item, path) ?? "");
+      });
+    } else if (linkValue) {
+      link = String(linkValue);
+    }
+    if (!link) continue;
+
+    let date: Date | undefined;
+    if (ext.fields.date) {
+      const dateRaw = getPath(item, ext.fields.date);
+      if (dateRaw) {
+        const d = new Date(String(dateRaw));
+        if (!isNaN(d.getTime())) date = d;
+      }
+    }
+
+    let description: string | undefined;
+    if (ext.fields.description) {
+      const desc = getPath(item, ext.fields.description);
+      if (desc && typeof desc === "string") description = desc;
+    }
+
+    articles.push({ title: title.trim(), link, date, description });
+  }
+}
+
+/**
  * Parse HTML using a FeedConfig and return extracted articles.
  */
 export function parseArticles(html: string, config: FeedConfig): Article[] {
+  if (config.parserMode === "json" && config.jsonExtraction) {
+    return parseJsonArticles(html, config);
+  }
   const $ = cheerio.load(html);
   const articles: Article[] = [];
   const { selectors } = config;
