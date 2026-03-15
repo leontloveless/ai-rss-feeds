@@ -59,6 +59,7 @@ export interface Article {
   link: string;
   date?: Date;
   description?: string;
+  content?: string; // full HTML content (for content:encoded)
 }
 
 export interface ValidationResult {

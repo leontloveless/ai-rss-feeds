@@ -30,6 +30,7 @@ export function generateRSS(articles: Article[], config: FeedConfig): string {
       id: article.link,
       link: article.link,
       description: article.description || "",
+      content: article.content,
       date: article.date || new Date(),
     });
   }

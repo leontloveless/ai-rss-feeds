@@ -4,6 +4,7 @@
 
 import * as cheerio from "cheerio";
 import { parse as dateParse } from "date-fns";
+import { marked } from "marked";
 import type { Article, FeedConfig } from "./types.js";
 
 /**
@@ -397,23 +398,33 @@ function parseGithubReleasesArticles(json: string, config: FeedConfig): Article[
       if (!isNaN(d.getTime())) date = d;
     }
 
-    // Build description from body (markdown) — truncate for RSS
-    let description = release.body || "";
-    if (description.length > 500) {
-      description = description.slice(0, 497) + "...";
+    // Convert markdown body to HTML for full content
+    let content = "";
+    let description = "";
+    if (release.body) {
+      try {
+        content = marked.parse(release.body, { async: false }) as string;
+      } catch {
+        content = release.body;
+      }
+      // Build a clean text summary for description
+      description = release.body
+        .replace(/#{1,6}\s/g, "")
+        .replace(/\*\*/g, "")
+        .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1") // [text](url) → text
+        .replace(/\n{2,}/g, " ")
+        .replace(/\n/g, " ")
+        .trim();
+      if (description.length > 300) {
+        description = description.slice(0, 297) + "...";
+      }
     }
-    // Strip markdown formatting for cleaner RSS description
-    description = description
-      .replace(/#{1,6}\s/g, "")
-      .replace(/\*\*/g, "")
-      .replace(/\n{3,}/g, "\n\n")
-      .trim();
 
     if (!description) {
       description = `Release ${release.tag_name}`;
     }
 
-    articles.push({ title, link, date, description });
+    articles.push({ title, link, date, description, content });
   }
 
   return articles;
