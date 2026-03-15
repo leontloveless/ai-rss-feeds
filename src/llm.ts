@@ -34,6 +34,11 @@ interface FeedConfig {
       prefix?: string;       // base URL to prepend to relative links, e.g. "https://ollama.com"
     };
   };
+  parserMode?: "css" | "json" | "changelog"; // default: "css"
+  changelogExtraction?: {
+    linkTemplate?: string;     // e.g., "https://github.com/org/repo/releases/tag/v{version}"
+    sections?: string[];       // which ### sections to include, default: all
+  };
   dateFormat?: string;        // date-fns format string if dates are in unusual format
   createdAt: string;          // ISO date string
 }
@@ -45,7 +50,8 @@ Rules:
 3. For \`link.source\`, use "attr:href" — the parser will find the nearest <a> tag.
 4. If URLs are relative (e.g. "/blog/post-1"), set \`link.prefix\` to the site origin.
 5. Only output valid JSON. No markdown, no explanation, no code fences.
-6. Set \`createdAt\` to today's date in ISO format.`;
+6. Set \`createdAt\` to today's date in ISO format.
+7. If the page is a CHANGELOG or release notes in "Keep a Changelog" format (## headings for versions, ### for categories), set \`parserMode\` to "changelog" and provide \`changelogExtraction\` with \`linkTemplate\` if the source is a GitHub repo.`;
 
 /**
  * Generate a FeedConfig from a blog URL's HTML using LLM.

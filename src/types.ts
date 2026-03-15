@@ -17,7 +17,7 @@ export interface FeedConfig {
       prefix?: string;
     };
   };
-  parserMode?: "css" | "json"; // default: "css"
+  parserMode?: "css" | "json" | "changelog"; // default: "css"
   jsonExtraction?: {
     scriptSelector: string; // e.g., 'script#__NEXT_DATA__'
     dataPath: string; // e.g., 'props.pageProps.posts'
@@ -28,6 +28,12 @@ export interface FeedConfig {
       description?: string; // e.g., 'summary'
     };
     linkTemplate?: string; // e.g., 'https://example.com/news/{slug.current}'
+  };
+  changelogExtraction?: {
+    versionPattern?: string; // regex for version headings, default: "^## \\[?(.+?)\\]?"
+    datePattern?: string; // regex to extract date from heading, default: tries common formats
+    linkTemplate?: string; // e.g., "https://github.com/org/repo/releases/tag/v{version}"
+    sections?: string[]; // which ### sections to include, default: all
   };
   dateFormat?: string;
   createdAt: string;
