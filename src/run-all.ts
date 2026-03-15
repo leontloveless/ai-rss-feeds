@@ -11,7 +11,7 @@
 import { readdirSync, readFileSync, writeFileSync, mkdirSync } from "fs";
 import { join } from "path";
 import type { FeedConfig } from "./types.js";
-import { fetchHTML } from "./fetcher.js";
+import { fetchHTML, fetchGitHubAPI } from "./fetcher.js";
 import { parseArticles } from "./parser.js";
 import { validate, validateQuick } from "./validator.js";
 import { generateRSS } from "./generator.js";
@@ -43,10 +43,18 @@ async function processFeed(
   console.log(`\n📡 ${name} (${config.url})`);
 
   try {
-    // 1. Fetch HTML
-    console.log("  ⬇️  Fetching HTML...");
-    const html = await fetchHTML(config.url);
-    console.log(`  ✅ Fetched ${(html.length / 1024).toFixed(1)}KB`);
+    // 1. Fetch content
+    let html: string;
+    if (config.parserMode === "github-releases" && config.githubReleasesExtraction) {
+      const ext = config.githubReleasesExtraction;
+      console.log(`  ⬇️  Fetching GitHub Releases API (${ext.owner}/${ext.repo})...`);
+      html = await fetchGitHubAPI(ext.owner, ext.repo, ext.limit);
+      console.log(`  ✅ Fetched ${(html.length / 1024).toFixed(1)}KB from API`);
+    } else {
+      console.log("  ⬇️  Fetching HTML...");
+      html = await fetchHTML(config.url);
+      console.log(`  ✅ Fetched ${(html.length / 1024).toFixed(1)}KB`);
+    }
 
     // 2. Parse articles
     const articles = parseArticles(html, config);

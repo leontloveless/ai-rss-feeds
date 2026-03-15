@@ -17,7 +17,7 @@ export interface FeedConfig {
       prefix?: string;
     };
   };
-  parserMode?: "css" | "json" | "changelog"; // default: "css"
+  parserMode?: "css" | "json" | "changelog" | "github-releases"; // default: "css"
   jsonExtraction?: {
     scriptSelector: string; // e.g., 'script#__NEXT_DATA__'
     dataPath: string; // e.g., 'props.pageProps.posts'
@@ -28,6 +28,12 @@ export interface FeedConfig {
       description?: string; // e.g., 'summary'
     };
     linkTemplate?: string; // e.g., 'https://example.com/news/{slug.current}'
+  };
+  githubReleasesExtraction?: {
+    owner: string; // e.g., "openclaw"
+    repo: string; // e.g., "openclaw"
+    includePrerelease?: boolean; // default: false
+    limit?: number; // default: 50
   };
   changelogExtraction?: {
     versionPattern?: string; // regex for version headings, default: "^## \\[?(.+?)\\]?"
