@@ -30,11 +30,14 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Update README
+        run: bun run readme
+
       - name: Commit changes
         run: |
           git config --global user.name "ai-rss-feeds[bot]"
           git config --global user.email "ai-rss-feeds[bot]@users.noreply.github.com"
-          git add configs/ feeds/
+          git add configs/ feeds/ README.md
           if git diff --staged --quiet; then
             echo "No changes to commit"
           else
