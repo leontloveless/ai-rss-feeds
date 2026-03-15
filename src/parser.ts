@@ -212,9 +212,163 @@ function processJsonItems(
 }
 
 /**
+ * Parse a Keep a Changelog style markdown document into articles.
+ * Each ## version heading becomes one RSS article.
+ *
+ * Supports formats:
+ *   ## 2026.3.13
+ *   ## [1.0.0] - 2024-01-15
+ *   ## v2.0.0 (2024-01-15)
+ *   ## Unreleased
+ */
+function parseChangelogArticles(text: string, config: FeedConfig): Article[] {
+  const ext = config.changelogExtraction ?? {};
+  const articles: Article[] = [];
+
+  // Split by ## headings (h2), keeping the heading text
+  const versionRegex = /^## (.+)$/gm;
+  const matches: { heading: string; start: number }[] = [];
+  let match: RegExpExecArray | null;
+
+  while ((match = versionRegex.exec(text)) !== null) {
+    matches.push({ heading: match[1].trim(), start: match.index });
+  }
+
+  if (matches.length === 0) return articles;
+
+  for (let i = 0; i < matches.length; i++) {
+    const { heading, start } = matches[i];
+    const end = i + 1 < matches.length ? matches[i + 1].start : text.length;
+    const body = text.slice(start, end).trim();
+
+    // Skip the "Unreleased" section — it's not a version
+    if (/^unreleased$/i.test(heading)) continue;
+
+    // Extract version string: handle [1.0.0], v1.0.0, 2026.3.13, etc.
+    const versionMatch = heading.match(
+      /\[?v?(\d[\w.\-]+)\]?/i
+    );
+    const version = versionMatch?.[1] ?? heading;
+
+    // Try to extract date from heading
+    let date: Date | undefined;
+
+    // Format: ## [1.0.0] - 2024-01-15 or ## 1.0.0 (2024-01-15)
+    const dateInHeading = heading.match(
+      /(\d{4}[-/.]\d{1,2}[-/.]\d{1,2})/
+    );
+    if (dateInHeading) {
+      const d = new Date(dateInHeading[1].replace(/\//g, "-"));
+      if (!isNaN(d.getTime())) date = d;
+    }
+
+    // Format: ## 2026.3.13 (version IS the date)
+    if (!date) {
+      const dotDate = version.match(/^(\d{4})\.(\d{1,2})\.(\d{1,2})$/);
+      if (dotDate) {
+        const d = new Date(
+          `${dotDate[1]}-${dotDate[2].padStart(2, "0")}-${dotDate[3].padStart(2, "0")}`
+        );
+        if (!isNaN(d.getTime())) date = d;
+      }
+    }
+
+    // Extract section content (### Changes, ### Fixes, ### Breaking, etc.)
+    const sectionRegex = /^### (.+)$/gm;
+    const sections: { name: string; items: string[] }[] = [];
+    let secMatch: RegExpExecArray | null;
+    const secMatches: { name: string; start: number }[] = [];
+
+    // Reset lastIndex for body-scoped search
+    const bodyContent = body.replace(/^## .+$/m, "").trim();
+    const secRe = /^### (.+)$/gm;
+    while ((secMatch = secRe.exec(bodyContent)) !== null) {
+      secMatches.push({ name: secMatch[1].trim(), start: secMatch.index });
+    }
+
+    for (let j = 0; j < secMatches.length; j++) {
+      const secEnd =
+        j + 1 < secMatches.length ? secMatches[j + 1].start : bodyContent.length;
+      const secBody = bodyContent.slice(secMatches[j].start, secEnd);
+
+      // Filter by configured sections if specified
+      if (
+        ext.sections &&
+        ext.sections.length > 0 &&
+        !ext.sections.some(
+          (s) => s.toLowerCase() === secMatches[j].name.toLowerCase()
+        )
+      ) {
+        continue;
+      }
+
+      // Extract bullet items
+      const items = secBody
+        .split("\n")
+        .filter((line) => /^\s*-\s/.test(line))
+        .map((line) => line.replace(/^\s*-\s+/, "").trim());
+
+      if (items.length > 0) {
+        sections.push({ name: secMatches[j].name, items });
+      }
+    }
+
+    // Build description from sections
+    const descParts: string[] = [];
+    for (const sec of sections) {
+      descParts.push(`${sec.name}: ${sec.items.length} items`);
+    }
+    const description =
+      descParts.length > 0
+        ? descParts.join(" | ")
+        : bodyContent.slice(0, 200).trim();
+
+    // Build link
+    let link = config.url;
+    if (ext.linkTemplate) {
+      link = ext.linkTemplate.replace("{version}", version);
+    }
+
+    const title = `${config.feed.title} ${version}`;
+
+    articles.push({ title, link, date, description });
+  }
+
+  return articles;
+}
+
+/**
+ * For changelog mode, we might be fetching raw markdown from GitHub.
+ * Extract markdown text from HTML if needed (GitHub renders .md files as HTML).
+ */
+function extractMarkdownFromHtml(html: string): string {
+  // If it looks like raw markdown already (starts with # or has ## headings), use as-is
+  if (/^#\s/m.test(html) || /^## /m.test(html)) {
+    return html;
+  }
+
+  // Try to extract from GitHub's rendered HTML
+  const $ = cheerio.load(html);
+
+  // GitHub wraps markdown content in <article>
+  const article = $("article").first();
+  if (article.length > 0) {
+    // Get the text content, preserving structure
+    return article.text();
+  }
+
+  // Fallback: just return the raw text
+  return $.text();
+}
+
+/**
  * Parse HTML using a FeedConfig and return extracted articles.
  */
 export function parseArticles(html: string, config: FeedConfig): Article[] {
+  if (config.parserMode === "changelog") {
+    const markdown = extractMarkdownFromHtml(html);
+    return parseChangelogArticles(markdown, config);
+  }
   if (config.parserMode === "json" && config.jsonExtraction) {
     return parseJsonArticles(html, config);
   }
