@@ -362,9 +362,70 @@ function extractMarkdownFromHtml(html: string): string {
 }
 
 /**
+ * Parse GitHub Releases API JSON response into articles.
+ * The `html` parameter here is actually the raw JSON from the API.
+ */
+function parseGithubReleasesArticles(json: string, config: FeedConfig): Article[] {
+  const ext = config.githubReleasesExtraction!;
+  const articles: Article[] = [];
+
+  let releases: any[];
+  try {
+    releases = JSON.parse(json);
+  } catch {
+    console.error("  ❌ Failed to parse GitHub Releases API response");
+    return [];
+  }
+
+  if (!Array.isArray(releases)) return [];
+
+  for (const release of releases) {
+    // Skip prereleases unless configured
+    if (release.prerelease && !ext.includePrerelease) continue;
+    // Skip drafts
+    if (release.draft) continue;
+
+    const title = release.name || release.tag_name || "Untitled";
+    const link = release.html_url || `https://github.com/${ext.owner}/${ext.repo}/releases/tag/${release.tag_name}`;
+
+    let date: Date | undefined;
+    if (release.published_at) {
+      const d = new Date(release.published_at);
+      if (!isNaN(d.getTime())) date = d;
+    } else if (release.created_at) {
+      const d = new Date(release.created_at);
+      if (!isNaN(d.getTime())) date = d;
+    }
+
+    // Build description from body (markdown) — truncate for RSS
+    let description = release.body || "";
+    if (description.length > 500) {
+      description = description.slice(0, 497) + "...";
+    }
+    // Strip markdown formatting for cleaner RSS description
+    description = description
+      .replace(/#{1,6}\s/g, "")
+      .replace(/\*\*/g, "")
+      .replace(/\n{3,}/g, "\n\n")
+      .trim();
+
+    if (!description) {
+      description = `Release ${release.tag_name}`;
+    }
+
+    articles.push({ title, link, date, description });
+  }
+
+  return articles;
+}
+
+/**
  * Parse HTML using a FeedConfig and return extracted articles.
  */
 export function parseArticles(html: string, config: FeedConfig): Article[] {
+  if (config.parserMode === "github-releases" && config.githubReleasesExtraction) {
+    return parseGithubReleasesArticles(html, config);
+  }
   if (config.parserMode === "changelog") {
     const markdown = extractMarkdownFromHtml(html);
     return parseChangelogArticles(markdown, config);
