@@ -398,33 +398,19 @@ function parseGithubReleasesArticles(json: string, config: FeedConfig): Article[
       if (!isNaN(d.getTime())) date = d;
     }
 
-    // description: plain text summary | content: full HTML
-    let description = "";
-    let content = "";
+    // Both description and content get full HTML — most readers only use description
+    let html = "";
     if (release.body) {
-      // Full HTML for content:encoded
       try {
-        content = marked.parse(release.body, { async: false }) as string;
+        html = marked.parse(release.body, { async: false }) as string;
       } catch {
-        content = release.body;
-      }
-      // Plain text summary for description
-      description = release.body
-        .replace(/#{1,6}\s/g, "")
-        .replace(/\*\*/g, "")
-        .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
-        .replace(/\n{2,}/g, " ")
-        .replace(/\n/g, " ")
-        .trim();
-      if (description.length > 300) {
-        description = description.slice(0, 297) + "...";
+        html = `<p>${release.body}</p>`;
       }
     }
 
-    if (!description) description = `Release ${release.tag_name}`;
-    if (!content) content = `<p>Release ${release.tag_name}</p>`;
+    if (!html) html = `<p>Release ${release.tag_name}</p>`;
 
-    articles.push({ title, link, date, description, content });
+    articles.push({ title, link, date, description: html, content: html });
   }
 
   return articles;
