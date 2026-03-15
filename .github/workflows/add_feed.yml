@@ -1,0 +1,64 @@
+name: Add Feed
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  add-feed:
+    if: contains(github.event.issue.labels.*.name, 'new-feed')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install
+
+      - name: Extract URL from issue
+        id: url
+        run: echo "url=$(echo '${{ github.event.issue.body }}' | grep -oP 'https?://\S+' | head -1)" >> $GITHUB_OUTPUT
+
+      - name: Add feed
+        run: bun run src/add-feed.ts "${{ steps.url.outputs.url }}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "feat: add feed for ${{ steps.url.outputs.url }}"
+
+      - name: Comment on issue
+        if: success()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const configs = fs.readdirSync('configs').filter(f => f.endsWith('.json'));
+            const latest = configs[configs.length - 1].replace('.json', '');
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: `✅ Feed added successfully!\n\n📖 Subscribe: https://raw.githubusercontent.com/${context.repo.owner}/${context.repo.repo}/main/feeds/${latest}.xml`
+            });
+            await github.rest.issues.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              state: 'closed'
+            });
+
+      - name: Comment failure
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: `❌ Failed to add feed. The LLM couldn't generate valid selectors for this page. Please check the URL and try again, or open a manual PR.`
+            });

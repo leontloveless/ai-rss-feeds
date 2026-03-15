@@ -1,0 +1,25 @@
+name: Heal Feed
+
+on:
+  workflow_dispatch:
+    inputs:
+      feed_name:
+        description: "Feed name (e.g. openai-blog)"
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  heal:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install
+      - run: bun run src/heal-feed.ts "${{ inputs.feed_name }}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "fix: heal feed ${{ inputs.feed_name }}"
