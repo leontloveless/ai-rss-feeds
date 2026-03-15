@@ -6,6 +6,8 @@ Many popular tech blogs don't offer RSS feeds. This project uses AI to analyze b
 
 ## 📖 Available Feeds
 
+### Blogs
+
 | Blog | Feed | Status |
 |------|------|--------|
 | [Paul Graham Essays](https://www.paulgraham.com/articles.html) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/paul-graham.xml) | ✅ 231 essays |
@@ -13,6 +15,12 @@ Many popular tech blogs don't offer RSS feeds. This project uses AI to analyze b
 | [Groq News](https://groq.com/news/) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/groq-news.xml) | ✅ 24 articles |
 | [Stability AI News](https://stability.ai/news) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/stability-ai.xml) | ✅ 20 articles |
 | [Cursor Blog](https://cursor.com/blog) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/cursor-blog.xml) | ✅ 10 articles |
+
+### GitHub Releases
+
+| Project | Feed | Status |
+|---------|------|--------|
+| [OpenClaw](https://github.com/openclaw/openclaw) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/openclaw-releases.xml) | ✅ 41 releases |
 
 ## 🚀 Quick Start
 
@@ -30,6 +38,17 @@ https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/{name}.x
 4. Done! The feed is generated automatically
 
 ## 🔧 How It Works
+
+### Parser Modes
+
+| Mode | Use Case | Data Source |
+|------|----------|-------------|
+| `css` (default) | Blog index pages | Cheerio CSS selectors on HTML |
+| `json` | Next.js / SPA sites | JSON extraction from `<script>` tags |
+| `changelog` | Keep a Changelog files | Markdown `## version` headings |
+| `github-releases` | GitHub projects | GitHub Releases API (structured data) |
+
+### Architecture
 
 ```
 ┌──────────────┐     ┌──────────────┐     ┌──────────────┐
@@ -49,6 +68,8 @@ https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/{name}.x
 3. **Validation**: 6-layer checks (structure, dedup, dates, links, XML, regression)
 4. **Output**: Standard RSS 2.0 XML committed to `feeds/`
 5. **Self-heal**: If selectors break (site redesign), LLM regenerates config
+
+> **Note**: For `github-releases` mode, step 1 is skipped — the GitHub API provides structured data directly. No LLM needed.
 
 ### Validation Layers
 
@@ -81,16 +102,42 @@ GITHUB_TOKEN=xxx bun run add https://example.com/blog
 GITHUB_TOKEN=xxx bun run heal cursor-blog
 ```
 
+### Adding a GitHub Releases Feed
+
+Create a config file in `configs/`:
+
+```json
+{
+  "name": "my-project-releases",
+  "url": "https://github.com/owner/repo/releases",
+  "feed": {
+    "title": "My Project Releases",
+    "description": "Release notes for My Project",
+    "language": "en",
+    "author": "Owner"
+  },
+  "selectors": { "articleList": "", "title": "", "link": { "source": "" } },
+  "parserMode": "github-releases",
+  "githubReleasesExtraction": {
+    "owner": "owner",
+    "repo": "repo",
+    "includePrerelease": false,
+    "limit": 50
+  },
+  "createdAt": "2026-03-15T00:00:00Z"
+}
+```
+
 ## 📁 Project Structure
 
 ```
-configs/     → Feed configs (JSON, one per blog)
+configs/     → Feed configs (JSON, one per blog/project)
 feeds/       → Generated RSS 2.0 XML files
 cache/       → Snapshots for regression tracking
 src/
 ├── types.ts       → FeedConfig, Article, Snapshot types
-├── fetcher.ts     → HTML fetching with retry
-├── parser.ts      → Cheerio-based HTML → Article[]
+├── fetcher.ts     → HTML/API fetching with retry
+├── parser.ts      → Multi-mode parser (CSS/JSON/Changelog/GitHub)
 ├── validator.ts   → 6-layer validation
 ├── generator.ts   → Article[] → RSS 2.0 XML
 ├── llm.ts         → GitHub Models API integration
