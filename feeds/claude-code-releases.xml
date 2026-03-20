@@ -4,11 +4,79 @@
         <title>claude-code Releases</title>
         <link>https://github.com/anthropics/claude-code/releases</link>
         <description>GitHub releases for anthropics/claude-code</description>
-        <lastBuildDate>Thu, 19 Mar 2026 22:08:48 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 20 Mar 2026 22:24:50 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>ai-rss-feeds (https://github.com/leontloveless/ai-rss-feeds)</generator>
         <language>en</language>
         <atom:link href="https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/claude-code-releases.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[v2.1.81]]></title>
+            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.81</link>
+            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.81</guid>
+            <pubDate>Fri, 20 Mar 2026 22:24:50 GMT</pubDate>
+            <description><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Added <code>--bare</code> flag for scripted <code>-p</code> calls — skips hooks, LSP, plugin sync, and skill directory walks; requires <code>ANTHROPIC_API_KEY</code> or an <code>apiKeyHelper</code> via <code>--settings</code> (OAuth and keychain auth disabled); auto-memory fully disabled</li>
+<li>Added <code>--channels</code> permission relay — channel servers that declare the permission capability can forward tool approval prompts to your phone</li>
+<li>Fixed multiple concurrent Claude Code sessions requiring repeated re-authentication when one session refreshes its OAuth token</li>
+<li>Fixed voice mode silently swallowing retry failures and showing a misleading &quot;check your network&quot; message instead of the actual error</li>
+<li>Fixed voice mode audio not recovering when the server silently drops the WebSocket connection</li>
+<li>Fixed <code>CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS</code> not suppressing the structured-outputs beta header, causing 400 errors on proxy gateways forwarding to Vertex/Bedrock</li>
+<li>Fixed <code>--channels</code> bypass for Team/Enterprise orgs with no other managed settings configured</li>
+<li>Fixed a crash on Node.js 18</li>
+<li>Fixed unnecessary permission prompts for Bash commands containing dashes in strings</li>
+<li>Fixed plugin hooks blocking prompt submission when the plugin directory is deleted mid-session</li>
+<li>Fixed a race condition where background agent task output could hang indefinitely when the task completed between polling intervals</li>
+<li>Resuming a session that was in a worktree now switches back to that worktree</li>
+<li>Fixed <code>/btw</code> not including pasted text when used during an active response</li>
+<li>Fixed a race where fast Cmd+Tab followed by paste could beat the clipboard copy under tmux</li>
+<li>Fixed terminal tab title not updating with an auto-generated session description</li>
+<li>Fixed invisible hook attachments inflating the message count in transcript mode</li>
+<li>Fixed Remote Control sessions showing a generic title instead of deriving from the first prompt</li>
+<li>Fixed <code>/rename</code> not syncing the title for Remote Control sessions</li>
+<li>Fixed Remote Control <code>/exit</code> not reliably archiving the session</li>
+<li>Improved MCP read/search tool calls to collapse into a single &quot;Queried {server}&quot; line (expand with Ctrl+O)</li>
+<li>Improved <code>!</code> bash mode discoverability — Claude now suggests it when you need to run an interactive command</li>
+<li>Improved plugin freshness — ref-tracked plugins now re-clone on every load to pick up upstream changes</li>
+<li>Improved Remote Control session titles to refresh after your third message</li>
+<li>Updated MCP OAuth to support Client ID Metadata Document (CIMD / SEP-991) for servers without Dynamic Client Registration</li>
+<li>Changed plan mode to hide the &quot;clear context&quot; option by default (restore with <code>&quot;showClearContextOnPlanAccept&quot;: true</code>)</li>
+<li>Disabled line-by-line response streaming on Windows (including WSL in Windows Terminal) due to rendering issues</li>
+<li>[VSCode] Fixed Windows PATH inheritance for Bash tool when using Git Bash (regression in v2.1.78)</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Added <code>--bare</code> flag for scripted <code>-p</code> calls — skips hooks, LSP, plugin sync, and skill directory walks; requires <code>ANTHROPIC_API_KEY</code> or an <code>apiKeyHelper</code> via <code>--settings</code> (OAuth and keychain auth disabled); auto-memory fully disabled</li>
+<li>Added <code>--channels</code> permission relay — channel servers that declare the permission capability can forward tool approval prompts to your phone</li>
+<li>Fixed multiple concurrent Claude Code sessions requiring repeated re-authentication when one session refreshes its OAuth token</li>
+<li>Fixed voice mode silently swallowing retry failures and showing a misleading &quot;check your network&quot; message instead of the actual error</li>
+<li>Fixed voice mode audio not recovering when the server silently drops the WebSocket connection</li>
+<li>Fixed <code>CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS</code> not suppressing the structured-outputs beta header, causing 400 errors on proxy gateways forwarding to Vertex/Bedrock</li>
+<li>Fixed <code>--channels</code> bypass for Team/Enterprise orgs with no other managed settings configured</li>
+<li>Fixed a crash on Node.js 18</li>
+<li>Fixed unnecessary permission prompts for Bash commands containing dashes in strings</li>
+<li>Fixed plugin hooks blocking prompt submission when the plugin directory is deleted mid-session</li>
+<li>Fixed a race condition where background agent task output could hang indefinitely when the task completed between polling intervals</li>
+<li>Resuming a session that was in a worktree now switches back to that worktree</li>
+<li>Fixed <code>/btw</code> not including pasted text when used during an active response</li>
+<li>Fixed a race where fast Cmd+Tab followed by paste could beat the clipboard copy under tmux</li>
+<li>Fixed terminal tab title not updating with an auto-generated session description</li>
+<li>Fixed invisible hook attachments inflating the message count in transcript mode</li>
+<li>Fixed Remote Control sessions showing a generic title instead of deriving from the first prompt</li>
+<li>Fixed <code>/rename</code> not syncing the title for Remote Control sessions</li>
+<li>Fixed Remote Control <code>/exit</code> not reliably archiving the session</li>
+<li>Improved MCP read/search tool calls to collapse into a single &quot;Queried {server}&quot; line (expand with Ctrl+O)</li>
+<li>Improved <code>!</code> bash mode discoverability — Claude now suggests it when you need to run an interactive command</li>
+<li>Improved plugin freshness — ref-tracked plugins now re-clone on every load to pick up upstream changes</li>
+<li>Improved Remote Control session titles to refresh after your third message</li>
+<li>Updated MCP OAuth to support Client ID Metadata Document (CIMD / SEP-991) for servers without Dynamic Client Registration</li>
+<li>Changed plan mode to hide the &quot;clear context&quot; option by default (restore with <code>&quot;showClearContextOnPlanAccept&quot;: true</code>)</li>
+<li>Disabled line-by-line response streaming on Windows (including WSL in Windows Terminal) due to rendering issues</li>
+<li>[VSCode] Fixed Windows PATH inheritance for Bash tool when using Git Bash (regression in v2.1.78)</li>
+</ul>
+]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[v2.1.80]]></title>
             <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.80</link>
@@ -2198,34 +2266,6 @@
             <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
 <ul>
 <li>Fixed crashes on processors without AVX instruction support</li>
-</ul>
-]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[v2.1.16]]></title>
-            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.16</link>
-            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.16</guid>
-            <pubDate>Thu, 22 Jan 2026 20:09:21 GMT</pubDate>
-            <description><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>Added new task management system, including new capabilities like dependency tracking</li>
-<li>[VSCode] Added native plugin management support</li>
-<li>[VSCode] Added ability for OAuth users to browse and resume remote Claude sessions from the Sessions dialog</li>
-<li>Fixed out-of-memory crashes when resuming sessions with heavy subagent usage</li>
-<li>Fixed an issue where the &quot;context remaining&quot; warning was not hidden after running <code>/compact</code></li>
-<li>Fixed session titles on the resume screen not respecting the user&#39;s language setting</li>
-<li>[IDE] Fixed a race condition on Windows where the Claude Code sidebar view container would not appear on start</li>
-</ul>
-]]></description>
-            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>Added new task management system, including new capabilities like dependency tracking</li>
-<li>[VSCode] Added native plugin management support</li>
-<li>[VSCode] Added ability for OAuth users to browse and resume remote Claude sessions from the Sessions dialog</li>
-<li>Fixed out-of-memory crashes when resuming sessions with heavy subagent usage</li>
-<li>Fixed an issue where the &quot;context remaining&quot; warning was not hidden after running <code>/compact</code></li>
-<li>Fixed session titles on the resume screen not respecting the user&#39;s language setting</li>
-<li>[IDE] Fixed a race condition on Windows where the Claude Code sidebar view container would not appear on start</li>
 </ul>
 ]]></content:encoded>
         </item>
