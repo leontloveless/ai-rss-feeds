@@ -12,7 +12,6 @@ Many popular tech blogs don't offer RSS feeds. This project uses AI to analyze b
 
 | Blog | Feed | Status |
 |------|------|--------|
-| [423Down](https://www.423down.com/) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/423down.xml) | ✅ 28 articles |
 | [Paul Graham Essays](https://www.paulgraham.com/articles.html) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/paul-graham.xml) | ✅ 231 articles |
 | [Google DeepMind Blog](https://deepmind.google/discover/blog/) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/deepmind-blog.xml) | ✅ 25 articles |
 | [Groq News](https://groq.com/news/) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/groq-news.xml) | ✅ 24 articles |
