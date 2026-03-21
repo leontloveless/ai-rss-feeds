@@ -8,7 +8,7 @@ const GITHUB_MODELS_URL =
   "https://models.github.ai/inference/chat/completions";
 const MODEL = "openai/gpt-4o-mini";
 const MAX_RETRIES = 3;
-const MAX_HTML_CHARS = 30_000; // Truncate HTML to fit context
+const MAX_HTML_CHARS = 12_000; // Truncate HTML to fit GitHub Models 8K token limit
 
 const SYSTEM_PROMPT = `You are an expert at analyzing HTML structure to extract blog article listings.
 
@@ -67,11 +67,22 @@ export async function generateConfig(
     );
   }
 
-  // Truncate HTML to fit in context
+  // Strip scripts, styles, comments, and other noise to reduce token count
+  let cleaned = html
+    .replace(/<script[\s\S]*?<\/script>/gi, "")
+    .replace(/<style[\s\S]*?<\/style>/gi, "")
+    .replace(/<noscript[\s\S]*?<\/noscript>/gi, "")
+    .replace(/<!--[\s\S]*?-->/g, "")
+    .replace(/<svg[\s\S]*?<\/svg>/gi, "")
+    .replace(/<footer[\s\S]*?<\/footer>/gi, "")
+    .replace(/\s{2,}/g, " ")
+    .trim();
+
+  // Truncate to fit in context
   const truncated =
-    html.length > MAX_HTML_CHARS
-      ? html.slice(0, MAX_HTML_CHARS) + "\n<!-- truncated -->"
-      : html;
+    cleaned.length > MAX_HTML_CHARS
+      ? cleaned.slice(0, MAX_HTML_CHARS) + "\n<!-- truncated -->"
+      : cleaned;
 
   let lastError = "";
 
