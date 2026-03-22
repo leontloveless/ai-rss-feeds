@@ -12,6 +12,7 @@ import { readdirSync, readFileSync, writeFileSync, mkdirSync } from "fs";
 import { join } from "path";
 import type { FeedConfig } from "./types.js";
 import { fetchHTML, fetchGitHubAPI } from "./fetcher.js";
+import { enrichDates } from "./date-enricher.js";
 import { parseArticles } from "./parser.js";
 import { validate, validateQuick } from "./validator.js";
 import { generateRSS } from "./generator.js";
@@ -57,13 +58,19 @@ async function processFeed(
     }
 
     // 2. Parse articles
-    const articles = parseArticles(html, config);
+    let articles = parseArticles(html, config);
     console.log(`  📝 Parsed ${articles.length} articles`);
 
     if (articles.length === 0) {
       console.error("  ❌ No articles found");
       recordError(name, "No articles parsed");
       return false;
+    }
+
+    // 2.5. Enrich dates from detail pages if needed
+    const datedCount = articles.filter((a) => a.date != null).length;
+    if (datedCount < articles.length * 0.5 && config.parserMode !== "github-releases") {
+      articles = await enrichDates(articles);
     }
 
     // 3. Generate RSS
