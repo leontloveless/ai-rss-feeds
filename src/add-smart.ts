@@ -134,6 +134,62 @@ async function addGitHubReleasesFeed(info: GitHubInfo): Promise<void> {
   );
 }
 
+/**
+ * Try to discover an existing RSS/Atom feed for a URL.
+ * Checks common feed paths and HTML <link> tags.
+ */
+async function discoverExistingRSS(url: string): Promise<string | null> {
+  const origin = new URL(url).origin;
+  const commonPaths = [
+    "/feed", "/feed.xml", "/rss", "/rss.xml",
+    "/atom.xml", "/index.xml", "/blog/rss.xml",
+    "/news/rss.xml", "/blog/feed", "/news/feed",
+  ];
+
+  for (const path of commonPaths) {
+    try {
+      const feedUrl = origin + path;
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), 5000);
+      const res = await fetch(feedUrl, {
+        method: "HEAD",
+        headers: { "User-Agent": "ai-rss-feeds/1.0" },
+        signal: controller.signal,
+        redirect: "follow",
+      });
+      clearTimeout(timer);
+
+      if (res.ok) {
+        const ct = res.headers.get("content-type") || "";
+        if (
+          ct.includes("xml") ||
+          ct.includes("rss") ||
+          ct.includes("atom")
+        ) {
+          return feedUrl;
+        }
+        // Some servers return text/html for feed URLs, do a GET to check
+        const getRes = await fetch(feedUrl, {
+          headers: { "User-Agent": "ai-rss-feeds/1.0" },
+          signal: AbortSignal.timeout(5000),
+        });
+        const text = await getRes.text();
+        if (
+          text.trimStart().startsWith("<?xml") ||
+          text.includes("<rss") ||
+          text.includes("<feed")
+        ) {
+          return feedUrl;
+        }
+      }
+    } catch {
+      // ignore
+    }
+  }
+
+  return null;
+}
+
 async function main() {
   const url = process.argv[2];
   if (!url || !url.startsWith("http")) {
@@ -149,8 +205,18 @@ async function main() {
     return;
   }
 
+  // Check if the site already has a native RSS feed
+  console.log("🔍 Checking for existing RSS feed...");
+  const existingFeed = await discoverExistingRSS(url);
+  if (existingFeed) {
+    console.log(`\n✅ This site already has a native RSS feed!`);
+    console.log(`📖 Subscribe: ${existingFeed}`);
+    console.log(`\nNo need to generate one.`);
+    process.exit(0);
+  }
+
   // Fall back to LLM-based add-feed
-  console.log("🌐 Not a GitHub repo URL, falling back to LLM-based parser...\n");
+  console.log("🌐 No existing RSS found, using LLM-based parser...\n");
 
   // Dynamic import to avoid loading LLM deps when not needed
   const { execSync } = await import("child_process");
