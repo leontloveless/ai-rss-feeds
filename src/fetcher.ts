@@ -5,11 +5,19 @@
 const DEFAULT_TIMEOUT = 15_000;
 const DEFAULT_RETRIES = 2;
 
+// Browser-like headers to avoid Cloudflare/bot detection
 const HEADERS: Record<string, string> = {
   "User-Agent":
-    "Mozilla/5.0 (compatible; ai-rss-feeds/1.0; +https://github.com/leontloveless/ai-rss-feeds)",
-  Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+  Accept:
+    "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
   "Accept-Language": "en-US,en;q=0.5",
+  "Accept-Encoding": "gzip, deflate, br",
+  "Sec-Fetch-Dest": "document",
+  "Sec-Fetch-Mode": "navigate",
+  "Sec-Fetch-Site": "none",
+  "Sec-Fetch-User": "?1",
+  "Upgrade-Insecure-Requests": "1",
 };
 
 const API_HEADERS: Record<string, string> = {
@@ -72,6 +80,12 @@ export async function fetchHTML(
       clearTimeout(timer);
 
       if (!res.ok) {
+        const cfMitigated = res.headers.get("cf-mitigated");
+        if (res.status === 403 && cfMitigated) {
+          throw new Error(
+            `HTTP 403 — site is protected by Cloudflare bot detection (cf-mitigated: ${cfMitigated}). This site cannot be scraped with static HTTP requests.`
+          );
+        }
         throw new Error(`HTTP ${res.status} ${res.statusText}`);
       }
 
