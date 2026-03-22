@@ -37,6 +37,8 @@ async function main() {
   // 2. Generate config via LLM
   console.log("🤖 Generating config via LLM...");
   const config = await generateConfig(url, html);
+  // Always use today's date for createdAt, not whatever the LLM picked
+  config.createdAt = new Date().toISOString();
   console.log(`✅ Config generated: "${config.name}"`);
 
   // 3. Parse and validate
