@@ -14,10 +14,7 @@
             <link>https://github.com/openclaw/openclaw/releases/tag/v2026.3.23</link>
             <guid>https://github.com/openclaw/openclaw/releases/tag/v2026.3.23</guid>
             <pubDate>Mon, 23 Mar 2026 23:15:50 GMT</pubDate>
-            <description><![CDATA[<h2>2026.3.23</h2>
-<h3>Breaking</h3>
-<h3>Changes</h3>
-<h3>Fixes</h3>
+            <description><![CDATA[<h3>Fixes</h3>
 <ul>
 <li>Browser/Chrome MCP: wait for existing-session browser tabs to become usable after attach instead of treating the initial Chrome MCP handshake as ready, which reduces user-profile timeouts and repeated consent churn on macOS Chrome attach flows. Fixes #52930. Thanks @vincentkoc.</li>
 <li>Browser/CDP: reuse an already-running loopback browser after a short initial reachability miss instead of immediately falling back to relaunch detection, which fixes second-run browser start/open regressions on slower headless Linux setups. Fixes #53004. Thanks @vincentkoc.</li>
@@ -29,26 +26,28 @@
 <li>Mistral/models: lower bundled Mistral max-token defaults to safe output budgets and teach <code>openclaw doctor --fix</code> to repair old persisted Mistral provider configs that still carry context-sized output limits, avoiding deterministic Mistral 422 rejects on fresh and existing setups. Fixes #52599. Thanks @vincentkoc.</li>
 <li>Agents/web_search: use the active runtime <code>web_search</code> provider instead of stale/default selection, so agent turns keep hitting the provider you actually configured. Fixes #53020. Thanks @jzakirov.</li>
 <li>Models/OpenAI Codex OAuth: bootstrap the env-configured HTTP/HTTPS proxy dispatcher on the stored-credential refresh path before token renewal runs, so expired Codex OAuth profiles can refresh successfully in proxy-required environments instead of locking users out after the first token expiry.</li>
+<li>Models/OpenAI Codex OAuth and Plugins/MiniMax OAuth: ensure env-configured HTTP/HTTPS proxy dispatchers are initialized before OAuth preflight and token exchange requests so proxy-required environments can complete MiniMax and OpenAI Codex sign-in flows again. (#52228; fixes #51619, #51569) Thanks @openperf.</li>
 <li>Plugins/memory-lancedb: bootstrap LanceDB into plugin runtime state on first use when the bundled npm install does not already have it, so <code>plugins.slots.memory=&quot;memory-lancedb&quot;</code> works again after global npm installs without moving LanceDB into OpenClaw core dependencies. Fixes #26100.</li>
 <li>Config/plugins: treat stale unknown <code>plugins.allow</code> ids as warnings instead of fatal config errors, so recovery commands like <code>plugins install</code>, <code>doctor --fix</code>, and <code>status</code> still run when a plugin is missing locally. Fixes #52992. Thanks @vincentkoc.</li>
 <li>Doctor/WhatsApp: stop auto-enable from appending built-in channel ids like <code>whatsapp</code> to <code>plugins.allow</code>, so <code>openclaw doctor --fix</code> no longer writes schema-invalid plugin allowlist entries when repairing built-in channels. Fixes #52931. Thanks @vincentkoc.</li>
 <li>Telegram/auto-reply: preserve same-chat inbound debounce order without stranding stale busy-session followups, and keep same-key overflow turns ordered when tracked debounce keys are saturated. (#52998) Thanks @osolmaz.</li>
+<li>Telegram/message tool: add <code>asDocument</code> as a user-facing alias for <code>forceDocument</code> on image and GIF sends, while preserving explicit <code>forceDocument</code> precedence when both flags are present. (#52461) Thanks @bakhtiersizhaev.</li>
 <li>Discord/commands: return an explicit unauthorized reply for privileged native slash commands instead of falling through to Discord&#39;s misleading generic completion when auth gates reject the sender. Fixes #53041. Thanks @scoootscooob.</li>
 <li>Channels/catalog: let external channel catalogs override shipped fallback metadata and honor overridden npm specs during channel setup, so custom channel catalogs no longer fall back to bundled packages when a channel id matches. (#52988)</li>
 <li>Voice-call/Plivo: stabilize Plivo v2 replay keys so webhook retries and replay protection stop colliding on valid follow-up deliveries.</li>
 <li>Agents/skills: prefer the active resolved runtime snapshot for embedded skill config and env injection, so <code>skills.entries.&lt;skill&gt;.apiKey</code> SecretRefs resolve correctly during embedded startup instead of failing on raw source config. Fixes #53098. Thanks @vincentkoc.</li>
 <li>Agents/subagents: recheck timed-out worker waits against the latest runtime snapshot before sending completion events, so fast-finishing workers stop being reported as timed out when they actually succeeded. Fixes #53106. Thanks @vincentkoc.</li>
 <li>Agents/Anthropic: preserve latest assistant thinking and redacted-thinking block ordering during transcript image sanitization so follow-up turns do not trip Anthropic&#39;s unmodified-thinking validation. (#52961) Thanks @vincentkoc.</li>
+<li>Plugins/DeepSeek: refactor the bundled DeepSeek provider onto the shared single-provider plugin entry, move its coverage into the extension test lane, and keep bundled auth env-var metadata on the generated manifest path. (#48762) Thanks @07akioni.</li>
+<li>Plugins/Matrix: avoid duplicate <code>resolveMatrixAccountStringValues</code> runtime-api exports under Jiti so bundled Matrix installs no longer crash at startup with <code>Cannot redefine property: resolveMatrixAccountStringValues</code>. Fixes #52909 and #52891. Thanks @vincentkoc.</li>
+<li>Security/exec approvals: keep shell-wrapper positional-argv allowlist matching on real direct carriers only by rejecting single-quoted <code>$0</code>/<code>$n</code> tokens, disallowing newline-separated <code>exec</code>, and still accepting <code>exec --</code> carrier forms. Thanks @vincentkoc.</li>
 <li>Gateway/probe: stop successful gateway handshakes from timing out as unreachable while post-connect detail RPCs are still loading, so slow devices report a reachable RPC failure instead of a false negative dead gateway. Fixes #52927. Thanks @vincentkoc.</li>
 <li>Gateway/supervision: stop lock conflicts from crash-looping under launchd and systemd by keeping the duplicate process in a retry wait instead of exiting as a failure while another healthy gateway still owns the lock. Fixes #52922. Thanks @vincentkoc.</li>
 <li>Gateway/auth: require auth for canvas routes and admin scope for agent session reset, so anonymous canvas access and non-admin reset requests fail closed.</li>
 <li>Release/install: keep previously released bundled plugins and Control UI assets in published openclaw npm installs, and fail release checks when those shipped artifacts are missing. Thanks @vincentkoc.</li>
 </ul>
 ]]></description>
-            <content:encoded><![CDATA[<h2>2026.3.23</h2>
-<h3>Breaking</h3>
-<h3>Changes</h3>
-<h3>Fixes</h3>
+            <content:encoded><![CDATA[<h3>Fixes</h3>
 <ul>
 <li>Browser/Chrome MCP: wait for existing-session browser tabs to become usable after attach instead of treating the initial Chrome MCP handshake as ready, which reduces user-profile timeouts and repeated consent churn on macOS Chrome attach flows. Fixes #52930. Thanks @vincentkoc.</li>
 <li>Browser/CDP: reuse an already-running loopback browser after a short initial reachability miss instead of immediately falling back to relaunch detection, which fixes second-run browser start/open regressions on slower headless Linux setups. Fixes #53004. Thanks @vincentkoc.</li>
@@ -60,16 +59,21 @@
 <li>Mistral/models: lower bundled Mistral max-token defaults to safe output budgets and teach <code>openclaw doctor --fix</code> to repair old persisted Mistral provider configs that still carry context-sized output limits, avoiding deterministic Mistral 422 rejects on fresh and existing setups. Fixes #52599. Thanks @vincentkoc.</li>
 <li>Agents/web_search: use the active runtime <code>web_search</code> provider instead of stale/default selection, so agent turns keep hitting the provider you actually configured. Fixes #53020. Thanks @jzakirov.</li>
 <li>Models/OpenAI Codex OAuth: bootstrap the env-configured HTTP/HTTPS proxy dispatcher on the stored-credential refresh path before token renewal runs, so expired Codex OAuth profiles can refresh successfully in proxy-required environments instead of locking users out after the first token expiry.</li>
+<li>Models/OpenAI Codex OAuth and Plugins/MiniMax OAuth: ensure env-configured HTTP/HTTPS proxy dispatchers are initialized before OAuth preflight and token exchange requests so proxy-required environments can complete MiniMax and OpenAI Codex sign-in flows again. (#52228; fixes #51619, #51569) Thanks @openperf.</li>
 <li>Plugins/memory-lancedb: bootstrap LanceDB into plugin runtime state on first use when the bundled npm install does not already have it, so <code>plugins.slots.memory=&quot;memory-lancedb&quot;</code> works again after global npm installs without moving LanceDB into OpenClaw core dependencies. Fixes #26100.</li>
 <li>Config/plugins: treat stale unknown <code>plugins.allow</code> ids as warnings instead of fatal config errors, so recovery commands like <code>plugins install</code>, <code>doctor --fix</code>, and <code>status</code> still run when a plugin is missing locally. Fixes #52992. Thanks @vincentkoc.</li>
 <li>Doctor/WhatsApp: stop auto-enable from appending built-in channel ids like <code>whatsapp</code> to <code>plugins.allow</code>, so <code>openclaw doctor --fix</code> no longer writes schema-invalid plugin allowlist entries when repairing built-in channels. Fixes #52931. Thanks @vincentkoc.</li>
 <li>Telegram/auto-reply: preserve same-chat inbound debounce order without stranding stale busy-session followups, and keep same-key overflow turns ordered when tracked debounce keys are saturated. (#52998) Thanks @osolmaz.</li>
+<li>Telegram/message tool: add <code>asDocument</code> as a user-facing alias for <code>forceDocument</code> on image and GIF sends, while preserving explicit <code>forceDocument</code> precedence when both flags are present. (#52461) Thanks @bakhtiersizhaev.</li>
 <li>Discord/commands: return an explicit unauthorized reply for privileged native slash commands instead of falling through to Discord&#39;s misleading generic completion when auth gates reject the sender. Fixes #53041. Thanks @scoootscooob.</li>
 <li>Channels/catalog: let external channel catalogs override shipped fallback metadata and honor overridden npm specs during channel setup, so custom channel catalogs no longer fall back to bundled packages when a channel id matches. (#52988)</li>
 <li>Voice-call/Plivo: stabilize Plivo v2 replay keys so webhook retries and replay protection stop colliding on valid follow-up deliveries.</li>
 <li>Agents/skills: prefer the active resolved runtime snapshot for embedded skill config and env injection, so <code>skills.entries.&lt;skill&gt;.apiKey</code> SecretRefs resolve correctly during embedded startup instead of failing on raw source config. Fixes #53098. Thanks @vincentkoc.</li>
 <li>Agents/subagents: recheck timed-out worker waits against the latest runtime snapshot before sending completion events, so fast-finishing workers stop being reported as timed out when they actually succeeded. Fixes #53106. Thanks @vincentkoc.</li>
 <li>Agents/Anthropic: preserve latest assistant thinking and redacted-thinking block ordering during transcript image sanitization so follow-up turns do not trip Anthropic&#39;s unmodified-thinking validation. (#52961) Thanks @vincentkoc.</li>
+<li>Plugins/DeepSeek: refactor the bundled DeepSeek provider onto the shared single-provider plugin entry, move its coverage into the extension test lane, and keep bundled auth env-var metadata on the generated manifest path. (#48762) Thanks @07akioni.</li>
+<li>Plugins/Matrix: avoid duplicate <code>resolveMatrixAccountStringValues</code> runtime-api exports under Jiti so bundled Matrix installs no longer crash at startup with <code>Cannot redefine property: resolveMatrixAccountStringValues</code>. Fixes #52909 and #52891. Thanks @vincentkoc.</li>
+<li>Security/exec approvals: keep shell-wrapper positional-argv allowlist matching on real direct carriers only by rejecting single-quoted <code>$0</code>/<code>$n</code> tokens, disallowing newline-separated <code>exec</code>, and still accepting <code>exec --</code> carrier forms. Thanks @vincentkoc.</li>
 <li>Gateway/probe: stop successful gateway handshakes from timing out as unreachable while post-connect detail RPCs are still loading, so slow devices report a reachable RPC failure instead of a false negative dead gateway. Fixes #52927. Thanks @vincentkoc.</li>
 <li>Gateway/supervision: stop lock conflicts from crash-looping under launchd and systemd by keeping the duplicate process in a retry wait instead of exiting as a failure while another healthy gateway still owns the lock. Fixes #52922. Thanks @vincentkoc.</li>
 <li>Gateway/auth: require auth for canvas routes and admin scope for agent session reset, so anonymous canvas access and non-admin reset requests fail closed.</li>
@@ -82,7 +86,8 @@
             <link>https://github.com/openclaw/openclaw/releases/tag/v2026.3.22</link>
             <guid>https://github.com/openclaw/openclaw/releases/tag/v2026.3.22</guid>
             <pubDate>Mon, 23 Mar 2026 11:11:22 GMT</pubDate>
-            <description><![CDATA[<h3>Breaking</h3>
+            <description><![CDATA[<h2>2026.3.22</h2>
+<h3>Breaking</h3>
 <ul>
 <li>Plugins/install: bare <code>openclaw plugins install &lt;package&gt;</code> now prefers ClawHub before npm for npm-safe names, and only falls back to npm when ClawHub does not have that package or version. Docs: <a href="https://docs.openclaw.ai/tools/clawhub">https://docs.openclaw.ai/tools/clawhub</a></li>
 <li>Browser/Chrome MCP: remove the legacy Chrome extension relay path, bundled extension assets, <code>driver: &quot;extension&quot;</code>, and <code>browser.relayBindHost</code>. Run <code>openclaw doctor --fix</code> to migrate host-local browser config to <code>existing-session</code> / <code>user</code>; Docker, headless, sandbox, and remote browser flows still use raw CDP. Docs: <a href="https://docs.openclaw.ai/gateway/doctor">https://docs.openclaw.ai/gateway/doctor</a> and <a href="https://docs.openclaw.ai/tools/browser">https://docs.openclaw.ai/tools/browser</a> (#47893) Thanks @vincentkoc.</li>
@@ -399,12 +404,13 @@
 <li>Discord/pickers: keep <code>/codex_resume --browse-projects</code> picker callbacks alive in Discord by sharing component callback state across duplicate module graphs, preserving callback fallbacks, and acknowledging matched plugin interactions before dispatch. (#51260) Thanks @huntharo.</li>
 <li>Memory/core tools: register <code>memory_search</code> and <code>memory_get</code> independently so one unavailable memory tool no longer suppresses the other in new sessions. (#50198) Thanks @artwalker.</li>
 <li>Telegram/Mattermost message tool: keep plugin button schemas optional in isolated and cron sessions so plain sends do not fail validation when no current channel is active. (#52589) Thanks @tylerliu612.</li>
+<li>Release/npm publish: fail the npm release check when <code>dist/control-ui/index.html</code> is missing from the packed tarball, so broken Control UI asset releases are blocked before publish. Fixes #52808. (#52852) Thanks @kevinheinrichs.</li>
+<li>Slack/embedded delivery: suppress transcript-only <code>delivery-mirror</code> assistant messages before embedded re-delivery and raise the default Slack chunk fallback so messages just over 4000 characters stay in a single post. (#45489) Thanks @theo674.</li>
+<li>Slack/embedded delivery: suppress transcript-only <code>delivery-mirror</code> assistant messages before embedded re-delivery and raise the default Slack chunk fallback so messages just over 4000 characters stay in a single post. (#45489) Thanks @theo674.</li>
 </ul>
-<blockquote>
-<p>macOS app assets will be attached after the notarized build is prepared.</p>
-</blockquote>
 ]]></description>
-            <content:encoded><![CDATA[<h3>Breaking</h3>
+            <content:encoded><![CDATA[<h2>2026.3.22</h2>
+<h3>Breaking</h3>
 <ul>
 <li>Plugins/install: bare <code>openclaw plugins install &lt;package&gt;</code> now prefers ClawHub before npm for npm-safe names, and only falls back to npm when ClawHub does not have that package or version. Docs: <a href="https://docs.openclaw.ai/tools/clawhub">https://docs.openclaw.ai/tools/clawhub</a></li>
 <li>Browser/Chrome MCP: remove the legacy Chrome extension relay path, bundled extension assets, <code>driver: &quot;extension&quot;</code>, and <code>browser.relayBindHost</code>. Run <code>openclaw doctor --fix</code> to migrate host-local browser config to <code>existing-session</code> / <code>user</code>; Docker, headless, sandbox, and remote browser flows still use raw CDP. Docs: <a href="https://docs.openclaw.ai/gateway/doctor">https://docs.openclaw.ai/gateway/doctor</a> and <a href="https://docs.openclaw.ai/tools/browser">https://docs.openclaw.ai/tools/browser</a> (#47893) Thanks @vincentkoc.</li>
@@ -721,10 +727,10 @@
 <li>Discord/pickers: keep <code>/codex_resume --browse-projects</code> picker callbacks alive in Discord by sharing component callback state across duplicate module graphs, preserving callback fallbacks, and acknowledging matched plugin interactions before dispatch. (#51260) Thanks @huntharo.</li>
 <li>Memory/core tools: register <code>memory_search</code> and <code>memory_get</code> independently so one unavailable memory tool no longer suppresses the other in new sessions. (#50198) Thanks @artwalker.</li>
 <li>Telegram/Mattermost message tool: keep plugin button schemas optional in isolated and cron sessions so plain sends do not fail validation when no current channel is active. (#52589) Thanks @tylerliu612.</li>
+<li>Release/npm publish: fail the npm release check when <code>dist/control-ui/index.html</code> is missing from the packed tarball, so broken Control UI asset releases are blocked before publish. Fixes #52808. (#52852) Thanks @kevinheinrichs.</li>
+<li>Slack/embedded delivery: suppress transcript-only <code>delivery-mirror</code> assistant messages before embedded re-delivery and raise the default Slack chunk fallback so messages just over 4000 characters stay in a single post. (#45489) Thanks @theo674.</li>
+<li>Slack/embedded delivery: suppress transcript-only <code>delivery-mirror</code> assistant messages before embedded re-delivery and raise the default Slack chunk fallback so messages just over 4000 characters stay in a single post. (#45489) Thanks @theo674.</li>
 </ul>
-<blockquote>
-<p>macOS app assets will be attached after the notarized build is prepared.</p>
-</blockquote>
 ]]></content:encoded>
         </item>
         <item>
