@@ -4,11 +4,143 @@
         <title>claude-code Releases</title>
         <link>https://github.com/anthropics/claude-code/releases</link>
         <description>GitHub releases for anthropics/claude-code</description>
-        <lastBuildDate>Fri, 20 Mar 2026 22:24:50 GMT</lastBuildDate>
+        <lastBuildDate>Wed, 25 Mar 2026 06:08:12 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>ai-rss-feeds (https://github.com/leontloveless/ai-rss-feeds)</generator>
         <language>en</language>
         <atom:link href="https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/claude-code-releases.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[v2.1.83]]></title>
+            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.83</link>
+            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.83</guid>
+            <pubDate>Wed, 25 Mar 2026 06:08:12 GMT</pubDate>
+            <description><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Added <code>managed-settings.d/</code> drop-in directory alongside <code>managed-settings.json</code>, letting separate teams deploy independent policy fragments that merge alphabetically</li>
+<li>Added <code>CwdChanged</code> and <code>FileChanged</code> hook events for reactive environment management (e.g., direnv)</li>
+<li>Added <code>sandbox.failIfUnavailable</code> setting to exit with an error when sandbox is enabled but cannot start, instead of running unsandboxed</li>
+<li>Added <code>disableDeepLinkRegistration</code> setting to prevent <code>claude-cli://</code> protocol handler registration</li>
+<li>Added <code>CLAUDE_CODE_SUBPROCESS_ENV_SCRUB=1</code> to strip Anthropic and cloud provider credentials from subprocess environments (Bash tool, hooks, MCP stdio servers)</li>
+<li>Added transcript search — press <code>/</code> in transcript mode (<code>Ctrl+O</code>) to search, <code>n</code>/<code>N</code> to step through matches</li>
+<li>Added <code>Ctrl+X Ctrl+E</code> as an alias for opening the external editor (readline-native binding; <code>Ctrl+G</code> still works)</li>
+<li>Pasted images now insert an <code>[Image #N]</code> chip at the cursor so you can reference them positionally in your prompt</li>
+<li>Agents can now declare <code>initialPrompt</code> in frontmatter to auto-submit a first turn</li>
+<li><code>chat:killAgents</code> and <code>chat:fastMode</code> are now rebindable via <code>~/.claude/keybindings.json</code></li>
+<li>Fixed mouse tracking escape sequences leaking to shell prompt after exit</li>
+<li>Fixed Claude Code hanging on exit on macOS</li>
+<li>Fixed screen flashing blank after being idle for a few seconds</li>
+<li>Fixed a hang when diffing very large files with few common lines — diffs now time out after 5 seconds and fall back gracefully</li>
+<li>Fixed a 1–8 second UI freeze on startup when voice input was enabled, caused by eagerly loading the native audio module</li>
+<li>Fixed a startup regression where Claude Code would wait ~3s for claude.ai MCP config fetch before proceeding</li>
+<li>Fixed <code>--mcp-config</code> CLI flag bypassing <code>allowedMcpServers</code>/<code>deniedMcpServers</code> managed policy enforcement</li>
+<li>Fixed claude.ai MCP connectors (Slack, Gmail, etc.) not being available in single-turn <code>--print</code> mode</li>
+<li>Fixed <code>caffeinate</code> process not properly terminating when Claude Code exits, preventing Mac from sleeping</li>
+<li>Fixed bash mode not activating when tab-accepting <code>!</code>-prefixed command suggestions</li>
+<li>Fixed stale slash command selection showing wrong highlighted command after navigating suggestions</li>
+<li>Fixed <code>/config</code> menu showing both the search cursor and list selection at the same time</li>
+<li>Fixed background subagents becoming invisible after context compaction, which could cause duplicate agents to be spawned</li>
+<li>Fixed background agent tasks staying stuck in &quot;running&quot; state when git or API calls hang during cleanup</li>
+<li>Fixed <code>--channels</code> showing &quot;Channels are not currently available&quot; on first launch after upgrade</li>
+<li>Fixed uninstalled plugin hooks continuing to fire until the next session</li>
+<li>Fixed queued commands flickering during streaming responses</li>
+<li>Fixed slash commands being sent to the model as text when submitted while a message is processing</li>
+<li>Fixed scrollback jumping when collapsed read/search groups finish after scrolling offscreen</li>
+<li>Fixed scrollback jumping to top when the model starts or stops thinking</li>
+<li>Fixed SDK session history loss on resume caused by hook progress/attachment messages forking the parentUuid chain</li>
+<li>Fixed copy-on-select not firing when you release the mouse outside the terminal window</li>
+<li>Fixed ghost characters appearing in height-constrained lists when items overflow</li>
+<li>Fixed <code>Ctrl+B</code> interfering with readline backward-char at an idle prompt — it now only fires when a foreground task can be backgrounded</li>
+<li>Fixed tool result files never being cleaned up, ignoring the <code>cleanupPeriodDays</code> setting</li>
+<li>Fixed space key being swallowed for up to 3 seconds after releasing voice hold-to-talk</li>
+<li>Fixed ALSA library errors corrupting the terminal UI when using voice mode on Linux without audio hardware (Docker, headless, WSL1)</li>
+<li>Fixed voice mode SoX detection on Termux/Android where spawning <code>which</code> is kernel-restricted</li>
+<li>Fixed Remote Control sessions showing as Idle in the web session list while actively running</li>
+<li>Fixed footer navigation selecting an invisible Remote Control pill in config-driven mode</li>
+<li>Fixed memory leak in remote sessions where tool use IDs accumulate indefinitely</li>
+<li>Improved Bedrock SDK cold-start latency by overlapping profile fetch with other boot work</li>
+<li>Improved <code>--resume</code> memory usage and startup latency on large sessions</li>
+<li>Improved plugin startup — commands, skills, and agents now load from disk cache without re-fetching</li>
+<li>Improved Remote Control session titles: AI-generated titles now appear within seconds of the first message</li>
+<li>Improved <code>WebFetch</code> to identify as <code>Claude-User</code> so site operators can recognize and allowlist Claude Code traffic via <code>robots.txt</code></li>
+<li>Reduced <code>WebFetch</code> peak memory usage for large pages</li>
+<li>Reduced scrollback resets in long sessions from once per turn to once per ~50 messages</li>
+<li>Faster <code>claude -p</code> startup with unauthenticated HTTP/SSE MCP servers (~600ms saved)</li>
+<li>Bash ghost-text suggestions now include just-submitted commands immediately</li>
+<li>Increased non-streaming fallback token cap (21k → 64k) and timeout (120s → 300s local) so fallback requests are less likely to be truncated</li>
+<li>Interrupting a prompt before any response now automatically restores your input so you can edit and resubmit</li>
+<li><code>/status</code> now works while Claude is responding, instead of being queued until the turn finishes</li>
+<li>Plugin MCP servers that duplicate an org-managed connector are now suppressed instead of running a second connection</li>
+<li>Linux: respect <code>XDG_DATA_HOME</code> when registering the <code>claude-cli://</code> protocol handler</li>
+<li>Changed &quot;stop all background agents&quot; keybinding from <code>Ctrl+F</code> to <code>Ctrl+X Ctrl+K</code> to stop shadowing readline forward-char</li>
+<li>Deprecated <code>TaskOutput</code> tool in favor of using <code>Read</code> on the background task&#39;s output file path</li>
+<li>[VSCode] Spinner now turns red with &quot;Not responding&quot; when the backend hasn&#39;t responded for 60 seconds</li>
+<li>[VSCode] Fixed session history not loading correctly when reopening a session via URL or after restart</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Added <code>managed-settings.d/</code> drop-in directory alongside <code>managed-settings.json</code>, letting separate teams deploy independent policy fragments that merge alphabetically</li>
+<li>Added <code>CwdChanged</code> and <code>FileChanged</code> hook events for reactive environment management (e.g., direnv)</li>
+<li>Added <code>sandbox.failIfUnavailable</code> setting to exit with an error when sandbox is enabled but cannot start, instead of running unsandboxed</li>
+<li>Added <code>disableDeepLinkRegistration</code> setting to prevent <code>claude-cli://</code> protocol handler registration</li>
+<li>Added <code>CLAUDE_CODE_SUBPROCESS_ENV_SCRUB=1</code> to strip Anthropic and cloud provider credentials from subprocess environments (Bash tool, hooks, MCP stdio servers)</li>
+<li>Added transcript search — press <code>/</code> in transcript mode (<code>Ctrl+O</code>) to search, <code>n</code>/<code>N</code> to step through matches</li>
+<li>Added <code>Ctrl+X Ctrl+E</code> as an alias for opening the external editor (readline-native binding; <code>Ctrl+G</code> still works)</li>
+<li>Pasted images now insert an <code>[Image #N]</code> chip at the cursor so you can reference them positionally in your prompt</li>
+<li>Agents can now declare <code>initialPrompt</code> in frontmatter to auto-submit a first turn</li>
+<li><code>chat:killAgents</code> and <code>chat:fastMode</code> are now rebindable via <code>~/.claude/keybindings.json</code></li>
+<li>Fixed mouse tracking escape sequences leaking to shell prompt after exit</li>
+<li>Fixed Claude Code hanging on exit on macOS</li>
+<li>Fixed screen flashing blank after being idle for a few seconds</li>
+<li>Fixed a hang when diffing very large files with few common lines — diffs now time out after 5 seconds and fall back gracefully</li>
+<li>Fixed a 1–8 second UI freeze on startup when voice input was enabled, caused by eagerly loading the native audio module</li>
+<li>Fixed a startup regression where Claude Code would wait ~3s for claude.ai MCP config fetch before proceeding</li>
+<li>Fixed <code>--mcp-config</code> CLI flag bypassing <code>allowedMcpServers</code>/<code>deniedMcpServers</code> managed policy enforcement</li>
+<li>Fixed claude.ai MCP connectors (Slack, Gmail, etc.) not being available in single-turn <code>--print</code> mode</li>
+<li>Fixed <code>caffeinate</code> process not properly terminating when Claude Code exits, preventing Mac from sleeping</li>
+<li>Fixed bash mode not activating when tab-accepting <code>!</code>-prefixed command suggestions</li>
+<li>Fixed stale slash command selection showing wrong highlighted command after navigating suggestions</li>
+<li>Fixed <code>/config</code> menu showing both the search cursor and list selection at the same time</li>
+<li>Fixed background subagents becoming invisible after context compaction, which could cause duplicate agents to be spawned</li>
+<li>Fixed background agent tasks staying stuck in &quot;running&quot; state when git or API calls hang during cleanup</li>
+<li>Fixed <code>--channels</code> showing &quot;Channels are not currently available&quot; on first launch after upgrade</li>
+<li>Fixed uninstalled plugin hooks continuing to fire until the next session</li>
+<li>Fixed queued commands flickering during streaming responses</li>
+<li>Fixed slash commands being sent to the model as text when submitted while a message is processing</li>
+<li>Fixed scrollback jumping when collapsed read/search groups finish after scrolling offscreen</li>
+<li>Fixed scrollback jumping to top when the model starts or stops thinking</li>
+<li>Fixed SDK session history loss on resume caused by hook progress/attachment messages forking the parentUuid chain</li>
+<li>Fixed copy-on-select not firing when you release the mouse outside the terminal window</li>
+<li>Fixed ghost characters appearing in height-constrained lists when items overflow</li>
+<li>Fixed <code>Ctrl+B</code> interfering with readline backward-char at an idle prompt — it now only fires when a foreground task can be backgrounded</li>
+<li>Fixed tool result files never being cleaned up, ignoring the <code>cleanupPeriodDays</code> setting</li>
+<li>Fixed space key being swallowed for up to 3 seconds after releasing voice hold-to-talk</li>
+<li>Fixed ALSA library errors corrupting the terminal UI when using voice mode on Linux without audio hardware (Docker, headless, WSL1)</li>
+<li>Fixed voice mode SoX detection on Termux/Android where spawning <code>which</code> is kernel-restricted</li>
+<li>Fixed Remote Control sessions showing as Idle in the web session list while actively running</li>
+<li>Fixed footer navigation selecting an invisible Remote Control pill in config-driven mode</li>
+<li>Fixed memory leak in remote sessions where tool use IDs accumulate indefinitely</li>
+<li>Improved Bedrock SDK cold-start latency by overlapping profile fetch with other boot work</li>
+<li>Improved <code>--resume</code> memory usage and startup latency on large sessions</li>
+<li>Improved plugin startup — commands, skills, and agents now load from disk cache without re-fetching</li>
+<li>Improved Remote Control session titles: AI-generated titles now appear within seconds of the first message</li>
+<li>Improved <code>WebFetch</code> to identify as <code>Claude-User</code> so site operators can recognize and allowlist Claude Code traffic via <code>robots.txt</code></li>
+<li>Reduced <code>WebFetch</code> peak memory usage for large pages</li>
+<li>Reduced scrollback resets in long sessions from once per turn to once per ~50 messages</li>
+<li>Faster <code>claude -p</code> startup with unauthenticated HTTP/SSE MCP servers (~600ms saved)</li>
+<li>Bash ghost-text suggestions now include just-submitted commands immediately</li>
+<li>Increased non-streaming fallback token cap (21k → 64k) and timeout (120s → 300s local) so fallback requests are less likely to be truncated</li>
+<li>Interrupting a prompt before any response now automatically restores your input so you can edit and resubmit</li>
+<li><code>/status</code> now works while Claude is responding, instead of being queued until the turn finishes</li>
+<li>Plugin MCP servers that duplicate an org-managed connector are now suppressed instead of running a second connection</li>
+<li>Linux: respect <code>XDG_DATA_HOME</code> when registering the <code>claude-cli://</code> protocol handler</li>
+<li>Changed &quot;stop all background agents&quot; keybinding from <code>Ctrl+F</code> to <code>Ctrl+X Ctrl+K</code> to stop shadowing readline forward-char</li>
+<li>Deprecated <code>TaskOutput</code> tool in favor of using <code>Read</code> on the background task&#39;s output file path</li>
+<li>[VSCode] Spinner now turns red with &quot;Not responding&quot; when the backend hasn&#39;t responded for 60 seconds</li>
+<li>[VSCode] Fixed session history not loading correctly when reopening a session via URL or after restart</li>
+</ul>
+]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[v2.1.81]]></title>
             <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.81</link>
@@ -2250,22 +2382,6 @@
 <li>Changed indexed argument syntax from <code>$ARGUMENTS.0</code> to <code>$ARGUMENTS[0]</code> (bracket syntax)</li>
 <li>[SDK] Added replay of <code>queued_command</code> attachment messages as <code>SDKUserMessageReplay</code> events when <code>replayUserMessages</code> is enabled</li>
 <li>[VSCode] Enabled session forking and rewind functionality for all users</li>
-</ul>
-]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[v2.1.17]]></title>
-            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.17</link>
-            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.17</guid>
-            <pubDate>Thu, 22 Jan 2026 21:46:31 GMT</pubDate>
-            <description><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>Fixed crashes on processors without AVX instruction support</li>
-</ul>
-]]></description>
-            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>Fixed crashes on processors without AVX instruction support</li>
 </ul>
 ]]></content:encoded>
         </item>
