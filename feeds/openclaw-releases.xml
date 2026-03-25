@@ -4,11 +4,99 @@
         <title>OpenClaw Releases</title>
         <link>https://github.com/openclaw/openclaw/releases</link>
         <description>GitHub releases for OpenClaw - AI assistant framework</description>
-        <lastBuildDate>Mon, 23 Mar 2026 23:15:50 GMT</lastBuildDate>
+        <lastBuildDate>Wed, 25 Mar 2026 16:35:52 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>ai-rss-feeds (https://github.com/leontloveless/ai-rss-feeds)</generator>
         <language>en</language>
         <atom:link href="https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/openclaw-releases.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[openclaw 2026.3.24]]></title>
+            <link>https://github.com/openclaw/openclaw/releases/tag/v2026.3.24</link>
+            <guid>https://github.com/openclaw/openclaw/releases/tag/v2026.3.24</guid>
+            <pubDate>Wed, 25 Mar 2026 16:35:52 GMT</pubDate>
+            <description><![CDATA[<h3>Breaking</h3>
+<h3>Changes</h3>
+<ul>
+<li>Gateway/OpenAI compatibility: add <code>/v1/models</code> and <code>/v1/embeddings</code>, and forward explicit model overrides through <code>/v1/chat/completions</code> and <code>/v1/responses</code> for broader client and RAG compatibility. Thanks @vincentkoc.</li>
+<li>Agents/tools: make <code>/tools</code> show the tools the current agent can actually use right now, add a compact default view with an optional detailed mode, and add a live &quot;Available Right Now&quot; section in the Control UI so it is easier to see what will work before you ask.</li>
+<li>Microsoft Teams: migrate to the official Teams SDK and add AI-agent UX best practices including streaming 1:1 replies, welcome cards with prompt starters, feedback/reflection, informative status updates, typing indicators, and native AI labeling. (#51808)</li>
+<li>Microsoft Teams: add message edit and delete support for sent messages, including in-thread fallbacks when no explicit target is provided. (#49925)</li>
+<li>Skills/install metadata: add one-click install recipes to bundled skills (coding-agent, gh-issues, openai-whisper-api, session-logs, tmux, trello, weather) so the CLI and Control UI can offer dependency installation when requirements are missing. (#53411) Thanks @BunsDev.</li>
+<li>Control UI/skills: add status-filter tabs (All / Ready / Needs Setup / Disabled) with counts, replace inline skill cards with a click-to-detail dialog showing requirements, toggle switch, install action, API key entry, source metadata, and homepage link. (#53411) Thanks @BunsDev.</li>
+<li>Slack/interactive replies: restore rich reply parity for direct deliveries, auto-render simple trailing <code>Options:</code> lines as buttons/selects, improve Slack interactive setup defaults, and isolate reply controls from plugin interactive handlers. (#53389) Thanks @vincentkoc.</li>
+<li>CLI/containers: add <code>--container</code> and <code>OPENCLAW_CONTAINER</code> to run <code>openclaw</code> commands inside a running Docker or Podman OpenClaw container. (#52651) Thanks @sallyom.</li>
+<li>Discord/auto threads: add optional <code>autoThreadName: &quot;generated&quot;</code> naming so new auto-created threads can be renamed asynchronously with concise LLM-generated titles while keeping the existing message-based naming as the default. (#43366) Thanks @davidguttman.</li>
+<li>Plugins/hooks: add <code>before_dispatch</code> with canonical inbound metadata and route handled replies through the normal final-delivery path, preserving TTS and routed delivery semantics. (#50444) Thanks @gfzhx.</li>
+<li>Control UI/agents: convert agent workspace file rows to expandable <code>&lt;details&gt;</code> with lazy-loaded inline markdown preview, and add comprehensive <code>.sidebar-markdown</code> styles for headings, lists, code blocks, tables, blockquotes, and details/summary elements. (#53411) Thanks @BunsDev.</li>
+<li>Control UI/markdown preview: restyle the agent workspace file preview dialog with a frosted backdrop, sized panel, and styled header, and integrate <code>@create-markdown/preview</code> v2 system theme for rich markdown rendering (headings, tables, code blocks, callouts, blockquotes) that auto-adapts to the app&#39;s light/dark design tokens. (#53411) Thanks @BunsDev.</li>
+<li>macOS app/config: replace horizontal pill-based subsection navigation with a collapsible tree sidebar using disclosure chevrons and indented subsection rows. (#53411) Thanks @BunsDev.</li>
+<li>CLI/skills: soften missing-requirements label from &quot;missing&quot; to &quot;needs setup&quot; and surface API key setup guidance (where to get a key, CLI save command, storage path) in <code>openclaw skills info</code> output. (#53411) Thanks @BunsDev.</li>
+<li>macOS app/skills: add &quot;Get your key&quot; homepage link and storage-path hint to the API key editor dialog, and show the config path in save confirmation messages. (#53411) Thanks @BunsDev.</li>
+<li>Control UI/agents: add a &quot;Not set&quot; placeholder to the default agent model selector dropdown. (#53411) Thanks @BunsDev.</li>
+<li>Runtime/install: lower the supported Node 22 floor to <code>22.14+</code> while continuing to recommend Node 24, so npm installs and self-updates do not strand Node 22.14 users on older releases.</li>
+<li>CLI/update: preflight the target npm package <code>engines.node</code> before <code>openclaw update</code> runs a global package install, so outdated Node runtimes fail with a clear upgrade message instead of attempting an unsupported latest release.</li>
+</ul>
+<h3>Fixes</h3>
+<ul>
+<li>Outbound media/local files: align outbound media access with the configured fs policy so host-local files and inbound-media paths keep sending when <code>workspaceOnly</code> is off, while strict workspace-only agents remain sandboxed.</li>
+<li>Security/sandbox media dispatch: close the <code>mediaUrl</code>/<code>fileUrl</code> alias bypass so outbound tool and message actions cannot escape media-root restrictions. (#54034)</li>
+<li>Gateway/restart sentinel: wake the interrupted agent session via heartbeat after restart instead of only sending a best-effort restart note, retry outbound delivery once on transient failure, and preserve explicit thread/topic routing through the wake path so replies land in the correct Telegram topic or Slack thread. (#53940) Thanks @VACInc.</li>
+<li>Docker/setup: avoid the pre-start <code>openclaw-cli</code> shared-network namespace loop by routing setup-time onboard/config writes through <code>openclaw-gateway</code>, so fresh Docker installs stop failing before the gateway comes up. (#53385) Thanks @amsminn.</li>
+<li>Gateway/channels: keep channel startup sequential while isolating per-channel boot failures, so one broken channel no longer blocks later channels from starting. (#54215) Thanks @JonathanJing.</li>
+<li>Embedded runs/secrets: stop unresolved <code>SecretRef</code> config from crashing embedded agent runs by falling back to the resolved runtime snapshot when needed. Fixes #45838.</li>
+<li>WhatsApp/groups: track recent gateway-sent message IDs and suppress only matching group echoes, preserving owner <code>/status</code>, <code>/new</code>, and <code>/activation</code> commands from linked-account <code>fromMe</code> traffic. (#53624) Thanks @w-sss.</li>
+<li>WhatsApp/reply-to-bot detection: restore implicit group reply detection by unwrapping <code>botInvokeMessage</code> payloads and reading <code>selfLid</code> from <code>creds.json</code>, so reply-based mentions reach the bot again in linked-account group chats.</li>
+<li>Telegram/forum topics: recover <code>#General</code> topic <code>1</code> routing when Telegram omits forum metadata, including native commands, interactive callbacks, inbound message context, and fallback error replies. (#53699) thanks @huntharo</li>
+<li>Discord/gateway supervision: centralize gateway error handling behind a lifetime-owned supervisor so early, active, and late-teardown Carbon gateway errors stay classified consistently and stop surfacing as process-killing teardown crashes.</li>
+<li>Discord/timeouts: send a visible timeout reply when the inbound Discord worker times out before a final reply starts, including created auto-thread targets and queued-run ordering. (#53823) Thanks @Kimbo7870.</li>
+<li>ACP/direct chats: always deliver a terminal ACP result when final TTS does not yield audio, even if block text already streamed earlier, and skip redundant empty-text final synthesis. (#53692) Thanks @w-sss.</li>
+<li>Telegram/outbound errors: preserve actionable 403 membership/block/kick details and treat <code>bot not a member</code> as a permanent delivery failure so Telegram sends stop retrying doomed chats. (#53635) Thanks @w-sss.</li>
+<li>Telegram/photos: preflight Telegram photo dimension and aspect-ratio rules, and fall back to document sends when image metadata is invalid or unavailable so photo uploads stop failing with <code>PHOTO_INVALID_DIMENSIONS</code>. (#52545) Thanks @hnshah.</li>
+<li>Slack/runtime defaults: trim Slack DM reply overhead, restore Codex auto transport, and tighten Slack/web-search runtime defaults around DM preview threading, cache scoping, warning dedupe, and explicit web-search opt-in. (#53957) Thanks @vincentkoc.</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h3>Breaking</h3>
+<h3>Changes</h3>
+<ul>
+<li>Gateway/OpenAI compatibility: add <code>/v1/models</code> and <code>/v1/embeddings</code>, and forward explicit model overrides through <code>/v1/chat/completions</code> and <code>/v1/responses</code> for broader client and RAG compatibility. Thanks @vincentkoc.</li>
+<li>Agents/tools: make <code>/tools</code> show the tools the current agent can actually use right now, add a compact default view with an optional detailed mode, and add a live &quot;Available Right Now&quot; section in the Control UI so it is easier to see what will work before you ask.</li>
+<li>Microsoft Teams: migrate to the official Teams SDK and add AI-agent UX best practices including streaming 1:1 replies, welcome cards with prompt starters, feedback/reflection, informative status updates, typing indicators, and native AI labeling. (#51808)</li>
+<li>Microsoft Teams: add message edit and delete support for sent messages, including in-thread fallbacks when no explicit target is provided. (#49925)</li>
+<li>Skills/install metadata: add one-click install recipes to bundled skills (coding-agent, gh-issues, openai-whisper-api, session-logs, tmux, trello, weather) so the CLI and Control UI can offer dependency installation when requirements are missing. (#53411) Thanks @BunsDev.</li>
+<li>Control UI/skills: add status-filter tabs (All / Ready / Needs Setup / Disabled) with counts, replace inline skill cards with a click-to-detail dialog showing requirements, toggle switch, install action, API key entry, source metadata, and homepage link. (#53411) Thanks @BunsDev.</li>
+<li>Slack/interactive replies: restore rich reply parity for direct deliveries, auto-render simple trailing <code>Options:</code> lines as buttons/selects, improve Slack interactive setup defaults, and isolate reply controls from plugin interactive handlers. (#53389) Thanks @vincentkoc.</li>
+<li>CLI/containers: add <code>--container</code> and <code>OPENCLAW_CONTAINER</code> to run <code>openclaw</code> commands inside a running Docker or Podman OpenClaw container. (#52651) Thanks @sallyom.</li>
+<li>Discord/auto threads: add optional <code>autoThreadName: &quot;generated&quot;</code> naming so new auto-created threads can be renamed asynchronously with concise LLM-generated titles while keeping the existing message-based naming as the default. (#43366) Thanks @davidguttman.</li>
+<li>Plugins/hooks: add <code>before_dispatch</code> with canonical inbound metadata and route handled replies through the normal final-delivery path, preserving TTS and routed delivery semantics. (#50444) Thanks @gfzhx.</li>
+<li>Control UI/agents: convert agent workspace file rows to expandable <code>&lt;details&gt;</code> with lazy-loaded inline markdown preview, and add comprehensive <code>.sidebar-markdown</code> styles for headings, lists, code blocks, tables, blockquotes, and details/summary elements. (#53411) Thanks @BunsDev.</li>
+<li>Control UI/markdown preview: restyle the agent workspace file preview dialog with a frosted backdrop, sized panel, and styled header, and integrate <code>@create-markdown/preview</code> v2 system theme for rich markdown rendering (headings, tables, code blocks, callouts, blockquotes) that auto-adapts to the app&#39;s light/dark design tokens. (#53411) Thanks @BunsDev.</li>
+<li>macOS app/config: replace horizontal pill-based subsection navigation with a collapsible tree sidebar using disclosure chevrons and indented subsection rows. (#53411) Thanks @BunsDev.</li>
+<li>CLI/skills: soften missing-requirements label from &quot;missing&quot; to &quot;needs setup&quot; and surface API key setup guidance (where to get a key, CLI save command, storage path) in <code>openclaw skills info</code> output. (#53411) Thanks @BunsDev.</li>
+<li>macOS app/skills: add &quot;Get your key&quot; homepage link and storage-path hint to the API key editor dialog, and show the config path in save confirmation messages. (#53411) Thanks @BunsDev.</li>
+<li>Control UI/agents: add a &quot;Not set&quot; placeholder to the default agent model selector dropdown. (#53411) Thanks @BunsDev.</li>
+<li>Runtime/install: lower the supported Node 22 floor to <code>22.14+</code> while continuing to recommend Node 24, so npm installs and self-updates do not strand Node 22.14 users on older releases.</li>
+<li>CLI/update: preflight the target npm package <code>engines.node</code> before <code>openclaw update</code> runs a global package install, so outdated Node runtimes fail with a clear upgrade message instead of attempting an unsupported latest release.</li>
+</ul>
+<h3>Fixes</h3>
+<ul>
+<li>Outbound media/local files: align outbound media access with the configured fs policy so host-local files and inbound-media paths keep sending when <code>workspaceOnly</code> is off, while strict workspace-only agents remain sandboxed.</li>
+<li>Security/sandbox media dispatch: close the <code>mediaUrl</code>/<code>fileUrl</code> alias bypass so outbound tool and message actions cannot escape media-root restrictions. (#54034)</li>
+<li>Gateway/restart sentinel: wake the interrupted agent session via heartbeat after restart instead of only sending a best-effort restart note, retry outbound delivery once on transient failure, and preserve explicit thread/topic routing through the wake path so replies land in the correct Telegram topic or Slack thread. (#53940) Thanks @VACInc.</li>
+<li>Docker/setup: avoid the pre-start <code>openclaw-cli</code> shared-network namespace loop by routing setup-time onboard/config writes through <code>openclaw-gateway</code>, so fresh Docker installs stop failing before the gateway comes up. (#53385) Thanks @amsminn.</li>
+<li>Gateway/channels: keep channel startup sequential while isolating per-channel boot failures, so one broken channel no longer blocks later channels from starting. (#54215) Thanks @JonathanJing.</li>
+<li>Embedded runs/secrets: stop unresolved <code>SecretRef</code> config from crashing embedded agent runs by falling back to the resolved runtime snapshot when needed. Fixes #45838.</li>
+<li>WhatsApp/groups: track recent gateway-sent message IDs and suppress only matching group echoes, preserving owner <code>/status</code>, <code>/new</code>, and <code>/activation</code> commands from linked-account <code>fromMe</code> traffic. (#53624) Thanks @w-sss.</li>
+<li>WhatsApp/reply-to-bot detection: restore implicit group reply detection by unwrapping <code>botInvokeMessage</code> payloads and reading <code>selfLid</code> from <code>creds.json</code>, so reply-based mentions reach the bot again in linked-account group chats.</li>
+<li>Telegram/forum topics: recover <code>#General</code> topic <code>1</code> routing when Telegram omits forum metadata, including native commands, interactive callbacks, inbound message context, and fallback error replies. (#53699) thanks @huntharo</li>
+<li>Discord/gateway supervision: centralize gateway error handling behind a lifetime-owned supervisor so early, active, and late-teardown Carbon gateway errors stay classified consistently and stop surfacing as process-killing teardown crashes.</li>
+<li>Discord/timeouts: send a visible timeout reply when the inbound Discord worker times out before a final reply starts, including created auto-thread targets and queued-run ordering. (#53823) Thanks @Kimbo7870.</li>
+<li>ACP/direct chats: always deliver a terminal ACP result when final TTS does not yield audio, even if block text already streamed earlier, and skip redundant empty-text final synthesis. (#53692) Thanks @w-sss.</li>
+<li>Telegram/outbound errors: preserve actionable 403 membership/block/kick details and treat <code>bot not a member</code> as a permanent delivery failure so Telegram sends stop retrying doomed chats. (#53635) Thanks @w-sss.</li>
+<li>Telegram/photos: preflight Telegram photo dimension and aspect-ratio rules, and fall back to document sends when image metadata is invalid or unavailable so photo uploads stop failing with <code>PHOTO_INVALID_DIMENSIONS</code>. (#52545) Thanks @hnshah.</li>
+<li>Slack/runtime defaults: trim Slack DM reply overhead, restore Codex auto transport, and tighten Slack/web-search runtime defaults around DM preview threading, cache scoping, warning dedupe, and explicit web-search opt-in. (#53957) Thanks @vincentkoc.</li>
+</ul>
+]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[2026.3.23]]></title>
             <link>https://github.com/openclaw/openclaw/releases/tag/v2026.3.23</link>
@@ -7940,126 +8028,6 @@
             <content:encoded><![CDATA[<h3>Fixes</h3>
 <ul>
 <li>Packaging: include <code>dist/memory/**</code> in the npm tarball (fixes <code>ERR_MODULE_NOT_FOUND</code> for <code>dist/memory/index.js</code>).</li>
-</ul>
-]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[clawdbot 2026.1.12]]></title>
-            <link>https://github.com/openclaw/openclaw/releases/tag/v2026.1.12</link>
-            <guid>https://github.com/openclaw/openclaw/releases/tag/v2026.1.12</guid>
-            <pubDate>Tue, 13 Jan 2026 09:30:05 GMT</pubDate>
-            <description><![CDATA[<h3>Highlights</h3>
-<ul>
-<li><strong>BREAKING:</strong> rename chat “providers” (Slack/Telegram/WhatsApp/…) to <strong>channels</strong> across CLI/RPC/config; legacy config keys auto-migrate on load (and are written back as <code>channels.*</code>).</li>
-<li>Memory: add vector search for agent memories (Markdown-only) with SQLite index, chunking, lazy sync + file watch, and per-agent enablement/fallback.</li>
-<li>Plugins: restore full voice-call plugin parity (Telnyx/Twilio, streaming, inbound policies, tools/CLI).</li>
-<li>Models: add Synthetic provider plus Moonshot Kimi K2 0905 + turbo/thinking variants (with docs). (#811) — thanks @siraht; (#818) — thanks @mickahouan.</li>
-<li>Cron: one-shot schedules accept ISO timestamps (UTC) with optional delete-after-run; cron jobs can target a specific agent (CLI + macOS/Control UI).</li>
-<li>Agents: add compaction mode config with optional safeguard summarization and per-agent model fallbacks. (#700) — thanks @thewilloftheshadow; (#583) — thanks @mitschabaude-bot.</li>
-</ul>
-<h3>New &amp; Improved</h3>
-<ul>
-<li>Memory: add custom OpenAI-compatible embedding endpoints; support OpenAI/local <code>node-llama-cpp</code> embeddings with per-agent overrides and provider metadata in tools/CLI. (#819) — thanks @mukhtharcm.</li>
-<li>Memory: new <code>clawdbot memory</code> CLI plus <code>memory_search</code>/<code>memory_get</code> tools with snippets + line ranges; index stored under <code>~/.clawdbot/memory/{agentId}.sqlite</code> with watch-on-by-default.</li>
-<li>Agents: strengthen memory recall guidance; make workspace bootstrap truncation configurable (default 20k) with warnings; add default sub-agent model config.</li>
-<li>Tools/Sandbox: add tool profiles + group shorthands; support tool-policy groups in <code>tools.sandbox.tools</code>; drop legacy <code>memory</code> shorthand; allow Docker bind mounts via <code>docker.binds</code>. (#790) — thanks @akonyer.</li>
-<li>Tools: add browser <code>scrollintoview</code> action; allow Claude/Gemini tool param aliases; allow thinking <code>xhigh</code> for GPT-5.2/Codex with safe downgrades. (#793) — thanks @hsrvc; (#444) — thanks @grp06.</li>
-<li>Gateway/CLI: add Tailscale binary discovery, custom bind mode, and probe auth retry; add <code>clawdbot dashboard</code> auto-open flow; default native slash commands to <code>&quot;auto&quot;</code> with per-provider overrides. (#740) — thanks @jeffersonwarrior.</li>
-<li>Auth/Onboarding: add Chutes OAuth (PKCE + refresh + onboarding choice); normalize API key inputs; default TUI onboarding to <code>deliver: false</code>. (#726) — thanks @FrieSei; (#791) — thanks @roshanasingh4.</li>
-<li>Providers: add <code>discord.allowBots</code>; trim legacy MiniMax M2 from default catalogs; route MiniMax vision to the Coding Plan VLM endpoint (also accepts <code>@/path/to/file.png</code> inputs). (#802) — thanks @zknicker.</li>
-<li>Gateway: allow Tailscale Serve identity headers to satisfy token auth; rebuild Control UI assets when protocol schema is newer. (#823) — thanks @roshanasingh4; (#786) — thanks @meaningfool.</li>
-<li>Heartbeat: default <code>ackMaxChars</code> to 300 so short <code>HEARTBEAT_OK</code> replies stay internal.</li>
-</ul>
-<h3>Installer</h3>
-<ul>
-<li>Install: run <code>clawdbot doctor --non-interactive</code> after git installs/updates and nudge daemon restarts when detected.</li>
-</ul>
-<h3>Fixes</h3>
-<ul>
-<li>Doctor: warn on pnpm workspace mismatches, missing Control UI assets, and missing tsx binaries; offer UI rebuilds.</li>
-<li>Models/Providers: treat credential validation failures as auth errors to trigger fallback; normalize <code>${ENV_VAR}</code> apiKey values and auto-fill missing provider keys; preserve explicit GitHub Copilot provider config + agent-dir auth profiles. (#822) — thanks @sebslight; (#705) — thanks @TAGOOZ.</li>
-<li>Auth: drop invalid auth profiles from ordering so environment keys can still be used for providers like MiniMax.</li>
-<li>Gemini: normalize Gemini 3 ids to preview variants; strip Gemini CLI tool call/response ids; downgrade missing <code>thought_signature</code>; strip Claude <code>msg_*</code> thought_signature fields to avoid base64 decode errors. (#795) — thanks @thewilloftheshadow; (#783) — thanks @ananth-vardhan-cn; (#793) — thanks @hsrvc; (#805) — thanks @marcmarg.</li>
-<li>Agents: auto-recover from compaction context overflow by resetting the session and retrying; propagate overflow details from embedded runs so callers can recover.</li>
-<li>MiniMax: strip malformed tool invocation XML; include <code>MiniMax-VL-01</code> in implicit provider for image pairing. (#809) — thanks @latitudeki5223.</li>
-<li>Onboarding/Auth: honor <code>CLAWDBOT_AGENT_DIR</code> / <code>PI_CODING_AGENT_DIR</code> when writing auth profiles (MiniMax). (#829) — thanks @roshanasingh4.</li>
-<li>Anthropic: handle <code>overloaded_error</code> with a friendly message and failover classification. (#832) — thanks @danielz1z.</li>
-<li>Anthropic: merge consecutive user turns (preserve newest metadata) before validation to avoid incorrect role errors. (#804) — thanks @ThomsenDrake.</li>
-<li>Messaging: enforce context isolation for message tool sends; keep typing indicators alive during tool execution. (#793) — thanks @hsrvc; (#450, #447) — thanks @thewilloftheshadow.</li>
-<li>Auto-reply: <code>/status</code> allowlist behavior, reasoning-tag enforcement on fallback, and system-event enqueueing for elevated/reasoning toggles. (#810) — thanks @mcinteerj.</li>
-<li>System events: include local timestamps when events are injected into prompts. (#245) — thanks @thewilloftheshadow.</li>
-<li>Auto-reply: resolve ambiguous <code>/model</code> matches; fix streaming block reply media handling; keep &gt;300 char heartbeat replies instead of dropping.</li>
-<li>Discord/Slack: centralize reply-thread planning; fix autoThread routing + add per-channel autoThread; avoid duplicate listeners; keep reasoning italics intact; allow clearing channel parents via message tool. (#800, #807) — thanks @davidguttman; (#744) — thanks @thewilloftheshadow.</li>
-<li>Telegram: preserve forum topic thread ids, persist polling offsets, respect account bindings in webhook mode, and show typing indicator in General topics. (#727, #739) — thanks @thewilloftheshadow; (#821) — thanks @gumadeiras; (#779) — thanks @azade-c.</li>
-<li>Slack: accept slash commands with or without leading <code>/</code> for custom command configs. (#798) — thanks @thewilloftheshadow.</li>
-<li>Cron: persist disabled jobs correctly; accept <code>jobId</code> aliases for update/run/remove params. (#205, #252) — thanks @thewilloftheshadow.</li>
-<li>Gateway/CLI: honor <code>CLAWDBOT_LAUNCHD_LABEL</code> / <code>CLAWDBOT_SYSTEMD_UNIT</code> overrides; <code>agents.list</code> respects explicit config; reduce noisy loopback WS logs during tests; run <code>clawdbot doctor --non-interactive</code> during updates. (#781) — thanks @ronyrus.</li>
-<li>Onboarding/Control UI: refuse invalid configs (run doctor first); quote Windows browser URLs for OAuth; keep chat scroll position unless the user is near the bottom. (#764) — thanks @mukhtharcm; (#794) — thanks @roshanasingh4; (#217) — thanks @thewilloftheshadow.</li>
-<li>Tools/UI: harden tool input schemas for strict providers; drop null-only union variants for Gemini schema cleanup; treat <code>maxChars: 0</code> as unlimited; keep TUI last streamed response instead of &quot;(no output)&quot;. (#782) — thanks @AbhisekBasu1; (#796) — thanks @gabriel-trigo; (#747) — thanks @thewilloftheshadow.</li>
-<li>Connections UI: polish multi-account account cards. (#816) — thanks @steipete.</li>
-</ul>
-<h3>Maintenance</h3>
-<ul>
-<li>Dependencies: bump Pi packages to 0.45.3 and refresh patched pi-ai.</li>
-<li>Testing: update Vitest + browser-playwright to 4.0.17.</li>
-<li>Docs: add Amazon Bedrock provider notes and link from models/FAQ.</li>
-</ul>
-]]></description>
-            <content:encoded><![CDATA[<h3>Highlights</h3>
-<ul>
-<li><strong>BREAKING:</strong> rename chat “providers” (Slack/Telegram/WhatsApp/…) to <strong>channels</strong> across CLI/RPC/config; legacy config keys auto-migrate on load (and are written back as <code>channels.*</code>).</li>
-<li>Memory: add vector search for agent memories (Markdown-only) with SQLite index, chunking, lazy sync + file watch, and per-agent enablement/fallback.</li>
-<li>Plugins: restore full voice-call plugin parity (Telnyx/Twilio, streaming, inbound policies, tools/CLI).</li>
-<li>Models: add Synthetic provider plus Moonshot Kimi K2 0905 + turbo/thinking variants (with docs). (#811) — thanks @siraht; (#818) — thanks @mickahouan.</li>
-<li>Cron: one-shot schedules accept ISO timestamps (UTC) with optional delete-after-run; cron jobs can target a specific agent (CLI + macOS/Control UI).</li>
-<li>Agents: add compaction mode config with optional safeguard summarization and per-agent model fallbacks. (#700) — thanks @thewilloftheshadow; (#583) — thanks @mitschabaude-bot.</li>
-</ul>
-<h3>New &amp; Improved</h3>
-<ul>
-<li>Memory: add custom OpenAI-compatible embedding endpoints; support OpenAI/local <code>node-llama-cpp</code> embeddings with per-agent overrides and provider metadata in tools/CLI. (#819) — thanks @mukhtharcm.</li>
-<li>Memory: new <code>clawdbot memory</code> CLI plus <code>memory_search</code>/<code>memory_get</code> tools with snippets + line ranges; index stored under <code>~/.clawdbot/memory/{agentId}.sqlite</code> with watch-on-by-default.</li>
-<li>Agents: strengthen memory recall guidance; make workspace bootstrap truncation configurable (default 20k) with warnings; add default sub-agent model config.</li>
-<li>Tools/Sandbox: add tool profiles + group shorthands; support tool-policy groups in <code>tools.sandbox.tools</code>; drop legacy <code>memory</code> shorthand; allow Docker bind mounts via <code>docker.binds</code>. (#790) — thanks @akonyer.</li>
-<li>Tools: add browser <code>scrollintoview</code> action; allow Claude/Gemini tool param aliases; allow thinking <code>xhigh</code> for GPT-5.2/Codex with safe downgrades. (#793) — thanks @hsrvc; (#444) — thanks @grp06.</li>
-<li>Gateway/CLI: add Tailscale binary discovery, custom bind mode, and probe auth retry; add <code>clawdbot dashboard</code> auto-open flow; default native slash commands to <code>&quot;auto&quot;</code> with per-provider overrides. (#740) — thanks @jeffersonwarrior.</li>
-<li>Auth/Onboarding: add Chutes OAuth (PKCE + refresh + onboarding choice); normalize API key inputs; default TUI onboarding to <code>deliver: false</code>. (#726) — thanks @FrieSei; (#791) — thanks @roshanasingh4.</li>
-<li>Providers: add <code>discord.allowBots</code>; trim legacy MiniMax M2 from default catalogs; route MiniMax vision to the Coding Plan VLM endpoint (also accepts <code>@/path/to/file.png</code> inputs). (#802) — thanks @zknicker.</li>
-<li>Gateway: allow Tailscale Serve identity headers to satisfy token auth; rebuild Control UI assets when protocol schema is newer. (#823) — thanks @roshanasingh4; (#786) — thanks @meaningfool.</li>
-<li>Heartbeat: default <code>ackMaxChars</code> to 300 so short <code>HEARTBEAT_OK</code> replies stay internal.</li>
-</ul>
-<h3>Installer</h3>
-<ul>
-<li>Install: run <code>clawdbot doctor --non-interactive</code> after git installs/updates and nudge daemon restarts when detected.</li>
-</ul>
-<h3>Fixes</h3>
-<ul>
-<li>Doctor: warn on pnpm workspace mismatches, missing Control UI assets, and missing tsx binaries; offer UI rebuilds.</li>
-<li>Models/Providers: treat credential validation failures as auth errors to trigger fallback; normalize <code>${ENV_VAR}</code> apiKey values and auto-fill missing provider keys; preserve explicit GitHub Copilot provider config + agent-dir auth profiles. (#822) — thanks @sebslight; (#705) — thanks @TAGOOZ.</li>
-<li>Auth: drop invalid auth profiles from ordering so environment keys can still be used for providers like MiniMax.</li>
-<li>Gemini: normalize Gemini 3 ids to preview variants; strip Gemini CLI tool call/response ids; downgrade missing <code>thought_signature</code>; strip Claude <code>msg_*</code> thought_signature fields to avoid base64 decode errors. (#795) — thanks @thewilloftheshadow; (#783) — thanks @ananth-vardhan-cn; (#793) — thanks @hsrvc; (#805) — thanks @marcmarg.</li>
-<li>Agents: auto-recover from compaction context overflow by resetting the session and retrying; propagate overflow details from embedded runs so callers can recover.</li>
-<li>MiniMax: strip malformed tool invocation XML; include <code>MiniMax-VL-01</code> in implicit provider for image pairing. (#809) — thanks @latitudeki5223.</li>
-<li>Onboarding/Auth: honor <code>CLAWDBOT_AGENT_DIR</code> / <code>PI_CODING_AGENT_DIR</code> when writing auth profiles (MiniMax). (#829) — thanks @roshanasingh4.</li>
-<li>Anthropic: handle <code>overloaded_error</code> with a friendly message and failover classification. (#832) — thanks @danielz1z.</li>
-<li>Anthropic: merge consecutive user turns (preserve newest metadata) before validation to avoid incorrect role errors. (#804) — thanks @ThomsenDrake.</li>
-<li>Messaging: enforce context isolation for message tool sends; keep typing indicators alive during tool execution. (#793) — thanks @hsrvc; (#450, #447) — thanks @thewilloftheshadow.</li>
-<li>Auto-reply: <code>/status</code> allowlist behavior, reasoning-tag enforcement on fallback, and system-event enqueueing for elevated/reasoning toggles. (#810) — thanks @mcinteerj.</li>
-<li>System events: include local timestamps when events are injected into prompts. (#245) — thanks @thewilloftheshadow.</li>
-<li>Auto-reply: resolve ambiguous <code>/model</code> matches; fix streaming block reply media handling; keep &gt;300 char heartbeat replies instead of dropping.</li>
-<li>Discord/Slack: centralize reply-thread planning; fix autoThread routing + add per-channel autoThread; avoid duplicate listeners; keep reasoning italics intact; allow clearing channel parents via message tool. (#800, #807) — thanks @davidguttman; (#744) — thanks @thewilloftheshadow.</li>
-<li>Telegram: preserve forum topic thread ids, persist polling offsets, respect account bindings in webhook mode, and show typing indicator in General topics. (#727, #739) — thanks @thewilloftheshadow; (#821) — thanks @gumadeiras; (#779) — thanks @azade-c.</li>
-<li>Slack: accept slash commands with or without leading <code>/</code> for custom command configs. (#798) — thanks @thewilloftheshadow.</li>
-<li>Cron: persist disabled jobs correctly; accept <code>jobId</code> aliases for update/run/remove params. (#205, #252) — thanks @thewilloftheshadow.</li>
-<li>Gateway/CLI: honor <code>CLAWDBOT_LAUNCHD_LABEL</code> / <code>CLAWDBOT_SYSTEMD_UNIT</code> overrides; <code>agents.list</code> respects explicit config; reduce noisy loopback WS logs during tests; run <code>clawdbot doctor --non-interactive</code> during updates. (#781) — thanks @ronyrus.</li>
-<li>Onboarding/Control UI: refuse invalid configs (run doctor first); quote Windows browser URLs for OAuth; keep chat scroll position unless the user is near the bottom. (#764) — thanks @mukhtharcm; (#794) — thanks @roshanasingh4; (#217) — thanks @thewilloftheshadow.</li>
-<li>Tools/UI: harden tool input schemas for strict providers; drop null-only union variants for Gemini schema cleanup; treat <code>maxChars: 0</code> as unlimited; keep TUI last streamed response instead of &quot;(no output)&quot;. (#782) — thanks @AbhisekBasu1; (#796) — thanks @gabriel-trigo; (#747) — thanks @thewilloftheshadow.</li>
-<li>Connections UI: polish multi-account account cards. (#816) — thanks @steipete.</li>
-</ul>
-<h3>Maintenance</h3>
-<ul>
-<li>Dependencies: bump Pi packages to 0.45.3 and refresh patched pi-ai.</li>
-<li>Testing: update Vitest + browser-playwright to 4.0.17.</li>
-<li>Docs: add Amazon Bedrock provider notes and link from models/FAQ.</li>
 </ul>
 ]]></content:encoded>
         </item>
