@@ -4,11 +4,85 @@
         <title>claude-code Releases</title>
         <link>https://github.com/anthropics/claude-code/releases</link>
         <description>GitHub releases for anthropics/claude-code</description>
-        <lastBuildDate>Thu, 26 Mar 2026 00:31:05 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 26 Mar 2026 22:52:12 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>ai-rss-feeds (https://github.com/leontloveless/ai-rss-feeds)</generator>
         <language>en</language>
         <atom:link href="https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/claude-code-releases.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[v2.1.85]]></title>
+            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.85</link>
+            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.85</guid>
+            <pubDate>Thu, 26 Mar 2026 22:52:12 GMT</pubDate>
+            <description><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Added <code>CLAUDE_CODE_MCP_SERVER_NAME</code> and <code>CLAUDE_CODE_MCP_SERVER_URL</code> environment variables to MCP <code>headersHelper</code> scripts, allowing one helper to serve multiple servers</li>
+<li>Added conditional <code>if</code> field for hooks using permission rule syntax (e.g., <code>Bash(git *)</code>) to filter when they run, reducing process spawning overhead</li>
+<li>Added timestamp markers in transcripts when scheduled tasks (<code>/loop</code>, <code>CronCreate</code>) fire</li>
+<li>Added trailing space after <code>[Image #N]</code> placeholder when pasting images</li>
+<li>Deep link queries (<code>claude-cli://open?q=…</code>) now support up to 5,000 characters, with a &quot;scroll to review&quot; warning for long pre-filled prompts</li>
+<li>MCP OAuth now follows RFC 9728 Protected Resource Metadata discovery to find the authorization server</li>
+<li>Plugins blocked by organization policy (<code>managed-settings.json</code>) can no longer be installed or enabled, and are hidden from marketplace views</li>
+<li>PreToolUse hooks can now satisfy <code>AskUserQuestion</code> by returning <code>updatedInput</code> alongside <code>permissionDecision: &quot;allow&quot;</code>, enabling headless integrations that collect answers via their own UI</li>
+<li><code>tool_parameters</code> in OpenTelemetry tool_result events are now gated behind <code>OTEL_LOG_TOOL_DETAILS=1</code></li>
+<li>Fixed <code>/compact</code> failing with &quot;context exceeded&quot; when the conversation has grown too large for the compact request itself to fit</li>
+<li>Fixed <code>/plugin enable</code> and <code>/plugin disable</code> failing when a plugin&#39;s install location differs from where it&#39;s declared in settings</li>
+<li>Fixed <code>--worktree</code> exiting with an error in non-git repositories before the <code>WorktreeCreate</code> hook could run</li>
+<li>Fixed <code>deniedMcpServers</code> setting not blocking claude.ai MCP servers</li>
+<li>Fixed <code>switch_display</code> in the computer-use tool returning &quot;not available in this session&quot; on multi-monitor setups</li>
+<li>Fixed crash when <code>OTEL_LOGS_EXPORTER</code>, <code>OTEL_METRICS_EXPORTER</code>, or <code>OTEL_TRACES_EXPORTER</code> is set to <code>none</code></li>
+<li>Fixed diff syntax highlighting not working in non-native builds</li>
+<li>Fixed MCP step-up authorization failing when a refresh token exists — servers requesting elevated scopes via <code>403 insufficient_scope</code> now correctly trigger the re-authorization flow</li>
+<li>Fixed memory leak in remote sessions when a streaming response is interrupted</li>
+<li>Fixed persistent ECONNRESET errors during edge connection churn by using a fresh TCP connection on retry</li>
+<li>Fixed prompts getting stuck in the queue after running certain slash commands, with up-arrow unable to retrieve them</li>
+<li>Fixed Python Agent SDK: <code>type:&#39;sdk&#39;</code> MCP servers passed via <code>--mcp-config</code> are no longer dropped during startup</li>
+<li>Fixed raw key sequences appearing in the prompt when running over SSH or in the VS Code integrated terminal</li>
+<li>Fixed Remote Control session status staying stuck on &quot;Requires Action&quot; after a permission is resolved</li>
+<li>Fixed shift+enter and meta+enter being intercepted by typeahead suggestions instead of inserting newlines</li>
+<li>Fixed stale content bleeding through when scrolling up during streaming</li>
+<li>Fixed terminal left in enhanced keyboard mode after exit in Ghostty, Kitty, WezTerm, and other terminals supporting the Kitty keyboard protocol — Ctrl+C and Ctrl+D now work correctly after quitting</li>
+<li>Improved @-mention file autocomplete performance on large repositories</li>
+<li>Improved PowerShell dangerous command detection</li>
+<li>Improved scroll performance with large transcripts by replacing WASM yoga-layout with a pure TypeScript implementation</li>
+<li>Reduced UI stutter when compaction triggers on large sessions</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Added <code>CLAUDE_CODE_MCP_SERVER_NAME</code> and <code>CLAUDE_CODE_MCP_SERVER_URL</code> environment variables to MCP <code>headersHelper</code> scripts, allowing one helper to serve multiple servers</li>
+<li>Added conditional <code>if</code> field for hooks using permission rule syntax (e.g., <code>Bash(git *)</code>) to filter when they run, reducing process spawning overhead</li>
+<li>Added timestamp markers in transcripts when scheduled tasks (<code>/loop</code>, <code>CronCreate</code>) fire</li>
+<li>Added trailing space after <code>[Image #N]</code> placeholder when pasting images</li>
+<li>Deep link queries (<code>claude-cli://open?q=…</code>) now support up to 5,000 characters, with a &quot;scroll to review&quot; warning for long pre-filled prompts</li>
+<li>MCP OAuth now follows RFC 9728 Protected Resource Metadata discovery to find the authorization server</li>
+<li>Plugins blocked by organization policy (<code>managed-settings.json</code>) can no longer be installed or enabled, and are hidden from marketplace views</li>
+<li>PreToolUse hooks can now satisfy <code>AskUserQuestion</code> by returning <code>updatedInput</code> alongside <code>permissionDecision: &quot;allow&quot;</code>, enabling headless integrations that collect answers via their own UI</li>
+<li><code>tool_parameters</code> in OpenTelemetry tool_result events are now gated behind <code>OTEL_LOG_TOOL_DETAILS=1</code></li>
+<li>Fixed <code>/compact</code> failing with &quot;context exceeded&quot; when the conversation has grown too large for the compact request itself to fit</li>
+<li>Fixed <code>/plugin enable</code> and <code>/plugin disable</code> failing when a plugin&#39;s install location differs from where it&#39;s declared in settings</li>
+<li>Fixed <code>--worktree</code> exiting with an error in non-git repositories before the <code>WorktreeCreate</code> hook could run</li>
+<li>Fixed <code>deniedMcpServers</code> setting not blocking claude.ai MCP servers</li>
+<li>Fixed <code>switch_display</code> in the computer-use tool returning &quot;not available in this session&quot; on multi-monitor setups</li>
+<li>Fixed crash when <code>OTEL_LOGS_EXPORTER</code>, <code>OTEL_METRICS_EXPORTER</code>, or <code>OTEL_TRACES_EXPORTER</code> is set to <code>none</code></li>
+<li>Fixed diff syntax highlighting not working in non-native builds</li>
+<li>Fixed MCP step-up authorization failing when a refresh token exists — servers requesting elevated scopes via <code>403 insufficient_scope</code> now correctly trigger the re-authorization flow</li>
+<li>Fixed memory leak in remote sessions when a streaming response is interrupted</li>
+<li>Fixed persistent ECONNRESET errors during edge connection churn by using a fresh TCP connection on retry</li>
+<li>Fixed prompts getting stuck in the queue after running certain slash commands, with up-arrow unable to retrieve them</li>
+<li>Fixed Python Agent SDK: <code>type:&#39;sdk&#39;</code> MCP servers passed via <code>--mcp-config</code> are no longer dropped during startup</li>
+<li>Fixed raw key sequences appearing in the prompt when running over SSH or in the VS Code integrated terminal</li>
+<li>Fixed Remote Control session status staying stuck on &quot;Requires Action&quot; after a permission is resolved</li>
+<li>Fixed shift+enter and meta+enter being intercepted by typeahead suggestions instead of inserting newlines</li>
+<li>Fixed stale content bleeding through when scrolling up during streaming</li>
+<li>Fixed terminal left in enhanced keyboard mode after exit in Ghostty, Kitty, WezTerm, and other terminals supporting the Kitty keyboard protocol — Ctrl+C and Ctrl+D now work correctly after quitting</li>
+<li>Improved @-mention file autocomplete performance on large repositories</li>
+<li>Improved PowerShell dangerous command detection</li>
+<li>Improved scroll performance with large transcripts by replacing WASM yoga-layout with a pure TypeScript implementation</li>
+<li>Reduced UI stutter when compaction triggers on large sessions</li>
+</ul>
+]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[v2.1.84]]></title>
             <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.84</link>
@@ -2362,78 +2436,6 @@
 <li>Improved Claude to prefer file operation tools (Read, Edit, Write) over bash equivalents (cat, sed, awk)</li>
 <li>[VSCode] Added automatic Python virtual environment activation, ensuring <code>python</code> and <code>pip</code> commands use the correct interpreter (configurable via <code>claudeCode.usePythonEnvironment</code> setting)</li>
 <li>[VSCode] Fixed message action buttons having incorrect background colors</li>
-</ul>
-]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[v2.1.20]]></title>
-            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.20</link>
-            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.20</guid>
-            <pubDate>Tue, 27 Jan 2026 01:35:35 GMT</pubDate>
-            <description><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>Added arrow key history navigation in vim normal mode when cursor cannot move further</li>
-<li>Added external editor shortcut (Ctrl+G) to the help menu for better discoverability</li>
-<li>Added PR review status indicator to the prompt footer, showing the current branch&#39;s PR state (approved, changes requested, pending, or draft) as a colored dot with a clickable link</li>
-<li>Added support for loading <code>CLAUDE.md</code> files from additional directories specified via <code>--add-dir</code> flag (requires setting <code>CLAUDE_CODE_ADDITIONAL_DIRECTORIES_CLAUDE_MD=1</code>)</li>
-<li>Added ability to delete tasks via the <code>TaskUpdate</code> tool</li>
-<li>Fixed session compaction issues that could cause resume to load full history instead of the compact summary</li>
-<li>Fixed agents sometimes ignoring user messages sent while actively working on a task</li>
-<li>Fixed wide character (emoji, CJK) rendering artifacts where trailing columns were not cleared when replaced by narrower characters</li>
-<li>Fixed JSON parsing errors when MCP tool responses contain special Unicode characters</li>
-<li>Fixed up/down arrow keys in multi-line and wrapped text input to prioritize cursor movement over history navigation</li>
-<li>Fixed draft prompt being lost when pressing UP arrow to navigate command history</li>
-<li>Fixed ghost text flickering when typing slash commands mid-input</li>
-<li>Fixed marketplace source removal not properly deleting settings</li>
-<li>Fixed duplicate output in some commands like <code>/context</code></li>
-<li>Fixed task list sometimes showing outside the main conversation view</li>
-<li>Fixed syntax highlighting for diffs occurring within multiline constructs like Python docstrings</li>
-<li>Fixed crashes when cancelling tool use</li>
-<li>Improved <code>/sandbox</code> command UI to show dependency status with installation instructions when dependencies are missing</li>
-<li>Improved thinking status text with a subtle shimmer animation</li>
-<li>Improved task list to dynamically adjust visible items based on terminal height</li>
-<li>Improved fork conversation hint to show how to resume the original session</li>
-<li>Changed collapsed read/search groups to show present tense (&quot;Reading&quot;, &quot;Searching for&quot;) while in progress, and past tense (&quot;Read&quot;, &quot;Searched for&quot;) when complete</li>
-<li>Changed teammate messages to render with rich Markdown formatting (bold, code blocks, lists, etc.) instead of plain text</li>
-<li>Changed <code>ToolSearch</code> results to appear as a brief notification instead of inline in the conversation</li>
-<li>Changed the <code>/commit-push-pr</code> skill to automatically post PR URLs to Slack channels when configured via MCP tools</li>
-<li>Changed the <code>/copy</code> command to be available to all users</li>
-<li>Changed background agents to prompt for tool permissions before launching</li>
-<li>Changed permission rules like <code>Bash(*)</code> to be accepted and treated as equivalent to <code>Bash</code></li>
-<li>Changed config backups to be timestamped and rotated (keeping 5 most recent) to prevent data loss</li>
-</ul>
-]]></description>
-            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>Added arrow key history navigation in vim normal mode when cursor cannot move further</li>
-<li>Added external editor shortcut (Ctrl+G) to the help menu for better discoverability</li>
-<li>Added PR review status indicator to the prompt footer, showing the current branch&#39;s PR state (approved, changes requested, pending, or draft) as a colored dot with a clickable link</li>
-<li>Added support for loading <code>CLAUDE.md</code> files from additional directories specified via <code>--add-dir</code> flag (requires setting <code>CLAUDE_CODE_ADDITIONAL_DIRECTORIES_CLAUDE_MD=1</code>)</li>
-<li>Added ability to delete tasks via the <code>TaskUpdate</code> tool</li>
-<li>Fixed session compaction issues that could cause resume to load full history instead of the compact summary</li>
-<li>Fixed agents sometimes ignoring user messages sent while actively working on a task</li>
-<li>Fixed wide character (emoji, CJK) rendering artifacts where trailing columns were not cleared when replaced by narrower characters</li>
-<li>Fixed JSON parsing errors when MCP tool responses contain special Unicode characters</li>
-<li>Fixed up/down arrow keys in multi-line and wrapped text input to prioritize cursor movement over history navigation</li>
-<li>Fixed draft prompt being lost when pressing UP arrow to navigate command history</li>
-<li>Fixed ghost text flickering when typing slash commands mid-input</li>
-<li>Fixed marketplace source removal not properly deleting settings</li>
-<li>Fixed duplicate output in some commands like <code>/context</code></li>
-<li>Fixed task list sometimes showing outside the main conversation view</li>
-<li>Fixed syntax highlighting for diffs occurring within multiline constructs like Python docstrings</li>
-<li>Fixed crashes when cancelling tool use</li>
-<li>Improved <code>/sandbox</code> command UI to show dependency status with installation instructions when dependencies are missing</li>
-<li>Improved thinking status text with a subtle shimmer animation</li>
-<li>Improved task list to dynamically adjust visible items based on terminal height</li>
-<li>Improved fork conversation hint to show how to resume the original session</li>
-<li>Changed collapsed read/search groups to show present tense (&quot;Reading&quot;, &quot;Searching for&quot;) while in progress, and past tense (&quot;Read&quot;, &quot;Searched for&quot;) when complete</li>
-<li>Changed teammate messages to render with rich Markdown formatting (bold, code blocks, lists, etc.) instead of plain text</li>
-<li>Changed <code>ToolSearch</code> results to appear as a brief notification instead of inline in the conversation</li>
-<li>Changed the <code>/commit-push-pr</code> skill to automatically post PR URLs to Slack channels when configured via MCP tools</li>
-<li>Changed the <code>/copy</code> command to be available to all users</li>
-<li>Changed background agents to prompt for tool permissions before launching</li>
-<li>Changed permission rules like <code>Bash(*)</code> to be accepted and treated as equivalent to <code>Bash</code></li>
-<li>Changed config backups to be timestamped and rotated (keeping 5 most recent) to prevent data loss</li>
 </ul>
 ]]></content:encoded>
         </item>
