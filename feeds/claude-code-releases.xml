@@ -4,11 +4,77 @@
         <title>claude-code Releases</title>
         <link>https://github.com/anthropics/claude-code/releases</link>
         <description>GitHub releases for anthropics/claude-code</description>
-        <lastBuildDate>Thu, 26 Mar 2026 22:52:12 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 27 Mar 2026 21:42:09 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>ai-rss-feeds (https://github.com/leontloveless/ai-rss-feeds)</generator>
         <language>en</language>
         <atom:link href="https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/claude-code-releases.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[v2.1.86]]></title>
+            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.86</link>
+            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.86</guid>
+            <pubDate>Fri, 27 Mar 2026 21:42:09 GMT</pubDate>
+            <description><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Added <code>X-Claude-Code-Session-Id</code> header to API requests so proxies can aggregate requests by session without parsing the body</li>
+<li>Added <code>.jj</code> and <code>.sl</code> to VCS directory exclusion lists so Grep and file autocomplete don&#39;t descend into Jujutsu or Sapling metadata</li>
+<li>Fixed <code>--resume</code> failing with &quot;tool_use ids were found without tool_result blocks&quot; on sessions created before v2.1.85</li>
+<li>Fixed Write/Edit/Read failing on files outside the project root (e.g., <code>~/.claude/CLAUDE.md</code>) when conditional skills or rules are configured</li>
+<li>Fixed unnecessary config disk writes on every skill invocation that could cause performance issues and config corruption on Windows</li>
+<li>Fixed potential out-of-memory crash when using <code>/feedback</code> on very long sessions with large transcript files</li>
+<li>Fixed <code>--bare</code> mode dropping MCP tools in interactive sessions and silently discarding messages enqueued mid-turn</li>
+<li>Fixed the <code>c</code> shortcut copying only ~20 characters of the OAuth login URL instead of the full URL</li>
+<li>Fixed masked input (e.g., OAuth code paste) leaking the start of the token when wrapping across multiple lines on narrow terminals</li>
+<li>Fixed official marketplace plugin scripts failing with &quot;Permission denied&quot; on macOS/Linux since v2.1.83</li>
+<li>Fixed statusline showing another session&#39;s model when running multiple Claude Code instances and using <code>/model</code> in one of them</li>
+<li>Fixed scroll not following new messages after wheel scroll or click-to-select at the bottom of a long conversation</li>
+<li>Fixed <code>/plugin</code> uninstall dialog: pressing <code>n</code> now correctly uninstalls the plugin while preserving its data directory</li>
+<li>Fixed a regression where pressing Enter after clicking could leave the transcript blank until the response arrived</li>
+<li>Fixed <code>ultrathink</code> hint lingering after deleting the keyword</li>
+<li>Fixed memory growth in long sessions from markdown/highlight render caches retaining full content strings</li>
+<li>Reduced startup event-loop stalls when many claude.ai MCP connectors are configured (macOS keychain cache extended from 5s to 30s)</li>
+<li>Reduced token overhead when mentioning files with <code>@</code> — raw string content no longer JSON-escaped</li>
+<li>Improved prompt cache hit rate for Bedrock, Vertex, and Foundry users by removing dynamic content from tool descriptions</li>
+<li>Memory filenames in the &quot;Saved N memories&quot; notice now highlight on hover and open on click</li>
+<li>Skill descriptions in the <code>/skills</code> listing are now capped at 250 characters to reduce context usage</li>
+<li>Changed <code>/skills</code> menu to sort alphabetically for easier scanning</li>
+<li>Auto mode now shows &quot;unavailable for your plan&quot; when disabled by plan restrictions (was &quot;temporarily unavailable&quot;)</li>
+<li>[VSCode] Fixed extension incorrectly showing &quot;Not responding&quot; during long-running operations</li>
+<li>[VSCode] Fixed extension defaulting Max plan users to Sonnet after the OAuth token refreshes (8 hours after login)</li>
+<li>Read tool now uses compact line-number format and deduplicates unchanged re-reads, reducing token usage</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Added <code>X-Claude-Code-Session-Id</code> header to API requests so proxies can aggregate requests by session without parsing the body</li>
+<li>Added <code>.jj</code> and <code>.sl</code> to VCS directory exclusion lists so Grep and file autocomplete don&#39;t descend into Jujutsu or Sapling metadata</li>
+<li>Fixed <code>--resume</code> failing with &quot;tool_use ids were found without tool_result blocks&quot; on sessions created before v2.1.85</li>
+<li>Fixed Write/Edit/Read failing on files outside the project root (e.g., <code>~/.claude/CLAUDE.md</code>) when conditional skills or rules are configured</li>
+<li>Fixed unnecessary config disk writes on every skill invocation that could cause performance issues and config corruption on Windows</li>
+<li>Fixed potential out-of-memory crash when using <code>/feedback</code> on very long sessions with large transcript files</li>
+<li>Fixed <code>--bare</code> mode dropping MCP tools in interactive sessions and silently discarding messages enqueued mid-turn</li>
+<li>Fixed the <code>c</code> shortcut copying only ~20 characters of the OAuth login URL instead of the full URL</li>
+<li>Fixed masked input (e.g., OAuth code paste) leaking the start of the token when wrapping across multiple lines on narrow terminals</li>
+<li>Fixed official marketplace plugin scripts failing with &quot;Permission denied&quot; on macOS/Linux since v2.1.83</li>
+<li>Fixed statusline showing another session&#39;s model when running multiple Claude Code instances and using <code>/model</code> in one of them</li>
+<li>Fixed scroll not following new messages after wheel scroll or click-to-select at the bottom of a long conversation</li>
+<li>Fixed <code>/plugin</code> uninstall dialog: pressing <code>n</code> now correctly uninstalls the plugin while preserving its data directory</li>
+<li>Fixed a regression where pressing Enter after clicking could leave the transcript blank until the response arrived</li>
+<li>Fixed <code>ultrathink</code> hint lingering after deleting the keyword</li>
+<li>Fixed memory growth in long sessions from markdown/highlight render caches retaining full content strings</li>
+<li>Reduced startup event-loop stalls when many claude.ai MCP connectors are configured (macOS keychain cache extended from 5s to 30s)</li>
+<li>Reduced token overhead when mentioning files with <code>@</code> — raw string content no longer JSON-escaped</li>
+<li>Improved prompt cache hit rate for Bedrock, Vertex, and Foundry users by removing dynamic content from tool descriptions</li>
+<li>Memory filenames in the &quot;Saved N memories&quot; notice now highlight on hover and open on click</li>
+<li>Skill descriptions in the <code>/skills</code> listing are now capped at 250 characters to reduce context usage</li>
+<li>Changed <code>/skills</code> menu to sort alphabetically for easier scanning</li>
+<li>Auto mode now shows &quot;unavailable for your plan&quot; when disabled by plan restrictions (was &quot;temporarily unavailable&quot;)</li>
+<li>[VSCode] Fixed extension incorrectly showing &quot;Not responding&quot; during long-running operations</li>
+<li>[VSCode] Fixed extension defaulting Max plan users to Sonnet after the OAuth token refreshes (8 hours after login)</li>
+<li>Read tool now uses compact line-number format and deduplicates unchanged re-reads, reducing token usage</li>
+</ul>
+]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[v2.1.85]]></title>
             <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.85</link>
@@ -2402,40 +2468,6 @@
             <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
 <ul>
 <li>Fixed structured outputs for non-interactive (-p) mode</li>
-</ul>
-]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[v2.1.21]]></title>
-            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.21</link>
-            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.21</guid>
-            <pubDate>Wed, 28 Jan 2026 02:25:23 GMT</pubDate>
-            <description><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>Added support for full-width (zenkaku) number input from Japanese IME in option selection prompts</li>
-<li>Fixed shell completion cache files being truncated on exit</li>
-<li>Fixed API errors when resuming sessions that were interrupted during tool execution</li>
-<li>Fixed auto-compact triggering too early on models with large output token limits</li>
-<li>Fixed task IDs potentially being reused after deletion</li>
-<li>Fixed file search not working in VS Code extension on Windows</li>
-<li>Improved read/search progress indicators to show &quot;Reading…&quot; while in progress and &quot;Read&quot; when complete</li>
-<li>Improved Claude to prefer file operation tools (Read, Edit, Write) over bash equivalents (cat, sed, awk)</li>
-<li>[VSCode] Added automatic Python virtual environment activation, ensuring <code>python</code> and <code>pip</code> commands use the correct interpreter (configurable via <code>claudeCode.usePythonEnvironment</code> setting)</li>
-<li>[VSCode] Fixed message action buttons having incorrect background colors</li>
-</ul>
-]]></description>
-            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>Added support for full-width (zenkaku) number input from Japanese IME in option selection prompts</li>
-<li>Fixed shell completion cache files being truncated on exit</li>
-<li>Fixed API errors when resuming sessions that were interrupted during tool execution</li>
-<li>Fixed auto-compact triggering too early on models with large output token limits</li>
-<li>Fixed task IDs potentially being reused after deletion</li>
-<li>Fixed file search not working in VS Code extension on Windows</li>
-<li>Improved read/search progress indicators to show &quot;Reading…&quot; while in progress and &quot;Read&quot; when complete</li>
-<li>Improved Claude to prefer file operation tools (Read, Edit, Write) over bash equivalents (cat, sed, awk)</li>
-<li>[VSCode] Added automatic Python virtual environment activation, ensuring <code>python</code> and <code>pip</code> commands use the correct interpreter (configurable via <code>claudeCode.usePythonEnvironment</code> setting)</li>
-<li>[VSCode] Fixed message action buttons having incorrect background colors</li>
 </ul>
 ]]></content:encoded>
         </item>
