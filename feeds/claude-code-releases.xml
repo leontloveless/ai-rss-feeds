@@ -4,107 +4,11 @@
         <title>claude-code Releases</title>
         <link>https://github.com/anthropics/claude-code/releases</link>
         <description>GitHub releases for anthropics/claude-code</description>
-        <lastBuildDate>Mon, 30 Mar 2026 23:53:06 GMT</lastBuildDate>
+        <lastBuildDate>Sun, 29 Mar 2026 02:17:02 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>ai-rss-feeds (https://github.com/leontloveless/ai-rss-feeds)</generator>
         <language>en</language>
         <atom:link href="https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/claude-code-releases.xml" rel="self" type="application/rss+xml"/>
-        <item>
-            <title><![CDATA[v2.1.88]]></title>
-            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.88</link>
-            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.88</guid>
-            <pubDate>Mon, 30 Mar 2026 23:53:06 GMT</pubDate>
-            <description><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>Added <code>CLAUDE_CODE_NO_FLICKER=1</code> environment variable to opt into flicker-free alt-screen rendering with virtualized scrollback</li>
-<li>Added <code>PermissionDenied</code> hook that fires after auto mode classifier denials — return <code>{retry: true}</code> to tell the model it can retry</li>
-<li>Added named subagents to <code>@</code> mention typeahead suggestions</li>
-<li>Fixed prompt cache misses in long sessions caused by tool schema bytes changing mid-session</li>
-<li>Fixed nested CLAUDE.md files being re-injected dozens of times in long sessions that read many files</li>
-<li>Fixed Edit/Write tools doubling CRLF on Windows and stripping Markdown hard line breaks (two trailing spaces)</li>
-<li>Fixed <code>StructuredOutput</code> schema cache bug causing ~50% failure rate in workflows with multiple schemas</li>
-<li>Fixed memory leak where large JSON inputs were retained as LRU cache keys in long-running sessions</li>
-<li>Fixed a potential out-of-memory crash when the Edit tool was used on very large files (&gt;1 GiB)</li>
-<li>Fixed a crash when removing a message from very large session files (over 50MB)</li>
-<li>Fixed <code>--resume</code> crash when transcript contains a tool result from an older CLI version or interrupted write</li>
-<li>Fixed misleading &quot;Rate limit reached&quot; message when the API returned an entitlement error — now shows the actual error with actionable hints</li>
-<li>Fixed LSP server zombie state after crash — server now restarts on next request instead of failing until session restart</li>
-<li>Fixed hooks <code>if</code> condition filtering not matching compound commands (<code>ls &amp;&amp; git push</code>) or commands with env-var prefixes (<code>FOO=bar git push</code>)</li>
-<li>Fixed prompt history entries containing CJK or emoji being silently dropped when they fall on a 4KB boundary in <code>~/.claude/history.jsonl</code></li>
-<li>Fixed <code>/stats</code> losing historical data beyond 30 days when the stats cache format changes</li>
-<li>Fixed <code>/stats</code> undercounting tokens by excluding subagent/fork usage</li>
-<li>Fixed scrollback disappearing when scrolling up in long sessions</li>
-<li>Fixed collapsed search/read group badges duplicating in terminal scrollback during heavy parallel tool use</li>
-<li>Fixed notification <code>invalidates</code> not clearing the currently-displayed notification immediately</li>
-<li>Fixed prompt briefly disappearing after submit when background messages arrived during processing</li>
-<li>Fixed long <code>/btw</code> responses being clipped with no way to scroll — responses now render in a scrollable viewport</li>
-<li>Fixed Devanagari and other combining-mark text being truncated in assistant output</li>
-<li>Fixed rendering artifacts on main-screen terminals after layout shifts</li>
-<li>Fixed voice mode failing to request microphone permission on macOS Apple Silicon</li>
-<li>Fixed voice push-to-talk not activating for some modifier-combo bindings</li>
-<li>Fixed voice mode on Windows failing with &quot;WebSocket upgrade rejected with HTTP 101&quot;</li>
-<li>Fixed Shift+Enter submitting instead of inserting a newline on Windows Terminal Preview 1.25</li>
-<li>Fixed periodic UI jitter during streaming in iTerm2 when running inside tmux</li>
-<li>Fixed PowerShell tool incorrectly reporting failures when commands like <code>git push</code> wrote progress to stderr on Windows PowerShell 5.1</li>
-<li>Fixed SDK error result messages (<code>error_during_execution</code>, <code>error_max_turns</code>) to correctly set <code>is_error: true</code> with descriptive messages</li>
-<li>Fixed task notifications being lost when backgrounding a session with Ctrl+B</li>
-<li>Fixed PreToolUse/PostToolUse hooks not providing <code>file_path</code> as an absolute path for Write/Edit/Read tools</li>
-<li>Improved PowerShell tool prompt with version-appropriate syntax guidance (5.1 vs 7+)</li>
-<li>Thinking summaries are no longer generated by default in interactive sessions — set <code>showThinkingSummaries: true</code> in settings to restore</li>
-<li>Auto mode denied commands now show a notification and appear in <code>/permissions</code> → Recent tab</li>
-<li><code>/env</code> now applies to PowerShell tool commands (previously only affected Bash)</li>
-<li><code>/usage</code> now hides redundant &quot;Current week (Sonnet only)&quot; bar for Pro and Enterprise plans</li>
-<li>Collapsed tool summary now shows &quot;Listed N directories&quot; for ls/tree/du instead of &quot;Read N files&quot;</li>
-<li>Image paste no longer inserts a trailing space</li>
-<li>Pasting <code>!command</code> into an empty prompt now enters bash mode, matching typed <code>!</code> behavior</li>
-</ul>
-]]></description>
-            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>Added <code>CLAUDE_CODE_NO_FLICKER=1</code> environment variable to opt into flicker-free alt-screen rendering with virtualized scrollback</li>
-<li>Added <code>PermissionDenied</code> hook that fires after auto mode classifier denials — return <code>{retry: true}</code> to tell the model it can retry</li>
-<li>Added named subagents to <code>@</code> mention typeahead suggestions</li>
-<li>Fixed prompt cache misses in long sessions caused by tool schema bytes changing mid-session</li>
-<li>Fixed nested CLAUDE.md files being re-injected dozens of times in long sessions that read many files</li>
-<li>Fixed Edit/Write tools doubling CRLF on Windows and stripping Markdown hard line breaks (two trailing spaces)</li>
-<li>Fixed <code>StructuredOutput</code> schema cache bug causing ~50% failure rate in workflows with multiple schemas</li>
-<li>Fixed memory leak where large JSON inputs were retained as LRU cache keys in long-running sessions</li>
-<li>Fixed a potential out-of-memory crash when the Edit tool was used on very large files (&gt;1 GiB)</li>
-<li>Fixed a crash when removing a message from very large session files (over 50MB)</li>
-<li>Fixed <code>--resume</code> crash when transcript contains a tool result from an older CLI version or interrupted write</li>
-<li>Fixed misleading &quot;Rate limit reached&quot; message when the API returned an entitlement error — now shows the actual error with actionable hints</li>
-<li>Fixed LSP server zombie state after crash — server now restarts on next request instead of failing until session restart</li>
-<li>Fixed hooks <code>if</code> condition filtering not matching compound commands (<code>ls &amp;&amp; git push</code>) or commands with env-var prefixes (<code>FOO=bar git push</code>)</li>
-<li>Fixed prompt history entries containing CJK or emoji being silently dropped when they fall on a 4KB boundary in <code>~/.claude/history.jsonl</code></li>
-<li>Fixed <code>/stats</code> losing historical data beyond 30 days when the stats cache format changes</li>
-<li>Fixed <code>/stats</code> undercounting tokens by excluding subagent/fork usage</li>
-<li>Fixed scrollback disappearing when scrolling up in long sessions</li>
-<li>Fixed collapsed search/read group badges duplicating in terminal scrollback during heavy parallel tool use</li>
-<li>Fixed notification <code>invalidates</code> not clearing the currently-displayed notification immediately</li>
-<li>Fixed prompt briefly disappearing after submit when background messages arrived during processing</li>
-<li>Fixed long <code>/btw</code> responses being clipped with no way to scroll — responses now render in a scrollable viewport</li>
-<li>Fixed Devanagari and other combining-mark text being truncated in assistant output</li>
-<li>Fixed rendering artifacts on main-screen terminals after layout shifts</li>
-<li>Fixed voice mode failing to request microphone permission on macOS Apple Silicon</li>
-<li>Fixed voice push-to-talk not activating for some modifier-combo bindings</li>
-<li>Fixed voice mode on Windows failing with &quot;WebSocket upgrade rejected with HTTP 101&quot;</li>
-<li>Fixed Shift+Enter submitting instead of inserting a newline on Windows Terminal Preview 1.25</li>
-<li>Fixed periodic UI jitter during streaming in iTerm2 when running inside tmux</li>
-<li>Fixed PowerShell tool incorrectly reporting failures when commands like <code>git push</code> wrote progress to stderr on Windows PowerShell 5.1</li>
-<li>Fixed SDK error result messages (<code>error_during_execution</code>, <code>error_max_turns</code>) to correctly set <code>is_error: true</code> with descriptive messages</li>
-<li>Fixed task notifications being lost when backgrounding a session with Ctrl+B</li>
-<li>Fixed PreToolUse/PostToolUse hooks not providing <code>file_path</code> as an absolute path for Write/Edit/Read tools</li>
-<li>Improved PowerShell tool prompt with version-appropriate syntax guidance (5.1 vs 7+)</li>
-<li>Thinking summaries are no longer generated by default in interactive sessions — set <code>showThinkingSummaries: true</code> in settings to restore</li>
-<li>Auto mode denied commands now show a notification and appear in <code>/permissions</code> → Recent tab</li>
-<li><code>/env</code> now applies to PowerShell tool commands (previously only affected Bash)</li>
-<li><code>/usage</code> now hides redundant &quot;Current week (Sonnet only)&quot; bar for Pro and Enterprise plans</li>
-<li>Collapsed tool summary now shows &quot;Listed N directories&quot; for ls/tree/du instead of &quot;Read N files&quot;</li>
-<li>Image paste no longer inserts a trailing space</li>
-<li>Pasting <code>!command</code> into an empty prompt now enters bash mode, matching typed <code>!</code> behavior</li>
-</ul>
-]]></content:encoded>
-        </item>
         <item>
             <title><![CDATA[v2.1.87]]></title>
             <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.87</link>
@@ -2528,6 +2432,42 @@
             <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
 <ul>
 <li>Fixed beta header validation error for gateway users on Bedrock and Vertex, ensuring <code>CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS=1</code> avoids the error</li>
+</ul>
+]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[v2.1.23]]></title>
+            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.23</link>
+            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.23</guid>
+            <pubDate>Thu, 29 Jan 2026 01:09:51 GMT</pubDate>
+            <description><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Added customizable spinner verbs setting (<code>spinnerVerbs</code>)</li>
+<li>Fixed mTLS and proxy connectivity for users behind corporate proxies or using client certificates</li>
+<li>Fixed per-user temp directory isolation to prevent permission conflicts on shared systems</li>
+<li>Fixed a race condition that could cause 400 errors when prompt caching scope was enabled</li>
+<li>Fixed pending async hooks not being cancelled when headless streaming sessions ended</li>
+<li>Fixed tab completion not updating the input field when accepting a suggestion</li>
+<li>Fixed ripgrep search timeouts silently returning empty results instead of reporting errors</li>
+<li>Improved terminal rendering performance with optimized screen data layout</li>
+<li>Changed Bash commands to show timeout duration alongside elapsed time</li>
+<li>Changed merged pull requests to show a purple status indicator in the prompt footer</li>
+<li>[IDE] Fixed model options displaying incorrect region strings for Bedrock users in headless mode</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Added customizable spinner verbs setting (<code>spinnerVerbs</code>)</li>
+<li>Fixed mTLS and proxy connectivity for users behind corporate proxies or using client certificates</li>
+<li>Fixed per-user temp directory isolation to prevent permission conflicts on shared systems</li>
+<li>Fixed a race condition that could cause 400 errors when prompt caching scope was enabled</li>
+<li>Fixed pending async hooks not being cancelled when headless streaming sessions ended</li>
+<li>Fixed tab completion not updating the input field when accepting a suggestion</li>
+<li>Fixed ripgrep search timeouts silently returning empty results instead of reporting errors</li>
+<li>Improved terminal rendering performance with optimized screen data layout</li>
+<li>Changed Bash commands to show timeout duration alongside elapsed time</li>
+<li>Changed merged pull requests to show a purple status indicator in the prompt footer</li>
+<li>[IDE] Fixed model options displaying incorrect region strings for Bedrock users in headless mode</li>
 </ul>
 ]]></content:encoded>
         </item>
