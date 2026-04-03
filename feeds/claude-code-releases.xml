@@ -4,11 +4,51 @@
         <title>claude-code Releases</title>
         <link>https://github.com/anthropics/claude-code/releases</link>
         <description>GitHub releases for anthropics/claude-code</description>
-        <lastBuildDate>Wed, 01 Apr 2026 23:41:31 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 02 Apr 2026 23:45:35 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>ai-rss-feeds (https://github.com/leontloveless/ai-rss-feeds)</generator>
         <language>en</language>
         <atom:link href="https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/claude-code-releases.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[v2.1.91]]></title>
+            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.91</link>
+            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.91</guid>
+            <pubDate>Thu, 02 Apr 2026 23:45:35 GMT</pubDate>
+            <description><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Added MCP tool result persistence override via <code>_meta[&quot;anthropic/maxResultSizeChars&quot;]</code> annotation (up to 500K), allowing larger results like DB schemas to pass through without truncation</li>
+<li>Added <code>disableSkillShellExecution</code> setting to disable inline shell execution in skills, custom slash commands, and plugin commands</li>
+<li>Added support for multi-line prompts in <code>claude-cli://open?q=</code> deep links (encoded newlines <code>%0A</code> no longer rejected)</li>
+<li>Plugins can now ship executables under <code>bin/</code> and invoke them as bare commands from the Bash tool</li>
+<li>Fixed transcript chain breaks on <code>--resume</code> that could lose conversation history when async transcript writes fail silently</li>
+<li>Fixed <code>cmd+delete</code> not deleting to start of line on iTerm2, kitty, WezTerm, Ghostty, and Windows Terminal</li>
+<li>Fixed plan mode in remote sessions losing track of the plan file after a container restart, which caused permission prompts on plan edits and an empty plan-approval modal</li>
+<li>Fixed JSON schema validation for <code>permissions.defaultMode: &quot;auto&quot;</code> in settings.json</li>
+<li>Fixed Windows version cleanup not protecting the active version&#39;s rollback copy</li>
+<li><code>/feedback</code> now explains why it&#39;s unavailable instead of disappearing from the slash menu</li>
+<li>Improved <code>/claude-api</code> skill guidance for agent design patterns including tool surface decisions, context management, and caching strategy</li>
+<li>Improved performance: faster <code>stripAnsi</code> on Bun by routing through <code>Bun.stripANSI</code></li>
+<li>Edit tool now uses shorter <code>old_string</code> anchors, reducing output tokens</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Added MCP tool result persistence override via <code>_meta[&quot;anthropic/maxResultSizeChars&quot;]</code> annotation (up to 500K), allowing larger results like DB schemas to pass through without truncation</li>
+<li>Added <code>disableSkillShellExecution</code> setting to disable inline shell execution in skills, custom slash commands, and plugin commands</li>
+<li>Added support for multi-line prompts in <code>claude-cli://open?q=</code> deep links (encoded newlines <code>%0A</code> no longer rejected)</li>
+<li>Plugins can now ship executables under <code>bin/</code> and invoke them as bare commands from the Bash tool</li>
+<li>Fixed transcript chain breaks on <code>--resume</code> that could lose conversation history when async transcript writes fail silently</li>
+<li>Fixed <code>cmd+delete</code> not deleting to start of line on iTerm2, kitty, WezTerm, Ghostty, and Windows Terminal</li>
+<li>Fixed plan mode in remote sessions losing track of the plan file after a container restart, which caused permission prompts on plan edits and an empty plan-approval modal</li>
+<li>Fixed JSON schema validation for <code>permissions.defaultMode: &quot;auto&quot;</code> in settings.json</li>
+<li>Fixed Windows version cleanup not protecting the active version&#39;s rollback copy</li>
+<li><code>/feedback</code> now explains why it&#39;s unavailable instead of disappearing from the slash menu</li>
+<li>Improved <code>/claude-api</code> skill guidance for agent design patterns including tool surface decisions, context management, and caching strategy</li>
+<li>Improved performance: faster <code>stripAnsi</code> on Bun by routing through <code>Bun.stripANSI</code></li>
+<li>Edit tool now uses shorter <code>old_string</code> anchors, reducing output tokens</li>
+</ul>
+]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[v2.1.90]]></title>
             <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.90</link>
@@ -2550,42 +2590,6 @@
             <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
 <ul>
 <li>Fixed startup performance issues when resuming sessions that have <code>saved_hook_context</code></li>
-</ul>
-]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[v2.1.27]]></title>
-            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.27</link>
-            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.27</guid>
-            <pubDate>Fri, 30 Jan 2026 20:38:53 GMT</pubDate>
-            <description><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>Added tool call failures and denials to debug logs</li>
-<li>Fixed context management validation error for gateway users, ensuring <code>CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS=1</code> avoids the error</li>
-<li>Added <code>--from-pr</code> flag to resume sessions linked to a specific GitHub PR number or URL</li>
-<li>Sessions are now automatically linked to PRs when created via <code>gh pr create</code></li>
-<li>Fixed /context command not displaying colored output</li>
-<li>Fixed status bar duplicating background task indicator when PR status was shown</li>
-<li>VSCode: Enabled Claude in Chrome integration</li>
-<li>Permissions now respect content-level <code>ask</code> over tool-level <code>allow</code>. Previously <code>allow: [&quot;Bash&quot;], ask: [&quot;Bash(rm *)&quot;]</code> allowed all bash commands, but will now permission prompt for <code>rm</code>.</li>
-<li>Windows: Fixed bash command execution failing for users with <code>.bashrc</code> files</li>
-<li>Windows: Fixed console windows flashing when spawning child processes</li>
-<li>VSCode: Fixed OAuth token expiration causing 401 errors after extended sessions</li>
-</ul>
-]]></description>
-            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>Added tool call failures and denials to debug logs</li>
-<li>Fixed context management validation error for gateway users, ensuring <code>CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS=1</code> avoids the error</li>
-<li>Added <code>--from-pr</code> flag to resume sessions linked to a specific GitHub PR number or URL</li>
-<li>Sessions are now automatically linked to PRs when created via <code>gh pr create</code></li>
-<li>Fixed /context command not displaying colored output</li>
-<li>Fixed status bar duplicating background task indicator when PR status was shown</li>
-<li>VSCode: Enabled Claude in Chrome integration</li>
-<li>Permissions now respect content-level <code>ask</code> over tool-level <code>allow</code>. Previously <code>allow: [&quot;Bash&quot;], ask: [&quot;Bash(rm *)&quot;]</code> allowed all bash commands, but will now permission prompt for <code>rm</code>.</li>
-<li>Windows: Fixed bash command execution failing for users with <code>.bashrc</code> files</li>
-<li>Windows: Fixed console windows flashing when spawning child processes</li>
-<li>VSCode: Fixed OAuth token expiration causing 401 errors after extended sessions</li>
 </ul>
 ]]></content:encoded>
         </item>
