@@ -4,11 +4,139 @@
         <title>claude-code Releases</title>
         <link>https://github.com/anthropics/claude-code/releases</link>
         <description>GitHub releases for anthropics/claude-code</description>
-        <lastBuildDate>Wed, 08 Apr 2026 21:52:34 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 09 Apr 2026 19:18:28 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>ai-rss-feeds (https://github.com/leontloveless/ai-rss-feeds)</generator>
         <language>en</language>
         <atom:link href="https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/claude-code-releases.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[v2.1.98]]></title>
+            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.98</link>
+            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.98</guid>
+            <pubDate>Thu, 09 Apr 2026 19:18:28 GMT</pubDate>
+            <description><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Added interactive Google Vertex AI setup wizard accessible from the login screen when selecting &quot;3rd-party platform&quot;, guiding you through GCP authentication, project and region configuration, credential verification, and model pinning</li>
+<li>Added <code>CLAUDE_CODE_PERFORCE_MODE</code> env var: when set, Edit/Write/NotebookEdit fail on read-only files with a <code>p4 edit</code> hint instead of silently overwriting them</li>
+<li>Added Monitor tool for streaming events from background scripts</li>
+<li>Added subprocess sandboxing with PID namespace isolation on Linux when <code>CLAUDE_CODE_SUBPROCESS_ENV_SCRUB</code> is set, and <code>CLAUDE_CODE_SCRIPT_CAPS</code> env var to limit per-session script invocations</li>
+<li>Added <code>--exclude-dynamic-system-prompt-sections</code> flag to print mode for improved cross-user prompt caching</li>
+<li>Added <code>workspace.git_worktree</code> to the status line JSON input, set whenever the current directory is inside a linked git worktree</li>
+<li>Added W3C <code>TRACEPARENT</code> env var to Bash tool subprocesses when OTEL tracing is enabled, so child-process spans correctly parent to Claude Code&#39;s trace tree</li>
+<li>LSP: Claude Code now identifies itself to language servers via <code>clientInfo</code> in the initialize request</li>
+<li>Fixed a Bash tool permission bypass where a backslash-escaped flag could be auto-allowed as read-only and lead to arbitrary code execution</li>
+<li>Fixed compound Bash commands bypassing forced permission prompts for safety checks and explicit ask rules in auto and bypass-permissions modes</li>
+<li>Fixed read-only commands with env-var prefixes not prompting unless the var is known-safe (<code>LANG</code>, <code>TZ</code>, <code>NO_COLOR</code>, etc.)</li>
+<li>Fixed redirects to <code>/dev/tcp/...</code> or <code>/dev/udp/...</code> not prompting instead of auto-allowing</li>
+<li>Fixed stalled streaming responses timing out instead of falling back to non-streaming mode</li>
+<li>Fixed 429 retries burning all attempts in ~13s when the server returns a small <code>Retry-After</code> — exponential backoff now applies as a minimum</li>
+<li>Fixed MCP OAuth <code>oauth.authServerMetadataUrl</code> config override not being honored on token refresh after restart, affecting ADFS and similar IdPs</li>
+<li>Fixed capital letters being dropped to lowercase on xterm and VS Code integrated terminal when the kitty keyboard protocol is active</li>
+<li>Fixed macOS text replacements deleting the trigger word instead of inserting the substitution</li>
+<li>Fixed <code>--dangerously-skip-permissions</code> being silently downgraded to accept-edits mode after approving a write to a protected path via Bash</li>
+<li>Fixed managed-settings allow rules remaining active after an admin removed them, until process restart</li>
+<li>Fixed <code>permissions.additionalDirectories</code> changes not applying mid-session — removed directories lose access immediately and added ones work without restart</li>
+<li>Fixed removing a directory from <code>additionalDirectories</code> revoking access to the same directory passed via <code>--add-dir</code></li>
+<li>Fixed <code>Bash(cmd:*)</code> and <code>Bash(git commit *)</code> wildcard permission rules failing to match commands with extra spaces or tabs</li>
+<li>Fixed <code>Bash(...)</code> deny rules being downgraded to a prompt for piped commands that mix <code>cd</code> with other segments</li>
+<li>Fixed false Bash permission prompts for <code>cut -d /</code>, <code>paste -d /</code>, <code>column -s /</code>, <code>awk &#39;{print $1}&#39; file</code>, and filenames containing <code>%</code></li>
+<li>Fixed permission rules with names matching JavaScript prototype properties (e.g. <code>toString</code>) causing <code>settings.json</code> to be silently ignored</li>
+<li>Fixed agent team members not inheriting the leader&#39;s permission mode when using <code>--dangerously-skip-permissions</code></li>
+<li>Fixed a crash in fullscreen mode when hovering over MCP tool results</li>
+<li>Fixed copying wrapped URLs in fullscreen mode inserting spaces at line breaks</li>
+<li>Fixed file-edit diffs disappearing from the UI on <code>--resume</code> when the edited file was larger than 10KB</li>
+<li>Fixed several <code>/resume</code> picker issues: <code>--resume &lt;name&gt;</code> opening uneditable, filter reload wiping search state, empty list swallowing arrow keys, cross-project staleness, and transient task-status text replacing conversation summaries</li>
+<li>Fixed <code>/export</code> not honoring absolute paths and <code>~</code>, and silently rewriting user-supplied extensions to <code>.txt</code></li>
+<li>Fixed <code>/effort max</code> being denied for unknown or future model IDs</li>
+<li>Fixed slash command picker breaking when a plugin&#39;s frontmatter <code>name</code> is a YAML boolean keyword</li>
+<li>Fixed rate-limit upsell text being hidden after message remounts</li>
+<li>Fixed MCP tools with <code>_meta[&quot;anthropic/maxResultSizeChars&quot;]</code> not bypassing the token-based persist layer</li>
+<li>Fixed voice mode leaking dozens of space characters into the input when re-holding the push-to-talk key while the previous transcript is still processing</li>
+<li>Fixed <code>DISABLE_AUTOUPDATER</code> not fully suppressing the npm registry version check and symlink modification on npm-based installs</li>
+<li>Fixed a memory leak where Remote Control permission handler entries were retained for the lifetime of the session</li>
+<li>Fixed background subagents that fail with an error not reporting partial progress to the parent agent</li>
+<li>Fixed prompt-type Stop/SubagentStop hooks failing on long sessions, and hook evaluator API errors showing &quot;JSON validation failed&quot; instead of the real message</li>
+<li>Fixed feedback survey rendering when dismissed</li>
+<li>Fixed Bash <code>grep -f FILE</code> / <code>rg -f FILE</code> not prompting when reading a pattern file outside the working directory</li>
+<li>Fixed stale subagent worktree cleanup removing worktrees that contain untracked files</li>
+<li>Fixed <code>sandbox.network.allowMachLookup</code> not taking effect on macOS</li>
+<li>Improved <code>/resume</code> filter hint labels and added project/worktree/branch names in the filter indicator</li>
+<li>Improved footer indicators (Focus, notifications) to stay on the mode-indicator row instead of wrapping at narrow terminal widths</li>
+<li>Improved <code>/agents</code> with a tabbed layout: a Running tab shows live subagents, and the Library tab adds Run agent and View running instance actions</li>
+<li>Improved <code>/reload-plugins</code> to pick up plugin-provided skills without requiring a restart</li>
+<li>Improved Accept Edits mode to auto-approve filesystem commands prefixed with safe env vars or process wrappers</li>
+<li>Improved Vim mode: <code>j</code>/<code>k</code> in NORMAL mode now navigate history and select the footer pill at the input boundary</li>
+<li>Improved hook errors in the transcript to include the first line of stderr for self-diagnosis without <code>--debug</code></li>
+<li>Improved OTEL tracing: interaction spans now correctly wrap full turns under concurrent SDK calls, and headless turns end spans per-turn</li>
+<li>Improved transcript entries to carry final token usage instead of streaming placeholders</li>
+<li>Updated the <code>/claude-api</code> skill to cover Managed Agents alongside Claude API</li>
+<li>[VSCode] Fixed false-positive &quot;requires git-bash&quot; error on Windows when <code>CLAUDE_CODE_GIT_BASH_PATH</code> is set or Git is installed at a default location</li>
+<li>Fixed <code>CLAUDE_CODE_MAX_CONTEXT_TOKENS</code> to honor <code>DISABLE_COMPACT</code> when it is set.</li>
+<li>Dropped <code>/compact</code> hints when <code>DISABLE_COMPACT</code> is set.</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Added interactive Google Vertex AI setup wizard accessible from the login screen when selecting &quot;3rd-party platform&quot;, guiding you through GCP authentication, project and region configuration, credential verification, and model pinning</li>
+<li>Added <code>CLAUDE_CODE_PERFORCE_MODE</code> env var: when set, Edit/Write/NotebookEdit fail on read-only files with a <code>p4 edit</code> hint instead of silently overwriting them</li>
+<li>Added Monitor tool for streaming events from background scripts</li>
+<li>Added subprocess sandboxing with PID namespace isolation on Linux when <code>CLAUDE_CODE_SUBPROCESS_ENV_SCRUB</code> is set, and <code>CLAUDE_CODE_SCRIPT_CAPS</code> env var to limit per-session script invocations</li>
+<li>Added <code>--exclude-dynamic-system-prompt-sections</code> flag to print mode for improved cross-user prompt caching</li>
+<li>Added <code>workspace.git_worktree</code> to the status line JSON input, set whenever the current directory is inside a linked git worktree</li>
+<li>Added W3C <code>TRACEPARENT</code> env var to Bash tool subprocesses when OTEL tracing is enabled, so child-process spans correctly parent to Claude Code&#39;s trace tree</li>
+<li>LSP: Claude Code now identifies itself to language servers via <code>clientInfo</code> in the initialize request</li>
+<li>Fixed a Bash tool permission bypass where a backslash-escaped flag could be auto-allowed as read-only and lead to arbitrary code execution</li>
+<li>Fixed compound Bash commands bypassing forced permission prompts for safety checks and explicit ask rules in auto and bypass-permissions modes</li>
+<li>Fixed read-only commands with env-var prefixes not prompting unless the var is known-safe (<code>LANG</code>, <code>TZ</code>, <code>NO_COLOR</code>, etc.)</li>
+<li>Fixed redirects to <code>/dev/tcp/...</code> or <code>/dev/udp/...</code> not prompting instead of auto-allowing</li>
+<li>Fixed stalled streaming responses timing out instead of falling back to non-streaming mode</li>
+<li>Fixed 429 retries burning all attempts in ~13s when the server returns a small <code>Retry-After</code> — exponential backoff now applies as a minimum</li>
+<li>Fixed MCP OAuth <code>oauth.authServerMetadataUrl</code> config override not being honored on token refresh after restart, affecting ADFS and similar IdPs</li>
+<li>Fixed capital letters being dropped to lowercase on xterm and VS Code integrated terminal when the kitty keyboard protocol is active</li>
+<li>Fixed macOS text replacements deleting the trigger word instead of inserting the substitution</li>
+<li>Fixed <code>--dangerously-skip-permissions</code> being silently downgraded to accept-edits mode after approving a write to a protected path via Bash</li>
+<li>Fixed managed-settings allow rules remaining active after an admin removed them, until process restart</li>
+<li>Fixed <code>permissions.additionalDirectories</code> changes not applying mid-session — removed directories lose access immediately and added ones work without restart</li>
+<li>Fixed removing a directory from <code>additionalDirectories</code> revoking access to the same directory passed via <code>--add-dir</code></li>
+<li>Fixed <code>Bash(cmd:*)</code> and <code>Bash(git commit *)</code> wildcard permission rules failing to match commands with extra spaces or tabs</li>
+<li>Fixed <code>Bash(...)</code> deny rules being downgraded to a prompt for piped commands that mix <code>cd</code> with other segments</li>
+<li>Fixed false Bash permission prompts for <code>cut -d /</code>, <code>paste -d /</code>, <code>column -s /</code>, <code>awk &#39;{print $1}&#39; file</code>, and filenames containing <code>%</code></li>
+<li>Fixed permission rules with names matching JavaScript prototype properties (e.g. <code>toString</code>) causing <code>settings.json</code> to be silently ignored</li>
+<li>Fixed agent team members not inheriting the leader&#39;s permission mode when using <code>--dangerously-skip-permissions</code></li>
+<li>Fixed a crash in fullscreen mode when hovering over MCP tool results</li>
+<li>Fixed copying wrapped URLs in fullscreen mode inserting spaces at line breaks</li>
+<li>Fixed file-edit diffs disappearing from the UI on <code>--resume</code> when the edited file was larger than 10KB</li>
+<li>Fixed several <code>/resume</code> picker issues: <code>--resume &lt;name&gt;</code> opening uneditable, filter reload wiping search state, empty list swallowing arrow keys, cross-project staleness, and transient task-status text replacing conversation summaries</li>
+<li>Fixed <code>/export</code> not honoring absolute paths and <code>~</code>, and silently rewriting user-supplied extensions to <code>.txt</code></li>
+<li>Fixed <code>/effort max</code> being denied for unknown or future model IDs</li>
+<li>Fixed slash command picker breaking when a plugin&#39;s frontmatter <code>name</code> is a YAML boolean keyword</li>
+<li>Fixed rate-limit upsell text being hidden after message remounts</li>
+<li>Fixed MCP tools with <code>_meta[&quot;anthropic/maxResultSizeChars&quot;]</code> not bypassing the token-based persist layer</li>
+<li>Fixed voice mode leaking dozens of space characters into the input when re-holding the push-to-talk key while the previous transcript is still processing</li>
+<li>Fixed <code>DISABLE_AUTOUPDATER</code> not fully suppressing the npm registry version check and symlink modification on npm-based installs</li>
+<li>Fixed a memory leak where Remote Control permission handler entries were retained for the lifetime of the session</li>
+<li>Fixed background subagents that fail with an error not reporting partial progress to the parent agent</li>
+<li>Fixed prompt-type Stop/SubagentStop hooks failing on long sessions, and hook evaluator API errors showing &quot;JSON validation failed&quot; instead of the real message</li>
+<li>Fixed feedback survey rendering when dismissed</li>
+<li>Fixed Bash <code>grep -f FILE</code> / <code>rg -f FILE</code> not prompting when reading a pattern file outside the working directory</li>
+<li>Fixed stale subagent worktree cleanup removing worktrees that contain untracked files</li>
+<li>Fixed <code>sandbox.network.allowMachLookup</code> not taking effect on macOS</li>
+<li>Improved <code>/resume</code> filter hint labels and added project/worktree/branch names in the filter indicator</li>
+<li>Improved footer indicators (Focus, notifications) to stay on the mode-indicator row instead of wrapping at narrow terminal widths</li>
+<li>Improved <code>/agents</code> with a tabbed layout: a Running tab shows live subagents, and the Library tab adds Run agent and View running instance actions</li>
+<li>Improved <code>/reload-plugins</code> to pick up plugin-provided skills without requiring a restart</li>
+<li>Improved Accept Edits mode to auto-approve filesystem commands prefixed with safe env vars or process wrappers</li>
+<li>Improved Vim mode: <code>j</code>/<code>k</code> in NORMAL mode now navigate history and select the footer pill at the input boundary</li>
+<li>Improved hook errors in the transcript to include the first line of stderr for self-diagnosis without <code>--debug</code></li>
+<li>Improved OTEL tracing: interaction spans now correctly wrap full turns under concurrent SDK calls, and headless turns end spans per-turn</li>
+<li>Improved transcript entries to carry final token usage instead of streaming placeholders</li>
+<li>Updated the <code>/claude-api</code> skill to cover Managed Agents alongside Claude API</li>
+<li>[VSCode] Fixed false-positive &quot;requires git-bash&quot; error on Windows when <code>CLAUDE_CODE_GIT_BASH_PATH</code> is set or Git is installed at a default location</li>
+<li>Fixed <code>CLAUDE_CODE_MAX_CONTEXT_TOKENS</code> to honor <code>DISABLE_COMPACT</code> when it is set.</li>
+<li>Dropped <code>/compact</code> hints when <code>DISABLE_COMPACT</code> is set.</li>
+</ul>
+]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[v2.1.97]]></title>
             <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.97</link>
@@ -2644,52 +2772,6 @@
 <ul>
 <li>Fixed a crash when agent teams setting changed between renders</li>
 <li>Fixed a bug where commands excluded from sandboxing (via <code>sandbox.excludedCommands</code> or <code>dangerouslyDisableSandbox</code>) could bypass the Bash ask permission rule when <code>autoAllowBashIfSandboxed</code> was enabled</li>
-</ul>
-]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[v2.1.33]]></title>
-            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.33</link>
-            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.33</guid>
-            <pubDate>Fri, 06 Feb 2026 01:47:21 GMT</pubDate>
-            <description><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>Fixed agent teammate sessions in tmux to send and receive messages</li>
-<li>Fixed warnings about agent teams not being available on your current plan</li>
-<li>Added <code>TeammateIdle</code> and <code>TaskCompleted</code> hook events for multi-agent workflows</li>
-<li>Added support for restricting which sub-agents can be spawned via <code>Task(agent_type)</code> syntax in agent &quot;tools&quot; frontmatter</li>
-<li>Added <code>memory</code> frontmatter field support for agents, enabling persistent memory with <code>user</code>, <code>project</code>, or <code>local</code> scope</li>
-<li>Added plugin name to skill descriptions and <code>/skills</code> menu for better discoverability</li>
-<li>Fixed an issue where submitting a new message while the model was in extended thinking would interrupt the thinking phase</li>
-<li>Fixed an API error that could occur when aborting mid-stream, where whitespace text combined with a thinking block would bypass normalization and produce an invalid request</li>
-<li>Fixed API proxy compatibility issue where 404 errors on streaming endpoints no longer triggered non-streaming fallback</li>
-<li>Fixed an issue where proxy settings configured via <code>settings.json</code> environment variables were not applied to WebFetch and other HTTP requests on the Node.js build</li>
-<li>Fixed <code>/resume</code> session picker showing raw XML markup instead of clean titles for sessions started with slash commands</li>
-<li>Improved error messages for API connection failures — now shows specific cause (e.g., ECONNREFUSED, SSL errors) instead of generic &quot;Connection error&quot;</li>
-<li>Errors from invalid managed settings are now surfaced</li>
-<li>VSCode: Added support for remote sessions, allowing OAuth users to browse and resume sessions from claude.ai</li>
-<li>VSCode: Added git branch and message count to the session picker, with support for searching by branch name</li>
-<li>VSCode: Fixed scroll-to-bottom under-scrolling on initial session load and session switch</li>
-</ul>
-]]></description>
-            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>Fixed agent teammate sessions in tmux to send and receive messages</li>
-<li>Fixed warnings about agent teams not being available on your current plan</li>
-<li>Added <code>TeammateIdle</code> and <code>TaskCompleted</code> hook events for multi-agent workflows</li>
-<li>Added support for restricting which sub-agents can be spawned via <code>Task(agent_type)</code> syntax in agent &quot;tools&quot; frontmatter</li>
-<li>Added <code>memory</code> frontmatter field support for agents, enabling persistent memory with <code>user</code>, <code>project</code>, or <code>local</code> scope</li>
-<li>Added plugin name to skill descriptions and <code>/skills</code> menu for better discoverability</li>
-<li>Fixed an issue where submitting a new message while the model was in extended thinking would interrupt the thinking phase</li>
-<li>Fixed an API error that could occur when aborting mid-stream, where whitespace text combined with a thinking block would bypass normalization and produce an invalid request</li>
-<li>Fixed API proxy compatibility issue where 404 errors on streaming endpoints no longer triggered non-streaming fallback</li>
-<li>Fixed an issue where proxy settings configured via <code>settings.json</code> environment variables were not applied to WebFetch and other HTTP requests on the Node.js build</li>
-<li>Fixed <code>/resume</code> session picker showing raw XML markup instead of clean titles for sessions started with slash commands</li>
-<li>Improved error messages for API connection failures — now shows specific cause (e.g., ECONNREFUSED, SSL errors) instead of generic &quot;Connection error&quot;</li>
-<li>Errors from invalid managed settings are now surfaced</li>
-<li>VSCode: Added support for remote sessions, allowing OAuth users to browse and resume sessions from claude.ai</li>
-<li>VSCode: Added git branch and message count to the session picker, with support for searching by branch name</li>
-<li>VSCode: Fixed scroll-to-bottom under-scrolling on initial session load and session switch</li>
 </ul>
 ]]></content:encoded>
         </item>
