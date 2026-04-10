@@ -4,11 +4,117 @@
         <title>claude-code Releases</title>
         <link>https://github.com/anthropics/claude-code/releases</link>
         <description>GitHub releases for anthropics/claude-code</description>
-        <lastBuildDate>Fri, 10 Apr 2026 05:16:35 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 10 Apr 2026 19:03:41 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>ai-rss-feeds (https://github.com/leontloveless/ai-rss-feeds)</generator>
         <language>en</language>
         <atom:link href="https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/claude-code-releases.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[v2.1.101]]></title>
+            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.101</link>
+            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.101</guid>
+            <pubDate>Fri, 10 Apr 2026 19:03:41 GMT</pubDate>
+            <description><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Added <code>/team-onboarding</code> command to generate a teammate ramp-up guide from your local Claude Code usage</li>
+<li>Added OS CA certificate store trust by default, so enterprise TLS proxies work without extra setup (set <code>CLAUDE_CODE_CERT_STORE=bundled</code> to use only bundled CAs)</li>
+<li><code>/ultraplan</code> and other remote-session features now auto-create a default cloud environment instead of requiring web setup first</li>
+<li>Improved brief mode to retry once when Claude responds with plain text instead of a structured message</li>
+<li>Improved focus mode: Claude now writes more self-contained summaries since it knows you only see its final message</li>
+<li>Improved tool-not-available errors to explain why and how to proceed when the model calls a tool that exists but isn&#39;t available in the current context</li>
+<li>Improved rate-limit retry messages to show which limit was hit and when it resets instead of an opaque seconds countdown</li>
+<li>Improved refusal error messages to include the API-provided explanation when available</li>
+<li>Improved <code>claude -p --resume &lt;name&gt;</code> to accept session titles set via <code>/rename</code> or <code>--name</code></li>
+<li>Improved settings resilience: an unrecognized hook event name in <code>settings.json</code> no longer causes the entire file to be ignored</li>
+<li>Improved plugin hooks from plugins force-enabled by managed settings to run when <code>allowManagedHooksOnly</code> is set</li>
+<li>Improved <code>/plugin</code> and <code>claude plugin update</code> to show a warning when the marketplace could not be refreshed, instead of silently reporting a stale version</li>
+<li>Improved plan mode to hide the &quot;Refine with Ultraplan&quot; option when the user&#39;s org or auth setup can&#39;t reach Claude Code on the web</li>
+<li>Improved beta tracing to honor <code>OTEL_LOG_USER_PROMPTS</code>, <code>OTEL_LOG_TOOL_DETAILS</code>, and <code>OTEL_LOG_TOOL_CONTENT</code>; sensitive span attributes are no longer emitted unless opted in</li>
+<li>Improved SDK <code>query()</code> to clean up subprocess and temp files when consumers <code>break</code> from <code>for await</code> or use <code>await using</code></li>
+<li>Fixed a command injection vulnerability in the POSIX <code>which</code> fallback used by LSP binary detection</li>
+<li>Fixed a memory leak where long sessions retained dozens of historical copies of the message list in the virtual scroller</li>
+<li>Fixed <code>--resume</code>/<code>--continue</code> losing conversation context on large sessions when the loader anchored on a dead-end branch instead of the live conversation</li>
+<li>Fixed <code>--resume</code> chain recovery bridging into an unrelated subagent conversation when a subagent message landed near a main-chain write gap</li>
+<li>Fixed a crash on <code>--resume</code> when a persisted Edit/Write tool result was missing its <code>file_path</code></li>
+<li>Fixed a hardcoded 5-minute request timeout that aborted slow backends (local LLMs, extended thinking, slow gateways) regardless of <code>API_TIMEOUT_MS</code></li>
+<li>Fixed <code>permissions.deny</code> rules not overriding a PreToolUse hook&#39;s <code>permissionDecision: &quot;ask&quot;</code> — previously the hook could downgrade a deny into a prompt</li>
+<li>Fixed <code>--setting-sources</code> without <code>user</code> causing background cleanup to ignore <code>cleanupPeriodDays</code> and delete conversation history older than 30 days</li>
+<li>Fixed Bedrock SigV4 authentication failing with 403 when <code>ANTHROPIC_AUTH_TOKEN</code>, <code>apiKeyHelper</code>, or <code>ANTHROPIC_CUSTOM_HEADERS</code> set an Authorization header</li>
+<li>Fixed <code>claude -w &lt;name&gt;</code> failing with &quot;already exists&quot; after a previous session&#39;s worktree cleanup left a stale directory</li>
+<li>Fixed subagents not inheriting MCP tools from dynamically-injected servers</li>
+<li>Fixed sub-agents running in isolated worktrees being denied Read/Edit access to files inside their own worktree</li>
+<li>Fixed sandboxed Bash commands failing with <code>mktemp: No such file or directory</code> after a fresh boot</li>
+<li>Fixed <code>claude mcp serve</code> tool calls failing with &quot;Tool execution failed&quot; in MCP clients that validate <code>outputSchema</code></li>
+<li>Fixed <code>RemoteTrigger</code> tool&#39;s <code>run</code> action sending an empty body and being rejected by the server</li>
+<li>Fixed several <code>/resume</code> picker issues: narrow default view hiding sessions from other projects, unreachable preview on Windows Terminal, incorrect cwd in worktrees, session-not-found errors not surfacing in stderr, terminal title not being set, and resume hint overlapping the prompt input</li>
+<li>Fixed Grep tool ENOENT when the embedded ripgrep binary path becomes stale (VS Code extension auto-update, macOS App Translocation); now falls back to system <code>rg</code> and self-heals mid-session</li>
+<li>Fixed <code>/btw</code> writing a copy of the entire conversation to disk on every use</li>
+<li>Fixed <code>/context</code> Free space and Messages breakdown disagreeing with the header percentage</li>
+<li>Fixed several plugin issues: slash commands resolving to the wrong plugin with duplicate <code>name:</code> frontmatter, <code>/plugin update</code> failing with <code>ENAMETOOLONG</code>, Discover showing already-installed plugins, directory-source plugins loading from a stale version cache, and skills not honoring <code>context: fork</code> and <code>agent</code> frontmatter fields</li>
+<li>Fixed the <code>/mcp</code> menu offering OAuth-specific actions for MCP servers configured with <code>headersHelper</code>; Reconnect is now offered instead to re-invoke the helper script</li>
+<li>Fixed <code>ctrl+]</code>, <code>ctrl+\</code>, and <code>ctrl+^</code> keybindings not firing in terminals that send raw C0 control bytes (Terminal.app, default iTerm2, xterm)</li>
+<li>Fixed <code>/login</code> OAuth URL rendering with padding that prevented clean mouse selection</li>
+<li>Fixed rendering issues: flicker in non-fullscreen mode when content above the visible area changed, terminal scrollback being wiped during long sessions in non-fullscreen mode, and mouse-scroll escape sequences occasionally leaking into the prompt as text</li>
+<li>Fixed crash when <code>settings.json</code> env values are numbers instead of strings</li>
+<li>Fixed in-app settings writes (e.g. <code>/add-dir --remember</code>, <code>/config</code>) not refreshing the in-memory snapshot, preventing removed directories from being revoked mid-session</li>
+<li>Fixed custom keybindings (<code>~/.claude/keybindings.json</code>) not loading on Bedrock, Vertex, and other third-party providers</li>
+<li>Fixed <code>claude --continue -p</code> not correctly continuing sessions created by <code>-p</code> or the SDK</li>
+<li>Fixed several Remote Control issues: worktrees removed on session crash, connection failures not persisting in the transcript, spurious &quot;Disconnected&quot; indicator in brief mode for local sessions, and <code>/remote-control</code> failing over SSH when only <code>CLAUDE_CODE_ORGANIZATION_UUID</code> is set</li>
+<li>Fixed <code>/insights</code> sometimes omitting the report file link from its response</li>
+<li>[VSCode] Fixed the file attachment below the chat input not clearing when the last editor tab is closed</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Added <code>/team-onboarding</code> command to generate a teammate ramp-up guide from your local Claude Code usage</li>
+<li>Added OS CA certificate store trust by default, so enterprise TLS proxies work without extra setup (set <code>CLAUDE_CODE_CERT_STORE=bundled</code> to use only bundled CAs)</li>
+<li><code>/ultraplan</code> and other remote-session features now auto-create a default cloud environment instead of requiring web setup first</li>
+<li>Improved brief mode to retry once when Claude responds with plain text instead of a structured message</li>
+<li>Improved focus mode: Claude now writes more self-contained summaries since it knows you only see its final message</li>
+<li>Improved tool-not-available errors to explain why and how to proceed when the model calls a tool that exists but isn&#39;t available in the current context</li>
+<li>Improved rate-limit retry messages to show which limit was hit and when it resets instead of an opaque seconds countdown</li>
+<li>Improved refusal error messages to include the API-provided explanation when available</li>
+<li>Improved <code>claude -p --resume &lt;name&gt;</code> to accept session titles set via <code>/rename</code> or <code>--name</code></li>
+<li>Improved settings resilience: an unrecognized hook event name in <code>settings.json</code> no longer causes the entire file to be ignored</li>
+<li>Improved plugin hooks from plugins force-enabled by managed settings to run when <code>allowManagedHooksOnly</code> is set</li>
+<li>Improved <code>/plugin</code> and <code>claude plugin update</code> to show a warning when the marketplace could not be refreshed, instead of silently reporting a stale version</li>
+<li>Improved plan mode to hide the &quot;Refine with Ultraplan&quot; option when the user&#39;s org or auth setup can&#39;t reach Claude Code on the web</li>
+<li>Improved beta tracing to honor <code>OTEL_LOG_USER_PROMPTS</code>, <code>OTEL_LOG_TOOL_DETAILS</code>, and <code>OTEL_LOG_TOOL_CONTENT</code>; sensitive span attributes are no longer emitted unless opted in</li>
+<li>Improved SDK <code>query()</code> to clean up subprocess and temp files when consumers <code>break</code> from <code>for await</code> or use <code>await using</code></li>
+<li>Fixed a command injection vulnerability in the POSIX <code>which</code> fallback used by LSP binary detection</li>
+<li>Fixed a memory leak where long sessions retained dozens of historical copies of the message list in the virtual scroller</li>
+<li>Fixed <code>--resume</code>/<code>--continue</code> losing conversation context on large sessions when the loader anchored on a dead-end branch instead of the live conversation</li>
+<li>Fixed <code>--resume</code> chain recovery bridging into an unrelated subagent conversation when a subagent message landed near a main-chain write gap</li>
+<li>Fixed a crash on <code>--resume</code> when a persisted Edit/Write tool result was missing its <code>file_path</code></li>
+<li>Fixed a hardcoded 5-minute request timeout that aborted slow backends (local LLMs, extended thinking, slow gateways) regardless of <code>API_TIMEOUT_MS</code></li>
+<li>Fixed <code>permissions.deny</code> rules not overriding a PreToolUse hook&#39;s <code>permissionDecision: &quot;ask&quot;</code> — previously the hook could downgrade a deny into a prompt</li>
+<li>Fixed <code>--setting-sources</code> without <code>user</code> causing background cleanup to ignore <code>cleanupPeriodDays</code> and delete conversation history older than 30 days</li>
+<li>Fixed Bedrock SigV4 authentication failing with 403 when <code>ANTHROPIC_AUTH_TOKEN</code>, <code>apiKeyHelper</code>, or <code>ANTHROPIC_CUSTOM_HEADERS</code> set an Authorization header</li>
+<li>Fixed <code>claude -w &lt;name&gt;</code> failing with &quot;already exists&quot; after a previous session&#39;s worktree cleanup left a stale directory</li>
+<li>Fixed subagents not inheriting MCP tools from dynamically-injected servers</li>
+<li>Fixed sub-agents running in isolated worktrees being denied Read/Edit access to files inside their own worktree</li>
+<li>Fixed sandboxed Bash commands failing with <code>mktemp: No such file or directory</code> after a fresh boot</li>
+<li>Fixed <code>claude mcp serve</code> tool calls failing with &quot;Tool execution failed&quot; in MCP clients that validate <code>outputSchema</code></li>
+<li>Fixed <code>RemoteTrigger</code> tool&#39;s <code>run</code> action sending an empty body and being rejected by the server</li>
+<li>Fixed several <code>/resume</code> picker issues: narrow default view hiding sessions from other projects, unreachable preview on Windows Terminal, incorrect cwd in worktrees, session-not-found errors not surfacing in stderr, terminal title not being set, and resume hint overlapping the prompt input</li>
+<li>Fixed Grep tool ENOENT when the embedded ripgrep binary path becomes stale (VS Code extension auto-update, macOS App Translocation); now falls back to system <code>rg</code> and self-heals mid-session</li>
+<li>Fixed <code>/btw</code> writing a copy of the entire conversation to disk on every use</li>
+<li>Fixed <code>/context</code> Free space and Messages breakdown disagreeing with the header percentage</li>
+<li>Fixed several plugin issues: slash commands resolving to the wrong plugin with duplicate <code>name:</code> frontmatter, <code>/plugin update</code> failing with <code>ENAMETOOLONG</code>, Discover showing already-installed plugins, directory-source plugins loading from a stale version cache, and skills not honoring <code>context: fork</code> and <code>agent</code> frontmatter fields</li>
+<li>Fixed the <code>/mcp</code> menu offering OAuth-specific actions for MCP servers configured with <code>headersHelper</code>; Reconnect is now offered instead to re-invoke the helper script</li>
+<li>Fixed <code>ctrl+]</code>, <code>ctrl+\</code>, and <code>ctrl+^</code> keybindings not firing in terminals that send raw C0 control bytes (Terminal.app, default iTerm2, xterm)</li>
+<li>Fixed <code>/login</code> OAuth URL rendering with padding that prevented clean mouse selection</li>
+<li>Fixed rendering issues: flicker in non-fullscreen mode when content above the visible area changed, terminal scrollback being wiped during long sessions in non-fullscreen mode, and mouse-scroll escape sequences occasionally leaking into the prompt as text</li>
+<li>Fixed crash when <code>settings.json</code> env values are numbers instead of strings</li>
+<li>Fixed in-app settings writes (e.g. <code>/add-dir --remember</code>, <code>/config</code>) not refreshing the in-memory snapshot, preventing removed directories from being revoked mid-session</li>
+<li>Fixed custom keybindings (<code>~/.claude/keybindings.json</code>) not loading on Bedrock, Vertex, and other third-party providers</li>
+<li>Fixed <code>claude --continue -p</code> not correctly continuing sessions created by <code>-p</code> or the SDK</li>
+<li>Fixed several Remote Control issues: worktrees removed on session crash, connection failures not persisting in the transcript, spurious &quot;Disconnected&quot; indicator in brief mode for local sessions, and <code>/remote-control</code> failing over SSH when only <code>CLAUDE_CODE_ORGANIZATION_UUID</code> is set</li>
+<li>Fixed <code>/insights</code> sometimes omitting the report file link from its response</li>
+<li>[VSCode] Fixed the file attachment below the chat input not clearing when the last editor tab is closed</li>
+</ul>
+]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[v2.1.100]]></title>
             <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.100</link>
@@ -2746,22 +2852,6 @@
             <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
 <ul>
 <li>Fixed an issue where /fast was not immediately available after enabling /extra-usage</li>
-</ul>
-]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[v2.1.36]]></title>
-            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.36</link>
-            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.36</guid>
-            <pubDate>Sat, 07 Feb 2026 18:02:15 GMT</pubDate>
-            <description><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>Fast mode is now available for Opus 4.6. Learn more at <a href="https://code.claude.com/docs/en/fast-mode">https://code.claude.com/docs/en/fast-mode</a></li>
-</ul>
-]]></description>
-            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>Fast mode is now available for Opus 4.6. Learn more at <a href="https://code.claude.com/docs/en/fast-mode">https://code.claude.com/docs/en/fast-mode</a></li>
 </ul>
 ]]></content:encoded>
         </item>
