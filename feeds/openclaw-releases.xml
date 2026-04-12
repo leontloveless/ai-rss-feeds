@@ -4,11 +4,81 @@
         <title>OpenClaw Releases</title>
         <link>https://github.com/openclaw/openclaw/releases</link>
         <description>GitHub releases for OpenClaw - AI assistant framework</description>
-        <lastBuildDate>Sat, 11 Apr 2026 02:43:25 GMT</lastBuildDate>
+        <lastBuildDate>Sun, 12 Apr 2026 00:18:03 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>ai-rss-feeds (https://github.com/leontloveless/ai-rss-feeds)</generator>
         <language>en</language>
         <atom:link href="https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/openclaw-releases.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[openclaw 2026.4.11]]></title>
+            <link>https://github.com/openclaw/openclaw/releases/tag/v2026.4.11</link>
+            <guid>https://github.com/openclaw/openclaw/releases/tag/v2026.4.11</guid>
+            <pubDate>Sun, 12 Apr 2026 00:18:03 GMT</pubDate>
+            <description><![CDATA[<h3>Changes</h3>
+<ul>
+<li>Dreaming/memory-wiki: add ChatGPT import ingestion plus new <code>Imported Insights</code> and <code>Memory Palace</code> diary subtabs so Dreaming can inspect imported source chats, compiled wiki pages, and full source pages directly from the UI. (#64505)</li>
+<li>Control UI/webchat: render assistant media/reply/voice directives as structured chat bubbles, add the <code>[embed ...]</code> rich output tag, and gate external embed URLs behind config. (#64104)</li>
+<li>Tools/video_generate: add URL-only generated asset delivery, typed <code>providerOptions</code>, reference audio inputs, per-asset role hints, <code>adaptive</code> aspect-ratio support, and a higher image-input cap so video providers can expose richer generation modes without forcing large files into memory. (#61987, #61988) Thanks @xieyongliang.</li>
+<li>Feishu: improve document comment sessions with richer context parsing, comment reactions, and typing feedback so document-thread conversations behave more like chat conversations. (#63785)</li>
+<li>Microsoft Teams: add reaction support, reaction listing, Graph pagination, and delegated OAuth setup for sending reactions while preserving application-auth read paths. (#51646)</li>
+<li>Plugins: allow plugin manifests to declare activation and setup descriptors so plugin setup flows can describe required auth, pairing, and configuration steps without hardcoded core special cases. (#64780)</li>
+<li>Ollama: cache <code>/api/show</code> context-window and capability metadata during model discovery so repeated picker refreshes stop refetching unchanged models, while still retrying after empty responses and invalidating on digest changes. (#64753) Thanks @ImLukeF.</li>
+<li>Models/providers: surface how configured OpenAI-compatible endpoints are classified in embedded-agent debug logs, so local and proxy routing issues are easier to diagnose. (#64754) Thanks @ImLukeF.</li>
+<li>QA/parity: add the GPT-5.4 vs Opus 4.6 agentic parity report gate with shared scenario coverage checks, stricter evidence heuristics, and skipped-scenario accounting for maintainer review. (#64441) Thanks @100yenadmin.</li>
+</ul>
+<h3>Fixes</h3>
+<ul>
+<li>OpenAI/Codex OAuth: stop rewriting the upstream authorize URL scopes so new Codex sign-ins do not fail with <code>invalid_scope</code> before returning an authorization code. (#64713) Thanks @fuller-stack-dev.</li>
+<li>Audio transcription: disable pinned DNS only for OpenAI-compatible multipart requests, while still validating hostnames, so OpenAI, Groq, and Mistral transcription works again without weakening other request paths. (#64766) Thanks @GodsBoy.</li>
+<li>macOS/Talk Mode: after granting microphone permission on first enable, continue starting Talk Mode instead of requiring a second toggle. (#62459) Thanks @ggarber.</li>
+<li>Control UI/webchat: persist agent-run TTS audio replies into webchat history and preserve interleaved tool card pairing so generated audio and mixed tool output stay attached to the right messages. (#63514) Thanks @bittoby.</li>
+<li>WhatsApp: honor the configured default account when the active listener helper is used without an explicit account id, so named default accounts do not get registered under <code>default</code>. (#53918) Thanks @yhyatt.</li>
+<li>ACP/agents: suppress commentary-phase child assistant relay text in ACP parent stream updates, so spawned child runs stop leaking internal progress chatter into the parent session. Thanks @vincentkoc.</li>
+<li>Agents/timeouts: honor explicit run timeouts in the LLM idle watchdog and align default timeout config so slow models can keep working until the configured limit instead of using the wrong idle window.</li>
+<li>Config: include <code>asyncCompletion</code> in the generated zod schema so documented async completion config no longer fails with an unrecognized-key error. (#63618)</li>
+<li>Google/Veo: stop sending the unsupported <code>numberOfVideos</code> request field so Gemini Developer API Veo runs do not fail before OpenClaw can complete the intended Google video generation path. (#64723) Thanks @velvet-shark.</li>
+<li>QA/packaging: stop packaged CLI startup and completion cache generation from reading repo-only QA scenario markdown, ship the bundled QA scenario pack in npm releases, and keep <code>openclaw completion --write-state</code> working even if QA setup is broken. (#64648) Thanks @obviyus.</li>
+<li>Codex/QA: keep Codex app-server coordination chatter out of visible replies, add a live QA leak scenario, and classify leaked harness meta text as a QA failure instead of a successful reply. Thanks @vincentkoc.</li>
+<li>WhatsApp: route <code>message react</code> through the gateway-owned action path so reactions use the live WhatsApp listener in both DM and group chats, matching <code>message send</code> and <code>message poll</code>. Thanks @mcaxtr.</li>
+<li>Auto-reply/WhatsApp: preserve inbound image attachment notes after media understanding so image edits keep the real saved media path instead of hallucinating a missing local path. (#64918) Thanks @ngutman.</li>
+<li>Telegram/sessions: keep topic-scoped session initialization on the canonical topic transcript path when inbound turns omit <code>MessageThreadId</code>, so one topic session no longer alternates between bare and topic-qualified transcript files. (#64869) Thanks @jalehman.</li>
+<li>Agents/failover: scope assistant-side fallback classification and surfaced provider errors to the current attempt instead of stale session history, so cross-provider fallback runs stop inheriting the previous provider&#39;s failure. (#62907) Thanks @stainlu.</li>
+<li>MiniMax/OAuth: write <code>api: &quot;anthropic-messages&quot;</code> and <code>authHeader: true</code> into the <code>minimax-portal</code> config patch during <code>openclaw configure</code>, so re-authenticated portal setups keep Bearer auth routing working. (#64964) Thanks @ryanlee666.</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h3>Changes</h3>
+<ul>
+<li>Dreaming/memory-wiki: add ChatGPT import ingestion plus new <code>Imported Insights</code> and <code>Memory Palace</code> diary subtabs so Dreaming can inspect imported source chats, compiled wiki pages, and full source pages directly from the UI. (#64505)</li>
+<li>Control UI/webchat: render assistant media/reply/voice directives as structured chat bubbles, add the <code>[embed ...]</code> rich output tag, and gate external embed URLs behind config. (#64104)</li>
+<li>Tools/video_generate: add URL-only generated asset delivery, typed <code>providerOptions</code>, reference audio inputs, per-asset role hints, <code>adaptive</code> aspect-ratio support, and a higher image-input cap so video providers can expose richer generation modes without forcing large files into memory. (#61987, #61988) Thanks @xieyongliang.</li>
+<li>Feishu: improve document comment sessions with richer context parsing, comment reactions, and typing feedback so document-thread conversations behave more like chat conversations. (#63785)</li>
+<li>Microsoft Teams: add reaction support, reaction listing, Graph pagination, and delegated OAuth setup for sending reactions while preserving application-auth read paths. (#51646)</li>
+<li>Plugins: allow plugin manifests to declare activation and setup descriptors so plugin setup flows can describe required auth, pairing, and configuration steps without hardcoded core special cases. (#64780)</li>
+<li>Ollama: cache <code>/api/show</code> context-window and capability metadata during model discovery so repeated picker refreshes stop refetching unchanged models, while still retrying after empty responses and invalidating on digest changes. (#64753) Thanks @ImLukeF.</li>
+<li>Models/providers: surface how configured OpenAI-compatible endpoints are classified in embedded-agent debug logs, so local and proxy routing issues are easier to diagnose. (#64754) Thanks @ImLukeF.</li>
+<li>QA/parity: add the GPT-5.4 vs Opus 4.6 agentic parity report gate with shared scenario coverage checks, stricter evidence heuristics, and skipped-scenario accounting for maintainer review. (#64441) Thanks @100yenadmin.</li>
+</ul>
+<h3>Fixes</h3>
+<ul>
+<li>OpenAI/Codex OAuth: stop rewriting the upstream authorize URL scopes so new Codex sign-ins do not fail with <code>invalid_scope</code> before returning an authorization code. (#64713) Thanks @fuller-stack-dev.</li>
+<li>Audio transcription: disable pinned DNS only for OpenAI-compatible multipart requests, while still validating hostnames, so OpenAI, Groq, and Mistral transcription works again without weakening other request paths. (#64766) Thanks @GodsBoy.</li>
+<li>macOS/Talk Mode: after granting microphone permission on first enable, continue starting Talk Mode instead of requiring a second toggle. (#62459) Thanks @ggarber.</li>
+<li>Control UI/webchat: persist agent-run TTS audio replies into webchat history and preserve interleaved tool card pairing so generated audio and mixed tool output stay attached to the right messages. (#63514) Thanks @bittoby.</li>
+<li>WhatsApp: honor the configured default account when the active listener helper is used without an explicit account id, so named default accounts do not get registered under <code>default</code>. (#53918) Thanks @yhyatt.</li>
+<li>ACP/agents: suppress commentary-phase child assistant relay text in ACP parent stream updates, so spawned child runs stop leaking internal progress chatter into the parent session. Thanks @vincentkoc.</li>
+<li>Agents/timeouts: honor explicit run timeouts in the LLM idle watchdog and align default timeout config so slow models can keep working until the configured limit instead of using the wrong idle window.</li>
+<li>Config: include <code>asyncCompletion</code> in the generated zod schema so documented async completion config no longer fails with an unrecognized-key error. (#63618)</li>
+<li>Google/Veo: stop sending the unsupported <code>numberOfVideos</code> request field so Gemini Developer API Veo runs do not fail before OpenClaw can complete the intended Google video generation path. (#64723) Thanks @velvet-shark.</li>
+<li>QA/packaging: stop packaged CLI startup and completion cache generation from reading repo-only QA scenario markdown, ship the bundled QA scenario pack in npm releases, and keep <code>openclaw completion --write-state</code> working even if QA setup is broken. (#64648) Thanks @obviyus.</li>
+<li>Codex/QA: keep Codex app-server coordination chatter out of visible replies, add a live QA leak scenario, and classify leaked harness meta text as a QA failure instead of a successful reply. Thanks @vincentkoc.</li>
+<li>WhatsApp: route <code>message react</code> through the gateway-owned action path so reactions use the live WhatsApp listener in both DM and group chats, matching <code>message send</code> and <code>message poll</code>. Thanks @mcaxtr.</li>
+<li>Auto-reply/WhatsApp: preserve inbound image attachment notes after media understanding so image edits keep the real saved media path instead of hallucinating a missing local path. (#64918) Thanks @ngutman.</li>
+<li>Telegram/sessions: keep topic-scoped session initialization on the canonical topic transcript path when inbound turns omit <code>MessageThreadId</code>, so one topic session no longer alternates between bare and topic-qualified transcript files. (#64869) Thanks @jalehman.</li>
+<li>Agents/failover: scope assistant-side fallback classification and surfaced provider errors to the current attempt instead of stale session history, so cross-provider fallback runs stop inheriting the previous provider&#39;s failure. (#62907) Thanks @stainlu.</li>
+<li>MiniMax/OAuth: write <code>api: &quot;anthropic-messages&quot;</code> and <code>authHeader: true</code> into the <code>minimax-portal</code> config patch during <code>openclaw configure</code>, so re-authenticated portal setups keep Bearer auth routing working. (#64964) Thanks @ryanlee666.</li>
+</ul>
+]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[openclaw 2026.4.10]]></title>
             <link>https://github.com/openclaw/openclaw/releases/tag/v2026.4.10</link>
@@ -7650,58 +7720,6 @@
 <li>Memory/QMD: reuse default model cache across agents instead of re-downloading per agent. (#12114) Thanks @tyler6204.</li>
 <li>Media understanding: recognize <code>.caf</code> audio attachments for transcription. (#10982) Thanks @succ985.</li>
 <li>State dir: honor <code>OPENCLAW_STATE_DIR</code> for default device identity and canvas storage paths. (#4824) Thanks @kossoy.</li>
-</ul>
-]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[openclaw 2026.2.6]]></title>
-            <link>https://github.com/openclaw/openclaw/releases/tag/v2026.2.6</link>
-            <guid>https://github.com/openclaw/openclaw/releases/tag/v2026.2.6</guid>
-            <pubDate>Sat, 07 Feb 2026 02:27:43 GMT</pubDate>
-            <description><![CDATA[<h3>Changes</h3>
-<ul>
-<li>Models: support Anthropic Opus 4.6 and OpenAI Codex gpt-5.3-codex (forward-compat fallbacks). (#9853, #10720, #9995) Thanks @TinyTb, @calvin-hpnet, @tyler6204.</li>
-<li>Providers: add xAI (Grok) support. (#9885) Thanks @grp06.</li>
-<li>Web UI: add token usage dashboard. (#10072) Thanks @Takhoffman.</li>
-<li>Memory: native Voyage AI support. (#7078) Thanks @mcinteerj.</li>
-<li>Sessions: cap sessions_history payloads to reduce context overflow. (#10000) Thanks @gut-puncture.</li>
-<li>CLI: sort commands alphabetically in help output. (#8068) Thanks @deepsoumya617.</li>
-<li>Agents: bump pi-mono to 0.52.7; add embedded forward-compat fallback for Opus 4.6 model ids.</li>
-</ul>
-<h3>Fixes</h3>
-<ul>
-<li>Telegram: auto-inject DM topic threadId in message tool + subagent announce. (#7235) Thanks @Lukavyi.</li>
-<li>Security: require auth for Gateway canvas host and A2UI assets. (#9518) Thanks @coygeek.</li>
-<li>Cron: fix scheduling and reminder delivery regressions; harden next-run recompute + timer re-arming + legacy schedule fields. (#9733, #9823, #9948, #9932) Thanks @tyler6204, @pycckuu, @j2h4u, @fujiwara-tofu-shop.</li>
-<li>Update: harden Control UI asset handling in update flow. (#10146) Thanks @gumadeiras.</li>
-<li>Security: add skill/plugin code safety scanner; redact credentials from config.get gateway responses. (#9806, #9858) Thanks @abdelsfane.</li>
-<li>Exec approvals: coerce bare string allowlist entries to objects. (#9903) Thanks @mcaxtr.</li>
-<li>Slack: add mention stripPatterns for /new and /reset. (#9971) Thanks @ironbyte-rgb.</li>
-<li>Chrome extension: fix bundled path resolution. (#8914) Thanks @kelvinCB.</li>
-<li>Compaction/errors: allow multiple compaction retries on context overflow; show clear billing errors. (#8928, #8391) Thanks @Glucksberg.</li>
-</ul>
-]]></description>
-            <content:encoded><![CDATA[<h3>Changes</h3>
-<ul>
-<li>Models: support Anthropic Opus 4.6 and OpenAI Codex gpt-5.3-codex (forward-compat fallbacks). (#9853, #10720, #9995) Thanks @TinyTb, @calvin-hpnet, @tyler6204.</li>
-<li>Providers: add xAI (Grok) support. (#9885) Thanks @grp06.</li>
-<li>Web UI: add token usage dashboard. (#10072) Thanks @Takhoffman.</li>
-<li>Memory: native Voyage AI support. (#7078) Thanks @mcinteerj.</li>
-<li>Sessions: cap sessions_history payloads to reduce context overflow. (#10000) Thanks @gut-puncture.</li>
-<li>CLI: sort commands alphabetically in help output. (#8068) Thanks @deepsoumya617.</li>
-<li>Agents: bump pi-mono to 0.52.7; add embedded forward-compat fallback for Opus 4.6 model ids.</li>
-</ul>
-<h3>Fixes</h3>
-<ul>
-<li>Telegram: auto-inject DM topic threadId in message tool + subagent announce. (#7235) Thanks @Lukavyi.</li>
-<li>Security: require auth for Gateway canvas host and A2UI assets. (#9518) Thanks @coygeek.</li>
-<li>Cron: fix scheduling and reminder delivery regressions; harden next-run recompute + timer re-arming + legacy schedule fields. (#9733, #9823, #9948, #9932) Thanks @tyler6204, @pycckuu, @j2h4u, @fujiwara-tofu-shop.</li>
-<li>Update: harden Control UI asset handling in update flow. (#10146) Thanks @gumadeiras.</li>
-<li>Security: add skill/plugin code safety scanner; redact credentials from config.get gateway responses. (#9806, #9858) Thanks @abdelsfane.</li>
-<li>Exec approvals: coerce bare string allowlist entries to objects. (#9903) Thanks @mcaxtr.</li>
-<li>Slack: add mention stripPatterns for /new and /reset. (#9971) Thanks @ironbyte-rgb.</li>
-<li>Chrome extension: fix bundled path resolution. (#8914) Thanks @kelvinCB.</li>
-<li>Compaction/errors: allow multiple compaction retries on context overflow; show clear billing errors. (#8928, #8391) Thanks @Glucksberg.</li>
 </ul>
 ]]></content:encoded>
         </item>
