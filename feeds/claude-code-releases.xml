@@ -4,11 +4,95 @@
         <title>claude-code Releases</title>
         <link>https://github.com/anthropics/claude-code/releases</link>
         <description>GitHub releases for anthropics/claude-code</description>
-        <lastBuildDate>Wed, 15 Apr 2026 22:07:18 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 16 Apr 2026 15:18:45 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>ai-rss-feeds (https://github.com/leontloveless/ai-rss-feeds)</generator>
         <language>en</language>
         <atom:link href="https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/claude-code-releases.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[v2.1.111]]></title>
+            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.111</link>
+            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.111</guid>
+            <pubDate>Thu, 16 Apr 2026 15:18:45 GMT</pubDate>
+            <description><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Claude Opus 4.7 xhigh is now available! Use /effort to tune speed vs. intelligence</li>
+<li>Auto mode is now available for Max subscribers when using Opus 4.7</li>
+<li>Added <code>xhigh</code> effort level for Opus 4.7, sitting between <code>high</code> and <code>max</code>. Available via <code>/effort</code>, <code>--effort</code>, and the model picker; other models fall back to <code>high</code></li>
+<li><code>/effort</code> now opens an interactive slider when called without arguments, with arrow-key navigation between levels and Enter to confirm</li>
+<li>Added &quot;Auto (match terminal)&quot; theme option that matches your terminal&#39;s dark/light mode — select it from <code>/theme</code></li>
+<li>Added <code>/less-permission-prompts</code> skill — scans transcripts for common read-only Bash and MCP tool calls and proposes a prioritized allowlist for <code>.claude/settings.json</code></li>
+<li>Added <code>/ultrareview</code> for running comprehensive code review in the cloud using parallel multi-agent analysis and critique — invoke with no arguments to review your current branch, or <code>/ultrareview &lt;PR#&gt;</code> to fetch and review a specific GitHub PR</li>
+<li>Auto mode no longer requires <code>--enable-auto-mode</code></li>
+<li>Windows: PowerShell tool is progressively rolling out. Opt in or out with <code>CLAUDE_CODE_USE_POWERSHELL_TOOL</code>. On Linux and macOS, enable with <code>CLAUDE_CODE_USE_POWERSHELL_TOOL=1</code> (requires <code>pwsh</code> on PATH)</li>
+<li>Read-only bash commands with glob patterns (e.g. <code>ls *.ts</code>) and commands starting with <code>cd &lt;project-dir&gt; &amp;&amp;</code> no longer trigger a permission prompt</li>
+<li>Suggest the closest matching subcommand when <code>claude &lt;word&gt;</code> is invoked with a near-miss typo (e.g. <code>claude udpate</code> → &quot;Did you mean <code>claude update</code>?&quot;)</li>
+<li>Plan files are now named after your prompt (e.g. <code>fix-auth-race-snug-otter.md</code>) instead of purely random words</li>
+<li>Improved <code>/setup-vertex</code> and <code>/setup-bedrock</code> to show the actual <code>settings.json</code> path when <code>CLAUDE_CONFIG_DIR</code> is set, seed model candidates from existing pins on re-run, and offer a &quot;with 1M context&quot; option for supported models</li>
+<li><code>/skills</code> menu now supports sorting by estimated token count — press <code>t</code> to toggle</li>
+<li><code>Ctrl+U</code> now clears the entire input buffer (previously: delete to start of line); press <code>Ctrl+Y</code> to restore</li>
+<li><code>Ctrl+L</code> now forces a full screen redraw in addition to clearing the prompt input</li>
+<li>Transcript view footer now shows <code>[</code> (dump to scrollback) and <code>v</code> (open in editor) shortcuts</li>
+<li>The &quot;+N lines&quot; marker for truncated long pastes is now a full-width rule for easier scanning</li>
+<li>Headless <code>--output-format stream-json</code> now includes <code>plugin_errors</code> on the init event when plugins are demoted for unsatisfied dependencies</li>
+<li>Added <code>OTEL_LOG_RAW_API_BODIES</code> environment variable to emit full API request and response bodies as OpenTelemetry log events for debugging</li>
+<li>Suppressed spurious decompression, network, and transient error messages that could appear in the TUI during normal operation</li>
+<li>Reverted the v2.1.110 cap on non-streaming fallback retries — it traded long waits for more outright failures during API overload</li>
+<li>Fixed terminal display tearing (random characters, drifting input) in iTerm2 + tmux setups when terminal notifications are sent</li>
+<li>Fixed <code>@</code> file suggestions re-scanning the entire project on every turn in non-git working directories, and showing only config files in freshly-initialized git repos with no tracked files</li>
+<li>Fixed LSP diagnostics from before an edit appearing after it, causing the model to re-read files it just edited</li>
+<li>Fixed tab-completing <code>/resume</code> immediately resuming an arbitrary titled session instead of showing the session picker</li>
+<li>Fixed <code>/context</code> grid rendering with extra blank lines between rows</li>
+<li>Fixed <code>/clear</code> dropping the session name set by <code>/rename</code>, causing statusline output to lose <code>session_name</code></li>
+<li>Improved plugin error handling: dependency errors now distinguish conflicting, invalid, and overly complex version requirements; fixed stale resolved versions after <code>plugin update</code>; <code>plugin install</code> now recovers from interrupted prior installs</li>
+<li>Fixed Claude calling a non-existent <code>commit</code> skill and showing &quot;Unknown skill: commit&quot; for users without a custom <code>/commit</code> command</li>
+<li>Fixed 429 rate-limit errors on Bedrock/Vertex/Foundry referencing status.claude.com (it only covers Anthropic-operated providers)</li>
+<li>Fixed feedback surveys appearing back-to-back after dismissing one</li>
+<li>Fixed bare URLs in bash/PowerShell/MCP tool output being unclickable when the terminal wraps them across lines</li>
+<li>Windows: <code>CLAUDE_ENV_FILE</code> and SessionStart hook environment files now apply (previously a no-op)</li>
+<li>Windows: permission rules with drive-letter paths are now correctly root-anchored, and paths differing only by drive-letter case are recognized as the same path</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Claude Opus 4.7 xhigh is now available! Use /effort to tune speed vs. intelligence</li>
+<li>Auto mode is now available for Max subscribers when using Opus 4.7</li>
+<li>Added <code>xhigh</code> effort level for Opus 4.7, sitting between <code>high</code> and <code>max</code>. Available via <code>/effort</code>, <code>--effort</code>, and the model picker; other models fall back to <code>high</code></li>
+<li><code>/effort</code> now opens an interactive slider when called without arguments, with arrow-key navigation between levels and Enter to confirm</li>
+<li>Added &quot;Auto (match terminal)&quot; theme option that matches your terminal&#39;s dark/light mode — select it from <code>/theme</code></li>
+<li>Added <code>/less-permission-prompts</code> skill — scans transcripts for common read-only Bash and MCP tool calls and proposes a prioritized allowlist for <code>.claude/settings.json</code></li>
+<li>Added <code>/ultrareview</code> for running comprehensive code review in the cloud using parallel multi-agent analysis and critique — invoke with no arguments to review your current branch, or <code>/ultrareview &lt;PR#&gt;</code> to fetch and review a specific GitHub PR</li>
+<li>Auto mode no longer requires <code>--enable-auto-mode</code></li>
+<li>Windows: PowerShell tool is progressively rolling out. Opt in or out with <code>CLAUDE_CODE_USE_POWERSHELL_TOOL</code>. On Linux and macOS, enable with <code>CLAUDE_CODE_USE_POWERSHELL_TOOL=1</code> (requires <code>pwsh</code> on PATH)</li>
+<li>Read-only bash commands with glob patterns (e.g. <code>ls *.ts</code>) and commands starting with <code>cd &lt;project-dir&gt; &amp;&amp;</code> no longer trigger a permission prompt</li>
+<li>Suggest the closest matching subcommand when <code>claude &lt;word&gt;</code> is invoked with a near-miss typo (e.g. <code>claude udpate</code> → &quot;Did you mean <code>claude update</code>?&quot;)</li>
+<li>Plan files are now named after your prompt (e.g. <code>fix-auth-race-snug-otter.md</code>) instead of purely random words</li>
+<li>Improved <code>/setup-vertex</code> and <code>/setup-bedrock</code> to show the actual <code>settings.json</code> path when <code>CLAUDE_CONFIG_DIR</code> is set, seed model candidates from existing pins on re-run, and offer a &quot;with 1M context&quot; option for supported models</li>
+<li><code>/skills</code> menu now supports sorting by estimated token count — press <code>t</code> to toggle</li>
+<li><code>Ctrl+U</code> now clears the entire input buffer (previously: delete to start of line); press <code>Ctrl+Y</code> to restore</li>
+<li><code>Ctrl+L</code> now forces a full screen redraw in addition to clearing the prompt input</li>
+<li>Transcript view footer now shows <code>[</code> (dump to scrollback) and <code>v</code> (open in editor) shortcuts</li>
+<li>The &quot;+N lines&quot; marker for truncated long pastes is now a full-width rule for easier scanning</li>
+<li>Headless <code>--output-format stream-json</code> now includes <code>plugin_errors</code> on the init event when plugins are demoted for unsatisfied dependencies</li>
+<li>Added <code>OTEL_LOG_RAW_API_BODIES</code> environment variable to emit full API request and response bodies as OpenTelemetry log events for debugging</li>
+<li>Suppressed spurious decompression, network, and transient error messages that could appear in the TUI during normal operation</li>
+<li>Reverted the v2.1.110 cap on non-streaming fallback retries — it traded long waits for more outright failures during API overload</li>
+<li>Fixed terminal display tearing (random characters, drifting input) in iTerm2 + tmux setups when terminal notifications are sent</li>
+<li>Fixed <code>@</code> file suggestions re-scanning the entire project on every turn in non-git working directories, and showing only config files in freshly-initialized git repos with no tracked files</li>
+<li>Fixed LSP diagnostics from before an edit appearing after it, causing the model to re-read files it just edited</li>
+<li>Fixed tab-completing <code>/resume</code> immediately resuming an arbitrary titled session instead of showing the session picker</li>
+<li>Fixed <code>/context</code> grid rendering with extra blank lines between rows</li>
+<li>Fixed <code>/clear</code> dropping the session name set by <code>/rename</code>, causing statusline output to lose <code>session_name</code></li>
+<li>Improved plugin error handling: dependency errors now distinguish conflicting, invalid, and overly complex version requirements; fixed stale resolved versions after <code>plugin update</code>; <code>plugin install</code> now recovers from interrupted prior installs</li>
+<li>Fixed Claude calling a non-existent <code>commit</code> skill and showing &quot;Unknown skill: commit&quot; for users without a custom <code>/commit</code> command</li>
+<li>Fixed 429 rate-limit errors on Bedrock/Vertex/Foundry referencing status.claude.com (it only covers Anthropic-operated providers)</li>
+<li>Fixed feedback surveys appearing back-to-back after dismissing one</li>
+<li>Fixed bare URLs in bash/PowerShell/MCP tool output being unclickable when the terminal wraps them across lines</li>
+<li>Windows: <code>CLAUDE_ENV_FILE</code> and SessionStart hook environment files now apply (previously a no-op)</li>
+<li>Windows: permission rules with drive-letter paths are now correctly root-anchored, and paths differing only by drive-letter case are recognized as the same path</li>
+</ul>
+]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[v2.1.110]]></title>
             <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.110</link>
@@ -2930,50 +3014,6 @@
 <li>The <code>/rename</code> command now updates the terminal tab title by default (anthropics/claude-code#25789)</li>
 <li>Fixed Edit tool silently corrupting Unicode curly quotes (\u201c\u201d \u2018\u2019) by replacing them with straight quotes when making edits (anthropics/claude-code#26141)</li>
 <li>Fixed OSC 8 hyperlinks only being clickable on the first line when link text wraps across multiple terminal lines.</li>
-</ul>
-]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[v2.1.45]]></title>
-            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.45</link>
-            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.45</guid>
-            <pubDate>Tue, 17 Feb 2026 18:53:52 GMT</pubDate>
-            <description><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>Added support for Claude Sonnet 4.6</li>
-<li>Added support for reading <code>enabledPlugins</code> and <code>extraKnownMarketplaces</code> from <code>--add-dir</code> directories</li>
-<li>Added <code>spinnerTipsOverride</code> setting to customize spinner tips — configure <code>tips</code> with an array of custom tip strings, and optionally set <code>excludeDefault: true</code> to show only your custom tips instead of the built-in ones</li>
-<li>Added <code>SDKRateLimitInfo</code> and <code>SDKRateLimitEvent</code> types to the SDK, enabling consumers to receive rate limit status updates including utilization, reset times, and overage information</li>
-<li>Fixed Agent Teams teammates failing on Bedrock, Vertex, and Foundry by propagating API provider environment variables to tmux-spawned processes (anthropics/claude-code#23561)</li>
-<li>Fixed sandbox &quot;operation not permitted&quot; errors when writing temporary files on macOS by using the correct per-user temp directory (anthropics/claude-code#21654)</li>
-<li>Fixed Task tool (backgrounded agents) crashing with a <code>ReferenceError</code> on completion (anthropics/claude-code#22087)</li>
-<li>Fixed autocomplete suggestions not being accepted on Enter when images are pasted in the input</li>
-<li>Fixed skills invoked by subagents incorrectly appearing in main session context after compaction</li>
-<li>Fixed excessive <code>.claude.json.backup</code> files accumulating on every startup</li>
-<li>Fixed plugin-provided commands, agents, and hooks not being available immediately after installation without requiring a restart</li>
-<li>Improved startup performance by removing eager loading of session history for stats caching</li>
-<li>Improved memory usage for shell commands that produce large output — RSS no longer grows unboundedly with command output size</li>
-<li>Improved collapsed read/search groups to show the current file or search pattern being processed beneath the summary line while active</li>
-<li>[VSCode] Improved permission destination choice (project/user/session) to persist across sessions</li>
-</ul>
-]]></description>
-            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>Added support for Claude Sonnet 4.6</li>
-<li>Added support for reading <code>enabledPlugins</code> and <code>extraKnownMarketplaces</code> from <code>--add-dir</code> directories</li>
-<li>Added <code>spinnerTipsOverride</code> setting to customize spinner tips — configure <code>tips</code> with an array of custom tip strings, and optionally set <code>excludeDefault: true</code> to show only your custom tips instead of the built-in ones</li>
-<li>Added <code>SDKRateLimitInfo</code> and <code>SDKRateLimitEvent</code> types to the SDK, enabling consumers to receive rate limit status updates including utilization, reset times, and overage information</li>
-<li>Fixed Agent Teams teammates failing on Bedrock, Vertex, and Foundry by propagating API provider environment variables to tmux-spawned processes (anthropics/claude-code#23561)</li>
-<li>Fixed sandbox &quot;operation not permitted&quot; errors when writing temporary files on macOS by using the correct per-user temp directory (anthropics/claude-code#21654)</li>
-<li>Fixed Task tool (backgrounded agents) crashing with a <code>ReferenceError</code> on completion (anthropics/claude-code#22087)</li>
-<li>Fixed autocomplete suggestions not being accepted on Enter when images are pasted in the input</li>
-<li>Fixed skills invoked by subagents incorrectly appearing in main session context after compaction</li>
-<li>Fixed excessive <code>.claude.json.backup</code> files accumulating on every startup</li>
-<li>Fixed plugin-provided commands, agents, and hooks not being available immediately after installation without requiring a restart</li>
-<li>Improved startup performance by removing eager loading of session history for stats caching</li>
-<li>Improved memory usage for shell commands that produce large output — RSS no longer grows unboundedly with command output size</li>
-<li>Improved collapsed read/search groups to show the current file or search pattern being processed beneath the summary line while active</li>
-<li>[VSCode] Improved permission destination choice (project/user/session) to persist across sessions</li>
 </ul>
 ]]></content:encoded>
         </item>
