@@ -4,11 +4,27 @@
         <title>claude-code Releases</title>
         <link>https://github.com/anthropics/claude-code/releases</link>
         <description>GitHub releases for anthropics/claude-code</description>
-        <lastBuildDate>Thu, 16 Apr 2026 15:18:45 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 16 Apr 2026 19:55:41 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>ai-rss-feeds (https://github.com/leontloveless/ai-rss-feeds)</generator>
         <language>en</language>
         <atom:link href="https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/claude-code-releases.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[v2.1.112]]></title>
+            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.112</link>
+            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.112</guid>
+            <pubDate>Thu, 16 Apr 2026 19:55:41 GMT</pubDate>
+            <description><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Fixed &quot;claude-opus-4-7 is temporarily unavailable&quot; for auto mode</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Fixed &quot;claude-opus-4-7 is temporarily unavailable&quot; for auto mode</li>
+</ul>
+]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[v2.1.111]]></title>
             <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.111</link>
@@ -2864,156 +2880,6 @@
 <li>Fixed <code>disableAllHooks</code> setting to respect managed settings hierarchy — non-managed settings can no longer disable managed hooks set by policy (#26637)</li>
 <li>Fixed <code>--resume</code> session picker showing raw XML tags for sessions that start with commands like <code>/clear</code>. Now correctly falls through to the session ID fallback.</li>
 <li>Improved permission prompts for path safety and working directory blocks to show the reason for the restriction instead of a bare prompt with no context</li>
-</ul>
-]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[v2.1.47]]></title>
-            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.47</link>
-            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.47</guid>
-            <pubDate>Wed, 18 Feb 2026 21:38:45 GMT</pubDate>
-            <description><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>Fixed FileWriteTool line counting to preserve intentional trailing blank lines instead of stripping them with <code>trimEnd()</code>.</li>
-<li>Fixed Windows terminal rendering bugs caused by <code>os.EOL</code> (<code>\r\n</code>) in display code — line counts now show correct values instead of always showing 1 on Windows.</li>
-<li>Improved VS Code plan preview: auto-updates as Claude iterates, enables commenting only when the plan is ready for review, and keeps the preview open when rejecting so Claude can revise.</li>
-<li>Fixed a bug where bold and colored text in markdown output could shift to the wrong characters on Windows due to <code>\r\n</code> line endings.</li>
-<li>Fixed compaction failing when conversation contains many PDF documents by stripping document blocks alongside images before sending to the compaction API (anthropics/claude-code#26188)</li>
-<li>Improved memory usage in long-running sessions by releasing API stream buffers, agent context, and skill state after use</li>
-<li>Improved startup performance by deferring SessionStart hook execution, reducing time-to-interactive by ~500ms.</li>
-<li>Fixed an issue where bash tool output was silently discarded on Windows when using MSYS2 or Cygwin shells.</li>
-<li>Improved performance of <code>@</code> file mentions - file suggestions now appear faster by pre-warming the index on startup and using session-based caching with background refresh.</li>
-<li>Improved memory usage by trimming agent task message history after tasks complete</li>
-<li>Improved memory usage during long agent sessions by eliminating O(n²) message accumulation in progress updates</li>
-<li>Fixed the bash permission classifier to validate that returned match descriptions correspond to actual input rules, preventing hallucinated descriptions from incorrectly granting permissions</li>
-<li>Fixed user-defined agents only loading one file on NFS/FUSE filesystems that report zero inodes (anthropics/claude-code#26044)</li>
-<li>Fixed plugin agent skills silently failing to load when referenced by bare name instead of fully-qualified plugin name (anthropics/claude-code#25834)</li>
-<li>Search patterns in collapsed tool results are now displayed in quotes for clarity</li>
-<li>Windows: Fixed CWD tracking temp files never being cleaned up, causing them to accumulate indefinitely (anthropics/claude-code#17600)</li>
-<li>Use <code>ctrl+f</code> to kill all background agents instead of double-pressing ESC. Background agents now continue running when you press ESC to cancel the main thread, giving you more control over agent lifecycle.</li>
-<li>Fixed API 400 errors (&quot;thinking blocks cannot be modified&quot;) that occurred in sessions with concurrent agents, caused by interleaved streaming content blocks preventing proper message merging.</li>
-<li>Simplified teammate navigation to use only Shift+Down (with wrapping) instead of both Shift+Up and Shift+Down.</li>
-<li>Fixed an issue where a single file write/edit error would abort all other parallel file write/edit operations. Independent file mutations now complete even when a sibling fails.</li>
-<li>Added <code>last_assistant_message</code> field to Stop and SubagentStop hook inputs, providing the final assistant response text so hooks can access it without parsing transcript files.</li>
-<li>Fixed custom session titles set via <code>/rename</code> being lost after resuming a conversation (anthropics/claude-code#23610)</li>
-<li>Fixed collapsed read/search hint text overflowing on narrow terminals by truncating from the start.</li>
-<li>Fixed an issue where bash commands with backslash-newline continuation lines (e.g., long commands split across multiple lines with <code>\</code>) would produce spurious empty arguments, potentially breaking command execution.</li>
-<li>Fixed built-in slash commands (<code>/help</code>, <code>/model</code>, <code>/compact</code>, etc.) being hidden from the autocomplete dropdown when many user skills are installed (anthropics/claude-code#22020)</li>
-<li>Fixed MCP servers not appearing in the MCP Management Dialog after deferred loading</li>
-<li>Fixed session name persisting in status bar after <code>/clear</code> command (anthropics/claude-code#26082)</li>
-<li>Fixed crash when a skill&#39;s <code>name</code> or <code>description</code> in SKILL.md frontmatter is a bare number (e.g., <code>name: 3000</code>) — the value is now properly coerced to a string (anthropics/claude-code#25837)</li>
-<li>Fixed /resume silently dropping sessions when the first message exceeds 16KB or uses array-format content (anthropics/claude-code#25721)</li>
-<li>Added <code>chat:newline</code> keybinding action for configurable multi-line input (anthropics/claude-code#26075)</li>
-<li>Added <code>added_dirs</code> to the statusline JSON <code>workspace</code> section, exposing directories added via <code>/add-dir</code> to external scripts (anthropics/claude-code#26096)</li>
-<li>Fixed <code>claude doctor</code> misclassifying mise and asdf-managed installations as native installs (anthropics/claude-code#26033)</li>
-<li>Fixed zsh heredoc failing with &quot;read-only file system&quot; error in sandboxed commands (anthropics/claude-code#25990)</li>
-<li>Fixed agent progress indicator showing inflated tool use count (anthropics/claude-code#26023)</li>
-<li>Fixed image pasting not working on WSL2 systems where Windows copies images as BMP format (anthropics/claude-code#25935)</li>
-<li>Fixed background agent results returning raw transcript data instead of the agent&#39;s final answer (anthropics/claude-code#26012)</li>
-<li>Fixed Warp terminal incorrectly prompting for Shift+Enter setup when it supports it natively (anthropics/claude-code#25957)</li>
-<li>Fixed CJK wide characters causing misaligned timestamps and layout elements in the TUI (anthropics/claude-code#26084)</li>
-<li>Fixed custom agent <code>model</code> field in <code>.claude/agents/*.md</code> being ignored when spawning team teammates (anthropics/claude-code#26064)</li>
-<li>Fixed plan mode being lost after context compaction, causing the model to switch from planning to implementation mode (anthropics/claude-code#26061)</li>
-<li>Fixed <code>alwaysThinkingEnabled: true</code> in settings.json not enabling thinking mode on Bedrock and Vertex providers (anthropics/claude-code#26074)</li>
-<li>Fixed <code>tool_decision</code> OTel telemetry event not being emitted in headless/SDK mode (anthropics/claude-code#26059)</li>
-<li>Fixed session name being lost after context compaction — renamed sessions now preserve their custom title through compaction (anthropics/claude-code#26121)</li>
-<li>Increased initial session count in resume picker from 10 to 50 for faster session discovery (anthropics/claude-code#26123)</li>
-<li>Windows: fixed worktree session matching when drive letter casing differs (anthropics/claude-code#26123)</li>
-<li>Fixed <code>/resume &lt;session-id&gt;</code> failing to find sessions whose first message exceeds 16KB (anthropics/claude-code#25920)</li>
-<li>Fixed &quot;Always allow&quot; on multiline bash commands creating invalid permission patterns that corrupt settings (anthropics/claude-code#25909)</li>
-<li>Fixed React crash (error #31) when a skill&#39;s <code>argument-hint</code> in SKILL.md frontmatter uses YAML sequence syntax (e.g., <code>[topic: foo | bar]</code>) — the value is now properly coerced to a string (anthropics/claude-code#25826)</li>
-<li>Fixed crash when using <code>/fork</code> on sessions that used web search — null entries in search results from transcript deserialization are now handled gracefully (anthropics/claude-code#25811)</li>
-<li>Fixed read-only git commands triggering FSEvents file watcher loops on macOS by adding --no-optional-locks flag (anthropics/claude-code#25750)</li>
-<li>Fixed custom agents and skills not being discovered when running from a git worktree — project-level <code>.claude/agents/</code> and <code>.claude/skills/</code> from the main repository are now included (anthropics/claude-code#25816)</li>
-<li>Fixed non-interactive subcommands like <code>claude doctor</code> and <code>claude plugin validate</code> being blocked inside nested Claude sessions (anthropics/claude-code#25803)</li>
-<li>Windows: Fixed the same CLAUDE.md file being loaded twice when drive letter casing differs between paths (anthropics/claude-code#25756)</li>
-<li>Fixed inline code spans in markdown being incorrectly parsed as bash commands (anthropics/claude-code#25792)</li>
-<li>Fixed teammate spinners not respecting custom spinnerVerbs from settings (anthropics/claude-code#25748)</li>
-<li>Fixed shell commands permanently failing after a command deletes its own working directory (anthropics/claude-code#26136)</li>
-<li>Fixed hooks (PreToolUse, PostToolUse) silently failing to execute on Windows by using Git Bash instead of cmd.exe (anthropics/claude-code#25981)</li>
-<li>Fixed LSP <code>findReferences</code> and other location-based operations returning results from gitignored files (e.g., <code>node_modules/</code>, <code>venv/</code>) (anthropics/claude-code#26051)</li>
-<li>Moved config backup files from home directory root to <code>~/.claude/backups/</code> to reduce home directory clutter (anthropics/claude-code#26130)</li>
-<li>Fixed sessions with large first prompts (&gt;16KB) disappearing from the /resume list (anthropics/claude-code#26140)</li>
-<li>Fixed shell functions with double-underscore prefixes (e.g., <code>__git_ps1</code>) not being preserved across shell sessions (anthropics/claude-code#25824)</li>
-<li>Fixed spinner showing &quot;0 tokens&quot; counter before any tokens have been received (anthropics/claude-code#26105)</li>
-<li>VSCode: Fixed conversation messages appearing dimmed while the AskUserQuestion dialog is open (anthropics/claude-code#26078)</li>
-<li>Fixed background tasks failing in git worktrees due to remote URL resolution reading from worktree-specific gitdir instead of the main repository config (anthropics/claude-code#26065)</li>
-<li>Fixed Right Alt key leaving visible <code>[25~</code> escape sequence residue in the input field on Windows/Git Bash terminals (anthropics/claude-code#25943)</li>
-<li>The <code>/rename</code> command now updates the terminal tab title by default (anthropics/claude-code#25789)</li>
-<li>Fixed Edit tool silently corrupting Unicode curly quotes (\u201c\u201d \u2018\u2019) by replacing them with straight quotes when making edits (anthropics/claude-code#26141)</li>
-<li>Fixed OSC 8 hyperlinks only being clickable on the first line when link text wraps across multiple terminal lines.</li>
-</ul>
-]]></description>
-            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>Fixed FileWriteTool line counting to preserve intentional trailing blank lines instead of stripping them with <code>trimEnd()</code>.</li>
-<li>Fixed Windows terminal rendering bugs caused by <code>os.EOL</code> (<code>\r\n</code>) in display code — line counts now show correct values instead of always showing 1 on Windows.</li>
-<li>Improved VS Code plan preview: auto-updates as Claude iterates, enables commenting only when the plan is ready for review, and keeps the preview open when rejecting so Claude can revise.</li>
-<li>Fixed a bug where bold and colored text in markdown output could shift to the wrong characters on Windows due to <code>\r\n</code> line endings.</li>
-<li>Fixed compaction failing when conversation contains many PDF documents by stripping document blocks alongside images before sending to the compaction API (anthropics/claude-code#26188)</li>
-<li>Improved memory usage in long-running sessions by releasing API stream buffers, agent context, and skill state after use</li>
-<li>Improved startup performance by deferring SessionStart hook execution, reducing time-to-interactive by ~500ms.</li>
-<li>Fixed an issue where bash tool output was silently discarded on Windows when using MSYS2 or Cygwin shells.</li>
-<li>Improved performance of <code>@</code> file mentions - file suggestions now appear faster by pre-warming the index on startup and using session-based caching with background refresh.</li>
-<li>Improved memory usage by trimming agent task message history after tasks complete</li>
-<li>Improved memory usage during long agent sessions by eliminating O(n²) message accumulation in progress updates</li>
-<li>Fixed the bash permission classifier to validate that returned match descriptions correspond to actual input rules, preventing hallucinated descriptions from incorrectly granting permissions</li>
-<li>Fixed user-defined agents only loading one file on NFS/FUSE filesystems that report zero inodes (anthropics/claude-code#26044)</li>
-<li>Fixed plugin agent skills silently failing to load when referenced by bare name instead of fully-qualified plugin name (anthropics/claude-code#25834)</li>
-<li>Search patterns in collapsed tool results are now displayed in quotes for clarity</li>
-<li>Windows: Fixed CWD tracking temp files never being cleaned up, causing them to accumulate indefinitely (anthropics/claude-code#17600)</li>
-<li>Use <code>ctrl+f</code> to kill all background agents instead of double-pressing ESC. Background agents now continue running when you press ESC to cancel the main thread, giving you more control over agent lifecycle.</li>
-<li>Fixed API 400 errors (&quot;thinking blocks cannot be modified&quot;) that occurred in sessions with concurrent agents, caused by interleaved streaming content blocks preventing proper message merging.</li>
-<li>Simplified teammate navigation to use only Shift+Down (with wrapping) instead of both Shift+Up and Shift+Down.</li>
-<li>Fixed an issue where a single file write/edit error would abort all other parallel file write/edit operations. Independent file mutations now complete even when a sibling fails.</li>
-<li>Added <code>last_assistant_message</code> field to Stop and SubagentStop hook inputs, providing the final assistant response text so hooks can access it without parsing transcript files.</li>
-<li>Fixed custom session titles set via <code>/rename</code> being lost after resuming a conversation (anthropics/claude-code#23610)</li>
-<li>Fixed collapsed read/search hint text overflowing on narrow terminals by truncating from the start.</li>
-<li>Fixed an issue where bash commands with backslash-newline continuation lines (e.g., long commands split across multiple lines with <code>\</code>) would produce spurious empty arguments, potentially breaking command execution.</li>
-<li>Fixed built-in slash commands (<code>/help</code>, <code>/model</code>, <code>/compact</code>, etc.) being hidden from the autocomplete dropdown when many user skills are installed (anthropics/claude-code#22020)</li>
-<li>Fixed MCP servers not appearing in the MCP Management Dialog after deferred loading</li>
-<li>Fixed session name persisting in status bar after <code>/clear</code> command (anthropics/claude-code#26082)</li>
-<li>Fixed crash when a skill&#39;s <code>name</code> or <code>description</code> in SKILL.md frontmatter is a bare number (e.g., <code>name: 3000</code>) — the value is now properly coerced to a string (anthropics/claude-code#25837)</li>
-<li>Fixed /resume silently dropping sessions when the first message exceeds 16KB or uses array-format content (anthropics/claude-code#25721)</li>
-<li>Added <code>chat:newline</code> keybinding action for configurable multi-line input (anthropics/claude-code#26075)</li>
-<li>Added <code>added_dirs</code> to the statusline JSON <code>workspace</code> section, exposing directories added via <code>/add-dir</code> to external scripts (anthropics/claude-code#26096)</li>
-<li>Fixed <code>claude doctor</code> misclassifying mise and asdf-managed installations as native installs (anthropics/claude-code#26033)</li>
-<li>Fixed zsh heredoc failing with &quot;read-only file system&quot; error in sandboxed commands (anthropics/claude-code#25990)</li>
-<li>Fixed agent progress indicator showing inflated tool use count (anthropics/claude-code#26023)</li>
-<li>Fixed image pasting not working on WSL2 systems where Windows copies images as BMP format (anthropics/claude-code#25935)</li>
-<li>Fixed background agent results returning raw transcript data instead of the agent&#39;s final answer (anthropics/claude-code#26012)</li>
-<li>Fixed Warp terminal incorrectly prompting for Shift+Enter setup when it supports it natively (anthropics/claude-code#25957)</li>
-<li>Fixed CJK wide characters causing misaligned timestamps and layout elements in the TUI (anthropics/claude-code#26084)</li>
-<li>Fixed custom agent <code>model</code> field in <code>.claude/agents/*.md</code> being ignored when spawning team teammates (anthropics/claude-code#26064)</li>
-<li>Fixed plan mode being lost after context compaction, causing the model to switch from planning to implementation mode (anthropics/claude-code#26061)</li>
-<li>Fixed <code>alwaysThinkingEnabled: true</code> in settings.json not enabling thinking mode on Bedrock and Vertex providers (anthropics/claude-code#26074)</li>
-<li>Fixed <code>tool_decision</code> OTel telemetry event not being emitted in headless/SDK mode (anthropics/claude-code#26059)</li>
-<li>Fixed session name being lost after context compaction — renamed sessions now preserve their custom title through compaction (anthropics/claude-code#26121)</li>
-<li>Increased initial session count in resume picker from 10 to 50 for faster session discovery (anthropics/claude-code#26123)</li>
-<li>Windows: fixed worktree session matching when drive letter casing differs (anthropics/claude-code#26123)</li>
-<li>Fixed <code>/resume &lt;session-id&gt;</code> failing to find sessions whose first message exceeds 16KB (anthropics/claude-code#25920)</li>
-<li>Fixed &quot;Always allow&quot; on multiline bash commands creating invalid permission patterns that corrupt settings (anthropics/claude-code#25909)</li>
-<li>Fixed React crash (error #31) when a skill&#39;s <code>argument-hint</code> in SKILL.md frontmatter uses YAML sequence syntax (e.g., <code>[topic: foo | bar]</code>) — the value is now properly coerced to a string (anthropics/claude-code#25826)</li>
-<li>Fixed crash when using <code>/fork</code> on sessions that used web search — null entries in search results from transcript deserialization are now handled gracefully (anthropics/claude-code#25811)</li>
-<li>Fixed read-only git commands triggering FSEvents file watcher loops on macOS by adding --no-optional-locks flag (anthropics/claude-code#25750)</li>
-<li>Fixed custom agents and skills not being discovered when running from a git worktree — project-level <code>.claude/agents/</code> and <code>.claude/skills/</code> from the main repository are now included (anthropics/claude-code#25816)</li>
-<li>Fixed non-interactive subcommands like <code>claude doctor</code> and <code>claude plugin validate</code> being blocked inside nested Claude sessions (anthropics/claude-code#25803)</li>
-<li>Windows: Fixed the same CLAUDE.md file being loaded twice when drive letter casing differs between paths (anthropics/claude-code#25756)</li>
-<li>Fixed inline code spans in markdown being incorrectly parsed as bash commands (anthropics/claude-code#25792)</li>
-<li>Fixed teammate spinners not respecting custom spinnerVerbs from settings (anthropics/claude-code#25748)</li>
-<li>Fixed shell commands permanently failing after a command deletes its own working directory (anthropics/claude-code#26136)</li>
-<li>Fixed hooks (PreToolUse, PostToolUse) silently failing to execute on Windows by using Git Bash instead of cmd.exe (anthropics/claude-code#25981)</li>
-<li>Fixed LSP <code>findReferences</code> and other location-based operations returning results from gitignored files (e.g., <code>node_modules/</code>, <code>venv/</code>) (anthropics/claude-code#26051)</li>
-<li>Moved config backup files from home directory root to <code>~/.claude/backups/</code> to reduce home directory clutter (anthropics/claude-code#26130)</li>
-<li>Fixed sessions with large first prompts (&gt;16KB) disappearing from the /resume list (anthropics/claude-code#26140)</li>
-<li>Fixed shell functions with double-underscore prefixes (e.g., <code>__git_ps1</code>) not being preserved across shell sessions (anthropics/claude-code#25824)</li>
-<li>Fixed spinner showing &quot;0 tokens&quot; counter before any tokens have been received (anthropics/claude-code#26105)</li>
-<li>VSCode: Fixed conversation messages appearing dimmed while the AskUserQuestion dialog is open (anthropics/claude-code#26078)</li>
-<li>Fixed background tasks failing in git worktrees due to remote URL resolution reading from worktree-specific gitdir instead of the main repository config (anthropics/claude-code#26065)</li>
-<li>Fixed Right Alt key leaving visible <code>[25~</code> escape sequence residue in the input field on Windows/Git Bash terminals (anthropics/claude-code#25943)</li>
-<li>The <code>/rename</code> command now updates the terminal tab title by default (anthropics/claude-code#25789)</li>
-<li>Fixed Edit tool silently corrupting Unicode curly quotes (\u201c\u201d \u2018\u2019) by replacing them with straight quotes when making edits (anthropics/claude-code#26141)</li>
-<li>Fixed OSC 8 hyperlinks only being clickable on the first line when link text wraps across multiple terminal lines.</li>
 </ul>
 ]]></content:encoded>
         </item>
