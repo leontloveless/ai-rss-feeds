@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: write
+  actions: write
 
 jobs:
   update:
@@ -30,3 +31,55 @@ jobs:
             git commit -m "chore: update feeds"
             git push
           fi
+      - name: Check for failing feeds and auto-heal
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+            const cacheDir = path.join(process.cwd(), 'cache');
+            
+            if (!fs.existsSync(cacheDir)) {
+              console.log('No cache directory, skipping auto-heal');
+              return;
+            }
+            
+            const files = fs.readdirSync(cacheDir);
+            const failingFeeds = [];
+            
+            for (const file of files) {
+              if (!file.endsWith('.json')) continue;
+              const snapshotPath = path.join(cacheDir, file);
+              const snapshot = JSON.parse(fs.readFileSync(snapshotPath, 'utf8'));
+              const feedName = file.replace('.json', '');
+              
+              if (snapshot.consecutiveErrors >= 3) {
+                console.log(`⚠️ Feed ${feedName} has ${snapshot.consecutiveErrors} consecutive errors`);
+                failingFeeds.push(feedName);
+              }
+            }
+            
+            if (failingFeeds.length === 0) {
+              console.log('✅ No feeds with >=3 consecutive errors');
+              return;
+            }
+            
+            console.log(`🚀 Triggering auto-heal for ${failingFeeds.length} feed(s)...`);
+            
+            for (const feedName of failingFeeds) {
+              console.log(`   Healing ${feedName}...`);
+              try {
+                await github.rest.actions.createWorkflowDispatch({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  workflow_id: 'heal_feed.yml',
+                  ref: 'main',
+                  inputs: {
+                    feed_name: feedName
+                  }
+                });
+                console.log(`   ✅ Heal workflow triggered for ${feedName}`);
+              } catch (err) {
+                console.log(`   ❌ Failed to trigger heal for ${feedName}:`, err.message);
+              }
+            }
