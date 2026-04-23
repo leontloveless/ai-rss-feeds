@@ -4,11 +4,93 @@
         <title>claude-code Releases</title>
         <link>https://github.com/anthropics/claude-code/releases</link>
         <description>GitHub releases for anthropics/claude-code</description>
-        <lastBuildDate>Wed, 22 Apr 2026 00:04:40 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 23 Apr 2026 00:42:21 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>ai-rss-feeds (https://github.com/leontloveless/ai-rss-feeds)</generator>
         <language>en</language>
         <atom:link href="https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/claude-code-releases.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[v2.1.118]]></title>
+            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.118</link>
+            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.118</guid>
+            <pubDate>Thu, 23 Apr 2026 00:42:21 GMT</pubDate>
+            <description><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Added vim visual mode (<code>v</code>) and visual-line mode (<code>V</code>) with selection, operators, and visual feedback</li>
+<li>Merged <code>/cost</code> and <code>/stats</code> into <code>/usage</code> — both remain as typing shortcuts that open the relevant tab</li>
+<li>Create and switch between named custom themes from <code>/theme</code>, or hand-edit JSON files in <code>~/.claude/themes/</code>; plugins can also ship themes via a <code>themes/</code> directory</li>
+<li>Hooks can now invoke MCP tools directly via <code>type: &quot;mcp_tool&quot;</code></li>
+<li>Added <code>DISABLE_UPDATES</code> env var to completely block all update paths including manual <code>claude update</code> — stricter than <code>DISABLE_AUTOUPDATER</code></li>
+<li>WSL on Windows can now inherit Windows-side managed settings via the <code>wslInheritsWindowsSettings</code> policy key</li>
+<li>Auto mode: include <code>&quot;$defaults&quot;</code> in <code>autoMode.allow</code>, <code>autoMode.soft_deny</code>, or <code>autoMode.environment</code> to add custom rules alongside the built-in list instead of replacing it</li>
+<li>Added a &quot;Don&#39;t ask again&quot; option to the auto mode opt-in prompt</li>
+<li>Added <code>claude plugin tag</code> to create release git tags for plugins with version validation</li>
+<li><code>--continue</code>/<code>--resume</code> now find sessions that added the current directory via <code>/add-dir</code></li>
+<li><code>/color</code> now syncs the session accent color to claude.ai/code when Remote Control is connected</li>
+<li>The <code>/model</code> picker now honors <code>ANTHROPIC_DEFAULT_*_MODEL_NAME</code>/<code>_DESCRIPTION</code> overrides when using a custom <code>ANTHROPIC_BASE_URL</code> gateway</li>
+<li>When auto-update skips a plugin due to another plugin&#39;s version constraint, the skip now appears in <code>/doctor</code> and the <code>/plugin</code> Errors tab</li>
+<li>Fixed <code>/mcp</code> menu hiding OAuth Authenticate/Re-authenticate actions for servers configured with <code>headersHelper</code>, and HTTP/SSE MCP servers with custom headers being stuck in &quot;needs authentication&quot; after a transient 401</li>
+<li>Fixed MCP servers whose OAuth token response omits <code>expires_in</code> requiring re-authentication every hour</li>
+<li>Fixed MCP step-up authorization silently refreshing instead of prompting for re-consent when the server&#39;s <code>insufficient_scope</code> 403 names a scope the current token already has</li>
+<li>Fixed an unhandled promise rejection when an MCP server&#39;s OAuth flow times out or is cancelled</li>
+<li>Fixed MCP OAuth refresh proceeding without its cross-process lock under contention</li>
+<li>Fixed macOS keychain race where a concurrent MCP token refresh could overwrite a freshly-refreshed OAuth token, causing unexpected &quot;Please run /login&quot; prompts</li>
+<li>Fixed OAuth token refresh failing when the server revokes a token before its local expiry time</li>
+<li>Fixed credential save crash on Linux/Windows corrupting <code>~/.claude/.credentials.json</code></li>
+<li>Fixed <code>/login</code> having no effect in a session launched with <code>CLAUDE_CODE_OAUTH_TOKEN</code> — the env token is now cleared so disk credentials take effect</li>
+<li>Fixed unreadable text in the &quot;new messages&quot; scroll pill and <code>/plugin</code> badges</li>
+<li>Fixed plan acceptance dialog offering &quot;auto mode&quot; instead of &quot;bypass permissions&quot; when running with <code>--dangerously-skip-permissions</code></li>
+<li>Fixed agent-type hooks failing with &quot;Messages are required for agent hooks&quot; when configured for events other than <code>Stop</code> or <code>SubagentStop</code></li>
+<li>Fixed <code>prompt</code> hooks re-firing on tool calls made by an agent-hook verifier subagent</li>
+<li>Fixed <code>/fork</code> writing the full parent conversation to disk per fork — now writes a pointer and hydrates on read</li>
+<li>Fixed Alt+K / Alt+X / Alt+^ / Alt+_ freezing keyboard input</li>
+<li>Fixed connecting to a remote session overwriting your local <code>model</code> setting in <code>~/.claude/settings.json</code></li>
+<li>Fixed typeahead showing &quot;No commands match&quot; error when pasting file paths that start with <code>/</code></li>
+<li>Fixed <code>plugin install</code> on an already-installed plugin not re-resolving a dependency installed at the wrong version</li>
+<li>Fixed unhandled errors from file watcher on invalid paths or fd exhaustion</li>
+<li>Fixed Remote Control sessions getting archived on transient CCR initialization blips during JWT refresh</li>
+<li>Fixed subagents resumed via <code>SendMessage</code> not restoring the explicit <code>cwd</code> they were spawned with</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Added vim visual mode (<code>v</code>) and visual-line mode (<code>V</code>) with selection, operators, and visual feedback</li>
+<li>Merged <code>/cost</code> and <code>/stats</code> into <code>/usage</code> — both remain as typing shortcuts that open the relevant tab</li>
+<li>Create and switch between named custom themes from <code>/theme</code>, or hand-edit JSON files in <code>~/.claude/themes/</code>; plugins can also ship themes via a <code>themes/</code> directory</li>
+<li>Hooks can now invoke MCP tools directly via <code>type: &quot;mcp_tool&quot;</code></li>
+<li>Added <code>DISABLE_UPDATES</code> env var to completely block all update paths including manual <code>claude update</code> — stricter than <code>DISABLE_AUTOUPDATER</code></li>
+<li>WSL on Windows can now inherit Windows-side managed settings via the <code>wslInheritsWindowsSettings</code> policy key</li>
+<li>Auto mode: include <code>&quot;$defaults&quot;</code> in <code>autoMode.allow</code>, <code>autoMode.soft_deny</code>, or <code>autoMode.environment</code> to add custom rules alongside the built-in list instead of replacing it</li>
+<li>Added a &quot;Don&#39;t ask again&quot; option to the auto mode opt-in prompt</li>
+<li>Added <code>claude plugin tag</code> to create release git tags for plugins with version validation</li>
+<li><code>--continue</code>/<code>--resume</code> now find sessions that added the current directory via <code>/add-dir</code></li>
+<li><code>/color</code> now syncs the session accent color to claude.ai/code when Remote Control is connected</li>
+<li>The <code>/model</code> picker now honors <code>ANTHROPIC_DEFAULT_*_MODEL_NAME</code>/<code>_DESCRIPTION</code> overrides when using a custom <code>ANTHROPIC_BASE_URL</code> gateway</li>
+<li>When auto-update skips a plugin due to another plugin&#39;s version constraint, the skip now appears in <code>/doctor</code> and the <code>/plugin</code> Errors tab</li>
+<li>Fixed <code>/mcp</code> menu hiding OAuth Authenticate/Re-authenticate actions for servers configured with <code>headersHelper</code>, and HTTP/SSE MCP servers with custom headers being stuck in &quot;needs authentication&quot; after a transient 401</li>
+<li>Fixed MCP servers whose OAuth token response omits <code>expires_in</code> requiring re-authentication every hour</li>
+<li>Fixed MCP step-up authorization silently refreshing instead of prompting for re-consent when the server&#39;s <code>insufficient_scope</code> 403 names a scope the current token already has</li>
+<li>Fixed an unhandled promise rejection when an MCP server&#39;s OAuth flow times out or is cancelled</li>
+<li>Fixed MCP OAuth refresh proceeding without its cross-process lock under contention</li>
+<li>Fixed macOS keychain race where a concurrent MCP token refresh could overwrite a freshly-refreshed OAuth token, causing unexpected &quot;Please run /login&quot; prompts</li>
+<li>Fixed OAuth token refresh failing when the server revokes a token before its local expiry time</li>
+<li>Fixed credential save crash on Linux/Windows corrupting <code>~/.claude/.credentials.json</code></li>
+<li>Fixed <code>/login</code> having no effect in a session launched with <code>CLAUDE_CODE_OAUTH_TOKEN</code> — the env token is now cleared so disk credentials take effect</li>
+<li>Fixed unreadable text in the &quot;new messages&quot; scroll pill and <code>/plugin</code> badges</li>
+<li>Fixed plan acceptance dialog offering &quot;auto mode&quot; instead of &quot;bypass permissions&quot; when running with <code>--dangerously-skip-permissions</code></li>
+<li>Fixed agent-type hooks failing with &quot;Messages are required for agent hooks&quot; when configured for events other than <code>Stop</code> or <code>SubagentStop</code></li>
+<li>Fixed <code>prompt</code> hooks re-firing on tool calls made by an agent-hook verifier subagent</li>
+<li>Fixed <code>/fork</code> writing the full parent conversation to disk per fork — now writes a pointer and hydrates on read</li>
+<li>Fixed Alt+K / Alt+X / Alt+^ / Alt+_ freezing keyboard input</li>
+<li>Fixed connecting to a remote session overwriting your local <code>model</code> setting in <code>~/.claude/settings.json</code></li>
+<li>Fixed typeahead showing &quot;No commands match&quot; error when pasting file paths that start with <code>/</code></li>
+<li>Fixed <code>plugin install</code> on an already-installed plugin not re-resolving a dependency installed at the wrong version</li>
+<li>Fixed unhandled errors from file watcher on invalid paths or fd exhaustion</li>
+<li>Fixed Remote Control sessions getting archived on transient CCR initialization blips during JWT refresh</li>
+<li>Fixed subagents resumed via <code>SendMessage</code> not restoring the explicit <code>cwd</code> they were spawned with</li>
+</ul>
+]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[v2.1.117]]></title>
             <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.117</link>
@@ -2916,36 +2998,6 @@
             <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
 <ul>
 <li>Fixed BashTool failing on Windows with EINVAL error</li>
-</ul>
-]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[v2.1.53]]></title>
-            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.53</link>
-            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.53</guid>
-            <pubDate>Wed, 25 Feb 2026 00:13:48 GMT</pubDate>
-            <description><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>Fixed a UI flicker where user input would briefly disappear after submission before the message rendered</li>
-<li>Fixed bulk agent kill (ctrl+f) to send a single aggregate notification instead of one per agent, and to properly clear the command queue</li>
-<li>Fixed graceful shutdown sometimes leaving stale sessions when using Remote Control by parallelizing teardown network calls</li>
-<li>Fixed <code>--worktree</code> sometimes being ignored on first launch</li>
-<li>Fixed a panic (&quot;switch on corrupted value&quot;) on Windows</li>
-<li>Fixed a crash that could occur when spawning many processes on Windows</li>
-<li>Fixed a crash in the WebAssembly interpreter on Linux x64 &amp; Windows x64</li>
-<li>Fixed a crash that sometimes occurred after 2 minutes on Windows ARM64</li>
-</ul>
-]]></description>
-            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>Fixed a UI flicker where user input would briefly disappear after submission before the message rendered</li>
-<li>Fixed bulk agent kill (ctrl+f) to send a single aggregate notification instead of one per agent, and to properly clear the command queue</li>
-<li>Fixed graceful shutdown sometimes leaving stale sessions when using Remote Control by parallelizing teardown network calls</li>
-<li>Fixed <code>--worktree</code> sometimes being ignored on first launch</li>
-<li>Fixed a panic (&quot;switch on corrupted value&quot;) on Windows</li>
-<li>Fixed a crash that could occur when spawning many processes on Windows</li>
-<li>Fixed a crash in the WebAssembly interpreter on Linux x64 &amp; Windows x64</li>
-<li>Fixed a crash that sometimes occurred after 2 minutes on Windows ARM64</li>
 </ul>
 ]]></content:encoded>
         </item>
