@@ -13,7 +13,7 @@ Many popular tech blogs don't offer RSS feeds. This project uses AI to analyze b
 | Blog | Feed | Status |
 |------|------|--------|
 | [Essays](https://www.paulgraham.com/articles.html) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/paulgraham.xml) | ✅ 20 articles |
-| [文匯報](https://www.wenweipo.com/) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/wenweipo.xml) | ✅ 12 articles |
+| [文匯報](https://www.wenweipo.com/) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/wenweipo.xml) | ✅ 13 articles |
 | [Cursor Blog](https://cursor.com/blog) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/cursor-blog.xml) | ✅ 12 articles |
 | [Paul Graham Essays](https://www.paulgraham.com/articles.html) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/paul-graham.xml) | ✅ 20 articles |
 | [Stability AI News](https://stability.ai/news) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/stability-ai.xml) | ✅ 20 articles |
