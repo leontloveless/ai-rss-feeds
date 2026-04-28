@@ -4,11 +4,103 @@
         <title>claude-code Releases</title>
         <link>https://github.com/anthropics/claude-code/releases</link>
         <description>GitHub releases for anthropics/claude-code</description>
-        <lastBuildDate>Thu, 23 Apr 2026 23:24:19 GMT</lastBuildDate>
+        <lastBuildDate>Tue, 28 Apr 2026 00:31:31 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>ai-rss-feeds (https://github.com/leontloveless/ai-rss-feeds)</generator>
         <language>en</language>
         <atom:link href="https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/claude-code-releases.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[v2.1.121]]></title>
+            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.121</link>
+            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.121</guid>
+            <pubDate>Tue, 28 Apr 2026 00:31:31 GMT</pubDate>
+            <description><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Added <code>alwaysLoad</code> option to MCP server config — when <code>true</code>, all tools from that server skip tool-search deferral and are always available</li>
+<li>Added <code>claude plugin prune</code> to remove orphaned auto-installed plugin dependencies; <code>plugin uninstall --prune</code> cascades</li>
+<li>Added a type-to-filter search box to <code>/skills</code> so you can find a skill in long lists without scrolling</li>
+<li>PostToolUse hooks can now replace tool output for all tools via <code>hookSpecificOutput.updatedToolOutput</code> (previously MCP-only)</li>
+<li>Fullscreen mode: typing into the prompt no longer jumps scroll back to the bottom after you&#39;ve scrolled up to read earlier output</li>
+<li>Dialogs that overflow the terminal are now scrollable with arrow keys, PgUp/PgDn, home/end, and mouse wheel in both fullscreen and non-fullscreen modes</li>
+<li>Clicking any line of a long URL that wraps across rows in fullscreen mode now opens the full URL</li>
+<li>SDK and <code>claude -p</code>: <code>CLAUDE_CODE_FORK_SUBAGENT=1</code> now works in non-interactive sessions</li>
+<li><code>--dangerously-skip-permissions</code> no longer prompts for writes to <code>.claude/skills/</code>, <code>.claude/agents/</code>, and <code>.claude/commands/</code></li>
+<li><code>/terminal-setup</code> now enables iTerm2&#39;s &quot;Applications in terminal may access clipboard&quot; setting so <code>/copy</code> works, including from tmux</li>
+<li>MCP servers that hit a transient error during startup now auto-retry up to 3 times instead of staying disconnected</li>
+<li>The terminal tab session title is now generated in your configured <code>language</code> setting</li>
+<li>Claude.ai connectors with the same upstream URL are now deduplicated instead of appearing as duplicates</li>
+<li>Vertex AI: support X.509 certificate-based Workload Identity Federation (mTLS ADC)</li>
+<li>Faster startup after upgrading: removed the Recent Activity panel from the release-notes splash</li>
+<li>LSP diagnostic summaries now expand on click/ctrl+o and show the expand hint</li>
+<li>SDK: <code>mcp_authenticate</code> now supports <code>redirectUri</code> for custom scheme completion and claude.ai connectors</li>
+<li>OpenTelemetry: added <code>stop_reason</code>, <code>gen_ai.response.finish_reasons</code>, and <code>user_system_prompt</code> (gated behind <code>OTEL_LOG_USER_PROMPTS</code>) to LLM request spans</li>
+<li>[VSCode] Voice dictation now respects the <code>accessibility.voice.speechLanguage</code> setting when no Claude Code language is configured</li>
+<li>[VSCode] <code>/context</code> now opens a native token usage dialog</li>
+<li>Fixed unbounded memory growth (multi-GB RSS) when processing many images in a session</li>
+<li>Fixed <code>/usage</code> leaking up to ~2GB of memory on machines with large transcript histories</li>
+<li>Fixed memory leak when long-running tools fail to emit a clear progress event</li>
+<li>Fixed Bash tool becoming permanently unusable when the directory Claude was started in is deleted or moved mid-session</li>
+<li>Fixed <code>--resume</code> crashing on startup in external builds</li>
+<li>Fixed <code>--resume</code> failing on large sessions when a transcript line was corrupted by an unclean shutdown — the corrupt line is now skipped</li>
+<li>Fixed <code>thinking.type.enabled is not supported</code> error when using Bedrock application inference profile ARNs</li>
+<li>Fixed Microsoft 365 MCP OAuth failing with duplicate or unsupported <code>prompt</code> parameter</li>
+<li>Fixed scrollback duplication when pressing Ctrl+L or triggering a redraw in non-fullscreen mode on tmux, GNOME Terminal, Windows Terminal, and Konsole</li>
+<li>Fixed claude.ai MCP connectors silently disappearing when the connector-list fetch hits a transient auth error at startup</li>
+<li>Fixed &quot;Always allow&quot; rules for built-in tools in remote sessions not surviving worker restarts</li>
+<li>Fixed <code>NO_PROXY</code> not being respected for all HTTP clients when set via <code>managed-settings.json</code> under the native build</li>
+<li>Fixed managed settings approval prompt exiting the session even when accepted — now applies settings and continues</li>
+<li>Fixed <code>/usage</code> returning &quot;rate limited&quot; after a stale OAuth token — now refreshes automatically</li>
+<li>Fixed invalid legacy enum values in <code>settings.json</code> invalidating the entire settings file</li>
+<li>Fixed <code>/usage</code> dialog content being clipped when no-flicker mode is off</li>
+<li>Fixed <code>/focus</code> showing &quot;Unknown command&quot; when the fullscreen renderer is off — now explains how to enable it</li>
+<li>Fixed embedded grep/find/rg shell wrappers failing when the running binary is deleted mid-session — now falls back to installed tools</li>
+<li>Reduced peak file descriptor usage during <code>find</code> in the Bash tool on large directory trees</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Added <code>alwaysLoad</code> option to MCP server config — when <code>true</code>, all tools from that server skip tool-search deferral and are always available</li>
+<li>Added <code>claude plugin prune</code> to remove orphaned auto-installed plugin dependencies; <code>plugin uninstall --prune</code> cascades</li>
+<li>Added a type-to-filter search box to <code>/skills</code> so you can find a skill in long lists without scrolling</li>
+<li>PostToolUse hooks can now replace tool output for all tools via <code>hookSpecificOutput.updatedToolOutput</code> (previously MCP-only)</li>
+<li>Fullscreen mode: typing into the prompt no longer jumps scroll back to the bottom after you&#39;ve scrolled up to read earlier output</li>
+<li>Dialogs that overflow the terminal are now scrollable with arrow keys, PgUp/PgDn, home/end, and mouse wheel in both fullscreen and non-fullscreen modes</li>
+<li>Clicking any line of a long URL that wraps across rows in fullscreen mode now opens the full URL</li>
+<li>SDK and <code>claude -p</code>: <code>CLAUDE_CODE_FORK_SUBAGENT=1</code> now works in non-interactive sessions</li>
+<li><code>--dangerously-skip-permissions</code> no longer prompts for writes to <code>.claude/skills/</code>, <code>.claude/agents/</code>, and <code>.claude/commands/</code></li>
+<li><code>/terminal-setup</code> now enables iTerm2&#39;s &quot;Applications in terminal may access clipboard&quot; setting so <code>/copy</code> works, including from tmux</li>
+<li>MCP servers that hit a transient error during startup now auto-retry up to 3 times instead of staying disconnected</li>
+<li>The terminal tab session title is now generated in your configured <code>language</code> setting</li>
+<li>Claude.ai connectors with the same upstream URL are now deduplicated instead of appearing as duplicates</li>
+<li>Vertex AI: support X.509 certificate-based Workload Identity Federation (mTLS ADC)</li>
+<li>Faster startup after upgrading: removed the Recent Activity panel from the release-notes splash</li>
+<li>LSP diagnostic summaries now expand on click/ctrl+o and show the expand hint</li>
+<li>SDK: <code>mcp_authenticate</code> now supports <code>redirectUri</code> for custom scheme completion and claude.ai connectors</li>
+<li>OpenTelemetry: added <code>stop_reason</code>, <code>gen_ai.response.finish_reasons</code>, and <code>user_system_prompt</code> (gated behind <code>OTEL_LOG_USER_PROMPTS</code>) to LLM request spans</li>
+<li>[VSCode] Voice dictation now respects the <code>accessibility.voice.speechLanguage</code> setting when no Claude Code language is configured</li>
+<li>[VSCode] <code>/context</code> now opens a native token usage dialog</li>
+<li>Fixed unbounded memory growth (multi-GB RSS) when processing many images in a session</li>
+<li>Fixed <code>/usage</code> leaking up to ~2GB of memory on machines with large transcript histories</li>
+<li>Fixed memory leak when long-running tools fail to emit a clear progress event</li>
+<li>Fixed Bash tool becoming permanently unusable when the directory Claude was started in is deleted or moved mid-session</li>
+<li>Fixed <code>--resume</code> crashing on startup in external builds</li>
+<li>Fixed <code>--resume</code> failing on large sessions when a transcript line was corrupted by an unclean shutdown — the corrupt line is now skipped</li>
+<li>Fixed <code>thinking.type.enabled is not supported</code> error when using Bedrock application inference profile ARNs</li>
+<li>Fixed Microsoft 365 MCP OAuth failing with duplicate or unsupported <code>prompt</code> parameter</li>
+<li>Fixed scrollback duplication when pressing Ctrl+L or triggering a redraw in non-fullscreen mode on tmux, GNOME Terminal, Windows Terminal, and Konsole</li>
+<li>Fixed claude.ai MCP connectors silently disappearing when the connector-list fetch hits a transient auth error at startup</li>
+<li>Fixed &quot;Always allow&quot; rules for built-in tools in remote sessions not surviving worker restarts</li>
+<li>Fixed <code>NO_PROXY</code> not being respected for all HTTP clients when set via <code>managed-settings.json</code> under the native build</li>
+<li>Fixed managed settings approval prompt exiting the session even when accepted — now applies settings and continues</li>
+<li>Fixed <code>/usage</code> returning &quot;rate limited&quot; after a stale OAuth token — now refreshes automatically</li>
+<li>Fixed invalid legacy enum values in <code>settings.json</code> invalidating the entire settings file</li>
+<li>Fixed <code>/usage</code> dialog content being clipped when no-flicker mode is off</li>
+<li>Fixed <code>/focus</code> showing &quot;Unknown command&quot; when the fullscreen renderer is off — now explains how to enable it</li>
+<li>Fixed embedded grep/find/rg shell wrappers failing when the running binary is deleted mid-session — now falls back to installed tools</li>
+<li>Reduced peak file descriptor usage during <code>find</code> in the Bash tool on large directory trees</li>
+</ul>
+]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[v2.1.119]]></title>
             <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.119</link>
@@ -3082,22 +3174,6 @@
             <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
 <ul>
 <li>Expand Remote Control to more users</li>
-</ul>
-]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[v2.1.56]]></title>
-            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.56</link>
-            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.56</guid>
-            <pubDate>Wed, 25 Feb 2026 06:27:48 GMT</pubDate>
-            <description><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>VS Code: Fixed another cause of &quot;command &#39;claude-vscode.editor.openLast&#39; not found&quot; crashes</li>
-</ul>
-]]></description>
-            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>VS Code: Fixed another cause of &quot;command &#39;claude-vscode.editor.openLast&#39; not found&quot; crashes</li>
 </ul>
 ]]></content:encoded>
         </item>
