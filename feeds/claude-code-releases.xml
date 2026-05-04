@@ -4,11 +4,99 @@
         <title>claude-code Releases</title>
         <link>https://github.com/anthropics/claude-code/releases</link>
         <description>GitHub releases for anthropics/claude-code</description>
-        <lastBuildDate>Fri, 01 May 2026 02:05:23 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 04 May 2026 23:01:47 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>ai-rss-feeds (https://github.com/leontloveless/ai-rss-feeds)</generator>
         <language>en</language>
         <atom:link href="https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/claude-code-releases.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[v2.1.128]]></title>
+            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.128</link>
+            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.128</guid>
+            <pubDate>Mon, 04 May 2026 23:01:47 GMT</pubDate>
+            <description><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Bare <code>/color</code> (no args) now picks a random session color</li>
+<li><code>/mcp</code> now shows the tool count for connected servers and flags servers that connected with 0 tools</li>
+<li><code>--plugin-dir</code> now accepts <code>.zip</code> plugin archives in addition to directories</li>
+<li><code>--channels</code> now works with console (API key) authentication — console orgs with managed settings must set <code>channelsEnabled: true</code> to enable</li>
+<li>Updated <code>/model</code> picker: collapsed duplicate Opus 4.7 entries, and current Opus now shows as &quot;Opus&quot; instead of &quot;Opus 4.7&quot;</li>
+<li>Subprocesses (Bash, hooks, MCP, LSP) no longer inherit <code>OTEL_*</code> environment variables, so OTEL-instrumented apps run via the Bash tool no longer pick up the CLI&#39;s own OTLP endpoint</li>
+<li>MCP: <code>workspace</code> is now a reserved server name — existing servers with that name will be skipped with a warning</li>
+<li>Reconnecting MCP servers no longer flood the conversation with full tool-name lists on every reconnect — re-announced tools are summarized by server prefix</li>
+<li>SDK hosts now receive a persistent <code>localSettings</code> suggestion for Bash permission prompts, so &quot;Always allow&quot; writes to <code>.claude/settings.local.json</code></li>
+<li><code>EnterWorktree</code> now creates the new branch from local HEAD as documented, instead of <code>origin/&lt;default-branch&gt;</code> — unpushed commits are no longer dropped</li>
+<li>Auto mode: when the classifier can&#39;t evaluate an action, the error now includes a hint (retry, <code>/compact</code>, or run with <code>--debug</code>)</li>
+<li>Fixed focus mode briefly dimming the previous response when submitting a new prompt</li>
+<li>Fixed stray &quot;4;0;&quot; desktop notification on every <code>/exit</code> in Kitty and other terminals that interpret OSC 9 as a notification</li>
+<li>Fixed Remote Control showing an empty &quot;Opening your options…&quot; message on rate limit instead of actionable upsell options</li>
+<li>Fixed drag-and-drop image upload hanging on &quot;Pasting text…&quot; when the image read fails</li>
+<li>Fixed crash loop when piping very large input (&gt;10 MB) to <code>claude -p</code> via stdin</li>
+<li>Fixed long URLs not being individually clickable on every wrapped row in fullscreen mode</li>
+<li>Fixed <code>/plugin</code> Components panel showing &quot;Marketplace &#39;inline&#39; not found&quot; for plugins loaded via <code>--plugin-dir</code></li>
+<li>Fixed MCP tool results dropping images when the server returns both structured content and content blocks</li>
+<li>Fixed fenced code blocks inside list items carrying leading whitespace into the clipboard on copy-paste</li>
+<li>Fixed tab navigation in <code>/config</code> stranding focus — the tab header now stays focused so arrows and Esc keep working</li>
+<li>Fixed markdown link labels being lost on terminals without OSC 8 hyperlink support — links now render as <code>label (url)</code> instead of just the URL</li>
+<li>Fixed sessions on 1M-context models with a smaller autocompact window being falsely blocked with &quot;Prompt is too long&quot; before reaching the actual API limit</li>
+<li>Fixed parallel shell tool calls: a failing read-only command (grep, git diff, ls) no longer cancels sibling calls</li>
+<li>Fixed banner showing &quot;with X effort&quot; on models that don&#39;t support effort</li>
+<li>Fixed <code>/fast</code> on 3P providers fuzzy-matching to an unrelated skill instead of showing &quot;not available&quot;</li>
+<li>Fixed Bedrock default model resolving to <code>global.*</code> instead of the region-appropriate prefix</li>
+<li>Fixed vim mode: <code>Space</code> in NORMAL mode now moves the cursor right, matching standard vi/vim behavior</li>
+<li>Fixed terminal progress indicator (OSC 9;4) flickering off between tool calls — stays visible across the full turn</li>
+<li>Fixed <code>/rename</code> without args failing on resumed sessions whose last entry is a compact boundary</li>
+<li>Fixed stale &quot;remote-control is active&quot; status lines from prior sessions appearing after <code>--resume</code>/<code>--continue</code></li>
+<li>Fixed stale <code>installed_plugins.json</code> entries pointing at deleted cache directories polluting PATH</li>
+<li>Fixed MCP stdio servers receiving corrupted arguments when <code>CLAUDE_CODE_SHELL_PREFIX</code> is set and an argument contains spaces or shell metacharacters</li>
+<li>Fixed sub-agent progress summaries missing the prompt cache (~3× <code>cache_creation</code> reduction)</li>
+<li>Fixed <code>/plugin update</code> never detecting new versions of npm-sourced plugins</li>
+<li>Fixed sub-agent summaries firing repeatedly while a sub-agent&#39;s transcript is static, capping worst-case token cost on idle sub-agents</li>
+<li>Headless <code>--output-format stream-json</code>: <code>init.plugin_errors</code> now includes <code>--plugin-dir</code> load failures in addition to dependency demotions</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Bare <code>/color</code> (no args) now picks a random session color</li>
+<li><code>/mcp</code> now shows the tool count for connected servers and flags servers that connected with 0 tools</li>
+<li><code>--plugin-dir</code> now accepts <code>.zip</code> plugin archives in addition to directories</li>
+<li><code>--channels</code> now works with console (API key) authentication — console orgs with managed settings must set <code>channelsEnabled: true</code> to enable</li>
+<li>Updated <code>/model</code> picker: collapsed duplicate Opus 4.7 entries, and current Opus now shows as &quot;Opus&quot; instead of &quot;Opus 4.7&quot;</li>
+<li>Subprocesses (Bash, hooks, MCP, LSP) no longer inherit <code>OTEL_*</code> environment variables, so OTEL-instrumented apps run via the Bash tool no longer pick up the CLI&#39;s own OTLP endpoint</li>
+<li>MCP: <code>workspace</code> is now a reserved server name — existing servers with that name will be skipped with a warning</li>
+<li>Reconnecting MCP servers no longer flood the conversation with full tool-name lists on every reconnect — re-announced tools are summarized by server prefix</li>
+<li>SDK hosts now receive a persistent <code>localSettings</code> suggestion for Bash permission prompts, so &quot;Always allow&quot; writes to <code>.claude/settings.local.json</code></li>
+<li><code>EnterWorktree</code> now creates the new branch from local HEAD as documented, instead of <code>origin/&lt;default-branch&gt;</code> — unpushed commits are no longer dropped</li>
+<li>Auto mode: when the classifier can&#39;t evaluate an action, the error now includes a hint (retry, <code>/compact</code>, or run with <code>--debug</code>)</li>
+<li>Fixed focus mode briefly dimming the previous response when submitting a new prompt</li>
+<li>Fixed stray &quot;4;0;&quot; desktop notification on every <code>/exit</code> in Kitty and other terminals that interpret OSC 9 as a notification</li>
+<li>Fixed Remote Control showing an empty &quot;Opening your options…&quot; message on rate limit instead of actionable upsell options</li>
+<li>Fixed drag-and-drop image upload hanging on &quot;Pasting text…&quot; when the image read fails</li>
+<li>Fixed crash loop when piping very large input (&gt;10 MB) to <code>claude -p</code> via stdin</li>
+<li>Fixed long URLs not being individually clickable on every wrapped row in fullscreen mode</li>
+<li>Fixed <code>/plugin</code> Components panel showing &quot;Marketplace &#39;inline&#39; not found&quot; for plugins loaded via <code>--plugin-dir</code></li>
+<li>Fixed MCP tool results dropping images when the server returns both structured content and content blocks</li>
+<li>Fixed fenced code blocks inside list items carrying leading whitespace into the clipboard on copy-paste</li>
+<li>Fixed tab navigation in <code>/config</code> stranding focus — the tab header now stays focused so arrows and Esc keep working</li>
+<li>Fixed markdown link labels being lost on terminals without OSC 8 hyperlink support — links now render as <code>label (url)</code> instead of just the URL</li>
+<li>Fixed sessions on 1M-context models with a smaller autocompact window being falsely blocked with &quot;Prompt is too long&quot; before reaching the actual API limit</li>
+<li>Fixed parallel shell tool calls: a failing read-only command (grep, git diff, ls) no longer cancels sibling calls</li>
+<li>Fixed banner showing &quot;with X effort&quot; on models that don&#39;t support effort</li>
+<li>Fixed <code>/fast</code> on 3P providers fuzzy-matching to an unrelated skill instead of showing &quot;not available&quot;</li>
+<li>Fixed Bedrock default model resolving to <code>global.*</code> instead of the region-appropriate prefix</li>
+<li>Fixed vim mode: <code>Space</code> in NORMAL mode now moves the cursor right, matching standard vi/vim behavior</li>
+<li>Fixed terminal progress indicator (OSC 9;4) flickering off between tool calls — stays visible across the full turn</li>
+<li>Fixed <code>/rename</code> without args failing on resumed sessions whose last entry is a compact boundary</li>
+<li>Fixed stale &quot;remote-control is active&quot; status lines from prior sessions appearing after <code>--resume</code>/<code>--continue</code></li>
+<li>Fixed stale <code>installed_plugins.json</code> entries pointing at deleted cache directories polluting PATH</li>
+<li>Fixed MCP stdio servers receiving corrupted arguments when <code>CLAUDE_CODE_SHELL_PREFIX</code> is set and an argument contains spaces or shell metacharacters</li>
+<li>Fixed sub-agent progress summaries missing the prompt cache (~3× <code>cache_creation</code> reduction)</li>
+<li>Fixed <code>/plugin update</code> never detecting new versions of npm-sourced plugins</li>
+<li>Fixed sub-agent summaries firing repeatedly while a sub-agent&#39;s transcript is static, capping worst-case token cost on idle sub-agents</li>
+<li>Headless <code>--output-format stream-json</code>: <code>init.plugin_errors</code> now includes <code>--plugin-dir</code> load failures in addition to dependency demotions</li>
+</ul>
+]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[v2.1.126]]></title>
             <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.126</link>
@@ -3248,22 +3336,6 @@
 <li>Added &quot;Always copy full response&quot; option to the <code>/copy</code> picker. When selected, future <code>/copy</code> commands will skip the code block picker and copy the full response directly.</li>
 <li>VSCode: Added session rename and remove actions to the sessions list</li>
 <li>Fixed <code>/clear</code> not resetting cached skills, which could cause stale skill content to persist in the new conversation</li>
-</ul>
-]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[v2.1.62]]></title>
-            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.62</link>
-            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.62</guid>
-            <pubDate>Fri, 27 Feb 2026 01:56:19 GMT</pubDate>
-            <description><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>Fixed prompt suggestion cache regression that reduced cache hit rates</li>
-</ul>
-]]></description>
-            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>Fixed prompt suggestion cache regression that reduced cache hit rates</li>
 </ul>
 ]]></content:encoded>
         </item>
