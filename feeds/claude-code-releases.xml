@@ -4,11 +4,79 @@
         <title>claude-code Releases</title>
         <link>https://github.com/anthropics/claude-code/releases</link>
         <description>GitHub releases for anthropics/claude-code</description>
-        <lastBuildDate>Mon, 04 May 2026 23:01:47 GMT</lastBuildDate>
+        <lastBuildDate>Wed, 06 May 2026 01:40:18 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>ai-rss-feeds (https://github.com/leontloveless/ai-rss-feeds)</generator>
         <language>en</language>
         <atom:link href="https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/claude-code-releases.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[v2.1.129]]></title>
+            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.129</link>
+            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.129</guid>
+            <pubDate>Wed, 06 May 2026 01:40:18 GMT</pubDate>
+            <description><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Added <code>--plugin-url &lt;url&gt;</code> flag to fetch a plugin <code>.zip</code> archive from a URL for the current session</li>
+<li>Added <code>CLAUDE_CODE_FORCE_SYNC_OUTPUT=1</code> env var to force-enable synchronized output on terminals that auto-detection misses (e.g. Emacs <code>eat</code>)</li>
+<li>Added <code>CLAUDE_CODE_PACKAGE_MANAGER_AUTO_UPDATE</code>: when set on Homebrew or WinGet installations, Claude Code runs the upgrade command in the background and prompts to restart</li>
+<li>Plugin manifests: <code>themes</code> and <code>monitors</code> should now be declared under <code>&quot;experimental&quot;: { ... }</code>. Top-level declarations still work but <code>claude plugin validate</code> will warn</li>
+<li>Gateway <code>/v1/models</code> discovery for the <code>/model</code> picker is now opt-in via <code>CLAUDE_CODE_ENABLE_GATEWAY_MODEL_DISCOVERY=1</code> (was automatic in 2.1.126–2.1.128)</li>
+<li>Ctrl+R history picker now defaults to searching all prompts across all projects, matching pre-2.1.124 behavior. Press Ctrl+S to narrow to the current project or session</li>
+<li>Third-party deployments (Bedrock, Vertex, Foundry, or <code>ANTHROPIC_BASE_URL</code> gateway) no longer see spinner tips pointing at first-party Anthropic surfaces</li>
+<li><code>skillOverrides</code> setting now works: <code>off</code> hides from model and <code>/</code>, <code>user-invocable-only</code> hides from model only, <code>name-only</code> collapses description</li>
+<li>The <code>claude_code.pull_request.count</code> OTel metric now counts PRs/MRs created via MCP tools, not just shell commands</li>
+<li>Policy refusal error messages now include the API Request ID for easier support debugging</li>
+<li>Fixed API errors with unrecognized 400 status codes showing raw JSON instead of the underlying error message</li>
+<li>Fixed <code>/clear</code> not resetting the terminal tab title after a conversation</li>
+<li>Fixed session title chip from <code>/rename</code> disappearing while a permission or other dialog is active</li>
+<li>Fixed agent panel below the prompt being hidden when subagents are running (regression in 2.1.122)</li>
+<li>Fixed external-editor handoff (Ctrl+G) blanking the conversation history above the prompt</li>
+<li>Fixed <code>/context</code> dumping its rendered ASCII visualization grid into the conversation, wasting ~1.6k tokens per call</li>
+<li>Fixed <code>/agents</code> Library list arrow-key navigation: the highlighted agent now stays visible when the list exceeds the viewport</li>
+<li>Fixed <code>/branch</code> success message not including the new branch&#39;s session id for <code>/resume</code></li>
+<li>Fixed bold headers with keycap/ZWJ/skin-tone emoji losing trailing characters in fullscreen mode</li>
+<li>Fixed server-managed settings policy not applying for enterprise/team users whose stored OAuth credentials lacked the <code>user:inference</code> scope</li>
+<li>Fixed OAuth refresh race after wake-from-sleep that could log out all running sessions</li>
+<li>Fixed 1-hour prompt cache TTL being silently downgraded to 5 minutes</li>
+<li>Fixed cache-miss warning appearing spuriously after <code>/clear</code> or compaction when changing <code>/effort</code> or <code>/model</code></li>
+<li>Fixed <code>Bash(mkdir *)</code>, <code>Bash(touch *)</code> and similar allow rules not being honored for in-project paths</li>
+<li>Fixed <code>deniedMcpServers</code> patterns with a <code>*://</code> scheme wildcard not matching mixed-case hostnames</li>
+<li>Fixed harmless WebSocket warning being logged as an error in <code>--debug</code> during voice mode</li>
+<li>[VSCode] Fixed <code>/clear</code> not clearing the conversation context and displayed transcript</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Added <code>--plugin-url &lt;url&gt;</code> flag to fetch a plugin <code>.zip</code> archive from a URL for the current session</li>
+<li>Added <code>CLAUDE_CODE_FORCE_SYNC_OUTPUT=1</code> env var to force-enable synchronized output on terminals that auto-detection misses (e.g. Emacs <code>eat</code>)</li>
+<li>Added <code>CLAUDE_CODE_PACKAGE_MANAGER_AUTO_UPDATE</code>: when set on Homebrew or WinGet installations, Claude Code runs the upgrade command in the background and prompts to restart</li>
+<li>Plugin manifests: <code>themes</code> and <code>monitors</code> should now be declared under <code>&quot;experimental&quot;: { ... }</code>. Top-level declarations still work but <code>claude plugin validate</code> will warn</li>
+<li>Gateway <code>/v1/models</code> discovery for the <code>/model</code> picker is now opt-in via <code>CLAUDE_CODE_ENABLE_GATEWAY_MODEL_DISCOVERY=1</code> (was automatic in 2.1.126–2.1.128)</li>
+<li>Ctrl+R history picker now defaults to searching all prompts across all projects, matching pre-2.1.124 behavior. Press Ctrl+S to narrow to the current project or session</li>
+<li>Third-party deployments (Bedrock, Vertex, Foundry, or <code>ANTHROPIC_BASE_URL</code> gateway) no longer see spinner tips pointing at first-party Anthropic surfaces</li>
+<li><code>skillOverrides</code> setting now works: <code>off</code> hides from model and <code>/</code>, <code>user-invocable-only</code> hides from model only, <code>name-only</code> collapses description</li>
+<li>The <code>claude_code.pull_request.count</code> OTel metric now counts PRs/MRs created via MCP tools, not just shell commands</li>
+<li>Policy refusal error messages now include the API Request ID for easier support debugging</li>
+<li>Fixed API errors with unrecognized 400 status codes showing raw JSON instead of the underlying error message</li>
+<li>Fixed <code>/clear</code> not resetting the terminal tab title after a conversation</li>
+<li>Fixed session title chip from <code>/rename</code> disappearing while a permission or other dialog is active</li>
+<li>Fixed agent panel below the prompt being hidden when subagents are running (regression in 2.1.122)</li>
+<li>Fixed external-editor handoff (Ctrl+G) blanking the conversation history above the prompt</li>
+<li>Fixed <code>/context</code> dumping its rendered ASCII visualization grid into the conversation, wasting ~1.6k tokens per call</li>
+<li>Fixed <code>/agents</code> Library list arrow-key navigation: the highlighted agent now stays visible when the list exceeds the viewport</li>
+<li>Fixed <code>/branch</code> success message not including the new branch&#39;s session id for <code>/resume</code></li>
+<li>Fixed bold headers with keycap/ZWJ/skin-tone emoji losing trailing characters in fullscreen mode</li>
+<li>Fixed server-managed settings policy not applying for enterprise/team users whose stored OAuth credentials lacked the <code>user:inference</code> scope</li>
+<li>Fixed OAuth refresh race after wake-from-sleep that could log out all running sessions</li>
+<li>Fixed 1-hour prompt cache TTL being silently downgraded to 5 minutes</li>
+<li>Fixed cache-miss warning appearing spuriously after <code>/clear</code> or compaction when changing <code>/effort</code> or <code>/model</code></li>
+<li>Fixed <code>Bash(mkdir *)</code>, <code>Bash(touch *)</code> and similar allow rules not being honored for in-project paths</li>
+<li>Fixed <code>deniedMcpServers</code> patterns with a <code>*://</code> scheme wildcard not matching mixed-case hostnames</li>
+<li>Fixed harmless WebSocket warning being logged as an error in <code>--debug</code> during voice mode</li>
+<li>[VSCode] Fixed <code>/clear</code> not clearing the conversation context and displayed transcript</li>
+</ul>
+]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[v2.1.128]]></title>
             <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.128</link>
@@ -3272,72 +3340,6 @@
             <pubDate>Wed, 04 Mar 2026 01:19:19 GMT</pubDate>
             <description><![CDATA[<p>Release v2.1.66</p>]]></description>
             <content:encoded><![CDATA[<p>Release v2.1.66</p>]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[v2.1.63]]></title>
-            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.63</link>
-            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.63</guid>
-            <pubDate>Sat, 28 Feb 2026 03:45:37 GMT</pubDate>
-            <description><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>Added <code>/simplify</code> and <code>/batch</code> bundled slash commands</li>
-<li>Fixed local slash command output like /cost appearing as user-sent messages instead of system messages in the UI</li>
-<li>Project configs &amp; auto memory now shared across git worktrees of the same repository</li>
-<li>Added <code>ENABLE_CLAUDEAI_MCP_SERVERS=false</code> env var to opt out from making claude.ai MCP servers available</li>
-<li>Improved <code>/model</code> command to show the currently active model in the slash command menu</li>
-<li>Added HTTP hooks, which can POST JSON to a URL and receive JSON instead of running a shell command</li>
-<li>Fixed listener leak in bridge polling loop</li>
-<li>Fixed listener leak in MCP OAuth flow cleanup</li>
-<li>Added manual URL paste fallback during MCP OAuth authentication. If the automatic localhost redirect doesn&#39;t work, you can paste the callback URL to complete authentication.</li>
-<li>Fixed memory leak when navigating hooks configuration menu</li>
-<li>Fixed listener leak in interactive permission handler during auto-approvals</li>
-<li>Fixed file count cache ignoring glob ignore patterns</li>
-<li>Fixed memory leak in bash command prefix cache</li>
-<li>Fixed MCP tool/resource cache leak on server reconnect</li>
-<li>Fixed IDE host IP detection cache incorrectly sharing results across ports</li>
-<li>Fixed WebSocket listener leak on transport reconnect</li>
-<li>Fixed memory leak in git root detection cache that could cause unbounded growth in long-running sessions</li>
-<li>Fixed memory leak in JSON parsing cache that grew unbounded over long sessions</li>
-<li>VSCode: Fixed remote sessions not appearing in conversation history</li>
-<li>Fixed a race condition in the REPL bridge where new messages could arrive at the server interleaved with historical messages during the initial connection flush, causing message ordering issues.</li>
-<li>Fixed memory leak where long-running teammates retained all messages in AppState even after conversation compaction</li>
-<li>Fixed a memory leak where MCP server fetch caches were not cleared on disconnect, causing growing memory usage with servers that reconnect frequently</li>
-<li>Improved memory usage in long sessions with subagents by stripping heavy progress message payloads during context compaction</li>
-<li>Added &quot;Always copy full response&quot; option to the <code>/copy</code> picker. When selected, future <code>/copy</code> commands will skip the code block picker and copy the full response directly.</li>
-<li>VSCode: Added session rename and remove actions to the sessions list</li>
-<li>Fixed <code>/clear</code> not resetting cached skills, which could cause stale skill content to persist in the new conversation</li>
-</ul>
-]]></description>
-            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>Added <code>/simplify</code> and <code>/batch</code> bundled slash commands</li>
-<li>Fixed local slash command output like /cost appearing as user-sent messages instead of system messages in the UI</li>
-<li>Project configs &amp; auto memory now shared across git worktrees of the same repository</li>
-<li>Added <code>ENABLE_CLAUDEAI_MCP_SERVERS=false</code> env var to opt out from making claude.ai MCP servers available</li>
-<li>Improved <code>/model</code> command to show the currently active model in the slash command menu</li>
-<li>Added HTTP hooks, which can POST JSON to a URL and receive JSON instead of running a shell command</li>
-<li>Fixed listener leak in bridge polling loop</li>
-<li>Fixed listener leak in MCP OAuth flow cleanup</li>
-<li>Added manual URL paste fallback during MCP OAuth authentication. If the automatic localhost redirect doesn&#39;t work, you can paste the callback URL to complete authentication.</li>
-<li>Fixed memory leak when navigating hooks configuration menu</li>
-<li>Fixed listener leak in interactive permission handler during auto-approvals</li>
-<li>Fixed file count cache ignoring glob ignore patterns</li>
-<li>Fixed memory leak in bash command prefix cache</li>
-<li>Fixed MCP tool/resource cache leak on server reconnect</li>
-<li>Fixed IDE host IP detection cache incorrectly sharing results across ports</li>
-<li>Fixed WebSocket listener leak on transport reconnect</li>
-<li>Fixed memory leak in git root detection cache that could cause unbounded growth in long-running sessions</li>
-<li>Fixed memory leak in JSON parsing cache that grew unbounded over long sessions</li>
-<li>VSCode: Fixed remote sessions not appearing in conversation history</li>
-<li>Fixed a race condition in the REPL bridge where new messages could arrive at the server interleaved with historical messages during the initial connection flush, causing message ordering issues.</li>
-<li>Fixed memory leak where long-running teammates retained all messages in AppState even after conversation compaction</li>
-<li>Fixed a memory leak where MCP server fetch caches were not cleared on disconnect, causing growing memory usage with servers that reconnect frequently</li>
-<li>Improved memory usage in long sessions with subagents by stripping heavy progress message payloads during context compaction</li>
-<li>Added &quot;Always copy full response&quot; option to the <code>/copy</code> picker. When selected, future <code>/copy</code> commands will skip the code block picker and copy the full response directly.</li>
-<li>VSCode: Added session rename and remove actions to the sessions list</li>
-<li>Fixed <code>/clear</code> not resetting cached skills, which could cause stale skill content to persist in the new conversation</li>
-</ul>
-]]></content:encoded>
         </item>
     </channel>
 </rss>
