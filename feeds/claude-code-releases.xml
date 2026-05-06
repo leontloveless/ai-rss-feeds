@@ -4,11 +4,81 @@
         <title>claude-code Releases</title>
         <link>https://github.com/anthropics/claude-code/releases</link>
         <description>GitHub releases for anthropics/claude-code</description>
-        <lastBuildDate>Wed, 06 May 2026 07:47:56 GMT</lastBuildDate>
+        <lastBuildDate>Wed, 06 May 2026 22:08:13 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>ai-rss-feeds (https://github.com/leontloveless/ai-rss-feeds)</generator>
         <language>en</language>
         <atom:link href="https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/claude-code-releases.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[v2.1.132]]></title>
+            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.132</link>
+            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.132</guid>
+            <pubDate>Wed, 06 May 2026 22:08:13 GMT</pubDate>
+            <description><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Added <code>CLAUDE_CODE_SESSION_ID</code> environment variable to the Bash tool subprocess environment, matching the <code>session_id</code> passed to hooks</li>
+<li>Added <code>CLAUDE_CODE_DISABLE_ALTERNATE_SCREEN=1</code> env var to opt out of the fullscreen alternate-screen renderer and keep the conversation in the terminal&#39;s native scrollback</li>
+<li>Added a &quot;Pasting…&quot; footer hint while a Ctrl+V image paste is being read from the clipboard</li>
+<li>Fixed external SIGINT (e.g. IDE stop button, <code>kill -INT</code>) not running graceful shutdown — terminal modes are now restored and the <code>--resume</code> hint is printed instead of an abrupt exit</li>
+<li>Fixed an uncaught exception when the terminal is closed or SSH disconnects mid-session under the native build</li>
+<li>Fixed <code>--resume</code> failing with <code>no low surrogate in string</code> when a tool error truncation split an emoji; pre-corrupted sessions are sanitized on load</li>
+<li>Fixed <code>--permission-mode</code> flag being ignored when resuming a plan-mode session with <code>-p --continue</code>/<code>--resume</code>, and plan mode not being re-applied after <code>ExitPlanMode</code> within the same session</li>
+<li>Fixed fullscreen mode showing a blank screen after laptop sleep/wake or Ctrl+Z/<code>fg</code> until the next keystroke or stream output</li>
+<li>Fixed cursor landing mid-grapheme on Ctrl+E/A/K/U/arrow keys when an Indic conjunct or ZWJ emoji wraps across lines</li>
+<li>Fixed vim operators corrupting text containing decomposed (NFD) accented characters</li>
+<li>Fixed pasting text starting with <code>/</code> silently swallowing the input or triggering an unknown-command reply</li>
+<li>Fixed pasting dumping stray escape sequences into the prompt when focus events or mouse-tracking reports interleave with the bracketed paste</li>
+<li>Fixed mouse wheel scrolling being too fast in Cursor and VS Code 1.92–1.104 due to an upstream xterm.js bug</li>
+<li>Fixed scroll-wheel handling in JetBrains IDE 2025.2 terminals (spurious arrow keys, wrong-direction events, runaway acceleration)</li>
+<li>Fixed <code>/usage</code> Ctrl+S hanging when copying the stats screenshot to the clipboard on Linux/X11</li>
+<li>Fixed <code>/terminal-setup</code> showing a contradictory error in Windows Terminal — Shift+Enter is natively supported there</li>
+<li>Fixed <code>/effort</code> picker not reflecting the <code>CLAUDE_CODE_EFFORT_LEVEL</code> env var override</li>
+<li>Fixed <code>/status</code> showing the wrong default model for some users</li>
+<li>Fixed slash command autocomplete popup being capped at ~3–5 visible commands instead of scaling with terminal height</li>
+<li>Fixed statusline <code>context_window</code> token counts reflecting cumulative session totals instead of current context usage</li>
+<li>Fixed Alt+T (thinking toggle) not working on macOS terminals without &quot;Option as Meta&quot; enabled (iTerm2, Terminal.app defaults)</li>
+<li>Fixed dead keyboard input on Windows after re-opening a background session from <code>claude agents</code></li>
+<li>Fixed unbounded memory growth (10GB+ RSS) when a stdio MCP server writes non-protocol data to stdout</li>
+<li>Fixed MCP servers that connect but fail <code>tools/list</code> silently showing 0 tools — they now retry once and show &quot;connected · tools fetch failed&quot; in <code>/mcp</code></li>
+<li>Fixed unauthorized claude.ai MCP connectors showing as &quot;failed&quot; instead of &quot;needs auth&quot;, and headless <code>-p</code> mode retrying non-transient 4xx connection failures</li>
+<li>Improved visual consistency in slash command dialogs and <code>/login</code>, <code>/upgrade</code>, <code>/extra-usage</code> dialog spacing</li>
+<li>Updated the <code>/tui fullscreen</code> startup banner to describe additional renderer benefits (lower memory usage, mouse support, auto-copy on select)</li>
+<li>Fixed Bedrock and Vertex 400 errors when <code>ENABLE_PROMPT_CACHING_1H</code> is set</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Added <code>CLAUDE_CODE_SESSION_ID</code> environment variable to the Bash tool subprocess environment, matching the <code>session_id</code> passed to hooks</li>
+<li>Added <code>CLAUDE_CODE_DISABLE_ALTERNATE_SCREEN=1</code> env var to opt out of the fullscreen alternate-screen renderer and keep the conversation in the terminal&#39;s native scrollback</li>
+<li>Added a &quot;Pasting…&quot; footer hint while a Ctrl+V image paste is being read from the clipboard</li>
+<li>Fixed external SIGINT (e.g. IDE stop button, <code>kill -INT</code>) not running graceful shutdown — terminal modes are now restored and the <code>--resume</code> hint is printed instead of an abrupt exit</li>
+<li>Fixed an uncaught exception when the terminal is closed or SSH disconnects mid-session under the native build</li>
+<li>Fixed <code>--resume</code> failing with <code>no low surrogate in string</code> when a tool error truncation split an emoji; pre-corrupted sessions are sanitized on load</li>
+<li>Fixed <code>--permission-mode</code> flag being ignored when resuming a plan-mode session with <code>-p --continue</code>/<code>--resume</code>, and plan mode not being re-applied after <code>ExitPlanMode</code> within the same session</li>
+<li>Fixed fullscreen mode showing a blank screen after laptop sleep/wake or Ctrl+Z/<code>fg</code> until the next keystroke or stream output</li>
+<li>Fixed cursor landing mid-grapheme on Ctrl+E/A/K/U/arrow keys when an Indic conjunct or ZWJ emoji wraps across lines</li>
+<li>Fixed vim operators corrupting text containing decomposed (NFD) accented characters</li>
+<li>Fixed pasting text starting with <code>/</code> silently swallowing the input or triggering an unknown-command reply</li>
+<li>Fixed pasting dumping stray escape sequences into the prompt when focus events or mouse-tracking reports interleave with the bracketed paste</li>
+<li>Fixed mouse wheel scrolling being too fast in Cursor and VS Code 1.92–1.104 due to an upstream xterm.js bug</li>
+<li>Fixed scroll-wheel handling in JetBrains IDE 2025.2 terminals (spurious arrow keys, wrong-direction events, runaway acceleration)</li>
+<li>Fixed <code>/usage</code> Ctrl+S hanging when copying the stats screenshot to the clipboard on Linux/X11</li>
+<li>Fixed <code>/terminal-setup</code> showing a contradictory error in Windows Terminal — Shift+Enter is natively supported there</li>
+<li>Fixed <code>/effort</code> picker not reflecting the <code>CLAUDE_CODE_EFFORT_LEVEL</code> env var override</li>
+<li>Fixed <code>/status</code> showing the wrong default model for some users</li>
+<li>Fixed slash command autocomplete popup being capped at ~3–5 visible commands instead of scaling with terminal height</li>
+<li>Fixed statusline <code>context_window</code> token counts reflecting cumulative session totals instead of current context usage</li>
+<li>Fixed Alt+T (thinking toggle) not working on macOS terminals without &quot;Option as Meta&quot; enabled (iTerm2, Terminal.app defaults)</li>
+<li>Fixed dead keyboard input on Windows after re-opening a background session from <code>claude agents</code></li>
+<li>Fixed unbounded memory growth (10GB+ RSS) when a stdio MCP server writes non-protocol data to stdout</li>
+<li>Fixed MCP servers that connect but fail <code>tools/list</code> silently showing 0 tools — they now retry once and show &quot;connected · tools fetch failed&quot; in <code>/mcp</code></li>
+<li>Fixed unauthorized claude.ai MCP connectors showing as &quot;failed&quot; instead of &quot;needs auth&quot;, and headless <code>-p</code> mode retrying non-transient 4xx connection failures</li>
+<li>Improved visual consistency in slash command dialogs and <code>/login</code>, <code>/upgrade</code>, <code>/extra-usage</code> dialog spacing</li>
+<li>Updated the <code>/tui fullscreen</code> startup banner to describe additional renderer benefits (lower memory usage, mouse support, auto-copy on select)</li>
+<li>Fixed Bedrock and Vertex 400 errors when <code>ENABLE_PROMPT_CACHING_1H</code> is set</li>
+</ul>
+]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[v2.1.131]]></title>
             <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.131</link>
@@ -3328,26 +3398,6 @@
 <li>[VSCode] Added compaction display as a collapsible &quot;Compacted chat&quot; card with the summary inside</li>
 <li>[VSCode] The permission mode picker now respects <code>permissions.disableBypassPermissionsMode</code> from your effective Claude Code settings (including managed/policy settings) — when set to <code>disable</code>, bypass permissions mode is hidden from the picker</li>
 <li>[VSCode] Fixed RTL text (Arabic, Hebrew, Persian) rendering reversed in the chat panel (regression in v2.1.63)</li>
-</ul>
-]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[v2.1.68]]></title>
-            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.68</link>
-            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.68</guid>
-            <pubDate>Wed, 04 Mar 2026 10:11:14 GMT</pubDate>
-            <description><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>Opus 4.6 now defaults to medium effort for Max and Team subscribers. Medium effort works well for most tasks — it&#39;s the sweet spot between speed and thoroughness. You can change this anytime with <code>/model</code></li>
-<li>Re-introduced the &quot;ultrathink&quot; keyword to enable high effort for the next turn</li>
-<li>Removed Opus 4 and 4.1 from Claude Code on the first-party API — users with these models pinned are automatically moved to Opus 4.6</li>
-</ul>
-]]></description>
-            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>Opus 4.6 now defaults to medium effort for Max and Team subscribers. Medium effort works well for most tasks — it&#39;s the sweet spot between speed and thoroughness. You can change this anytime with <code>/model</code></li>
-<li>Re-introduced the &quot;ultrathink&quot; keyword to enable high effort for the next turn</li>
-<li>Removed Opus 4 and 4.1 from Claude Code on the first-party API — users with these models pinned are automatically moved to Opus 4.6</li>
 </ul>
 ]]></content:encoded>
         </item>
