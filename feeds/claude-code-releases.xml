@@ -4,11 +4,129 @@
         <title>claude-code Releases</title>
         <link>https://github.com/anthropics/claude-code/releases</link>
         <description>GitHub releases for anthropics/claude-code</description>
-        <lastBuildDate>Thu, 07 May 2026 23:49:04 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 08 May 2026 18:39:08 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>ai-rss-feeds (https://github.com/leontloveless/ai-rss-feeds)</generator>
         <language>en</language>
         <atom:link href="https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/claude-code-releases.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[v2.1.136]]></title>
+            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.136</link>
+            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.136</guid>
+            <pubDate>Fri, 08 May 2026 18:39:08 GMT</pubDate>
+            <description><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Added <code>CLAUDE_CODE_ENABLE_FEEDBACK_SURVEY_FOR_OTEL</code> to re-enable the session quality survey for enterprises capturing responses through OpenTelemetry</li>
+<li>Added <code>settings.autoMode.hard_deny</code> for auto mode classifier rules that block unconditionally regardless of user intent or allow exceptions</li>
+<li>Fixed MCP servers configured in <code>.mcp.json</code>, plugins, and claude.ai connectors silently disappearing after <code>/clear</code> in the VS Code extension, JetBrains plugin, and Agent SDK</li>
+<li>Fixed a rare login loop where a concurrent credential write could overwrite a freshly-rotated OAuth token and force re-login</li>
+<li>Fixed MCP OAuth refresh tokens being lost when multiple servers refresh concurrently — users with several remote MCP servers should no longer need daily re-authentication</li>
+<li>Fixed an API error (400) when extended thinking emitted a redacted thinking block after a tool call</li>
+<li>Fixed <code>--resume</code> / <code>--continue</code> not finding sessions when the project path contains underscores</li>
+<li>Fixed plan mode not blocking file writes when a matching <code>Edit(...)</code> allow rule exists</li>
+<li>WSL2: image paste from Windows clipboard now works via a PowerShell fallback when xclip/wl-paste cannot read image data</li>
+<li>Fixed plugin <code>Stop</code>/<code>UserPromptSubmit</code> hooks failing when cache cleanup deletes a version still in use by a running session</li>
+<li>Improved visual consistency across slash command dialogs: standardized footer hints, dialog spacing, and arrow-key styling, and the dialog frame now appears immediately during loading instead of popping in after</li>
+<li>Fixed colors appearing at wrong positions in bash command output and markdown code blocks</li>
+<li>Fixed ReasonML diffs rendering corrupted &quot;undefined&quot; text artifacts at word-diff boundaries</li>
+<li>Fixed worktree exit dialog warning about uncommitted files in the wrong directory after worktree removal</li>
+<li>Fixed <code>@</code> file picker not matching files created mid-session in small non-git directories</li>
+<li>Fixed <code>@</code>-mention file picker not finding files in directories with more than 100 entries</li>
+<li>Fixed failed tool calls not being click-to-expand in fullscreen mode when their output was truncated</li>
+<li>Fixed Backspace and Ctrl+Backspace getting swapped after using Ctrl+G to open an external editor on terminals with persistent extended-key modes</li>
+<li>Fixed <code>/usage</code> weekly reset showing time of day instead of the calendar date</li>
+<li>Fixed welcome banner ellipsis causing column overflow on CJK terminals</li>
+<li>Fixed <code>/insights</code> crash when session history contains tool calls with malformed input fields</li>
+<li>Fixed a renderer crash when a tool&#39;s collapsibility classification changes mid-session</li>
+<li>Fixed a <code>skills</code> entry in <code>plugin.json</code> hiding the plugin&#39;s default <code>skills/</code> directory, and listing a file path now shows an error instead of failing silently</li>
+<li>Fixed IDE shell-integration lock files not respecting <code>CLAUDE_CONFIG_DIR</code></li>
+<li>Fixed trailing whitespace in copied terminal output during streaming</li>
+<li>Fixed plugin uninstall and enable/disable not matching slugs case-insensitively</li>
+<li>Fixed tool error truncation marker showing a negative count for surrogate-pair strings</li>
+<li>Fixed env vars from <code>CLAUDE_ENV_FILE</code> SessionStart hooks going stale after <code>/resume</code> or <code>/clear</code></li>
+<li>Fixed <code>/branch</code> saving a multi-line session title when given a pasted multi-line name</li>
+<li>Fixed a stray leading space on the second line of wrapped text at the column boundary</li>
+<li>Fixed Esc not dismissing dialogs in <code>/install-github-app</code>, <code>/desktop</code>, <code>/resume</code>, and <code>/web-setup</code></li>
+<li>Fixed <code>/doctor</code> MCP schema errors not naming the missing field or showing the source file path</li>
+<li>Fixed Bash permission prompts showing an internal parser diagnostic instead of a user-readable explanation</li>
+<li>Fixed plugin slash commands with spaces (e.g. <code>/myplugin review</code>) not resolving to their namespaced form</li>
+<li>Fixed <code>AskUserQuestion</code> discarding multi-select answers when supplied as an array</li>
+<li>Fixed <code>/clear &lt;name&gt;</code> not labeling the cleared session for <code>/resume</code></li>
+<li>Fixed <code>CronList</code> output missing qualifiers and the scheduled prompt</li>
+<li>Fixed &quot;Jump to bottom&quot; overlay leaving color artifacts on CJK characters in fullscreen mode</li>
+<li>Fixed wide markdown tables leaving a stale bordered render in terminal scrollback while streaming</li>
+<li>Fixed pasted text being silently dropped when a long prompt with a pasted-text placeholder was auto-truncated</li>
+<li>Fixed <code>/release-notes</code> getting stuck on an old version after a failed changelog refresh</li>
+<li>Fixed <code>/mcp</code> server list not scrolling when there are more servers than fit in the terminal</li>
+<li>Fixed mid-input slash command autocomplete not working after an initial slash command</li>
+<li>Fixed scrolling to bottom re-engaging auto-follow with <code>autoScrollEnabled: false</code></li>
+<li>Fixed prompt suggestions being auto-submitted by Enter on an empty input instead of requiring Tab or arrow to accept</li>
+<li>Fixed keyboard shortcut hints not reflecting rebound keys from <code>keybindings.json</code></li>
+<li>Fixed <code>/settings</code> language change being reverted on Escape after confirming</li>
+<li>Fixed <code>/terminal-setup</code> only appearing in autocomplete on exact name match instead of partial prefixes</li>
+<li>Fixed &quot;Chat about this&quot; on an <code>AskUserQuestion</code> dialog erasing the question text</li>
+<li>Fixed MCP tool results being invisible when the server returns content blocks</li>
+<li>Improved error message when <code>--worktree</code> collides with an existing or stale worktree</li>
+<li>Changed plugin marketplace removal key to <code>d</code> (matching delete elsewhere) instead of <code>r</code> which collided with retry</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Added <code>CLAUDE_CODE_ENABLE_FEEDBACK_SURVEY_FOR_OTEL</code> to re-enable the session quality survey for enterprises capturing responses through OpenTelemetry</li>
+<li>Added <code>settings.autoMode.hard_deny</code> for auto mode classifier rules that block unconditionally regardless of user intent or allow exceptions</li>
+<li>Fixed MCP servers configured in <code>.mcp.json</code>, plugins, and claude.ai connectors silently disappearing after <code>/clear</code> in the VS Code extension, JetBrains plugin, and Agent SDK</li>
+<li>Fixed a rare login loop where a concurrent credential write could overwrite a freshly-rotated OAuth token and force re-login</li>
+<li>Fixed MCP OAuth refresh tokens being lost when multiple servers refresh concurrently — users with several remote MCP servers should no longer need daily re-authentication</li>
+<li>Fixed an API error (400) when extended thinking emitted a redacted thinking block after a tool call</li>
+<li>Fixed <code>--resume</code> / <code>--continue</code> not finding sessions when the project path contains underscores</li>
+<li>Fixed plan mode not blocking file writes when a matching <code>Edit(...)</code> allow rule exists</li>
+<li>WSL2: image paste from Windows clipboard now works via a PowerShell fallback when xclip/wl-paste cannot read image data</li>
+<li>Fixed plugin <code>Stop</code>/<code>UserPromptSubmit</code> hooks failing when cache cleanup deletes a version still in use by a running session</li>
+<li>Improved visual consistency across slash command dialogs: standardized footer hints, dialog spacing, and arrow-key styling, and the dialog frame now appears immediately during loading instead of popping in after</li>
+<li>Fixed colors appearing at wrong positions in bash command output and markdown code blocks</li>
+<li>Fixed ReasonML diffs rendering corrupted &quot;undefined&quot; text artifacts at word-diff boundaries</li>
+<li>Fixed worktree exit dialog warning about uncommitted files in the wrong directory after worktree removal</li>
+<li>Fixed <code>@</code> file picker not matching files created mid-session in small non-git directories</li>
+<li>Fixed <code>@</code>-mention file picker not finding files in directories with more than 100 entries</li>
+<li>Fixed failed tool calls not being click-to-expand in fullscreen mode when their output was truncated</li>
+<li>Fixed Backspace and Ctrl+Backspace getting swapped after using Ctrl+G to open an external editor on terminals with persistent extended-key modes</li>
+<li>Fixed <code>/usage</code> weekly reset showing time of day instead of the calendar date</li>
+<li>Fixed welcome banner ellipsis causing column overflow on CJK terminals</li>
+<li>Fixed <code>/insights</code> crash when session history contains tool calls with malformed input fields</li>
+<li>Fixed a renderer crash when a tool&#39;s collapsibility classification changes mid-session</li>
+<li>Fixed a <code>skills</code> entry in <code>plugin.json</code> hiding the plugin&#39;s default <code>skills/</code> directory, and listing a file path now shows an error instead of failing silently</li>
+<li>Fixed IDE shell-integration lock files not respecting <code>CLAUDE_CONFIG_DIR</code></li>
+<li>Fixed trailing whitespace in copied terminal output during streaming</li>
+<li>Fixed plugin uninstall and enable/disable not matching slugs case-insensitively</li>
+<li>Fixed tool error truncation marker showing a negative count for surrogate-pair strings</li>
+<li>Fixed env vars from <code>CLAUDE_ENV_FILE</code> SessionStart hooks going stale after <code>/resume</code> or <code>/clear</code></li>
+<li>Fixed <code>/branch</code> saving a multi-line session title when given a pasted multi-line name</li>
+<li>Fixed a stray leading space on the second line of wrapped text at the column boundary</li>
+<li>Fixed Esc not dismissing dialogs in <code>/install-github-app</code>, <code>/desktop</code>, <code>/resume</code>, and <code>/web-setup</code></li>
+<li>Fixed <code>/doctor</code> MCP schema errors not naming the missing field or showing the source file path</li>
+<li>Fixed Bash permission prompts showing an internal parser diagnostic instead of a user-readable explanation</li>
+<li>Fixed plugin slash commands with spaces (e.g. <code>/myplugin review</code>) not resolving to their namespaced form</li>
+<li>Fixed <code>AskUserQuestion</code> discarding multi-select answers when supplied as an array</li>
+<li>Fixed <code>/clear &lt;name&gt;</code> not labeling the cleared session for <code>/resume</code></li>
+<li>Fixed <code>CronList</code> output missing qualifiers and the scheduled prompt</li>
+<li>Fixed &quot;Jump to bottom&quot; overlay leaving color artifacts on CJK characters in fullscreen mode</li>
+<li>Fixed wide markdown tables leaving a stale bordered render in terminal scrollback while streaming</li>
+<li>Fixed pasted text being silently dropped when a long prompt with a pasted-text placeholder was auto-truncated</li>
+<li>Fixed <code>/release-notes</code> getting stuck on an old version after a failed changelog refresh</li>
+<li>Fixed <code>/mcp</code> server list not scrolling when there are more servers than fit in the terminal</li>
+<li>Fixed mid-input slash command autocomplete not working after an initial slash command</li>
+<li>Fixed scrolling to bottom re-engaging auto-follow with <code>autoScrollEnabled: false</code></li>
+<li>Fixed prompt suggestions being auto-submitted by Enter on an empty input instead of requiring Tab or arrow to accept</li>
+<li>Fixed keyboard shortcut hints not reflecting rebound keys from <code>keybindings.json</code></li>
+<li>Fixed <code>/settings</code> language change being reverted on Escape after confirming</li>
+<li>Fixed <code>/terminal-setup</code> only appearing in autocomplete on exact name match instead of partial prefixes</li>
+<li>Fixed &quot;Chat about this&quot; on an <code>AskUserQuestion</code> dialog erasing the question text</li>
+<li>Fixed MCP tool results being invisible when the server returns content blocks</li>
+<li>Improved error message when <code>--worktree</code> collides with an existing or stale worktree</li>
+<li>Changed plugin marketplace removal key to <code>d</code> (matching delete elsewhere) instead of <code>r</code> which collided with retry</li>
+</ul>
+]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[v2.1.133]]></title>
             <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.133</link>
@@ -3154,78 +3272,6 @@
 <li>Improved plugin-provided MCP server deduplication — servers that duplicate a manually-configured server (same command/URL) are now skipped, preventing duplicate connections and tool sets. Suppressions are shown in the <code>/plugin</code> menu.</li>
 <li>Updated <code>/debug</code> to toggle debug logging on mid-session, since debug logs are no longer written by default</li>
 <li>Removed startup notification noise for unauthenticated org-registered claude.ai connectors</li>
-</ul>
-]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[v2.1.70]]></title>
-            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.70</link>
-            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.70</guid>
-            <pubDate>Fri, 06 Mar 2026 01:20:02 GMT</pubDate>
-            <description><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>Fixed API 400 errors when using <code>ANTHROPIC_BASE_URL</code> with a third-party gateway — tool search now correctly detects proxy endpoints and disables <code>tool_reference</code> blocks</li>
-<li>Fixed <code>API Error: 400 This model does not support the effort parameter</code> when using custom Bedrock inference profiles or other model identifiers not matching standard Claude naming patterns</li>
-<li>Fixed empty model responses immediately after <code>ToolSearch</code> — the server renders tool schemas with system-prompt-style tags at the prompt tail, which could confuse models into stopping early</li>
-<li>Fixed prompt-cache bust when an MCP server with <code>instructions</code> connects after the first turn</li>
-<li>Fixed Enter inserting a newline instead of submitting when typing over a slow SSH connection</li>
-<li>Fixed clipboard corrupting non-ASCII text (CJK, emoji) on Windows/WSL by using PowerShell <code>Set-Clipboard</code></li>
-<li>Fixed extra VS Code windows opening at startup on Windows when running from the VS Code integrated terminal</li>
-<li>Fixed voice mode failing on Windows native binary with &quot;native audio module could not be loaded&quot;</li>
-<li>Fixed push-to-talk not activating on session start when <code>voiceEnabled: true</code> was set in settings</li>
-<li>Fixed markdown links containing <code>#NNN</code> references incorrectly pointing to the current repository instead of the linked URL</li>
-<li>Fixed repeated &quot;Model updated to Opus 4.6&quot; notification when a project&#39;s <code>.claude/settings.json</code> has a legacy Opus model string pinned</li>
-<li>Fixed plugins showing as inaccurately installed in <code>/plugin</code></li>
-<li>Fixed plugins showing &quot;not found in marketplace&quot; errors on fresh startup by auto-refreshing after marketplace installation</li>
-<li>Fixed <code>/security-review</code> command failing with <code>unknown option merge-base</code> on older git versions</li>
-<li>Fixed <code>/color</code> command having no way to reset back to the default color — <code>/color default</code>, <code>/color gray</code>, <code>/color reset</code>, and <code>/color none</code> now restore the default</li>
-<li>Fixed a performance regression in the <code>AskUserQuestion</code> preview dialog that re-ran markdown rendering on every keystroke in the notes input</li>
-<li>Fixed feature flags read during early startup never refreshing their disk cache, causing stale values to persist across sessions</li>
-<li>Fixed <code>permissions.defaultMode</code> settings values other than <code>acceptEdits</code> or <code>plan</code> being applied in Claude Code Remote environments — they are now ignored</li>
-<li>Fixed skill listing being re-injected on every <code>--resume</code> (~600 tokens saved per resume)</li>
-<li>Fixed teleport marker not rendering in VS Code teleported sessions</li>
-<li>Improved error message when microphone captures silence to distinguish from &quot;no speech detected&quot;</li>
-<li>Improved compaction to preserve images in the summarizer request, allowing prompt cache reuse for faster and cheaper compaction</li>
-<li>Improved <code>/rename</code> to work while Claude is processing, instead of being silently queued</li>
-<li>Reduced prompt input re-renders during turns by ~74%</li>
-<li>Reduced startup memory by ~426KB for users without custom CA certificates</li>
-<li>Reduced Remote Control <code>/poll</code> rate to once per 10 minutes while connected (was 1–2s), cutting server load ~300×. Reconnection is unaffected — transport loss immediately wakes fast polling.</li>
-<li>[VSCode] Added spark icon in VS Code activity bar that lists all Claude Code sessions, with sessions opening as full editors</li>
-<li>[VSCode] Added full markdown document view for plans in VS Code, with support for adding comments to provide feedback</li>
-<li>[VSCode] Added native MCP server management dialog — use <code>/mcp</code> in the chat panel to enable/disable servers, reconnect, and manage OAuth authentication without switching to the terminal</li>
-</ul>
-]]></description>
-            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>Fixed API 400 errors when using <code>ANTHROPIC_BASE_URL</code> with a third-party gateway — tool search now correctly detects proxy endpoints and disables <code>tool_reference</code> blocks</li>
-<li>Fixed <code>API Error: 400 This model does not support the effort parameter</code> when using custom Bedrock inference profiles or other model identifiers not matching standard Claude naming patterns</li>
-<li>Fixed empty model responses immediately after <code>ToolSearch</code> — the server renders tool schemas with system-prompt-style tags at the prompt tail, which could confuse models into stopping early</li>
-<li>Fixed prompt-cache bust when an MCP server with <code>instructions</code> connects after the first turn</li>
-<li>Fixed Enter inserting a newline instead of submitting when typing over a slow SSH connection</li>
-<li>Fixed clipboard corrupting non-ASCII text (CJK, emoji) on Windows/WSL by using PowerShell <code>Set-Clipboard</code></li>
-<li>Fixed extra VS Code windows opening at startup on Windows when running from the VS Code integrated terminal</li>
-<li>Fixed voice mode failing on Windows native binary with &quot;native audio module could not be loaded&quot;</li>
-<li>Fixed push-to-talk not activating on session start when <code>voiceEnabled: true</code> was set in settings</li>
-<li>Fixed markdown links containing <code>#NNN</code> references incorrectly pointing to the current repository instead of the linked URL</li>
-<li>Fixed repeated &quot;Model updated to Opus 4.6&quot; notification when a project&#39;s <code>.claude/settings.json</code> has a legacy Opus model string pinned</li>
-<li>Fixed plugins showing as inaccurately installed in <code>/plugin</code></li>
-<li>Fixed plugins showing &quot;not found in marketplace&quot; errors on fresh startup by auto-refreshing after marketplace installation</li>
-<li>Fixed <code>/security-review</code> command failing with <code>unknown option merge-base</code> on older git versions</li>
-<li>Fixed <code>/color</code> command having no way to reset back to the default color — <code>/color default</code>, <code>/color gray</code>, <code>/color reset</code>, and <code>/color none</code> now restore the default</li>
-<li>Fixed a performance regression in the <code>AskUserQuestion</code> preview dialog that re-ran markdown rendering on every keystroke in the notes input</li>
-<li>Fixed feature flags read during early startup never refreshing their disk cache, causing stale values to persist across sessions</li>
-<li>Fixed <code>permissions.defaultMode</code> settings values other than <code>acceptEdits</code> or <code>plan</code> being applied in Claude Code Remote environments — they are now ignored</li>
-<li>Fixed skill listing being re-injected on every <code>--resume</code> (~600 tokens saved per resume)</li>
-<li>Fixed teleport marker not rendering in VS Code teleported sessions</li>
-<li>Improved error message when microphone captures silence to distinguish from &quot;no speech detected&quot;</li>
-<li>Improved compaction to preserve images in the summarizer request, allowing prompt cache reuse for faster and cheaper compaction</li>
-<li>Improved <code>/rename</code> to work while Claude is processing, instead of being silently queued</li>
-<li>Reduced prompt input re-renders during turns by ~74%</li>
-<li>Reduced startup memory by ~426KB for users without custom CA certificates</li>
-<li>Reduced Remote Control <code>/poll</code> rate to once per 10 minutes while connected (was 1–2s), cutting server load ~300×. Reconnection is unaffected — transport loss immediately wakes fast polling.</li>
-<li>[VSCode] Added spark icon in VS Code activity bar that lists all Claude Code sessions, with sessions opening as full editors</li>
-<li>[VSCode] Added full markdown document view for plans in VS Code, with support for adding comments to provide feedback</li>
-<li>[VSCode] Added native MCP server management dialog — use <code>/mcp</code> in the chat panel to enable/disable servers, reconnect, and manage OAuth authentication without switching to the terminal</li>
 </ul>
 ]]></content:encoded>
         </item>
