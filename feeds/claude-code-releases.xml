@@ -4,11 +4,27 @@
         <title>claude-code Releases</title>
         <link>https://github.com/anthropics/claude-code/releases</link>
         <description>GitHub releases for anthropics/claude-code</description>
-        <lastBuildDate>Sat, 09 May 2026 00:11:04 GMT</lastBuildDate>
+        <lastBuildDate>Sat, 09 May 2026 06:33:25 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>ai-rss-feeds (https://github.com/leontloveless/ai-rss-feeds)</generator>
         <language>en</language>
         <atom:link href="https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/claude-code-releases.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[v2.1.138]]></title>
+            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.138</link>
+            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.138</guid>
+            <pubDate>Sat, 09 May 2026 06:33:25 GMT</pubDate>
+            <description><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Internal fixes</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Internal fixes</li>
+</ul>
+]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[v2.1.137]]></title>
             <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.137</link>
@@ -3096,128 +3112,6 @@
 <li>Changed default Opus model on Bedrock, Vertex, and Microsoft Foundry to Opus 4.6 (was Opus 4.1)</li>
 <li>Deprecated <code>/output-style</code> command — use <code>/config</code> instead. Output style is now fixed at session start for better prompt caching</li>
 <li>VSCode: Fixed HTTP 400 errors for users behind proxies or on Bedrock/Vertex with Claude 4.5 models</li>
-</ul>
-]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[v2.1.72]]></title>
-            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.72</link>
-            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.72</guid>
-            <pubDate>Tue, 10 Mar 2026 00:43:03 GMT</pubDate>
-            <description><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>Changed tool search to bypass the third-party proxy gate when the environment variable is set (replaces <code>CLAUDE_CODE_PROXY_SUPPORTS_TOOL_REFERENCE</code>, now removed)</li>
-<li>Added <code>w</code> key in <code>/copy</code> to write the focused selection directly to a file, bypassing the clipboard (useful over SSH)</li>
-<li>Added optional description argument to <code>/plan</code> (e.g., <code>/plan fix the auth bug</code>) that enters plan mode and immediately starts</li>
-<li>Added <code>claude plugins</code> as an alias for <code>claude plugin</code></li>
-<li>Added <code>ExitWorktree</code> tool to leave an <code>EnterWorktree</code> session</li>
-<li>Added <code>CLAUDE_CODE_DISABLE_CRON</code> environment variable to immediately stop scheduled cron jobs mid-session</li>
-<li>Added <code>lsof</code>, <code>pgrep</code>, <code>tput</code>, <code>ss</code>, <code>fd</code>, and <code>fdfind</code> to the bash auto-approval allowlist, reducing permission prompts for common read-only operations</li>
-<li>Added support for marketplace git URLs without <code>.git</code> suffix (Azure DevOps, AWS CodeCommit)</li>
-<li>Restored the <code>model</code> parameter on the Agent tool for per-invocation model overrides</li>
-<li>Simplified effort levels to low/medium/high (removed max) with new symbols (○ ◐ ●) and a brief notification instead of a persistent icon. Use <code>/effort auto</code> to reset to default</li>
-<li>Improved <code>/config</code> — Escape now cancels changes, Enter saves and closes, Space toggles settings</li>
-<li>Improved up-arrow history to show current session&#39;s messages first when running multiple concurrent sessions</li>
-<li>Improved voice input transcription accuracy for repo names and common dev terms (regex, OAuth, JSON)</li>
-<li>Improved marketplace clone failure messages to show diagnostic info even when git produces no stderr</li>
-<li>Improved <code>claude plugin validate</code> to explain that marketplace.json source paths are relative to the repo root when rejecting <code>../</code> paths</li>
-<li>Improved bash command parsing by switching to a native module — faster initialization and no memory leak</li>
-<li>Reduced false-positive bash permission prompts — tree-sitter parsing now handles <code>find -exec</code>, variable assignments, command substitutions, and many other patterns that previously triggered unnecessary prompts. Also fixed tree-sitter not loading in npm-installed versions</li>
-<li>Reduced bundle size by ~510 KB</li>
-<li>Changed CLAUDE.md HTML comments (<code>&lt;!-- ... --&gt;</code>) to be hidden from Claude when auto-injected. Comments remain visible when read with the Read tool</li>
-<li>Fixed slow exits when background tasks or hooks were slow to respond</li>
-<li>Fixed agent task progress stuck on &quot;Initializing…&quot;</li>
-<li>Fixed skill hooks firing twice per event when a hooks-enabled skill is invoked by the model</li>
-<li>Fixed several voice mode issues: occasional input lag, false &quot;No speech detected&quot; errors after releasing push-to-talk, and stale transcripts re-filling the prompt after submission</li>
-<li>Fixed <code>--continue</code> not resuming from the most recent point after <code>--compact</code></li>
-<li>Fixed bash security parsing edge cases</li>
-<li>Fixed several plugin issues: installation failing on Windows with <code>EEXIST</code> error in OneDrive folders, marketplace blocking user-scope installs when a project-scope install exists, <code>CLAUDE_CODE_PLUGIN_CACHE_DIR</code> creating literal <code>~</code> directories, and <code>plugin.json</code> with marketplace-only fields failing to load</li>
-<li>Fixed feedback survey appearing too frequently in long sessions</li>
-<li>Fixed <code>--effort</code> CLI flag being reset by unrelated settings writes on startup</li>
-<li>Fixed backgrounded Ctrl+B queries losing their transcript or corrupting the new conversation after <code>/clear</code></li>
-<li>Fixed <code>/clear</code> killing background agent/bash tasks — only foreground tasks are now cleared</li>
-<li>Fixed worktree isolation issues: Task tool resume not restoring cwd, and background task notifications missing <code>worktreePath</code> and <code>worktreeBranch</code></li>
-<li>Fixed <code>/model</code> not displaying results when run while Claude is working</li>
-<li>Fixed digit keys selecting menu options instead of typing in plan mode permission prompt&#39;s text input</li>
-<li>Fixed sandbox permission issues: certain file write operations incorrectly allowed without prompting, and output redirections to allowlisted directories (like <code>/tmp/claude/</code>) prompting unnecessarily</li>
-<li>Improved CPU utilization in long sessions</li>
-<li>Fixed prompt cache invalidation in SDK <code>query()</code> calls, reducing input token costs up to 12x</li>
-<li>Fixed Escape key becoming unresponsive after cancelling a query</li>
-<li>Fixed double Ctrl+C not exiting when background agents or tasks are running</li>
-<li>Fixed team agents to inherit the leader&#39;s model</li>
-<li>Fixed &quot;Always Allow&quot; saving permission rules that never match again</li>
-<li>Fixed several hooks issues: <code>transcript_path</code> pointing to the wrong directory for resumed/forked sessions, agent <code>prompt</code> being silently deleted from settings.json on every settings write, PostToolUse block reason displaying twice, async hooks not receiving stdin with bash <code>read -r</code>, and validation error message showing an example that fails validation</li>
-<li>Fixed session crashes in Desktop/SDK when Read returned files containing U+2028/U+2029 characters</li>
-<li>Fixed terminal title being cleared on exit even when <code>CLAUDE_CODE_DISABLE_TERMINAL_TITLE</code> was set</li>
-<li>Fixed several permission rule matching issues: wildcard rules not matching commands with heredocs, embedded newlines, or no arguments; <code>sandbox.excludedCommands</code> failing with env var prefixes; &quot;always allow&quot; suggesting overly broad prefixes for nested CLI tools; and deny rules not applying to all command forms</li>
-<li>Fixed oversized and truncated images from Bash data-URL output</li>
-<li>Fixed a crash when resuming sessions that contained Bedrock API errors</li>
-<li>Fixed intermittent &quot;expected boolean, received string&quot; validation errors on Edit, Bash, and Grep tool inputs</li>
-<li>Fixed multi-line session titles when forking from a conversation whose first message contained newlines</li>
-<li>Fixed queued messages not showing attached images, and images being lost when pressing ↑ to edit a queued message</li>
-<li>Fixed parallel tool calls where a failed Read/WebFetch/Glob would cancel its siblings — only Bash errors now cascade</li>
-<li>VSCode: Fixed scroll speed in integrated terminals not matching native terminals</li>
-<li>VSCode: Fixed Shift+Enter submitting input instead of inserting a newline for users with older keybindings</li>
-<li>VSCode: Added effort level indicator on the input border</li>
-<li>VSCode: Added <code>vscode://anthropic.claude-code/open</code> URI handler to open a new Claude Code tab programmatically, with optional <code>prompt</code> and <code>session</code> query parameters</li>
-</ul>
-]]></description>
-            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>Changed tool search to bypass the third-party proxy gate when the environment variable is set (replaces <code>CLAUDE_CODE_PROXY_SUPPORTS_TOOL_REFERENCE</code>, now removed)</li>
-<li>Added <code>w</code> key in <code>/copy</code> to write the focused selection directly to a file, bypassing the clipboard (useful over SSH)</li>
-<li>Added optional description argument to <code>/plan</code> (e.g., <code>/plan fix the auth bug</code>) that enters plan mode and immediately starts</li>
-<li>Added <code>claude plugins</code> as an alias for <code>claude plugin</code></li>
-<li>Added <code>ExitWorktree</code> tool to leave an <code>EnterWorktree</code> session</li>
-<li>Added <code>CLAUDE_CODE_DISABLE_CRON</code> environment variable to immediately stop scheduled cron jobs mid-session</li>
-<li>Added <code>lsof</code>, <code>pgrep</code>, <code>tput</code>, <code>ss</code>, <code>fd</code>, and <code>fdfind</code> to the bash auto-approval allowlist, reducing permission prompts for common read-only operations</li>
-<li>Added support for marketplace git URLs without <code>.git</code> suffix (Azure DevOps, AWS CodeCommit)</li>
-<li>Restored the <code>model</code> parameter on the Agent tool for per-invocation model overrides</li>
-<li>Simplified effort levels to low/medium/high (removed max) with new symbols (○ ◐ ●) and a brief notification instead of a persistent icon. Use <code>/effort auto</code> to reset to default</li>
-<li>Improved <code>/config</code> — Escape now cancels changes, Enter saves and closes, Space toggles settings</li>
-<li>Improved up-arrow history to show current session&#39;s messages first when running multiple concurrent sessions</li>
-<li>Improved voice input transcription accuracy for repo names and common dev terms (regex, OAuth, JSON)</li>
-<li>Improved marketplace clone failure messages to show diagnostic info even when git produces no stderr</li>
-<li>Improved <code>claude plugin validate</code> to explain that marketplace.json source paths are relative to the repo root when rejecting <code>../</code> paths</li>
-<li>Improved bash command parsing by switching to a native module — faster initialization and no memory leak</li>
-<li>Reduced false-positive bash permission prompts — tree-sitter parsing now handles <code>find -exec</code>, variable assignments, command substitutions, and many other patterns that previously triggered unnecessary prompts. Also fixed tree-sitter not loading in npm-installed versions</li>
-<li>Reduced bundle size by ~510 KB</li>
-<li>Changed CLAUDE.md HTML comments (<code>&lt;!-- ... --&gt;</code>) to be hidden from Claude when auto-injected. Comments remain visible when read with the Read tool</li>
-<li>Fixed slow exits when background tasks or hooks were slow to respond</li>
-<li>Fixed agent task progress stuck on &quot;Initializing…&quot;</li>
-<li>Fixed skill hooks firing twice per event when a hooks-enabled skill is invoked by the model</li>
-<li>Fixed several voice mode issues: occasional input lag, false &quot;No speech detected&quot; errors after releasing push-to-talk, and stale transcripts re-filling the prompt after submission</li>
-<li>Fixed <code>--continue</code> not resuming from the most recent point after <code>--compact</code></li>
-<li>Fixed bash security parsing edge cases</li>
-<li>Fixed several plugin issues: installation failing on Windows with <code>EEXIST</code> error in OneDrive folders, marketplace blocking user-scope installs when a project-scope install exists, <code>CLAUDE_CODE_PLUGIN_CACHE_DIR</code> creating literal <code>~</code> directories, and <code>plugin.json</code> with marketplace-only fields failing to load</li>
-<li>Fixed feedback survey appearing too frequently in long sessions</li>
-<li>Fixed <code>--effort</code> CLI flag being reset by unrelated settings writes on startup</li>
-<li>Fixed backgrounded Ctrl+B queries losing their transcript or corrupting the new conversation after <code>/clear</code></li>
-<li>Fixed <code>/clear</code> killing background agent/bash tasks — only foreground tasks are now cleared</li>
-<li>Fixed worktree isolation issues: Task tool resume not restoring cwd, and background task notifications missing <code>worktreePath</code> and <code>worktreeBranch</code></li>
-<li>Fixed <code>/model</code> not displaying results when run while Claude is working</li>
-<li>Fixed digit keys selecting menu options instead of typing in plan mode permission prompt&#39;s text input</li>
-<li>Fixed sandbox permission issues: certain file write operations incorrectly allowed without prompting, and output redirections to allowlisted directories (like <code>/tmp/claude/</code>) prompting unnecessarily</li>
-<li>Improved CPU utilization in long sessions</li>
-<li>Fixed prompt cache invalidation in SDK <code>query()</code> calls, reducing input token costs up to 12x</li>
-<li>Fixed Escape key becoming unresponsive after cancelling a query</li>
-<li>Fixed double Ctrl+C not exiting when background agents or tasks are running</li>
-<li>Fixed team agents to inherit the leader&#39;s model</li>
-<li>Fixed &quot;Always Allow&quot; saving permission rules that never match again</li>
-<li>Fixed several hooks issues: <code>transcript_path</code> pointing to the wrong directory for resumed/forked sessions, agent <code>prompt</code> being silently deleted from settings.json on every settings write, PostToolUse block reason displaying twice, async hooks not receiving stdin with bash <code>read -r</code>, and validation error message showing an example that fails validation</li>
-<li>Fixed session crashes in Desktop/SDK when Read returned files containing U+2028/U+2029 characters</li>
-<li>Fixed terminal title being cleared on exit even when <code>CLAUDE_CODE_DISABLE_TERMINAL_TITLE</code> was set</li>
-<li>Fixed several permission rule matching issues: wildcard rules not matching commands with heredocs, embedded newlines, or no arguments; <code>sandbox.excludedCommands</code> failing with env var prefixes; &quot;always allow&quot; suggesting overly broad prefixes for nested CLI tools; and deny rules not applying to all command forms</li>
-<li>Fixed oversized and truncated images from Bash data-URL output</li>
-<li>Fixed a crash when resuming sessions that contained Bedrock API errors</li>
-<li>Fixed intermittent &quot;expected boolean, received string&quot; validation errors on Edit, Bash, and Grep tool inputs</li>
-<li>Fixed multi-line session titles when forking from a conversation whose first message contained newlines</li>
-<li>Fixed queued messages not showing attached images, and images being lost when pressing ↑ to edit a queued message</li>
-<li>Fixed parallel tool calls where a failed Read/WebFetch/Glob would cancel its siblings — only Bash errors now cascade</li>
-<li>VSCode: Fixed scroll speed in integrated terminals not matching native terminals</li>
-<li>VSCode: Fixed Shift+Enter submitting input instead of inserting a newline for users with older keybindings</li>
-<li>VSCode: Added effort level indicator on the input border</li>
-<li>VSCode: Added <code>vscode://anthropic.claude-code/open</code> URI handler to open a new Claude Code tab programmatically, with optional <code>prompt</code> and <code>session</code> query parameters</li>
 </ul>
 ]]></content:encoded>
         </item>
