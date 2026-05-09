@@ -87,7 +87,7 @@ function generateTable(feeds: FeedInfo[]): string {
   const lines: string[] = [];
 
   if (blogs.length > 0) {
-    lines.push("### Blogs\n");
+    lines.push(`### Blogs (${blogs.length})\n`);
     lines.push("| Blog | Feed | Status |");
     lines.push("|------|------|--------|");
     for (const f of blogs) {
@@ -100,7 +100,7 @@ function generateTable(feeds: FeedInfo[]): string {
   }
 
   if (releases.length > 0) {
-    lines.push("### GitHub Releases\n");
+    lines.push(`### GitHub Releases (${releases.length})\n`);
     lines.push("| Project | Feed | Status |");
     lines.push("|---------|------|--------|");
     for (const f of releases) {
@@ -113,7 +113,7 @@ function generateTable(feeds: FeedInfo[]): string {
   }
 
   if (changelogs.length > 0) {
-    lines.push("### Changelogs\n");
+    lines.push(`### Changelogs (${changelogs.length})\n`);
     lines.push("| Project | Feed | Status |");
     lines.push("|---------|------|--------|");
     for (const f of changelogs) {

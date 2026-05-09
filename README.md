@@ -8,7 +8,7 @@ Many popular tech blogs don't offer RSS feeds. This project uses AI to analyze b
 
 <!-- FEEDS_TABLE_START -->
 
-### Blogs
+### Blogs (13)
 
 | Blog | Feed | Status |
 |------|------|--------|
@@ -26,7 +26,7 @@ Many popular tech blogs don't offer RSS feeds. This project uses AI to analyze b
 | [Claude Blog](https://claude.com/blog) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/claude.xml) | ✅ 15 articles |
 | [文匯報](https://www.wenweipo.com/) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/wenweipo.xml) | ✅ 13 articles |
 
-### GitHub Releases
+### GitHub Releases (2)
 
 | Project | Feed | Status |
 |---------|------|--------|
