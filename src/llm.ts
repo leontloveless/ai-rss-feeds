@@ -55,10 +55,16 @@ Rules:
 
 /**
  * Generate a FeedConfig from a blog URL's HTML using LLM.
+ *
+ * @param feedback Optional message describing why the previous config failed
+ *                 at the parse step (e.g. selectors matched 0 articles). When
+ *                 provided, it's surfaced to the LLM so it can correct itself
+ *                 instead of producing the same bad selectors again.
  */
 export async function generateConfig(
   url: string,
-  html: string
+  html: string,
+  feedback?: string
 ): Promise<FeedConfig> {
   const token = process.env.GITHUB_TOKEN;
   if (!token) {
@@ -87,10 +93,13 @@ export async function generateConfig(
   let lastError = "";
 
   for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
-    const userPrompt =
+    const preamble =
       attempt === 0
-        ? `Analyze this blog page and output a FeedConfig JSON.\n\nURL: ${url}\n\nHTML:\n${truncated}`
-        : `Previous attempt failed: ${lastError}\n\nPlease fix and try again.\n\nURL: ${url}\n\nHTML:\n${truncated}`;
+        ? feedback
+          ? `${feedback}\n\nAnalyze this blog page and output a corrected FeedConfig JSON.`
+          : `Analyze this blog page and output a FeedConfig JSON.`
+        : `Previous attempt failed: ${lastError}\n\nPlease fix and try again.`;
+    const userPrompt = `${preamble}\n\nURL: ${url}\n\nHTML:\n${truncated}`;
 
     try {
       const res = await fetch(GITHUB_MODELS_URL, {

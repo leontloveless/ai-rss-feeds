@@ -15,9 +15,11 @@ import { parseArticles } from "./parser.js";
 import { validateQuick } from "./validator.js";
 import { generateRSS } from "./generator.js";
 import { saveSnapshot } from "./snapshot.js";
+import type { Article, FeedConfig } from "./types.js";
 
 const CONFIGS_DIR = join(import.meta.dir, "..", "configs");
 const FEEDS_DIR = join(import.meta.dir, "..", "feeds");
+const MAX_PARSE_ATTEMPTS = 3;
 
 async function main() {
   const url = process.argv[2];
@@ -34,21 +36,47 @@ async function main() {
   const html = await fetchHTML(url);
   console.log(`✅ Fetched ${(html.length / 1024).toFixed(1)}KB`);
 
-  // 2. Generate config via LLM
-  console.log("🤖 Generating config via LLM...");
-  const config = await generateConfig(url, html);
-  // Always use today's date for createdAt, not whatever the LLM picked
-  config.createdAt = new Date().toISOString();
-  console.log(`✅ Config generated: "${config.name}"`);
+  // 2. Generate config + verify it parses; on 0 articles, feed the failing
+  //    selectors back to the LLM and try again (sites with hashed class names
+  //    or shifted markup often need 1–2 corrections).
+  let config: FeedConfig | undefined;
+  let articles: Article[] = [];
+  let feedback: string | undefined;
 
-  // 3. Parse and validate
-  console.log("📝 Parsing articles...");
-  const articles = parseArticles(html, config);
-  console.log(`   Found ${articles.length} articles`);
+  for (let attempt = 1; attempt <= MAX_PARSE_ATTEMPTS; attempt++) {
+    console.log(
+      `🤖 Generating config via LLM (attempt ${attempt}/${MAX_PARSE_ATTEMPTS})...`
+    );
+    config = await generateConfig(url, html, feedback);
+    config.createdAt = new Date().toISOString();
+    console.log(`✅ Config generated: "${config.name}"`);
 
-  if (articles.length === 0) {
-    console.error("❌ No articles found with generated selectors.");
-    console.error("   Config:", JSON.stringify(config.selectors, null, 2));
+    console.log("📝 Parsing articles...");
+    articles = parseArticles(html, config);
+    console.log(`   Found ${articles.length} articles`);
+
+    if (articles.length > 0) break;
+
+    feedback =
+      `Your previous selectors produced 0 articles when applied to this exact HTML. ` +
+      `Selectors used: ${JSON.stringify(config.selectors)}. ` +
+      `The articleList selector "${config.selectors.articleList}" matched no elements. ` +
+      `Pick selectors that actually exist in the HTML below — avoid hashed CSS-Modules class names ` +
+      `(e.g. "Foo-module-scss-module__abc123__bar"), prefer stable tags/attributes (article, h1-h3, ` +
+      `data-* attributes, or simple class names). If the page is a JavaScript-rendered SPA with no ` +
+      `article markup in the static HTML, return parserMode "json" with jsonExtraction targeting ` +
+      `the __NEXT_DATA__ script and the appropriate dataPath.`;
+    console.warn(`⚠️  No articles parsed; retrying with feedback to LLM...`);
+  }
+
+  if (!config || articles.length === 0) {
+    console.error("❌ No articles found after all attempts.");
+    if (config) {
+      console.error("   Last config:", JSON.stringify(config.selectors, null, 2));
+    }
+    console.error(
+      "   This site may be a JavaScript-rendered SPA, or use unusual structure."
+    );
     process.exit(1);
   }
 
