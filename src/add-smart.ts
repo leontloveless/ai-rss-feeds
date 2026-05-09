@@ -95,7 +95,7 @@ async function addGitHubReleasesFeed(info: GitHubInfo): Promise<void> {
   };
 
   // Parse and validate
-  const articles = parseArticles(json, config);
+  const articles = await parseArticles(json, config);
   console.log(`📝 Parsed ${articles.length} releases`);
 
   if (articles.length === 0) {

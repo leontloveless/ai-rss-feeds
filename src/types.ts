@@ -17,7 +17,7 @@ export interface FeedConfig {
       prefix?: string;
     };
   };
-  parserMode?: "css" | "json" | "changelog" | "github-releases"; // default: "css"
+  parserMode?: "css" | "json" | "changelog" | "github-releases" | "rss"; // default: "css"
   jsonExtraction?: {
     scriptSelector: string; // e.g., 'script#__NEXT_DATA__'
     dataPath: string; // e.g., 'props.pageProps.posts'
@@ -34,6 +34,9 @@ export interface FeedConfig {
     repo: string; // e.g., "openclaw"
     includePrerelease?: boolean; // default: false
     limit?: number; // default: 50
+  };
+  rssExtraction?: {
+    feedUrl: string; // upstream RSS/Atom feed URL to mirror
   };
   changelogExtraction?: {
     versionPattern?: string; // regex for version headings, default: "^## \\[?(.+?)\\]?"

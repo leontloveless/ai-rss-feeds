@@ -52,7 +52,7 @@ async function main() {
     console.log(`✅ Config generated: "${config.name}"`);
 
     console.log("📝 Parsing articles...");
-    articles = parseArticles(html, config);
+    articles = await parseArticles(html, config);
     console.log(`   Found ${articles.length} articles`);
 
     if (articles.length > 0) break;

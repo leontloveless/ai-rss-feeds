@@ -5,7 +5,14 @@
 import * as cheerio from "cheerio";
 import { parse as dateParse } from "date-fns";
 import { marked } from "marked";
+import RSSParser from "rss-parser";
 import type { Article, FeedConfig } from "./types.js";
+
+const rssParser = new RSSParser({
+  customFields: {
+    item: ["content:encoded", "media:content"],
+  },
+});
 
 /**
  * Resolve a possibly relative URL against a base.
@@ -417,11 +424,57 @@ function parseGithubReleasesArticles(json: string, config: FeedConfig): Article[
 }
 
 /**
+ * Parse an upstream RSS/Atom feed (mirror mode) into Article[].
+ * The XML has already been fetched from `config.rssExtraction.feedUrl`.
+ */
+async function parseRssMirrorArticles(xml: string): Promise<Article[]> {
+  const feed = await rssParser.parseString(xml);
+  const articles: Article[] = [];
+
+  for (const item of feed.items) {
+    const title = item.title?.trim();
+    const link = item.link?.trim();
+    if (!title || !link) continue;
+
+    let date: Date | undefined;
+    const isoDate = item.isoDate || item.pubDate;
+    if (isoDate) {
+      const d = new Date(isoDate);
+      if (!isNaN(d.getTime())) date = d;
+    }
+
+    const contentEncoded = (item as unknown as Record<string, unknown>)["content:encoded"];
+    const fullHtml =
+      (typeof contentEncoded === "string" && contentEncoded) ||
+      item.content ||
+      undefined;
+    const description =
+      item.contentSnippet?.trim() ||
+      (typeof item.summary === "string" ? item.summary.trim() : undefined) ||
+      fullHtml ||
+      undefined;
+
+    articles.push({
+      title,
+      link,
+      date,
+      description,
+      content: fullHtml,
+    });
+  }
+
+  return articles;
+}
+
+/**
  * Parse HTML using a FeedConfig and return extracted articles.
  */
-export function parseArticles(html: string, config: FeedConfig): Article[] {
+export async function parseArticles(html: string, config: FeedConfig): Promise<Article[]> {
   if (config.parserMode === "github-releases" && config.githubReleasesExtraction) {
     return parseGithubReleasesArticles(html, config);
+  }
+  if (config.parserMode === "rss" && config.rssExtraction) {
+    return parseRssMirrorArticles(html);
   }
   if (config.parserMode === "changelog") {
     const markdown = extractMarkdownFromHtml(html);

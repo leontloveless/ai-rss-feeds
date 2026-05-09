@@ -39,7 +39,7 @@ async function main() {
   const html = await fetchHTML(oldConfig.url);
 
   // 2. Try current config first
-  const currentArticles = parseArticles(html, oldConfig);
+  const currentArticles = await parseArticles(html, oldConfig);
   const currentValidation = validateQuick(currentArticles);
 
   if (currentValidation.valid && currentArticles.length > 0) {
@@ -64,7 +64,7 @@ async function main() {
   newConfig.lastHealed = new Date().toISOString();
 
   // 4. Validate new config
-  const newArticles = parseArticles(html, newConfig);
+  const newArticles = await parseArticles(html, newConfig);
   const newValidation = validateQuick(newArticles);
 
   if (!newValidation.valid || newArticles.length === 0) {

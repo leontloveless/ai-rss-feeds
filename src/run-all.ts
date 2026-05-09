@@ -51,6 +51,11 @@ async function processFeed(
       console.log(`  ⬇️  Fetching GitHub Releases API (${ext.owner}/${ext.repo})...`);
       html = await fetchGitHubAPI(ext.owner, ext.repo, ext.limit);
       console.log(`  ✅ Fetched ${(html.length / 1024).toFixed(1)}KB from API`);
+    } else if (config.parserMode === "rss" && config.rssExtraction) {
+      const feedUrl = config.rssExtraction.feedUrl;
+      console.log(`  ⬇️  Fetching upstream RSS (${feedUrl})...`);
+      html = await fetchHTML(feedUrl);
+      console.log(`  ✅ Fetched ${(html.length / 1024).toFixed(1)}KB`);
     } else {
       console.log("  ⬇️  Fetching HTML...");
       html = await fetchHTML(config.url);
@@ -58,7 +63,7 @@ async function processFeed(
     }
 
     // 2. Parse articles
-    let articles = parseArticles(html, config);
+    let articles = await parseArticles(html, config);
     console.log(`  📝 Parsed ${articles.length} articles`);
 
     if (articles.length === 0) {
@@ -68,8 +73,11 @@ async function processFeed(
     }
 
     // 2.5. Enrich dates from detail pages if needed
+    //      Skip for modes whose source already provides dates (releases, mirrored RSS).
     const datedCount = articles.filter((a) => a.date != null).length;
-    if (datedCount < articles.length * 0.5 && config.parserMode !== "github-releases") {
+    const skipEnrich =
+      config.parserMode === "github-releases" || config.parserMode === "rss";
+    if (datedCount < articles.length * 0.5 && !skipEnrich) {
       articles = await enrichDates(articles);
     }
 
