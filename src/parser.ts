@@ -487,52 +487,68 @@ export async function parseArticles(html: string, config: FeedConfig): Promise<A
   const articles: Article[] = [];
   const { selectors } = config;
 
+  // When articleList matches a container element (e.g. <ul>), the container's
+  // direct children are the individual article items (e.g. <li>). We must iterate
+  // over those instead of the container itself, otherwise .find() on the container
+  // collects ALL matching elements across the entire subtree and .first() then
+  // returns only the first — giving 1 article instead of N.
+  function queryArticleItems($el: cheerio.Cheerio<any>): cheerio.Cheerio<any> {
+    const kids = $el.children();
+    // If the articleList matched an article container (has direct children),
+    // those children are the individual article items. Otherwise use $el as-is.
+    return kids.length > 0 ? kids : $el;
+  }
+
   $(selectors.articleList).each((_, el) => {
-    const $el = $(el);
+    const $container = $(el);
 
-    // Extract title
-    const title = extractText($el, selectors.title);
-    if (!title) return; // skip entries without titles
+    // Get individual article items within this container
+    const $items = queryArticleItems($container);
 
-    // Extract link — try from title selector first, then from articleList itself
-    let linkRaw = "";
-    if (selectors.link.source.startsWith("attr:")) {
-      // Try getting href from the title's <a> tag
-      const titleEl = selectors.title === "." ? $el : $el.find(selectors.title);
-      const anchor = titleEl.find("a").first();
-      linkRaw = anchor.attr(selectors.link.source.slice(5)) || "";
+    $items.each((_, itemEl) => {
+      const $el = $(itemEl);
 
-      // If not found, try the title element itself
-      if (!linkRaw) {
-        linkRaw = titleEl.first().attr(selectors.link.source.slice(5)) || "";
+      // Extract title
+      const title = extractText($el.find(selectors.title), ".");
+      if (!title) return; // skip entries without titles
+
+      // Extract link — try from title selector first, then from item itself
+      let linkRaw = "";
+      if (selectors.link.source.startsWith("attr:")) {
+        const titleEl = $el.find(selectors.title);
+        const anchor = titleEl.find("a").first();
+        linkRaw = anchor.attr(selectors.link.source.slice(5)) || "";
+
+        if (!linkRaw) {
+          linkRaw = titleEl.first().attr(selectors.link.source.slice(5)) || "";
+        }
+
+        if (!linkRaw) {
+          const itemAnchor = $el.find("a").first();
+          linkRaw = itemAnchor.attr(selectors.link.source.slice(5)) || "";
+        }
+      } else {
+        linkRaw = extractLink($el, selectors.title, selectors.link.source);
       }
 
-      // If still not found, try the articleList element's <a>
-      if (!linkRaw) {
-        const parentAnchor = $el.find("a").first();
-        linkRaw = parentAnchor.attr(selectors.link.source.slice(5)) || "";
+      const link = resolveUrl(linkRaw, selectors.link.prefix, config.url);
+      if (!link) return; // skip entries without links
+
+      // Extract date (optional)
+      let date: Date | undefined;
+      if (selectors.date) {
+        const dateRaw = extractText($el.find(selectors.date), ".");
+        date = parseDate(dateRaw, config.dateFormat);
       }
-    } else {
-      linkRaw = extractLink($el, selectors.title, selectors.link.source);
-    }
 
-    const link = resolveUrl(linkRaw, selectors.link.prefix, config.url);
-    if (!link) return; // skip entries without links
+      // Extract description (optional)
+      let description: string | undefined;
+      if (selectors.description) {
+        description = extractText($el.find(selectors.description), ".");
+      }
 
-    // Extract date (optional)
-    let date: Date | undefined;
-    if (selectors.date) {
-      const dateRaw = extractText($el, selectors.date);
-      date = parseDate(dateRaw, config.dateFormat);
-    }
-
-    // Extract description (optional)
-    let description: string | undefined;
-    if (selectors.description) {
-      description = extractText($el, selectors.description);
-    }
-
-    articles.push({ title, link, date, description });
+      articles.push({ title, link, date, description });
+    });
   });
 
   // Deduplicate by link (some sites render HTML twice for SSR/hydration)
