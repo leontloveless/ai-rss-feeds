@@ -4,11 +4,125 @@
         <title>claude-code Releases</title>
         <link>https://github.com/anthropics/claude-code/releases</link>
         <description>GitHub releases for anthropics/claude-code</description>
-        <lastBuildDate>Sat, 09 May 2026 06:33:25 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 11 May 2026 18:43:42 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>ai-rss-feeds (https://github.com/leontloveless/ai-rss-feeds)</generator>
         <language>en</language>
         <atom:link href="https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/claude-code-releases.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[v2.1.139]]></title>
+            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.139</link>
+            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.139</guid>
+            <pubDate>Mon, 11 May 2026 18:43:42 GMT</pubDate>
+            <description><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Added agent view (Research Preview): a single list of every Claude Code session — running, blocked on you, or done. Run <code>claude agents</code> to get started. See <a href="https://code.claude.com/docs/en/agent-view">https://code.claude.com/docs/en/agent-view</a></li>
+<li>Added <code>/goal</code> command: set a completion condition and Claude keeps working across turns until it&#39;s met. Works in interactive, <code>-p</code>, and Remote Control. Shows live elapsed/turns/tokens as an overlay panel</li>
+<li>Added <code>/scroll-speed</code> command to tune mouse wheel scroll speed with a live preview</li>
+<li>Added <code>claude plugin details &lt;name&gt;</code> to show a plugin&#39;s component inventory and projected per-session token cost</li>
+<li>Added transcript view navigation: <code>?</code> for keyboard shortcuts, <code>{</code>/<code>}</code> to jump between user prompts, <code>v</code> to toggle shortcut panel</li>
+<li>Added hook <code>args: string[]</code> field (exec form) that spawns the command directly without a shell, so path placeholders never need quoting</li>
+<li>Added hook <code>continueOnBlock</code> config option for <code>PostToolUse</code> — set to <code>true</code> to feed the hook&#39;s rejection reason back to Claude and continue the turn</li>
+<li>MCP stdio servers now receive <code>CLAUDE_PROJECT_DIR</code> in their environment, matching hooks. Plugin configs can reference <code>${CLAUDE_PROJECT_DIR}</code> in commands</li>
+<li>Compaction prompt now asks the model to preserve sensitive user instructions</li>
+<li><code>/mcp</code> Reconnect now picks up <code>.mcp.json</code> edits without a restart, and shows the HTTP status and URL when reconnecting fails</li>
+<li><code>/context all</code> per-skill token estimates now account for the model&#39;s tokenizer and show rounded values</li>
+<li><code>claude plugin install &lt;name&gt;@&lt;marketplace&gt;</code> now auto-refreshes the marketplace and retries before reporting a plugin as not found</li>
+<li><code>/plugin</code> installed-plugin details now show hook event names and MCP server names cleanly</li>
+<li><code>/context</code> now shows the providing plugin&#39;s name for plugin-sourced skills</li>
+<li>Remote MCP server reconnect retry on transient failures is now enabled for all users</li>
+<li>API requests from subagents now carry <code>x-claude-code-agent-id</code> / <code>x-claude-code-parent-agent-id</code> headers, and <code>claude_code.llm_request</code> OTEL spans include <code>agent_id</code> / <code>parent_agent_id</code> attributes</li>
+<li>Remote Control, <code>/schedule</code>, claude.ai MCP connectors, and notification preferences are now disabled when <code>ANTHROPIC_API_KEY</code> / <code>apiKeyHelper</code> / <code>ANTHROPIC_AUTH_TOKEN</code> is set, even if a Claude.ai login also exists. Unset the API key to use these features</li>
+<li>Fixed a deadlock where expired credentials and the <code>forceRemoteSettingsRefresh</code> policy setting blocked <code>claude auth login</code>/<code>logout</code>/<code>status</code> with no way to recover</li>
+<li>Fixed <code>autoAllowBashIfSandboxed</code> not auto-approving commands with shell expansions like <code>$VAR</code> and <code>$(cmd)</code></li>
+<li>Fixed a bug where a hook writing to the terminal could corrupt an on-screen interactive prompt; hooks now run without terminal access</li>
+<li>Fixed unbounded memory growth when an HTTP/SSE MCP server streams non-protocol data — response bodies now capped at 16 MB per SSE frame</li>
+<li>Fixed <code>Skill(name *)</code> permission rules — the wildcard form now works as a prefix match, matching <code>Bash(ls *)</code> behavior</li>
+<li>Fixed settings hot-reload not detecting edits to symlinked <code>~/.claude/settings.json</code></li>
+<li>Fixed plugin details failing to load when the marketplace key differs from the manifest name</li>
+<li>Fixed <code>/model</code> picker &quot;Default&quot; row not reflecting <code>ANTHROPIC_DEFAULT_OPUS_MODEL</code>/<code>ANTHROPIC_DEFAULT_SONNET_MODEL</code> overrides</li>
+<li>Fixed spurious &quot;stream idle timeout&quot; 5 minutes after a response completed, caused by the watchdog timer not being cleared on stream cancellation</li>
+<li>Fixed silent <code>exit 1</code> when 10+ MCP servers are configured and the cache directory is unwritable — the error message now includes the underlying cause</li>
+<li>Fixed a typing cursor blinking on tab names, list pointers, and select rows in dialogs</li>
+<li>Fixed transcript view letter shortcuts not working after mouse click</li>
+<li>Fixed Bash-mode up-arrow history repeating the first entry and clobbering the in-progress draft</li>
+<li>Fixed pasting or dropping multiple images only inserting the last one</li>
+<li>Fixed hyperlinks using unreadable dark navy on dark themes — they now adapt to the active theme</li>
+<li>Fixed model picker showing a redundant &quot;Current model&quot; row for third-party users whose model is set to the <code>opus</code> alias</li>
+<li>Fixed legacy Opus picker entry on PAYG 3P providers resolving to the same model as the default entry</li>
+<li>Fixed mouse wheel scrolling speed in Cursor and VS Code 1.92–1.104; the trackpad now scrolls at a steady rate and the mouse wheel keeps ~3 lines per notch</li>
+<li>Fixed scroll behavior in Windows Terminal and VS Code when attached to background sessions</li>
+<li>Fixed MCP resources from disconnected servers lingering in <code>@server:</code> autocomplete</li>
+<li>Fixed two-file diff snippets over-reporting the number of truncated lines by one</li>
+<li>Fixed Grep results not relativizing Windows drive-letter paths and count mode reporting wrong totals for single-file paths</li>
+<li>Fixed border-embedded text overflowing on CJK/emoji due to visual cell width miscalculation</li>
+<li>Fixed fuzzy-match highlighting splitting emoji and astral-plane characters mid-pair</li>
+<li>Fixed skill argument names containing regex metacharacters breaking argument substitution</li>
+<li>Fixed ProgressBar rendering a full block for an almost-full fractional cell</li>
+<li>Fixed task polling and <code>fs.watch</code> being resurrected when the last subscriber leaves while a fetch is in flight</li>
+<li>Fixed plugin dependency resolution leaving a stale count when the manifest name differs from the source identifier</li>
+<li>Fixed Insights Time-of-Day chart skewing when a session has an unparseable timestamp</li>
+<li>Fixed keybindings using only the cmd/super/win modifier being flagged as unparseable</li>
+<li>Fixed <code>claude_code.active_time.total</code> OpenTelemetry metric not being emitted in <code>--print</code> mode</li>
+<li>Fixed <code>claude plugin update</code> not preserving cross-plugin symlinks inside a marketplace</li>
+<li>[VSCode] Press Cmd/Ctrl+Shift+T to reopen the most recently closed session tab, configurable via <code>claudeCode.enableReopenClosedSessionShortcut</code></li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Added agent view (Research Preview): a single list of every Claude Code session — running, blocked on you, or done. Run <code>claude agents</code> to get started. See <a href="https://code.claude.com/docs/en/agent-view">https://code.claude.com/docs/en/agent-view</a></li>
+<li>Added <code>/goal</code> command: set a completion condition and Claude keeps working across turns until it&#39;s met. Works in interactive, <code>-p</code>, and Remote Control. Shows live elapsed/turns/tokens as an overlay panel</li>
+<li>Added <code>/scroll-speed</code> command to tune mouse wheel scroll speed with a live preview</li>
+<li>Added <code>claude plugin details &lt;name&gt;</code> to show a plugin&#39;s component inventory and projected per-session token cost</li>
+<li>Added transcript view navigation: <code>?</code> for keyboard shortcuts, <code>{</code>/<code>}</code> to jump between user prompts, <code>v</code> to toggle shortcut panel</li>
+<li>Added hook <code>args: string[]</code> field (exec form) that spawns the command directly without a shell, so path placeholders never need quoting</li>
+<li>Added hook <code>continueOnBlock</code> config option for <code>PostToolUse</code> — set to <code>true</code> to feed the hook&#39;s rejection reason back to Claude and continue the turn</li>
+<li>MCP stdio servers now receive <code>CLAUDE_PROJECT_DIR</code> in their environment, matching hooks. Plugin configs can reference <code>${CLAUDE_PROJECT_DIR}</code> in commands</li>
+<li>Compaction prompt now asks the model to preserve sensitive user instructions</li>
+<li><code>/mcp</code> Reconnect now picks up <code>.mcp.json</code> edits without a restart, and shows the HTTP status and URL when reconnecting fails</li>
+<li><code>/context all</code> per-skill token estimates now account for the model&#39;s tokenizer and show rounded values</li>
+<li><code>claude plugin install &lt;name&gt;@&lt;marketplace&gt;</code> now auto-refreshes the marketplace and retries before reporting a plugin as not found</li>
+<li><code>/plugin</code> installed-plugin details now show hook event names and MCP server names cleanly</li>
+<li><code>/context</code> now shows the providing plugin&#39;s name for plugin-sourced skills</li>
+<li>Remote MCP server reconnect retry on transient failures is now enabled for all users</li>
+<li>API requests from subagents now carry <code>x-claude-code-agent-id</code> / <code>x-claude-code-parent-agent-id</code> headers, and <code>claude_code.llm_request</code> OTEL spans include <code>agent_id</code> / <code>parent_agent_id</code> attributes</li>
+<li>Remote Control, <code>/schedule</code>, claude.ai MCP connectors, and notification preferences are now disabled when <code>ANTHROPIC_API_KEY</code> / <code>apiKeyHelper</code> / <code>ANTHROPIC_AUTH_TOKEN</code> is set, even if a Claude.ai login also exists. Unset the API key to use these features</li>
+<li>Fixed a deadlock where expired credentials and the <code>forceRemoteSettingsRefresh</code> policy setting blocked <code>claude auth login</code>/<code>logout</code>/<code>status</code> with no way to recover</li>
+<li>Fixed <code>autoAllowBashIfSandboxed</code> not auto-approving commands with shell expansions like <code>$VAR</code> and <code>$(cmd)</code></li>
+<li>Fixed a bug where a hook writing to the terminal could corrupt an on-screen interactive prompt; hooks now run without terminal access</li>
+<li>Fixed unbounded memory growth when an HTTP/SSE MCP server streams non-protocol data — response bodies now capped at 16 MB per SSE frame</li>
+<li>Fixed <code>Skill(name *)</code> permission rules — the wildcard form now works as a prefix match, matching <code>Bash(ls *)</code> behavior</li>
+<li>Fixed settings hot-reload not detecting edits to symlinked <code>~/.claude/settings.json</code></li>
+<li>Fixed plugin details failing to load when the marketplace key differs from the manifest name</li>
+<li>Fixed <code>/model</code> picker &quot;Default&quot; row not reflecting <code>ANTHROPIC_DEFAULT_OPUS_MODEL</code>/<code>ANTHROPIC_DEFAULT_SONNET_MODEL</code> overrides</li>
+<li>Fixed spurious &quot;stream idle timeout&quot; 5 minutes after a response completed, caused by the watchdog timer not being cleared on stream cancellation</li>
+<li>Fixed silent <code>exit 1</code> when 10+ MCP servers are configured and the cache directory is unwritable — the error message now includes the underlying cause</li>
+<li>Fixed a typing cursor blinking on tab names, list pointers, and select rows in dialogs</li>
+<li>Fixed transcript view letter shortcuts not working after mouse click</li>
+<li>Fixed Bash-mode up-arrow history repeating the first entry and clobbering the in-progress draft</li>
+<li>Fixed pasting or dropping multiple images only inserting the last one</li>
+<li>Fixed hyperlinks using unreadable dark navy on dark themes — they now adapt to the active theme</li>
+<li>Fixed model picker showing a redundant &quot;Current model&quot; row for third-party users whose model is set to the <code>opus</code> alias</li>
+<li>Fixed legacy Opus picker entry on PAYG 3P providers resolving to the same model as the default entry</li>
+<li>Fixed mouse wheel scrolling speed in Cursor and VS Code 1.92–1.104; the trackpad now scrolls at a steady rate and the mouse wheel keeps ~3 lines per notch</li>
+<li>Fixed scroll behavior in Windows Terminal and VS Code when attached to background sessions</li>
+<li>Fixed MCP resources from disconnected servers lingering in <code>@server:</code> autocomplete</li>
+<li>Fixed two-file diff snippets over-reporting the number of truncated lines by one</li>
+<li>Fixed Grep results not relativizing Windows drive-letter paths and count mode reporting wrong totals for single-file paths</li>
+<li>Fixed border-embedded text overflowing on CJK/emoji due to visual cell width miscalculation</li>
+<li>Fixed fuzzy-match highlighting splitting emoji and astral-plane characters mid-pair</li>
+<li>Fixed skill argument names containing regex metacharacters breaking argument substitution</li>
+<li>Fixed ProgressBar rendering a full block for an almost-full fractional cell</li>
+<li>Fixed task polling and <code>fs.watch</code> being resurrected when the last subscriber leaves while a fetch is in flight</li>
+<li>Fixed plugin dependency resolution leaving a stale count when the manifest name differs from the source identifier</li>
+<li>Fixed Insights Time-of-Day chart skewing when a session has an unparseable timestamp</li>
+<li>Fixed keybindings using only the cmd/super/win modifier being flagged as unparseable</li>
+<li>Fixed <code>claude_code.active_time.total</code> OpenTelemetry metric not being emitted in <code>--print</code> mode</li>
+<li>Fixed <code>claude plugin update</code> not preserving cross-plugin symlinks inside a marketplace</li>
+<li>[VSCode] Press Cmd/Ctrl+Shift+T to reopen the most recently closed session tab, configurable via <code>claudeCode.enableReopenClosedSessionShortcut</code></li>
+</ul>
+]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[v2.1.138]]></title>
             <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.138</link>
@@ -3046,72 +3160,6 @@
 <li>Changed <code>--plugin-dir</code> so local dev copies now override installed marketplace plugins with the same name (unless that plugin is force-enabled by managed settings)</li>
 <li>[VSCode] Fixed delete button not working for Untitled sessions</li>
 <li>[VSCode] Improved scroll wheel responsiveness in the integrated terminal with terminal-aware acceleration</li>
-</ul>
-]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[v2.1.73]]></title>
-            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.73</link>
-            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.73</guid>
-            <pubDate>Wed, 11 Mar 2026 18:26:43 GMT</pubDate>
-            <description><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>Added <code>modelOverrides</code> setting to map model picker entries to custom provider model IDs (e.g. Bedrock inference profile ARNs)</li>
-<li>Added actionable guidance when OAuth login or connectivity checks fail due to SSL certificate errors (corporate proxies, <code>NODE_EXTRA_CA_CERTS</code>)</li>
-<li>Fixed freezes and 100% CPU loops triggered by permission prompts for complex bash commands</li>
-<li>Fixed a deadlock that could freeze Claude Code when many skill files changed at once (e.g. during <code>git pull</code> in a repo with a large <code>.claude/skills/</code> directory)</li>
-<li>Fixed Bash tool output being lost when running multiple Claude Code sessions in the same project directory</li>
-<li>Fixed subagents with <code>model: opus</code>/<code>sonnet</code>/<code>haiku</code> being silently downgraded to older model versions on Bedrock, Vertex, and Microsoft Foundry</li>
-<li>Fixed background bash processes spawned by subagents not being cleaned up when the agent exits</li>
-<li>Fixed <code>/resume</code> showing the current session in the picker</li>
-<li>Fixed <code>/ide</code> crashing with <code>onInstall is not defined</code> when auto-installing the extension</li>
-<li>Fixed <code>/loop</code> not being available on Bedrock/Vertex/Foundry and when telemetry was disabled</li>
-<li>Fixed SessionStart hooks firing twice when resuming a session via <code>--resume</code> or <code>--continue</code></li>
-<li>Fixed JSON-output hooks injecting no-op system-reminder messages into the model&#39;s context on every turn</li>
-<li>Fixed voice mode session corruption when a slow connection overlaps a new recording</li>
-<li>Fixed Linux sandbox failing to start with &quot;ripgrep (rg) not found&quot; on native builds</li>
-<li>Fixed Linux native modules not loading on Amazon Linux 2 and other glibc 2.26 systems</li>
-<li>Fixed &quot;media_type: Field required&quot; API error when receiving images via Remote Control</li>
-<li>Fixed <code>/heapdump</code> failing on Windows with <code>EEXIST</code> error when the Desktop folder already exists</li>
-<li>Improved Up arrow after interrupting Claude — now restores the interrupted prompt and rewinds the conversation in one step</li>
-<li>Improved IDE detection speed at startup</li>
-<li>Improved clipboard image pasting performance on macOS</li>
-<li>Improved <code>/effort</code> to work while Claude is responding, matching <code>/model</code> behavior</li>
-<li>Improved voice mode to automatically retry transient connection failures during rapid push-to-talk re-press</li>
-<li>Improved the Remote Control spawn mode selection prompt with better context</li>
-<li>Changed default Opus model on Bedrock, Vertex, and Microsoft Foundry to Opus 4.6 (was Opus 4.1)</li>
-<li>Deprecated <code>/output-style</code> command — use <code>/config</code> instead. Output style is now fixed at session start for better prompt caching</li>
-<li>VSCode: Fixed HTTP 400 errors for users behind proxies or on Bedrock/Vertex with Claude 4.5 models</li>
-</ul>
-]]></description>
-            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>Added <code>modelOverrides</code> setting to map model picker entries to custom provider model IDs (e.g. Bedrock inference profile ARNs)</li>
-<li>Added actionable guidance when OAuth login or connectivity checks fail due to SSL certificate errors (corporate proxies, <code>NODE_EXTRA_CA_CERTS</code>)</li>
-<li>Fixed freezes and 100% CPU loops triggered by permission prompts for complex bash commands</li>
-<li>Fixed a deadlock that could freeze Claude Code when many skill files changed at once (e.g. during <code>git pull</code> in a repo with a large <code>.claude/skills/</code> directory)</li>
-<li>Fixed Bash tool output being lost when running multiple Claude Code sessions in the same project directory</li>
-<li>Fixed subagents with <code>model: opus</code>/<code>sonnet</code>/<code>haiku</code> being silently downgraded to older model versions on Bedrock, Vertex, and Microsoft Foundry</li>
-<li>Fixed background bash processes spawned by subagents not being cleaned up when the agent exits</li>
-<li>Fixed <code>/resume</code> showing the current session in the picker</li>
-<li>Fixed <code>/ide</code> crashing with <code>onInstall is not defined</code> when auto-installing the extension</li>
-<li>Fixed <code>/loop</code> not being available on Bedrock/Vertex/Foundry and when telemetry was disabled</li>
-<li>Fixed SessionStart hooks firing twice when resuming a session via <code>--resume</code> or <code>--continue</code></li>
-<li>Fixed JSON-output hooks injecting no-op system-reminder messages into the model&#39;s context on every turn</li>
-<li>Fixed voice mode session corruption when a slow connection overlaps a new recording</li>
-<li>Fixed Linux sandbox failing to start with &quot;ripgrep (rg) not found&quot; on native builds</li>
-<li>Fixed Linux native modules not loading on Amazon Linux 2 and other glibc 2.26 systems</li>
-<li>Fixed &quot;media_type: Field required&quot; API error when receiving images via Remote Control</li>
-<li>Fixed <code>/heapdump</code> failing on Windows with <code>EEXIST</code> error when the Desktop folder already exists</li>
-<li>Improved Up arrow after interrupting Claude — now restores the interrupted prompt and rewinds the conversation in one step</li>
-<li>Improved IDE detection speed at startup</li>
-<li>Improved clipboard image pasting performance on macOS</li>
-<li>Improved <code>/effort</code> to work while Claude is responding, matching <code>/model</code> behavior</li>
-<li>Improved voice mode to automatically retry transient connection failures during rapid push-to-talk re-press</li>
-<li>Improved the Remote Control spawn mode selection prompt with better context</li>
-<li>Changed default Opus model on Bedrock, Vertex, and Microsoft Foundry to Opus 4.6 (was Opus 4.1)</li>
-<li>Deprecated <code>/output-style</code> command — use <code>/config</code> instead. Output style is now fixed at session start for better prompt caching</li>
-<li>VSCode: Fixed HTTP 400 errors for users behind proxies or on Bedrock/Vertex with Claude 4.5 models</li>
 </ul>
 ]]></content:encoded>
         </item>
