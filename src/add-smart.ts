@@ -13,6 +13,7 @@
  *   bun run src/add-smart.ts https://example.com/blog
  */
 
+import RSSParser from "rss-parser";
 import { writeFileSync, mkdirSync } from "fs";
 import { join } from "path";
 import { fetchGitHubAPI } from "./fetcher.js";
@@ -24,6 +25,7 @@ import type { FeedConfig } from "./types.js";
 
 const CONFIGS_DIR = join(import.meta.dir, "..", "configs");
 const FEEDS_DIR = join(import.meta.dir, "..", "feeds");
+const rssParser = new RSSParser({ timeout: 10000, headers: { "User-Agent": "ai-rss-feeds/1.0" } });
 
 interface GitHubInfo {
   owner: string;
@@ -140,8 +142,40 @@ async function addGitHubReleasesFeed(info: GitHubInfo): Promise<void> {
  */
 async function discoverExistingRSS(url: string): Promise<string | null> {
   const origin = new URL(url).origin;
+  const parsedUrl = new URL(url);
+  const pathSegments = parsedUrl.pathname.split("/").filter(Boolean);
+
+  // Strategy 1: If URL has path segments (e.g. /tag/ai/), try appending /rss
+  // to the full path first, then fall back to just /rss
+  if (pathSegments.length > 0) {
+    const pathBasedFeed = url.replace(/\/$/, "") + "/rss";
+    try {
+      const res = await fetch(pathBasedFeed, {
+        method: "HEAD",
+        headers: { "User-Agent": "ai-rss-feeds/1.0" },
+        signal: AbortSignal.timeout(5000),
+      });
+      if (res.ok && (res.headers.get("content-type") || "").includes("xml")) {
+        return pathBasedFeed;
+      }
+    } catch { /* ignore */ }
+  }
+
+  // Strategy 2: Check /rss at origin root
+  try {
+    const res = await fetch(origin + "/rss", {
+      method: "HEAD",
+      headers: { "User-Agent": "ai-rss-feeds/1.0" },
+      signal: AbortSignal.timeout(5000),
+    });
+    if (res.ok && (res.headers.get("content-type") || "").includes("xml")) {
+      return origin + "/rss";
+    }
+  } catch { /* ignore */ }
+
+  // Strategy 3: Common feed paths
   const commonPaths = [
-    "/feed", "/feed.xml", "/rss", "/rss.xml",
+    "/feed", "/feed.xml", "/rss.xml",
     "/atom.xml", "/index.xml", "/blog/rss.xml",
     "/news/rss.xml", "/blog/feed", "/news/feed",
   ];
@@ -209,10 +243,8 @@ async function main() {
   console.log("🔍 Checking for existing RSS feed...");
   const existingFeed = await discoverExistingRSS(url);
   if (existingFeed) {
-    console.log(`\n✅ This site already has a native RSS feed!`);
-    console.log(`📖 Subscribe: ${existingFeed}`);
-    console.log(`\nNo need to generate one.`);
-    process.exit(0);
+    await addRssMirrorFeed(url, existingFeed);
+    return;
   }
 
   // Fall back to LLM-based add-feed
@@ -221,6 +253,81 @@ async function main() {
   // Dynamic import to avoid loading LLM deps when not needed
   const { execSync } = await import("child_process");
   execSync(`bun run src/add-feed.ts "${url}"`, { stdio: "inherit" });
+}
+
+async function addRssMirrorFeed(originalUrl: string, feedUrl: string): Promise<void> {
+  console.log(`\n🔍 Found native RSS feed: ${feedUrl}`);
+  console.log("📦 Fetching upstream feed...");
+
+  const response = await fetch(feedUrl, {
+    headers: { "User-Agent": "ai-rss-feeds/1.0" },
+  });
+  if (!response.ok) {
+    console.error(`❌ Failed to fetch feed: ${response.status}`);
+    process.exit(1);
+  }
+  const xml = await response.text();
+
+  const parsed = await rssParser.parseString(xml);
+  const feedTitle = (parsed.title || new URL(originalUrl).hostname)?.trim();
+  const feedDescription = (parsed.description || `RSS mirror of ${originalUrl}`)?.trim();
+
+  const name = deriveConfigName(originalUrl);
+
+  const config: FeedConfig = {
+    name,
+    url: originalUrl,
+    feed: {
+      title: feedTitle,
+      description: feedDescription,
+      language: parsed.language || "en",
+      author: parsed.creator || parsed.author || new URL(originalUrl).hostname,
+    },
+    selectors: { articleList: "", title: "", link: { source: "" } },
+    parserMode: "rss",
+    rssExtraction: { feedUrl },
+    createdAt: new Date().toISOString(),
+  };
+
+  const articles = await parseArticles(xml, config);
+  console.log(`📝 Parsed ${articles.length} articles`);
+
+  if (articles.length === 0) {
+    console.error("❌ No articles parsed from RSS");
+    process.exit(1);
+  }
+
+  const validation = validateQuick(articles);
+  if (!validation.valid) {
+    console.error("❌ Validation failed:", validation.errors);
+    process.exit(1);
+  }
+
+  const rssXml = generateRSS(articles, config);
+
+  mkdirSync(CONFIGS_DIR, { recursive: true });
+  mkdirSync(FEEDS_DIR, { recursive: true });
+
+  writeFileSync(join(CONFIGS_DIR, `${name}.json`), JSON.stringify(config, null, 2));
+  writeFileSync(join(FEEDS_DIR, `${name}.xml`), rssXml);
+  saveSnapshot(name, articles);
+
+  console.log(`\n✅ Feed added successfully!`);
+  console.log(`   Config: configs/${name}.json`);
+  console.log(`   Feed:   feeds/${name}.xml`);
+  console.log(`   Items:  ${articles.length}`);
+  console.log(
+    `\n📖 Subscribe: https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/${name}.xml`
+  );
+}
+
+function deriveConfigName(url: string): string {
+  const parsed = new URL(url);
+  const parts = parsed.hostname.split(".");
+  const slug = parts.length > 2
+    ? parts.slice(-2).join("-")
+    : parts.join("-");
+  return slug.replace(/[^a-z0-9]/gi, "-").replace(/-+/g, "-").replace(/^-|-$/g, "");
 }
 
 main().catch((err) => {
