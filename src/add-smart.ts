@@ -244,6 +244,25 @@ async function main() {
   const existingFeed = await discoverExistingRSS(url);
   if (existingFeed) {
     console.log(`\n✅ Native RSS feed found: ${existingFeed}`);
+    // Create minimal config for README tracking (parserMode=external, no generated feed file)
+    const name = deriveConfigName(url);
+    const config: FeedConfig = {
+      name,
+      url,
+      feed: {
+        title: new URL(url).hostname,
+        description: `External RSS: ${existingFeed}`,
+        language: "en",
+        author: new URL(url).hostname,
+      },
+      selectors: { articleList: "", title: "", link: { source: "" } },
+      parserMode: "external",
+      rssExtraction: { feedUrl: existingFeed },
+      createdAt: new Date().toISOString(),
+    };
+    mkdirSync(CONFIGS_DIR, { recursive: true });
+    writeFileSync(join(CONFIGS_DIR, `${name}.json`), JSON.stringify(config, null, 2));
+    console.log(`   Config: configs/${name}.json (external)`);
     console.log(`📖 Subscribe: ${existingFeed}`);
     process.stdout.write(`native_feed_url=${existingFeed}`);
     process.exit(0);

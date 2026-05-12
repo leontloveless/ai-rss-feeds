@@ -75,8 +75,12 @@ function getItemLabel(config: FeedConfig, count: number): string {
 
 function generateTable(feeds: FeedInfo[]): string {
   const blogs = feeds.filter(
-    (f) => f.config.parserMode !== "github-releases" && f.config.parserMode !== "changelog"
+    (f) =>
+      f.config.parserMode !== "github-releases" &&
+      f.config.parserMode !== "changelog" &&
+      f.config.parserMode !== "external"
   );
+  const external = feeds.filter((f) => f.config.parserMode === "external");
   const releases = feeds.filter(
     (f) => f.config.parserMode === "github-releases"
   );
@@ -95,6 +99,19 @@ function generateTable(feeds: FeedInfo[]): string {
       const subscribe = `[Subscribe](https://raw.githubusercontent.com/${REPO}/main/feeds/${f.name}.xml)`;
       const status = `✅ ${getItemLabel(f.config, f.itemCount)}`;
       lines.push(`| ${source} | ${subscribe} | ${status} |`);
+    }
+    lines.push("");
+  }
+
+  if (external.length > 0) {
+    lines.push(`### External RSS (${external.length})\n`);
+    lines.push("| Blog | Feed | Status |");
+    lines.push("|------|------|--------|");
+    for (const f of external) {
+      const source = `[${f.config.feed.title}](${getSourceUrl(f.config)})`;
+      const feedUrl = f.config.rssExtraction?.feedUrl || "#";
+      const subscribe = `[Subscribe](${feedUrl})`;
+      lines.push(`| ${source} | ${subscribe} | ✅ native RSS |`);
     }
     lines.push("");
   }
