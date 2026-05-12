@@ -245,7 +245,6 @@ async function main() {
   if (existingFeed) {
     console.log(`\n✅ Native RSS feed found: ${existingFeed}`);
     console.log(`📖 Subscribe: ${existingFeed}`);
-    // Output for GitHub Actions: discovered native feed URL
     process.stdout.write(`native_feed_url=${existingFeed}`);
     process.exit(0);
   }
