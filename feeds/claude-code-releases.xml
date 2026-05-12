@@ -4,11 +4,51 @@
         <title>claude-code Releases</title>
         <link>https://github.com/anthropics/claude-code/releases</link>
         <description>GitHub releases for anthropics/claude-code</description>
-        <lastBuildDate>Mon, 11 May 2026 18:43:42 GMT</lastBuildDate>
+        <lastBuildDate>Tue, 12 May 2026 21:09:45 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>ai-rss-feeds (https://github.com/leontloveless/ai-rss-feeds)</generator>
         <language>en</language>
         <atom:link href="https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/claude-code-releases.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[v2.1.140]]></title>
+            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.140</link>
+            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.140</guid>
+            <pubDate>Tue, 12 May 2026 21:09:45 GMT</pubDate>
+            <description><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Improved Agent tool <code>subagent_type</code> matching to accept case- and separator-insensitive values (e.g. <code>&quot;Code Reviewer&quot;</code> resolves to <code>code-reviewer</code>)</li>
+<li>Updated agent color palette</li>
+<li>Fixed <code>/goal</code> silently hanging when <code>disableAllHooks</code> or <code>allowManagedHooksOnly</code> is set — now shows a clear message instead of an indicator that never resolves</li>
+<li>Fixed a regression in settings hot-reload where symlinked settings files caused misattributed change events and spurious <code>ConfigChange</code> hooks</li>
+<li>Fixed <code>claude --bg</code> failing with &quot;connection dropped mid-request&quot; when the background service was about to idle-exit</li>
+<li>Fixed background service startup failing on machines with enterprise endpoint security by allowing more time</li>
+<li>Fixed remote managed settings not retrying on 401 — now retries once with a force-refreshed token</li>
+<li>Fixed managed <code>extraKnownMarketplaces</code> auto-update policy not being persisted to <code>known_marketplaces.json</code></li>
+<li>Fixed <code>/loop</code> scheduling redundant wakeups to poll for background tasks that already notify on completion</li>
+<li>Fixed a recurring event-loop stall on Windows when a missing executable (e.g. <code>gh</code>) triggered synchronous <code>where.exe</code> re-spawns on every check</li>
+<li>Fixed <code>Read</code> tool calls failing validation when <code>offset</code> is passed as a whitespace-padded or <code>+</code>-prefixed string</li>
+<li>Fixed native terminal cursor not staying at the input caret when the terminal loses focus</li>
+<li>Plugins now warn when a default component folder (e.g. <code>commands/</code>) is silently ignored because <code>plugin.json</code> sets the matching key. Shown in <code>/doctor</code>, <code>claude plugin list</code>, and <code>/plugin</code>.</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Improved Agent tool <code>subagent_type</code> matching to accept case- and separator-insensitive values (e.g. <code>&quot;Code Reviewer&quot;</code> resolves to <code>code-reviewer</code>)</li>
+<li>Updated agent color palette</li>
+<li>Fixed <code>/goal</code> silently hanging when <code>disableAllHooks</code> or <code>allowManagedHooksOnly</code> is set — now shows a clear message instead of an indicator that never resolves</li>
+<li>Fixed a regression in settings hot-reload where symlinked settings files caused misattributed change events and spurious <code>ConfigChange</code> hooks</li>
+<li>Fixed <code>claude --bg</code> failing with &quot;connection dropped mid-request&quot; when the background service was about to idle-exit</li>
+<li>Fixed background service startup failing on machines with enterprise endpoint security by allowing more time</li>
+<li>Fixed remote managed settings not retrying on 401 — now retries once with a force-refreshed token</li>
+<li>Fixed managed <code>extraKnownMarketplaces</code> auto-update policy not being persisted to <code>known_marketplaces.json</code></li>
+<li>Fixed <code>/loop</code> scheduling redundant wakeups to poll for background tasks that already notify on completion</li>
+<li>Fixed a recurring event-loop stall on Windows when a missing executable (e.g. <code>gh</code>) triggered synchronous <code>where.exe</code> re-spawns on every check</li>
+<li>Fixed <code>Read</code> tool calls failing validation when <code>offset</code> is passed as a whitespace-padded or <code>+</code>-prefixed string</li>
+<li>Fixed native terminal cursor not staying at the input caret when the terminal loses focus</li>
+<li>Plugins now warn when a default component folder (e.g. <code>commands/</code>) is silently ignored because <code>plugin.json</code> sets the matching key. Shown in <code>/doctor</code>, <code>claude plugin list</code>, and <code>/plugin</code>.</li>
+</ul>
+]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[v2.1.139]]></title>
             <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.139</link>
@@ -3114,54 +3154,6 @@
             <pubDate>Fri, 13 Mar 2026 17:09:08 GMT</pubDate>
             <description><![CDATA[<p>Release v2.1.75</p>]]></description>
             <content:encoded><![CDATA[<p>Release v2.1.75</p>]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[v2.1.74]]></title>
-            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.74</link>
-            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.74</guid>
-            <pubDate>Thu, 12 Mar 2026 00:34:23 GMT</pubDate>
-            <description><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>Added actionable suggestions to <code>/context</code> command — identifies context-heavy tools, memory bloat, and capacity warnings with specific optimization tips</li>
-<li>Added <code>autoMemoryDirectory</code> setting to configure a custom directory for auto-memory storage</li>
-<li>Fixed memory leak where streaming API response buffers were not released when the generator was terminated early, causing unbounded RSS growth on the Node.js/npm code path</li>
-<li>Fixed managed policy <code>ask</code> rules being bypassed by user <code>allow</code> rules or skill <code>allowed-tools</code></li>
-<li>Fixed full model IDs (e.g., <code>claude-opus-4-5</code>) being silently ignored in agent frontmatter <code>model:</code> field and <code>--agents</code> JSON config — agents now accept the same model values as <code>--model</code></li>
-<li>Fixed MCP OAuth authentication hanging when the callback port is already in use</li>
-<li>Fixed MCP OAuth refresh never prompting for re-auth after the refresh token expires, for OAuth servers that return errors with HTTP 200 (e.g. Slack)</li>
-<li>Fixed voice mode silently failing on the macOS native binary for users whose terminal had never been granted microphone permission — the binary now includes the <code>audio-input</code> entitlement so macOS prompts correctly</li>
-<li>Fixed <code>SessionEnd</code> hooks being killed after 1.5 s on exit regardless of <code>hook.timeout</code> — now configurable via <code>CLAUDE_CODE_SESSIONEND_HOOKS_TIMEOUT_MS</code></li>
-<li>Fixed <code>/plugin install</code> failing inside the REPL for marketplace plugins with local sources</li>
-<li>Fixed marketplace update not syncing git submodules — plugin sources in submodules no longer break after update</li>
-<li>Fixed unknown slash commands with arguments silently dropping input — now shows your input as a warning</li>
-<li>Fixed Hebrew, Arabic, and other RTL text not rendering correctly in Windows Terminal, conhost, and VS Code integrated terminal</li>
-<li>Fixed LSP servers not working on Windows due to malformed file URIs</li>
-<li>Changed <code>--plugin-dir</code> so local dev copies now override installed marketplace plugins with the same name (unless that plugin is force-enabled by managed settings)</li>
-<li>[VSCode] Fixed delete button not working for Untitled sessions</li>
-<li>[VSCode] Improved scroll wheel responsiveness in the integrated terminal with terminal-aware acceleration</li>
-</ul>
-]]></description>
-            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>Added actionable suggestions to <code>/context</code> command — identifies context-heavy tools, memory bloat, and capacity warnings with specific optimization tips</li>
-<li>Added <code>autoMemoryDirectory</code> setting to configure a custom directory for auto-memory storage</li>
-<li>Fixed memory leak where streaming API response buffers were not released when the generator was terminated early, causing unbounded RSS growth on the Node.js/npm code path</li>
-<li>Fixed managed policy <code>ask</code> rules being bypassed by user <code>allow</code> rules or skill <code>allowed-tools</code></li>
-<li>Fixed full model IDs (e.g., <code>claude-opus-4-5</code>) being silently ignored in agent frontmatter <code>model:</code> field and <code>--agents</code> JSON config — agents now accept the same model values as <code>--model</code></li>
-<li>Fixed MCP OAuth authentication hanging when the callback port is already in use</li>
-<li>Fixed MCP OAuth refresh never prompting for re-auth after the refresh token expires, for OAuth servers that return errors with HTTP 200 (e.g. Slack)</li>
-<li>Fixed voice mode silently failing on the macOS native binary for users whose terminal had never been granted microphone permission — the binary now includes the <code>audio-input</code> entitlement so macOS prompts correctly</li>
-<li>Fixed <code>SessionEnd</code> hooks being killed after 1.5 s on exit regardless of <code>hook.timeout</code> — now configurable via <code>CLAUDE_CODE_SESSIONEND_HOOKS_TIMEOUT_MS</code></li>
-<li>Fixed <code>/plugin install</code> failing inside the REPL for marketplace plugins with local sources</li>
-<li>Fixed marketplace update not syncing git submodules — plugin sources in submodules no longer break after update</li>
-<li>Fixed unknown slash commands with arguments silently dropping input — now shows your input as a warning</li>
-<li>Fixed Hebrew, Arabic, and other RTL text not rendering correctly in Windows Terminal, conhost, and VS Code integrated terminal</li>
-<li>Fixed LSP servers not working on Windows due to malformed file URIs</li>
-<li>Changed <code>--plugin-dir</code> so local dev copies now override installed marketplace plugins with the same name (unless that plugin is force-enabled by managed settings)</li>
-<li>[VSCode] Fixed delete button not working for Untitled sessions</li>
-<li>[VSCode] Improved scroll wheel responsiveness in the integrated terminal with terminal-aware acceleration</li>
-</ul>
-]]></content:encoded>
         </item>
     </channel>
 </rss>
