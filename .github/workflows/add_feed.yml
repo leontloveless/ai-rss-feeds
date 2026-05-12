@@ -34,8 +34,10 @@ jobs:
           # Snapshot the newest config BEFORE running (to exclude it from diff detection)
           PREV=$(ls -t configs/*.json 2>/dev/null | head -1 || echo "")
           echo "prev_config=${PREV#configs/}" >> $GITHUB_OUTPUT
-          bun run src/add-smart.ts "${{ steps.url.outputs.url }}"
-          # Identify the config created by this run
+          OUTPUT=$(bun run src/add-smart.ts "${{ steps.url.outputs.url }}" 2>&1)
+          echo "output=$OUTPUT" >> $GITHUB_OUTPUT
+          echo "$OUTPUT"
+          # Identify the config created by this run (if any)
           NEW=$(ls -t configs/*.json 2>/dev/null | head -1 || echo "")
           echo "config_name=${NEW#configs/}" >> $GITHUB_OUTPUT
           echo "Config created: $NEW"
@@ -58,22 +60,35 @@ jobs:
           fi
 
       - name: Comment on issue
-        if: success() && steps.add-feed.outputs.config_name != ''
         uses: actions/github-script@v7
         with:
           script: |
-            const configName = '${{ steps.add-feed.outputs.config_name }}'.replace('.json', '');
+            const output = '${{ steps.add-feed.outputs.output }}' || '';
+            const configName = '${{ steps.add-feed.outputs.config_name }}' || '';
+            const nativeMatch = output.match(/native_feed_url=(\S+)/);
+            const nativeUrl = nativeMatch ? nativeMatch[1] : null;
+
+            let body = '';
+            if (configName) {
+              body = `✅ Feed added successfully!\n\n📖 Subscribe: \`https://raw.githubusercontent.com/${context.repo.owner}/${context.repo.repo}/main/feeds/${configName}.xml\``;
+            } else if (nativeUrl) {
+              body = `✅ Native RSS feed found — no copy needed.\n\n📖 Subscribe: \`${nativeUrl}\``;
+            } else {
+              body = `⚠️ Could not determine feed URL. Check workflow logs.`;
+            }
+
             await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
-              body: `✅ Feed added successfully!\n\n📖 Subscribe: \`https://raw.githubusercontent.com/${context.repo.owner}/${context.repo.repo}/main/feeds/${configName}.xml\``
+              body,
             });
+
             await github.rest.issues.update({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
-              state: 'closed'
+              state: 'closed',
             });
 
       - name: Comment failure

@@ -243,8 +243,11 @@ async function main() {
   console.log("🔍 Checking for existing RSS feed...");
   const existingFeed = await discoverExistingRSS(url);
   if (existingFeed) {
-    await addRssMirrorFeed(url, existingFeed);
-    return;
+    console.log(`\n✅ Native RSS feed found: ${existingFeed}`);
+    console.log(`📖 Subscribe: ${existingFeed}`);
+    // Output for GitHub Actions: discovered native feed URL
+    process.stdout.write(`native_feed_url=${existingFeed}`);
+    process.exit(0);
   }
 
   // Fall back to LLM-based add-feed
