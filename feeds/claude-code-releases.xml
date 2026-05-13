@@ -4,11 +4,147 @@
         <title>claude-code Releases</title>
         <link>https://github.com/anthropics/claude-code/releases</link>
         <description>GitHub releases for anthropics/claude-code</description>
-        <lastBuildDate>Tue, 12 May 2026 21:09:45 GMT</lastBuildDate>
+        <lastBuildDate>Wed, 13 May 2026 23:19:16 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>ai-rss-feeds (https://github.com/leontloveless/ai-rss-feeds)</generator>
         <language>en</language>
         <atom:link href="https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/claude-code-releases.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[v2.1.141]]></title>
+            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.141</link>
+            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.141</guid>
+            <pubDate>Wed, 13 May 2026 23:19:16 GMT</pubDate>
+            <description><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Added <code>terminalSequence</code> field to hook JSON output so hooks can emit desktop notifications, window titles, and bells without a controlling terminal</li>
+<li>Added <code>CLAUDE_CODE_PLUGIN_PREFER_HTTPS</code> to clone GitHub plugin sources over HTTPS instead of SSH, for environments without a GitHub SSH key</li>
+<li>Added <code>ANTHROPIC_WORKSPACE_ID</code> environment variable for workload identity federation — scopes the minted token to a specific workspace when the federation rule covers more than one</li>
+<li>Added <code>claude agents --cwd &lt;path&gt;</code> to scope the session list to a directory</li>
+<li><code>/feedback</code> can now include recent sessions (last 24 hours or 7 days) for issues spanning more than the current session</li>
+<li>Rewind menu: added &quot;Summarize up to here&quot; to compress earlier context while keeping recent turns intact</li>
+<li>Auto mode permission dialog now explains when a <code>permissions.ask</code> rule caused the prompt</li>
+<li>Restored the &quot;view diff in your IDE&quot; option on file-edit permission prompts when an IDE is connected</li>
+<li>Background agents launched via <code>/bg</code> or <code>←←</code> now preserve the current permission mode instead of reverting to default</li>
+<li><code>claude agents</code>: agents that finish work but leave a background shell running now move to Completed instead of staying under Working</li>
+<li>Improved spinner feedback during long thinking periods — the spinner now warms to amber after 10 seconds to signal Claude is still working</li>
+<li>Improved plugin menu navigation: <code>→</code>/Tab switch tabs, <code>↑</code> moves to the tab strip, and tab headers and search box are clickable in fullscreen mode</li>
+<li>Fixed background side-queries sending an unavailable Haiku model ID on Bedrock/Vertex/Foundry/gateway when no <code>ANTHROPIC_SMALL_FAST_MODEL</code> override is set — now falls back to the main-loop model</li>
+<li>Fixed <code>claude daemon status</code> and <code>/doctor</code> on Windows throwing when the daemon pipe key file is locked or unreadable — now shows the underlying error instead of an opaque failure</li>
+<li>Fixed <code>claude agents</code> showing the agent-type list instead of the dashboard when launched through a wrapper that adds flags</li>
+<li>Fixed <code>claude agents</code> opening a crashed session firing redundant dispatches when the working directory was deleted</li>
+<li>Fixed background jobs on a custom <code>ANTHROPIC_BASE_URL</code> gateway not getting auto-named — the namer now uses the main model when no Haiku model is configured</li>
+<li>Fixed <code>/model</code> in one session silently changing the autocompact threshold in other concurrent sessions</li>
+<li>Fixed switching permission mode while a tool-permission prompt is open not auto-dismissing the prompt when the new setting permits the tool</li>
+<li>Fixed pressing Enter while a permission/dialog prompt is open also submitting text in the input box</li>
+<li>Fixed hooks receiving a non-existent <code>transcript_path</code> after <code>EnterWorktree</code> switches the working directory</li>
+<li>Fixed markdown tables with cell wrapping falling back to the vertical key-value layout instead of rendering as a bordered grid (regression in 2.1.136)</li>
+<li>Fixed cancelled prompts being removed from Up-arrow history when auto-restored into the input box, avoiding duplicate entries</li>
+<li>Fixed prompts cancelled with Ctrl+C/Esc before any response being dropped from Up-arrow history</li>
+<li>Fixed Ctrl+C not interrupting a running turn while in vim INSERT/VISUAL mode</li>
+<li>Fixed alternative <code>chat:submit</code> keybindings (e.g. <code>meta+enter</code>, <code>ctrl+enter</code>) not working when <code>enter</code> is rebound to <code>chat:newline</code></li>
+<li>Fixed prompt suggestions being silently disabled when an output style was configured</li>
+<li>Fixed <code>spinnerVerbs</code> setting not being honored in turn-completion messages</li>
+<li>Fixed AskUserQuestion popup hiding the last line of preceding chat content</li>
+<li>Fixed Web Search status showing &quot;Did 0 searches&quot; when searches returned errors</li>
+<li>Fixed multi-line statusline output dropping or corrupting rows when any line exceeds terminal width</li>
+<li>Fixed light-ansi theme using invisible white for diff context lines on light backgrounds — now uses black</li>
+<li>Fixed error overlay dumping minified bundle source that hid the original error message</li>
+<li>Fixed pressing Enter after typing a feedback survey rating digit submitting it as a chat message instead of the rating</li>
+<li>Fixed pressing <code>x</code> on a selected subagent in the agent panel typing into the prompt instead of stopping the agent</li>
+<li>Fixed session title being derived from plugin monitor notifications before the user&#39;s first prompt</li>
+<li>Fixed &quot;Allowed by PermissionRequest hook&quot; repeating once per tool call under a collapsed read/search group</li>
+<li>Fixed <code>/tui</code> silently dropping running background shells and subagents — now refuses and asks to wait for them to finish</li>
+<li>Fixed welcome banner showing &quot;API Usage Billing&quot; on Bedrock, Vertex, Foundry, and other third-party providers — now shows the provider name</li>
+<li>Fixed <code>/mcp</code> server list not keeping the focused server visible in short terminals in fullscreen mode</li>
+<li>Fixed redaction in <code>/feedback</code> bundles producing invalid JSON for quoted values like session IDs</li>
+<li>Fixed desktop and third-party provider sessions incorrectly inheriting <code>apiKeyHelper</code>/<code>ANTHROPIC_AUTH_TOKEN</code> from host managed-settings</li>
+<li>Fixed early analytics events being silently dropped when fired before logger initialization</li>
+<li>Fixed <code>claude plugin install</code> failing for plugins whose marketplace <code>ref</code> no longer exists upstream when a <code>sha</code> is also pinned</li>
+<li>Fixed plugin details pane showing 0 MCP servers for plugins that declare them via <code>.mcp.json</code></li>
+<li>Fixed plugin MCP servers with unset config variables showing a generic connection failure instead of a &quot;config issue&quot; message with a fix-it hint; malformed <code>.mcp.json</code> entries no longer drop other MCP servers</li>
+<li>Fixed MCP server configs using POSIX shell parameter expansions (e.g. <code>${var%pattern}</code>) being incorrectly flagged as missing environment variables</li>
+<li>Fixed MCP HTTP/SSE servers returning 403 on connect showing as &quot;failed&quot; instead of &quot;needs auth&quot;</li>
+<li>Fixed remote MCP servers disconnecting unnecessarily when the optional server-events stream failed to reconnect — tool calls continue over POST</li>
+<li>Fixed Remote Control MCP connectors all failing with 401 when the worker session token rotated mid-session</li>
+<li>Fixed Remote Control automatically re-enrolling a trusted device when the server rejects a stale token, instead of looping through <code>/login</code></li>
+<li>Fixed a race where early OTel spans could be silently dropped in SDK/headless mode with beta tracing enabled</li>
+<li>Fixed custom <code>voice:pushToTalk</code> keybindings and <code>&quot;space&quot;: null</code> unbinds being silently ignored</li>
+<li>Fixed Windows Alt+V image paste reporting &quot;no image found&quot; when the clipboard contains a screenshot</li>
+<li>Fixed SDK &quot;Claude Code native binary not found&quot; on Linux when both glibc and musl platform packages are installed</li>
+<li>Bedrock: <code>awsCredentialExport</code> now always runs when configured instead of being skipped when ambient AWS credentials resolve, fixing auth for cross-account access</li>
+<li>[VSCode] Fixed in-chat mic showing no feedback when the microphone produced only silence — now shows &quot;No audio detected&quot;</li>
+<li>[VSCode] Voice mode: the WSL error now suggests installing <code>sox libsox-fmt-pulse</code> for WSLg users</li>
+<li><code>claude agents</code>: launching a session no longer fails when the pre-warmed background worker is unhealthy — now falls back to a fresh launch</li>
+<li><code>claude agents</code> no longer shows empty placeholder sessions left over from backgrounding a fresh REPL, and shows onboarding text when entered via ← with no other agents</li>
+<li>Empty idle background sessions left over from <code>←</code> are now automatically retired by the daemon after 5 minutes</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Added <code>terminalSequence</code> field to hook JSON output so hooks can emit desktop notifications, window titles, and bells without a controlling terminal</li>
+<li>Added <code>CLAUDE_CODE_PLUGIN_PREFER_HTTPS</code> to clone GitHub plugin sources over HTTPS instead of SSH, for environments without a GitHub SSH key</li>
+<li>Added <code>ANTHROPIC_WORKSPACE_ID</code> environment variable for workload identity federation — scopes the minted token to a specific workspace when the federation rule covers more than one</li>
+<li>Added <code>claude agents --cwd &lt;path&gt;</code> to scope the session list to a directory</li>
+<li><code>/feedback</code> can now include recent sessions (last 24 hours or 7 days) for issues spanning more than the current session</li>
+<li>Rewind menu: added &quot;Summarize up to here&quot; to compress earlier context while keeping recent turns intact</li>
+<li>Auto mode permission dialog now explains when a <code>permissions.ask</code> rule caused the prompt</li>
+<li>Restored the &quot;view diff in your IDE&quot; option on file-edit permission prompts when an IDE is connected</li>
+<li>Background agents launched via <code>/bg</code> or <code>←←</code> now preserve the current permission mode instead of reverting to default</li>
+<li><code>claude agents</code>: agents that finish work but leave a background shell running now move to Completed instead of staying under Working</li>
+<li>Improved spinner feedback during long thinking periods — the spinner now warms to amber after 10 seconds to signal Claude is still working</li>
+<li>Improved plugin menu navigation: <code>→</code>/Tab switch tabs, <code>↑</code> moves to the tab strip, and tab headers and search box are clickable in fullscreen mode</li>
+<li>Fixed background side-queries sending an unavailable Haiku model ID on Bedrock/Vertex/Foundry/gateway when no <code>ANTHROPIC_SMALL_FAST_MODEL</code> override is set — now falls back to the main-loop model</li>
+<li>Fixed <code>claude daemon status</code> and <code>/doctor</code> on Windows throwing when the daemon pipe key file is locked or unreadable — now shows the underlying error instead of an opaque failure</li>
+<li>Fixed <code>claude agents</code> showing the agent-type list instead of the dashboard when launched through a wrapper that adds flags</li>
+<li>Fixed <code>claude agents</code> opening a crashed session firing redundant dispatches when the working directory was deleted</li>
+<li>Fixed background jobs on a custom <code>ANTHROPIC_BASE_URL</code> gateway not getting auto-named — the namer now uses the main model when no Haiku model is configured</li>
+<li>Fixed <code>/model</code> in one session silently changing the autocompact threshold in other concurrent sessions</li>
+<li>Fixed switching permission mode while a tool-permission prompt is open not auto-dismissing the prompt when the new setting permits the tool</li>
+<li>Fixed pressing Enter while a permission/dialog prompt is open also submitting text in the input box</li>
+<li>Fixed hooks receiving a non-existent <code>transcript_path</code> after <code>EnterWorktree</code> switches the working directory</li>
+<li>Fixed markdown tables with cell wrapping falling back to the vertical key-value layout instead of rendering as a bordered grid (regression in 2.1.136)</li>
+<li>Fixed cancelled prompts being removed from Up-arrow history when auto-restored into the input box, avoiding duplicate entries</li>
+<li>Fixed prompts cancelled with Ctrl+C/Esc before any response being dropped from Up-arrow history</li>
+<li>Fixed Ctrl+C not interrupting a running turn while in vim INSERT/VISUAL mode</li>
+<li>Fixed alternative <code>chat:submit</code> keybindings (e.g. <code>meta+enter</code>, <code>ctrl+enter</code>) not working when <code>enter</code> is rebound to <code>chat:newline</code></li>
+<li>Fixed prompt suggestions being silently disabled when an output style was configured</li>
+<li>Fixed <code>spinnerVerbs</code> setting not being honored in turn-completion messages</li>
+<li>Fixed AskUserQuestion popup hiding the last line of preceding chat content</li>
+<li>Fixed Web Search status showing &quot;Did 0 searches&quot; when searches returned errors</li>
+<li>Fixed multi-line statusline output dropping or corrupting rows when any line exceeds terminal width</li>
+<li>Fixed light-ansi theme using invisible white for diff context lines on light backgrounds — now uses black</li>
+<li>Fixed error overlay dumping minified bundle source that hid the original error message</li>
+<li>Fixed pressing Enter after typing a feedback survey rating digit submitting it as a chat message instead of the rating</li>
+<li>Fixed pressing <code>x</code> on a selected subagent in the agent panel typing into the prompt instead of stopping the agent</li>
+<li>Fixed session title being derived from plugin monitor notifications before the user&#39;s first prompt</li>
+<li>Fixed &quot;Allowed by PermissionRequest hook&quot; repeating once per tool call under a collapsed read/search group</li>
+<li>Fixed <code>/tui</code> silently dropping running background shells and subagents — now refuses and asks to wait for them to finish</li>
+<li>Fixed welcome banner showing &quot;API Usage Billing&quot; on Bedrock, Vertex, Foundry, and other third-party providers — now shows the provider name</li>
+<li>Fixed <code>/mcp</code> server list not keeping the focused server visible in short terminals in fullscreen mode</li>
+<li>Fixed redaction in <code>/feedback</code> bundles producing invalid JSON for quoted values like session IDs</li>
+<li>Fixed desktop and third-party provider sessions incorrectly inheriting <code>apiKeyHelper</code>/<code>ANTHROPIC_AUTH_TOKEN</code> from host managed-settings</li>
+<li>Fixed early analytics events being silently dropped when fired before logger initialization</li>
+<li>Fixed <code>claude plugin install</code> failing for plugins whose marketplace <code>ref</code> no longer exists upstream when a <code>sha</code> is also pinned</li>
+<li>Fixed plugin details pane showing 0 MCP servers for plugins that declare them via <code>.mcp.json</code></li>
+<li>Fixed plugin MCP servers with unset config variables showing a generic connection failure instead of a &quot;config issue&quot; message with a fix-it hint; malformed <code>.mcp.json</code> entries no longer drop other MCP servers</li>
+<li>Fixed MCP server configs using POSIX shell parameter expansions (e.g. <code>${var%pattern}</code>) being incorrectly flagged as missing environment variables</li>
+<li>Fixed MCP HTTP/SSE servers returning 403 on connect showing as &quot;failed&quot; instead of &quot;needs auth&quot;</li>
+<li>Fixed remote MCP servers disconnecting unnecessarily when the optional server-events stream failed to reconnect — tool calls continue over POST</li>
+<li>Fixed Remote Control MCP connectors all failing with 401 when the worker session token rotated mid-session</li>
+<li>Fixed Remote Control automatically re-enrolling a trusted device when the server rejects a stale token, instead of looping through <code>/login</code></li>
+<li>Fixed a race where early OTel spans could be silently dropped in SDK/headless mode with beta tracing enabled</li>
+<li>Fixed custom <code>voice:pushToTalk</code> keybindings and <code>&quot;space&quot;: null</code> unbinds being silently ignored</li>
+<li>Fixed Windows Alt+V image paste reporting &quot;no image found&quot; when the clipboard contains a screenshot</li>
+<li>Fixed SDK &quot;Claude Code native binary not found&quot; on Linux when both glibc and musl platform packages are installed</li>
+<li>Bedrock: <code>awsCredentialExport</code> now always runs when configured instead of being skipped when ambient AWS credentials resolve, fixing auth for cross-account access</li>
+<li>[VSCode] Fixed in-chat mic showing no feedback when the microphone produced only silence — now shows &quot;No audio detected&quot;</li>
+<li>[VSCode] Voice mode: the WSL error now suggests installing <code>sox libsox-fmt-pulse</code> for WSLg users</li>
+<li><code>claude agents</code>: launching a session no longer fails when the pre-warmed background worker is unhealthy — now falls back to a fresh launch</li>
+<li><code>claude agents</code> no longer shows empty placeholder sessions left over from backgrounding a fresh REPL, and shows onboarding text when entered via ← with no other agents</li>
+<li>Empty idle background sessions left over from <code>←</code> are now automatically retired by the daemon after 5 minutes</li>
+</ul>
+]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[v2.1.140]]></title>
             <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.140</link>
@@ -3146,14 +3282,6 @@
 <li>[VSCode] Fixed gitignore patterns containing commas silently excluding entire filetypes from the @-mention file picker</li>
 </ul>
 ]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[v2.1.75]]></title>
-            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.75</link>
-            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.75</guid>
-            <pubDate>Fri, 13 Mar 2026 17:09:08 GMT</pubDate>
-            <description><![CDATA[<p>Release v2.1.75</p>]]></description>
-            <content:encoded><![CDATA[<p>Release v2.1.75</p>]]></content:encoded>
         </item>
     </channel>
 </rss>
