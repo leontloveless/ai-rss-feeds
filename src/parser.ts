@@ -526,6 +526,10 @@ export async function parseArticles(html: string, config: FeedConfig): Promise<A
         if (!linkRaw) {
           const itemAnchor = $el.find("a").first();
           linkRaw = itemAnchor.attr(selectors.link.source.slice(5)) || "";
+          // If itemEl itself is the anchor (e.g. <a class="card"> wrapping the article)
+          if (!linkRaw && itemEl.tagName === "a") {
+            linkRaw = $el.attr(selectors.link.source.slice(5)) || "";
+          }
         }
       } else {
         linkRaw = extractLink($el, selectors.title, selectors.link.source);
