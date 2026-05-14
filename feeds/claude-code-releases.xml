@@ -4,11 +4,73 @@
         <title>claude-code Releases</title>
         <link>https://github.com/anthropics/claude-code/releases</link>
         <description>GitHub releases for anthropics/claude-code</description>
-        <lastBuildDate>Wed, 13 May 2026 23:19:16 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 14 May 2026 22:55:10 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>ai-rss-feeds (https://github.com/leontloveless/ai-rss-feeds)</generator>
         <language>en</language>
         <atom:link href="https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/claude-code-releases.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[v2.1.142]]></title>
+            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.142</link>
+            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.142</guid>
+            <pubDate>Thu, 14 May 2026 22:55:10 GMT</pubDate>
+            <description><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Added new <code>claude agents</code> flags: <code>--add-dir</code>, <code>--settings</code>, <code>--mcp-config</code>, <code>--plugin-dir</code>, <code>--permission-mode</code>, <code>--model</code>, <code>--effort</code>, and <code>--dangerously-skip-permissions</code> to configure dispatched background sessions</li>
+<li>Fast mode now uses Opus 4.7 by default (previously Opus 4.6). Set <code>CLAUDE_CODE_OPUS_4_6_FAST_MODE_OVERRIDE=1</code> to pin fast mode to Opus 4.6</li>
+<li>Plugins with a root-level <code>SKILL.md</code> and no <code>skills/</code> subdirectory are now surfaced as a skill</li>
+<li>The <code>/plugin</code> details pane and <code>claude plugin details</code> now show LSP servers a plugin provides</li>
+<li><code>/web-setup</code> warns before replacing an existing GitHub App connection</li>
+<li>Fixed <code>MCP_TOOL_TIMEOUT</code> not raising the per-request fetch timeout for remote HTTP and SSE MCP servers, which capped tool calls at 60 seconds regardless of the configured value</li>
+<li>Fixed background sessions not recognizing pre-existing git worktrees, blocking Edit while EnterWorktree refused to create a duplicate</li>
+<li>Fixed background sessions disappearing and daemon reconnect failing after macOS sleep/wake — the daemon now detects clock jumps instead of treating them as elapsed idle time</li>
+<li>Fixed daemon not exiting cleanly after the binary is upgraded (e.g. <code>brew upgrade</code>), causing dispatched agents to crash-loop on the deleted path</li>
+<li>Fixed background agents crash-looping when the Claude-in-Chrome extension is connected without a shared tab</li>
+<li>Fixed clicking links in an attached <code>claude agents</code> session — the background worker&#39;s headless browser shim no longer applies while attached</li>
+<li>Fixed <code>claude agents</code> &quot;v to open in editor&quot; using the daemon&#39;s default editor instead of your shell&#39;s <code>$EDITOR</code>/<code>$VISUAL</code></li>
+<li>Fixed <code>claude agents</code> deadlocking on Windows with network-drive working directories; Ctrl+C now works during startup</li>
+<li>Fixed background-color bleed when attaching to a <code>claude agents</code> session from Apple Terminal or other 256-color-only terminals</li>
+<li>Fixed <code>claude --bg --dangerously-skip-permissions</code> not persisting across retire/wake</li>
+<li>Fixed session titles being derived from the URL when the first message is a link</li>
+<li>Fixed redundant <code>set_model</code> requests from remote clients injecting duplicate <code>/model</code> breadcrumbs into the transcript</li>
+<li>Fixed plugins using <code>skills: [&quot;./&quot;]</code> showing a false &quot;path escapes plugin directory&quot; error</li>
+<li>Fixed plugin cache cleanup deleting the active plugin version directory when no installation metadata is present</li>
+<li>Fixed <code>/plugin</code> browse pane showing &quot;0 installs&quot; for newly published plugins</li>
+<li>Fixed plugin advisories not naming every <code>plugin.json</code> key that shadows a default folder</li>
+<li>Improved reactive compaction: the first summarize attempt now seeds from the original request&#39;s overflow size, avoiding a wasted near-full-context retry</li>
+<li>Improved hook configuration error: configuring a prompt- or agent-type hook for <code>SessionStart</code>/<code>Setup</code>/<code>SubagentStart</code> now shows a clear &quot;use a command-type hook instead&quot; error</li>
+<li>Removed stale <code>/model claude-sonnet-4-20250514</code> suggestion from Usage Policy refusal messages</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Added new <code>claude agents</code> flags: <code>--add-dir</code>, <code>--settings</code>, <code>--mcp-config</code>, <code>--plugin-dir</code>, <code>--permission-mode</code>, <code>--model</code>, <code>--effort</code>, and <code>--dangerously-skip-permissions</code> to configure dispatched background sessions</li>
+<li>Fast mode now uses Opus 4.7 by default (previously Opus 4.6). Set <code>CLAUDE_CODE_OPUS_4_6_FAST_MODE_OVERRIDE=1</code> to pin fast mode to Opus 4.6</li>
+<li>Plugins with a root-level <code>SKILL.md</code> and no <code>skills/</code> subdirectory are now surfaced as a skill</li>
+<li>The <code>/plugin</code> details pane and <code>claude plugin details</code> now show LSP servers a plugin provides</li>
+<li><code>/web-setup</code> warns before replacing an existing GitHub App connection</li>
+<li>Fixed <code>MCP_TOOL_TIMEOUT</code> not raising the per-request fetch timeout for remote HTTP and SSE MCP servers, which capped tool calls at 60 seconds regardless of the configured value</li>
+<li>Fixed background sessions not recognizing pre-existing git worktrees, blocking Edit while EnterWorktree refused to create a duplicate</li>
+<li>Fixed background sessions disappearing and daemon reconnect failing after macOS sleep/wake — the daemon now detects clock jumps instead of treating them as elapsed idle time</li>
+<li>Fixed daemon not exiting cleanly after the binary is upgraded (e.g. <code>brew upgrade</code>), causing dispatched agents to crash-loop on the deleted path</li>
+<li>Fixed background agents crash-looping when the Claude-in-Chrome extension is connected without a shared tab</li>
+<li>Fixed clicking links in an attached <code>claude agents</code> session — the background worker&#39;s headless browser shim no longer applies while attached</li>
+<li>Fixed <code>claude agents</code> &quot;v to open in editor&quot; using the daemon&#39;s default editor instead of your shell&#39;s <code>$EDITOR</code>/<code>$VISUAL</code></li>
+<li>Fixed <code>claude agents</code> deadlocking on Windows with network-drive working directories; Ctrl+C now works during startup</li>
+<li>Fixed background-color bleed when attaching to a <code>claude agents</code> session from Apple Terminal or other 256-color-only terminals</li>
+<li>Fixed <code>claude --bg --dangerously-skip-permissions</code> not persisting across retire/wake</li>
+<li>Fixed session titles being derived from the URL when the first message is a link</li>
+<li>Fixed redundant <code>set_model</code> requests from remote clients injecting duplicate <code>/model</code> breadcrumbs into the transcript</li>
+<li>Fixed plugins using <code>skills: [&quot;./&quot;]</code> showing a false &quot;path escapes plugin directory&quot; error</li>
+<li>Fixed plugin cache cleanup deleting the active plugin version directory when no installation metadata is present</li>
+<li>Fixed <code>/plugin</code> browse pane showing &quot;0 installs&quot; for newly published plugins</li>
+<li>Fixed plugin advisories not naming every <code>plugin.json</code> key that shadows a default folder</li>
+<li>Improved reactive compaction: the first summarize attempt now seeds from the original request&#39;s overflow size, avoiding a wasted near-full-context retry</li>
+<li>Improved hook configuration error: configuring a prompt- or agent-type hook for <code>SessionStart</code>/<code>Setup</code>/<code>SubagentStart</code> now shows a clear &quot;use a command-type hook instead&quot; error</li>
+<li>Removed stale <code>/model claude-sonnet-4-20250514</code> suggestion from Usage Policy refusal messages</li>
+</ul>
+]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[v2.1.141]]></title>
             <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.141</link>
@@ -3196,90 +3258,6 @@
 <li>Renamed <code>/fork</code> to <code>/branch</code> (<code>/fork</code> still works as an alias)</li>
 <li>[VSCode] Improved plan preview tab titles to use the plan&#39;s heading instead of &quot;Claude&#39;s Plan&quot;</li>
 <li>[VSCode] When option+click doesn&#39;t trigger native selection on macOS, the footer now points to the <code>macOptionClickForcesSelection</code> setting</li>
-</ul>
-]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[v2.1.76]]></title>
-            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.76</link>
-            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.76</guid>
-            <pubDate>Sat, 14 Mar 2026 01:23:58 GMT</pubDate>
-            <description><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>Added MCP elicitation support — MCP servers can now request structured input mid-task via an interactive dialog (form fields or browser URL)</li>
-<li>Added new <code>Elicitation</code> and <code>ElicitationResult</code> hooks to intercept and override responses before they&#39;re sent back</li>
-<li>Added <code>-n</code> / <code>--name &lt;name&gt;</code> CLI flag to set a display name for the session at startup</li>
-<li>Added <code>worktree.sparsePaths</code> setting for <code>claude --worktree</code> in large monorepos to check out only the directories you need via git sparse-checkout</li>
-<li>Added <code>PostCompact</code> hook that fires after compaction completes</li>
-<li>Added <code>/effort</code> slash command to set model effort level</li>
-<li>Added session quality survey — enterprise admins can configure the sample rate via the <code>feedbackSurveyRate</code> setting</li>
-<li>Fixed deferred tools (loaded via <code>ToolSearch</code>) losing their input schemas after conversation compaction, causing array and number parameters to be rejected with type errors</li>
-<li>Fixed slash commands showing &quot;Unknown skill&quot;</li>
-<li>Fixed plan mode asking for re-approval after the plan was already accepted</li>
-<li>Fixed voice mode swallowing keypresses while a permission dialog or plan editor was open</li>
-<li>Fixed <code>/voice</code> not working on Windows when installed via npm</li>
-<li>Fixed spurious &quot;Context limit reached&quot; when invoking a skill with <code>model:</code> frontmatter on a 1M-context session</li>
-<li>Fixed &quot;adaptive thinking is not supported on this model&quot; error when using non-standard model strings</li>
-<li>Fixed <code>Bash(cmd:*)</code> permission rules not matching when a quoted argument contains <code>#</code></li>
-<li>Fixed &quot;don&#39;t ask again&quot; in the Bash permission dialog showing the full raw command for pipes and compound commands</li>
-<li>Fixed auto-compaction retrying indefinitely after consecutive failures — a circuit breaker now stops after 3 attempts</li>
-<li>Fixed MCP reconnect spinner persisting after successful reconnection</li>
-<li>Fixed LSP plugins not registering servers when the LSP Manager initialized before marketplaces were reconciled</li>
-<li>Fixed clipboard copying in tmux over SSH — now attempts both direct terminal write and tmux clipboard integration</li>
-<li>Fixed <code>/export</code> showing only the filename instead of the full file path in the success message</li>
-<li>Fixed transcript not auto-scrolling to new messages after selecting text</li>
-<li>Fixed Escape key not working to exit the login method selection screen</li>
-<li>Fixed several Remote Control issues: sessions silently dying when the server reaps an idle environment, rapid messages being queued one-at-a-time instead of batched, and stale work items causing redelivery after JWT refresh</li>
-<li>Fixed bridge sessions failing to recover after extended WebSocket disconnects</li>
-<li>Fixed slash commands not found when typing the exact name of a soft-hidden command</li>
-<li>Improved <code>--worktree</code> startup performance by reading git refs directly and skipping redundant <code>git fetch</code> when the remote branch is already available locally</li>
-<li>Improved background agent behavior — killing a background agent now preserves its partial results in the conversation context</li>
-<li>Improved model fallback notifications — now always visible instead of hidden behind verbose mode, with human-friendly model names</li>
-<li>Improved blockquote readability on dark terminal themes — text is now italic with a left bar instead of dim</li>
-<li>Improved stale worktree cleanup — worktrees left behind after an interrupted parallel run are now automatically cleaned up</li>
-<li>Improved Remote Control session titles — now derived from your first prompt instead of showing &quot;Interactive session&quot;</li>
-<li>Improved <code>/voice</code> to show your dictation language on enable and warn when your <code>language</code> setting isn&#39;t supported for voice input</li>
-<li>Updated <code>--plugin-dir</code> to only accept one path to support subcommands — use repeated <code>--plugin-dir</code> for multiple directories</li>
-<li>[VSCode] Fixed gitignore patterns containing commas silently excluding entire filetypes from the @-mention file picker</li>
-</ul>
-]]></description>
-            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>Added MCP elicitation support — MCP servers can now request structured input mid-task via an interactive dialog (form fields or browser URL)</li>
-<li>Added new <code>Elicitation</code> and <code>ElicitationResult</code> hooks to intercept and override responses before they&#39;re sent back</li>
-<li>Added <code>-n</code> / <code>--name &lt;name&gt;</code> CLI flag to set a display name for the session at startup</li>
-<li>Added <code>worktree.sparsePaths</code> setting for <code>claude --worktree</code> in large monorepos to check out only the directories you need via git sparse-checkout</li>
-<li>Added <code>PostCompact</code> hook that fires after compaction completes</li>
-<li>Added <code>/effort</code> slash command to set model effort level</li>
-<li>Added session quality survey — enterprise admins can configure the sample rate via the <code>feedbackSurveyRate</code> setting</li>
-<li>Fixed deferred tools (loaded via <code>ToolSearch</code>) losing their input schemas after conversation compaction, causing array and number parameters to be rejected with type errors</li>
-<li>Fixed slash commands showing &quot;Unknown skill&quot;</li>
-<li>Fixed plan mode asking for re-approval after the plan was already accepted</li>
-<li>Fixed voice mode swallowing keypresses while a permission dialog or plan editor was open</li>
-<li>Fixed <code>/voice</code> not working on Windows when installed via npm</li>
-<li>Fixed spurious &quot;Context limit reached&quot; when invoking a skill with <code>model:</code> frontmatter on a 1M-context session</li>
-<li>Fixed &quot;adaptive thinking is not supported on this model&quot; error when using non-standard model strings</li>
-<li>Fixed <code>Bash(cmd:*)</code> permission rules not matching when a quoted argument contains <code>#</code></li>
-<li>Fixed &quot;don&#39;t ask again&quot; in the Bash permission dialog showing the full raw command for pipes and compound commands</li>
-<li>Fixed auto-compaction retrying indefinitely after consecutive failures — a circuit breaker now stops after 3 attempts</li>
-<li>Fixed MCP reconnect spinner persisting after successful reconnection</li>
-<li>Fixed LSP plugins not registering servers when the LSP Manager initialized before marketplaces were reconciled</li>
-<li>Fixed clipboard copying in tmux over SSH — now attempts both direct terminal write and tmux clipboard integration</li>
-<li>Fixed <code>/export</code> showing only the filename instead of the full file path in the success message</li>
-<li>Fixed transcript not auto-scrolling to new messages after selecting text</li>
-<li>Fixed Escape key not working to exit the login method selection screen</li>
-<li>Fixed several Remote Control issues: sessions silently dying when the server reaps an idle environment, rapid messages being queued one-at-a-time instead of batched, and stale work items causing redelivery after JWT refresh</li>
-<li>Fixed bridge sessions failing to recover after extended WebSocket disconnects</li>
-<li>Fixed slash commands not found when typing the exact name of a soft-hidden command</li>
-<li>Improved <code>--worktree</code> startup performance by reading git refs directly and skipping redundant <code>git fetch</code> when the remote branch is already available locally</li>
-<li>Improved background agent behavior — killing a background agent now preserves its partial results in the conversation context</li>
-<li>Improved model fallback notifications — now always visible instead of hidden behind verbose mode, with human-friendly model names</li>
-<li>Improved blockquote readability on dark terminal themes — text is now italic with a left bar instead of dim</li>
-<li>Improved stale worktree cleanup — worktrees left behind after an interrupted parallel run are now automatically cleaned up</li>
-<li>Improved Remote Control session titles — now derived from your first prompt instead of showing &quot;Interactive session&quot;</li>
-<li>Improved <code>/voice</code> to show your dictation language on enable and warn when your <code>language</code> setting isn&#39;t supported for voice input</li>
-<li>Updated <code>--plugin-dir</code> to only accept one path to support subcommands — use repeated <code>--plugin-dir</code> for multiple directories</li>
-<li>[VSCode] Fixed gitignore patterns containing commas silently excluding entire filetypes from the @-mention file picker</li>
 </ul>
 ]]></content:encoded>
         </item>
