@@ -64,26 +64,38 @@ https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/{name}.x
 
 ### Architecture
 
+The defining choice: **LLM is a compiler, not an interpreter** — pay the model cost once to emit deterministic selectors, then run cheap parsers on a cron. Validation catches drift; `heal-feed` recompiles when a site redesigns.
+
 ```
-┌──────────────┐     ┌──────────────┐     ┌──────────────┐
-│  Blog HTML   │────▶│  LLM (GPT)   │────▶│  FeedConfig  │
-│  (one-time)  │     │  (one-time)  │     │   (JSON)     │
-└──────────────┘     └──────────────┘     └──────┬───────┘
-                                                  │
-                                                  ▼
-┌──────────────┐     ┌──────────────┐     ┌──────────────┐
-│  RSS 2.0 XML │◀────│  Validator   │◀────│   Parser     │
-│  (hourly)    │     │  (6 layers)  │     │ (cheerio)    │
-└──────────────┘     └──────────────┘     └──────────────┘
+                  RSS for sites that don't publish one
+                              │
+        ┌─────────────────────┴──────────────────────┐
+        ▼                                            ▼
+  call LLM every fetch                  call LLM once, cache config
+  ─ slow, $$, nondet                    ─ fast, free, deterministic
+  ─ breaks silently                     ─ breaks loudly → self-heal
+        ✗                                            ✓  (this repo)
+                                                     │
+                                                     ▼
+  ┌─ one-time (per blog) ─────────┐     ┌─ hourly (GitHub Actions) ──────────┐
+  │                                │     │                                    │
+  │  blog HTML ──▶ LLM ──▶ config  │────▶│  config + cheerio ──▶ Article[]   │
+  │  (GPT analyzes DOM,            │     │           │                        │
+  │   emits CSS selectors)         │     │           ▼                        │
+  │                                │     │   validator (6 layers)             │
+  │   configs/<name>.json          │     │   1 structure   2 dedup            │
+  │   ────────────────────         │     │   3 dates       4 reachability     │
+  │   { selectors, parserMode,     │     │   5 XML valid   6 regression       │
+  │     feed: {title, ...} }       │     │           │                        │
+  │                                │     │           ▼                        │
+  └────────────▲───────────────────┘     │   generator ──▶ feeds/<name>.xml  │
+               │                         │           │                        │
+               │ fails validation        │           ▼                        │
+               └──── heal-feed ──────────┤      git commit                    │
+                     (re-run LLM)        └────────────────────────────────────┘
 ```
 
-1. **One-time**: LLM analyzes blog HTML → generates CSS selector config (JSON)
-2. **Every hour**: Deterministic parser uses config + cheerio to extract articles
-3. **Validation**: 6-layer checks (structure, dedup, dates, links, XML, regression)
-4. **Output**: Standard RSS 2.0 XML committed to `feeds/`
-5. **Self-heal**: If selectors break (site redesign), LLM regenerates config
-
-> **Note**: For `github-releases` mode, step 1 is skipped — the GitHub API provides structured data directly. No LLM needed.
+> **Note**: For `github-releases` mode, the one-time LLM step is skipped — the GitHub API provides structured data directly.
 
 ### Validation Layers
 
@@ -104,16 +116,19 @@ bun install
 bun run update
 
 # Update one feed
-bun run update:one -- --name cursor-blog
+bun run update:one cursor-blog
 
 # Validate without writing
 bun run validate
 
-# Add a new feed (requires GITHUB_TOKEN for LLM)
+# Add a new feed (requires GITHUB_TOKEN for LLM-based blogs)
 GITHUB_TOKEN=xxx bun run add https://example.com/blog
 
 # Heal a broken feed (requires GITHUB_TOKEN for LLM)
 GITHUB_TOKEN=xxx bun run heal cursor-blog
+
+# Regenerate the feed table in this README
+bun run readme
 ```
 
 ### Adding a GitHub Releases Feed
@@ -149,16 +164,19 @@ configs/     → Feed configs (JSON, one per blog/project)
 feeds/       → Generated RSS 2.0 XML files
 cache/       → Snapshots for regression tracking
 src/
-├── types.ts       → FeedConfig, Article, Snapshot types
-├── fetcher.ts     → HTML/API fetching with retry
-├── parser.ts      → Multi-mode parser (CSS/JSON/Changelog/GitHub)
-├── validator.ts   → 6-layer validation
-├── generator.ts   → Article[] → RSS 2.0 XML
-├── llm.ts         → GitHub Models API integration
-├── snapshot.ts    → Regression tracking
-├── run-all.ts     → Batch update CLI
-├── add-feed.ts    → New feed CLI
-└── heal-feed.ts   → Self-healing CLI
+├── types.ts          → FeedConfig, Article, Snapshot types
+├── fetcher.ts        → HTML/API fetching with retry
+├── parser.ts         → Multi-mode parser (CSS/JSON/Changelog/GitHub)
+├── date-enricher.ts  → Fill missing dates via <meta>/JSON-LD on detail pages
+├── validator.ts      → 6-layer validation
+├── generator.ts      → Article[] → RSS 2.0 XML
+├── llm.ts            → GitHub Models API integration
+├── snapshot.ts       → Regression tracking
+├── run-all.ts        → Batch update CLI
+├── add-smart.ts      → New feed CLI (auto-detects GitHub vs blog URL)
+├── add-feed.ts       → Legacy LLM-only add (used by add-smart for blogs)
+├── heal-feed.ts      → Self-healing CLI
+└── update-readme.ts  → Regenerates the feed table in README.md
 ```
 
 ## 🙏 Credits
