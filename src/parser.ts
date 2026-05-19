@@ -463,7 +463,16 @@ async function parseRssMirrorArticles(xml: string): Promise<Article[]> {
     });
   }
 
-  return articles;
+  // Deduplicate by guid (not link — the upstream feed may publish the same
+  // link with different guids, e.g. revised articles on different dates).
+  const seen = new Set<string>();
+  return articles.filter((a) => {
+    // Use guid if present, otherwise fall back to link.
+    const key = (a as unknown as { guid?: string }).guid || a.link;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
 }
 
 /**
