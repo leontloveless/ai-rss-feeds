@@ -20,12 +20,12 @@ Many popular tech blogs don't offer RSS feeds. This project uses AI to analyze b
 | [Essays](https://www.paulgraham.com/articles.html) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/paulgraham.xml) | ✅ 20 articles |
 | [Mekong ASEAN](https://mekongasean.vn/) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/mekongasean.xml) | ✅ 2 articles |
 | [Groq News](https://groq.com/news/) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/groq-news.xml) | ✅ 20 articles |
-| [Podcast AI要約｜投資・金融番組のポイント整理 — BigGo ファイナンス](https://finance.biggo.jp/podcast) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/podcast.xml) | ✅ 1 articles |
+| [Podcast AI要約｜投資・金融番組のポイント整理 — BigGo ファイナンス](https://finance.biggo.jp/podcast) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/podcast.xml) | ✅ 20 articles |
 | [Google DeepMind Blog](https://deepmind.google/discover/blog/) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/deepmind-blog.xml) | ✅ 25 articles |
 | [Paul Graham Essays](https://www.paulgraham.com/articles.html) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/paul-graham.xml) | ✅ 20 articles |
 | [El Fintualist](https://fintualist.com/chile/) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/fintualist.xml) | ✅ 20 articles |
 | [blog.cloudflare.com](https://blog.cloudflare.com/tag/ai/) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/cloudflare-com.xml) | ✅ 20 articles |
-| [Composio Blog](https://composio.dev/blog) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/composio.xml) | ✅ 1 articles |
+| [Composio Blog](https://composio.dev/blog) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/composio.xml) | ✅ 8 articles |
 | [Anthropic News](https://www.anthropic.com/news) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/anthropic.xml) | ✅ 10 articles |
 | [Claude Blog](https://claude.com/blog) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/claude.xml) | ✅ 15 articles |
 | [Cursor Blog](https://cursor.com/blog) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/cursor-blog.xml) | ✅ 20 articles |
