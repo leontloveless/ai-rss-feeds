@@ -4,11 +4,118 @@
         <title>blog.cloudflare.com</title>
         <link>https://blog.cloudflare.com/tag/ai/</link>
         <description>External RSS: https://blog.cloudflare.com/tag/ai/rss</description>
-        <lastBuildDate>Tue, 19 May 2026 13:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 28 May 2026 13:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>ai-rss-feeds (https://github.com/leontloveless/ai-rss-feeds)</generator>
         <language>en</language>
         <atom:link href="https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/cloudflare-com.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[How we built Cloudflare's data platform and an AI agent on top of it]]></title>
+            <link>https://blog.cloudflare.com/our-unified-data-platform/</link>
+            <guid>https://blog.cloudflare.com/our-unified-data-platform/</guid>
+            <pubDate>Thu, 28 May 2026 13:00:00 GMT</pubDate>
+            <description><![CDATA[Here’s how we built Town Lake, Cloudflare's unified analytics platform, alongside Skipper, an internal AI agent running on top of it.]]></description>
+            <content:encoded><![CDATA[ <p>Cloudflare processes more than a billion events every second. Our network spans 330+ cities in 120+ countries. Behind every HTTP request, every Worker invocation, every R2 read operation, there is data, and a lot of it.</p><p>For years, that data was not very easy to access. It lived in dozens of production databases, ClickHouse clusters, Kafka streams, Google Cloud buckets, BigQuery datasets, and a long tail of pipelines. To answer a simple question like "How many domains that signed up today are in the Top 100 by traffic?", an analyst at Cloudflare had to know which system to ask, what credentials to use, what query language to write, and whether the data they were looking at was sampled, fresh, or seven-days stale. As a result, it was difficult to glean informed insights from the data.</p><p>To solve this problem, we built two in-house tools: Town Lake, Cloudflare's unified data analytics platform, and Skipper, an AI data agent that runs on top of it. Town Lake is a single SQL interface to everything Cloudflare knows, and Skipper is how anyone at Cloudflare can ask questions in plain English and get correct, auditable answers back in seconds.</p><p>This is the story of how we built both.</p>
+    <div>
+      <h3>The shape of the problem</h3>
+      <a href="#the-shape-of-the-problem">
+        
+      </a>
+    </div>
+    <p>If you have ever worked at a company that went through a hyper-growth period, you know what data sprawl looks like. Ours had a few specific symptoms:</p><ol><li><p><b>Too many disparate systems.</b> A product engineer who wanted to investigate a customer issue might need to query Postgres for account metadata, ClickHouse for analytics events, BigQuery for usage rollups, R2 for raw logs, and Kafka topics for real-time signals. Each system had its own credentials, its own language, and its own retention policy.</p></li><li><p><b>Sampled data.</b> This is fine for dashboards, but doesn’t work for domains like billing. Our <a href="https://blog.cloudflare.com/how-we-make-sense-of-too-much-data"><u>analytics pipeline</u></a> downsamples to handle 700M+ events per second. That is the right behavior when you want an analytics dashboard to load, but it’s exactly the wrong behavior when you are trying to compute someone’s usage required to issue an invoice.</p></li><li><p><b>External dependencies for internal data.</b> Parts of our previous internal reporting stack were powered by external vendors. Beyond the cost, we had a hard external dependency on another cloud for some of our critical data.</p></li><li><p><b>No one could find the data.</b> Even if you had all the right credentials, you needed to know that the right table for "Billable Workers requests by account" lived in a specific ClickHouse cluster, in a specific schema, joined to a specific Postgres dimension table, and that the join required an obscure customer ID translation. There was too much tribal knowledge.</p></li></ol><p>We had a cultural challenge too: data infrastructure had historically been treated as a back-office function that was in service of the business, rather than critical infrastructure in its own right.</p>
+    <div>
+      <h3>What we wanted</h3>
+      <a href="#what-we-wanted">
+        
+      </a>
+    </div>
+    <p>We wanted to create one place where anyone at the company with appropriate permissions and a need to know could get answers to questions about Cloudflare: “Show me the top 100 customers by revenue in the last quarter”, “List all Bot Management ML scoring events with score &gt; 0.9 in the last 48 hours coming from a specific ASN”, “Find the Top 100 billing support tickets from customers who have spent &gt;$100”, etc.</p><p>We wanted that place to give fresh, accurate, unsampled data for the queries that need it (like billing or security investigations) and fast, downsampled data for the queries that don't (like dashboards or exploration).</p><p>We wanted security and governance baked in, with personally identifiable information (PII) detected automatically, and sensitive tables locked down by default. All access should be auditable, and have time-bounded permission grants so that users could only access data when they were actively working on tasks that required it.</p><p>We wanted it to be built on Cloudflare’s own platform: <a href="https://www.cloudflare.com/products/r2/"><u>R2</u></a> for storage, <a href="https://www.cloudflare.com/products/workers/"><u>Workers</u></a> for compute, <a href="https://www.cloudflare.com/products/access/"><u>Cloudflare Access</u></a> for authentication, <a href="https://www.cloudflare.com/products/workflows/"><u>Workflows</u></a> for orchestration. If we were going to make a major investment in our data infrastructure, it was going to be built on the same products we sell to customers.</p><p>And we wanted, eventually, an interface that did not require knowing any SQL. The goal was to empower anyone at the company with appropriate permissions and a need to know to look at the stream of data flowing through our network, not just analysts.</p><p>That last requirement is what became Skipper.</p>
+    <div>
+      <h3>Town Lake, the platform</h3>
+      <a href="#town-lake-the-platform">
+        
+      </a>
+    </div>
+    <p>At its core, our data platform’s architecture is a <a href="https://en.wikipedia.org/wiki/Data_lakehouse"><u>data lakehouse</u></a>: a query engine that reads from object storage, with a metadata layer that makes the storage behave like a database. We call it Town Lake, after its namesake in Austin, Texas.</p>
+            <figure>
+            
+            <img src="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/47E8uC26eDC4XrOibNlGCi/4b1e083bb76de4f09404bdac07e5f03a/image5.png" />
+            
+            </figure><p>Its most important components are:</p><p><b>Query engine.</b> We chose Apache Trino for that: a single SQL query can join a Postgres table, a ClickHouse table, and an Iceberg table on R2 without a need to materialize the intermediate results into a different system. A query that asks "what are the top 100 paying customers by Workers requests this week" compiles into a plan that pushes filters into ClickHouse, joins against an account dimension in Postgres, and ranks against billing rollups in R2, all in one go.</p><p><b>R2 Data Catalog,</b> our managed Apache Iceberg service, is where the cold and warm data lives. Iceberg gives us schema evolution, time travel, partition evolution, and the ability to compact data as it ages. Per-minute usage from last week becomes hourly, hourly from last quarter becomes daily, etc. The storage cost decreases as recency does, while the data stays queryable. Parquet files in R2 are much cheaper compared to keeping the same data in an OLAP database.</p><p><b>DataHub</b> is our metadata catalog. Every table, column, owner, lineage edge, and glossary term lives there. When a user asks "what's in <code>townlake.dim.accounts</code>," DataHub provides an answer, including the table description, the column descriptions, the owning team, the upstream tables that feed it, and the downstream tables that consume it.</p><p><b>Lifeguard</b> is our access control service: it stores access rules in D1, dynamically pulls user and group membership from our internal access management system, and renders a combined JSON policy that Trino reads over HTTP. Lifeguard also feeds basic access information to Skipper and the Gateway, so users get blocked at the front door rather than at query time.</p><p><b>Skimmer</b> is a PII detection scanner. It runs continuously, samples rows from every column in every table, and uses Workers AI to classify whether each column contains PII. It does this in two passes: first, a fast per-column classifier; then, if anything is flagged, an agentic second pass that gets full table context and can query Trino directly to verify. Findings flow into DataHub and into Lifeguard's allowlist to allow human-in-the-loop review.</p><p><b>Transformer</b> is our ELT (extract, load, transform) engine built on Workflows. Users define a Directed Acyclic Graph (DAG) of SQL transformations with YAML frontmatter (target table, materialization mode, dependencies, schedule). Transformer compiles the graph and runs it on Trino, with state managed by Durable Objects, definitions stored in R2, and run history in D1.</p><p><b>Ingestion</b> is the bridge from operational systems into the lake. An orchestrator runs as a long-lived Kubernetes deployment, reads pipeline configs, and spawns short-lived worker jobs to extract from Postgres or ClickHouse, transform to Parquet, and load into R2 as Iceberg tables. Each pipeline runs as either full-replace or incremental-append.</p>
+          <figure>
+          <img src="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/3eVzLYLm870nH9S3qVmGD9/6c8d81f3c07a2edcec1d83648d1edb1f/image3.png" />
+          </figure>
+    <div>
+      <h3>Default-closed: governance by construction</h3>
+      <a href="#default-closed-governance-by-construction">
+        
+      </a>
+    </div>
+    <p>A real concern when you build a unified data platform is that you have just built a large sensitive-data surface. The traditional answer to this is: open by default, restrict by exception. Allow access to everything, then audit and lock down sensitive tables when someone notices.</p><p>Town Lake takes the opposite approach. Tables are inaccessible for querying until they have been reviewed. When a new database is connected to Trino or a new table is created, Skimmer scans it, classifies its columns, and registers it in the central allowlist as pending. Until a reviewer approves the table, and the specific columns within it, users can't query it. This sounds painful, and it would be, except for two things.</p><p>First, it's automated. Skimmer's classifier is reasonably good: it catches obvious PII (emails, IPs, names, phone numbers) and the long tail of non-obvious sensitive data (API tokens that match certain prefixes, opaque IDs that can be traced back to users). Reviewers see what was detected and either approve, override, or deny. Most reviews take seconds.</p><p>Second, the workflow is self-serve. If you query a table you don't have access to, the error message is not "permission denied." It's "this table needs review, click here to request one." Skipper, the AI agent, will even suggest the right <a href="https://www.cloudflare.com/learning/access-management/role-based-access-control-rbac/"><u>RBAC</u></a> group to request and link you straight to it.</p><p>We separate schema discovery from data access. Users can see what tables exist, but unreviewed columns are hidden from <code>DESCRIBE</code> and <code>SHOW COLUMNS</code> and from <code>SELECT *</code>. That subtle distinction matters: it means a new unreviewed column doesn't break existing dashboards built on the rest of an approved table.</p><p>PII is opt-in per session. By default, Trino redacts sensitive columns before they ever hit your screen. If you have a legitimate need for raw PII (e.g., fraud investigation), you flip the bit on the session, your permissions are checked, and the redaction is lifted. The flip and every query is logged.</p>
+    <div>
+      <h3>Skipper: the AI data agent</h3>
+      <a href="#skipper-the-ai-data-agent">
+        
+      </a>
+    </div>
+    <p>A query engine alone isn’t enough these days. SQL is still a barrier, as is knowing which of tens of thousands of tables to query — you need to know the canonical schema.</p><p>Skipper is our take on a conversational AI agent that goes from natural-language question to validated answer, grounded in the company's actual data, code, and institutional knowledge. We built it on top of Town Lake and on top of our developer platform: Workers, Workers AI, Durable Objects, D1, R2, Workflows, KV.</p><p>The interface is a chat box. Ask a question:</p><blockquote><p><i>Show me the top 10 customers by R2 storage cost in the last 30 days, and the change versus the previous 30 days.</i></p></blockquote><p>Skipper finds the right tables (DataHub search), pulls their schemas and lineage, writes the SQL, submits it to Trino, polls for results, and shows you a table or a chart. Follow up:</p><blockquote><p><i>Now break it down by region, and ignore internal Cloudflare accounts.</i></p></blockquote><p>It carries the context, refines the query, and reruns it. If something looks wrong, e.g., a join produced zero rows or a filter excluded what you expected, then Skipper investigates, adjusts, and tries again, in the closed-loop reasoning. The hard part was having the right context.</p><p>Skipper can also package charts into dashboards that can be shared internally and embedded into other internal applications. It also has tools for building transformation graphs via Transformer and for checking access and permissions via Lifeguard.</p><p>Skipper meets its users wherever they are. All of these tools are available via a Worker backed by a built-in agentic harness powered by Workers AI. On the flip side, many of our internal users work via local agentic flows, and Skipper’s tools are additionally available via an MCP server.</p>
+    <div>
+      <h3>Layers of context</h3>
+      <a href="#layers-of-context">
+        
+      </a>
+    </div>
+    <p>An LLM, given a SQL prompt and a list of table names, can hallucinate joins, misuse columns, and confidently produce a number that is completely wrong. We learned this the hard way during early experiments. The fix is multiple layers of grounded context that the model can pull from at retrieval time.</p>
+          <figure>
+          <img src="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/6IEpUwNgEVrmNBMeKjFqRY/84a83ec11b38fa6c7595db2dc4fcb334/image2.png" />
+          </figure><p>Layer 1: Schema and usage metadata. DataHub knows every column, every type, every primary key, every foreign key for every table. It also knows which tables are commonly joined together based on historical query patterns. Skipper's <code>search_datasets</code> and <code>get_entity_details</code> tools surface this directly.</p><p>Layer 2: Human annotations. When the team that owns <code>dim.accounts</code> writes a description like <i>"Account-level entity. One row per account_id. Every account belongs to exactly one customer (via customer_id FK),"</i> that description lives in DataHub and ends up in Skipper's context. Tags like <code>curated</code> mark validated tables that Skipper should prefer over scratch space.</p><p>Layer 3: Code-derived knowledge. Some of the most valuable context is not in any catalog: it's in the SQL that produces the table. The Transformer pipeline emits per-node <code>.meta.json</code> documentation to DataHub on every successful run. So when Skipper looks at <code>fct.billings_allocated</code>, it doesn't just see the schema; it sees that this is a pre-joined fact table built from <code>dim.accounts</code>, <code>dim.customers</code>, and <code>seed.product_classification</code>, with its <code>alloc_amount</code> column computed as <code>billed_amount / 12 for annual; billed_amount for monthly</code>. That's the kind of nuance that separates a correct answer from a confidently wrong one.</p><p>Layer 4: Curated data models. We maintain a small set of "data model" pages: short, human-written documents that describe how to think about billing, customers, accounts, and zones. <i>"Prefer tables tagged 'curated'. Avoid </i><code><i>scratch_r2</i></code><i> and tables tagged 'internal'. Search with data model terms (e.g., 'billing product revenue') not natural language."</i> These are surfaced as MCP resources that the agent can pull when the question matches.</p><p>Layer 5: Runtime introspection. When everything else fails, Skipper can issue live queries to Trino: <code>DESCRIBE table, SELECT DISTINCT col LIMIT 20, SELECT COUNT(*)</code>. It uses these sparingly as runtime context is expensive, but it's the safety net that makes the rest of the system robust.</p>
+    <div>
+      <h3>Skipper as MCP: Code Mode</h3>
+      <a href="#skipper-as-mcp-code-mode">
+        
+      </a>
+    </div>
+    <p>One specific implementation detail is worth pulling out, because it is uniquely a Cloudflare-shaped solution.</p><p>When you build an AI agent with tools, the standard pattern is to define the tools in your prompt, let the model call them one at a time, parse the response, execute, and return results. This is fine, but it is chatty: a five-tool workflow is five model round-trips, each of which has to re-establish context.</p><p>For our MCP server, we use <a href="https://blog.cloudflare.com/code-mode/"><u>Code Mode</u></a>. Instead of defining 30 individual tools, we expose two: <code>search</code> and <code>execute</code>. The model writes a JavaScript snippet that calls our entire toolset programmatically:</p>
+            <pre><code>const datasets = await skipper.search_datasets({ query: "billing product revenue" })
+const queryId = await skipper.start_query({ sql: "SELECT ..." })
+const results = await skipper.fetch_results({ queryId, mode: "inject" })
+return skipper.create_chart({ chartType: "bar", data: results.rows, ... })</code></pre>
+            <p>That JavaScript runs in a sandboxed Dynamic Worker isolate via <a href="https://developers.cloudflare.com/workers/runtime-apis/bindings/worker-loader/"><u>WorkerLoader</u></a>. The model gets to express complex multi-step workflows in a single round-trip, in a language it already knows extremely well. It's faster, it's cheaper, and the workflows it produces are auditable as code.</p>
+    <div>
+      <h3>The security model is the data model</h3>
+      <a href="#the-security-model-is-the-data-model">
+        
+      </a>
+    </div>
+    <p>Everything Skipper does runs as the calling user. If you don't have access to a table, Skipper can't query it for you. If you ask for PII, your permissions are checked. If a query you save is shared with a teammate, their access is checked at view time, not at save time, because group membership changes.</p><p>Shared dashboards have their own twist. They can be embedded in any internal Cloudflare tool with a single placeholder div and a script tag:</p>
+            <pre><code>&lt;div data-skipper-dashboard="dash-123"&gt;&lt;/div&gt;
+&lt;script src="https://skipper.cloudflare.com/embed.js" async&gt;&lt;/script&gt;</code></pre>
+            <p>The iframe auto-resizes to fit content. Content Security Policy (CSP) <code>frame-ancestors</code> blocks embedding from anywhere outside the corporate domain. Cloudflare Access still gates the iframe contents, so an unauthenticated viewer hits the Access login page in the iframe rather than seeing the data. Non-owner viewers are checked against the underlying tables: if they don't have access, they get pointed at the right group to request.</p>
+          <figure>
+          <img src="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/54J6Qyl8K77YAhOsuCRGEp/55e8090976b45ff77fdfa049731fe303/image4.png" />
+          </figure>
+    <div>
+      <h3>What it powers: really fast answers</h3>
+      <a href="#what-it-powers-really-fast-answers">
+        
+      </a>
+    </div>
+    <p><b>Billing.</b> This was the original use case. Our Billable Usage Dashboard, the customer-facing dashboard that shows pay-as-you-go users exactly what they owe, is powered by a metering pipeline whose source of truth is a set of Iceberg tables in R2, queried via Trino. The dashboard's API pulls the same compact <code>(date, account_id, metric_name, usage)</code> rows that the invoicing system uses, so the number on the dashboard matches the number on the bill.</p><p>Billing-related queries account for 53% of all queries Town Lake serves: 91,760 queries from 324 distinct Cloudflare employees in a recent measurement period. The 200–300 line legacy SQL queries that used to compute revenue rollups by customer are now five lines.</p><p><b>Business intelligence.</b> The "top 100 customers by revenue" question takes about three seconds in Skipper now. So does "how many domains that signed up today are in the top 100." So do most of the data-related questions we used to file Jira tickets for.</p><p><b>Security analytics.</b> Our Bot Management team uses Town Lake to query ML scoring events with score &gt; 0.9 in the last 48 hours filtered by ASN and geography. Threat researchers have built their own query toolkit on top of it. Trust &amp; Safety pulls signals to help police abuse.</p><p><b>Customer support.</b> "Find the top 100 billing support tickets from customers who have spent &gt;$100" used to be a multi-day project. Now it's a Skipper query.</p>
+    <div>
+      <h3>What we have learned</h3>
+      <a href="#what-we-have-learned">
+        
+      </a>
+    </div>
+    <p>A few things have surprised us.</p><p>Less prompting is more. Early versions of Skipper had elaborate, prescriptive system prompts: <i>"First, use search_datasets. Then, use get_entity_details. Then, use list_schema_fields if needed..."</i> Quality went down. The model is good at reasoning about analytical workflows; it doesn't need to be micromanaged. We replaced the prescriptive prompts with high-level guidance and let the model pick its own path. Results got better.</p><p>Tool overlap is poison. We initially exposed every variant of every tool: three different "fetch results" tools, two "search" tools, several "list" tools. The model got confused and called the wrong one. We consolidated. Now <code>fetch_results</code> has a <code>mode</code> parameter <code>(inject / display / both)</code> instead of three separate tools. Every tool has a single reason to exist.</p><p>Code, not metadata, captures meaning. The biggest accuracy wins came when we started ingesting the actual SQL that produces a table, not just its schema. A <code>customer_type</code> column with values <code>contract</code>, <code>paygo</code>, <code>free</code> looks identical in either context, but the SQL tells you that <code>customer_type</code> defaults to <code>paygo</code> when Salesforce data is missing. That kind of context never lives in column descriptions.</p><p>Memory matters more than we expected. There is a long tail of corrections that look like "you have to filter for X like this" or "ignore tables tagged Y." Without a memory layer, the agent rediscovers and re-learns these every conversation. With one, it gets monotonically better at the recurring questions a team actually asks.</p><p>The boring infrastructure is the hard part. Trino + Iceberg is not new technology. The hard work is in the boring stuff: per-row access control, default-closed table allowlisting, query auditing, time-bound credentials, PII detection, idempotent ingestion, schema evolution. Those are the things that make a data platform safe to actually use.</p>
+    <div>
+      <h3>What's next</h3>
+      <a href="#whats-next">
+        
+      </a>
+    </div>
+    <p>We're expanding the agent surface. Skipper already integrates as an MCP server into any IDE that supports it. The next step is deeper integration with our own internal chat and ticketing systems, so that "ask the data" becomes the natural first move for anyone debugging an incident, scoping a project, or sanity-checking a hypothesis.</p><p>We're investing heavily in the Transformer pipeline. The goal is for any team at Cloudflare to be able to build a curated dataset with a few SQL files and a <code>.meta.json</code> description, deploy it as a Workflow, get it scheduled and monitored automatically, and have it surface in DataHub and Skipper without any additional work. The idea is self-serve data engineering, with the same shape as self-serve software engineering.</p><p><a href="https://developers.cloudflare.com/r2-sql/"><u>R2 SQL</u></a>, Cloudflare's serverless, distributed, analytics query engine, is getting more and more robust by the day. As its feature set expands, we plan to move many parts of Town Lake’s workflow over to it.</p><p>The bet we made — that the next breakthrough product comes from someone looking at the data and seeing something nobody else sees — is one we're still betting on. Town Lake is how we make sure they can find it.</p> ]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[Announcing Claude Managed Agents on Cloudflare]]></title>
             <link>https://blog.cloudflare.com/claude-managed-agents/</link>
@@ -3124,227 +3231,6 @@ function Chat() {
     <p>The Registrar API exists because builders asked for it. Now that it’s available as a beta, we’d love to see what you build, in the <a href="https://community.cloudflare.com/"><u>Cloudflare Community</u></a> or on <a href="https://x.com/cloudflare"><u>X</u></a>, or on <a href="https://discord.com/invite/cloudflaredev"><u>Discord</u></a>.
 
 To get started:</p><ul><li><p>Review the <a href="https://developers.cloudflare.com/registrar/registrar-api/"><u>Registrar API guide</u></a></p></li><li><p>Check out the <a href="https://developers.cloudflare.com/api/resources/registrar"><u>API reference</u></a></p></li></ul><p>Please let us know if something is missing, if a workflow breaks down, or if you are building toward a larger platform use case. We’re working quickly to expand the functionality of the API to support domain renewals, transfers, and more.</p><p>We can’t wait to see what you build!</p><p><i>Special thanks to Lucy Dryaeva and Fred Pinto for their valuable contributions to delivering the Registrar API beta.</i></p> ]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[Browser Run: give your agents a browser]]></title>
-            <link>https://blog.cloudflare.com/browser-run-for-ai-agents/</link>
-            <guid>https://blog.cloudflare.com/browser-run-for-ai-agents/</guid>
-            <pubDate>Wed, 15 Apr 2026 13:00:00 GMT</pubDate>
-            <description><![CDATA[Browser Rendering is now Browser Run, with Live View, Human in the Loop, CDP access, session recordings, and 4x higher concurrency limits for AI agents.]]></description>
-            <content:encoded><![CDATA[ <p>AI agents need to interact with the web. To do that, they need a browser. They need to navigate sites, read pages, fill forms, extract data, and take screenshots. They need to observe whether things are working as expected, with a way for their humans to step in if needed. And they need to do all of this at scale.</p><p>Today, we’re renaming Browser Rendering to <b>Browser Run</b>, and shipping key features that make it <i>the</i> browser for <a href="https://www.cloudflare.com/learning/ai/what-is-agentic-ai/"><u>AI agents</u></a>. The name Browser Rendering never fully captured what the product does. Browser Run lets you run full browser sessions on Cloudflare's global network, drive them with code or AI, record and replay sessions, crawl pages for content, debug in real time, and let humans intervene when your agent needs help. </p><p>Here’s what’s new:</p><ul><li><p><b>Live View</b>: see what your agent sees and is doing, in real time. Know instantly if things are working, and when they’re not, see exactly why.</p></li><li><p><b>Human in the Loop</b>: when your agent hits a snag like a login page or unexpected edge case, it can hand off to a human instead of failing. The human steps in, resolves, then hands back control.</p></li><li><p><b>Chrome DevTools Protocol (CDP) Endpoint</b>: the Chrome DevTools Protocol is how agents control browsers. Browser Run now exposes it directly, so agents get maximum control over the browser and existing CDP scripts work on Cloudflare.</p></li><li><p><b>MCP Client Support:</b> AI coding agents like Claude Desktop, Cursor, and OpenCode can now use Browser Run as their remote browser.</p></li><li><p><b>WebMCP Support</b>: agents will outnumber humans using the web. WebMCP allows websites to declare what actions are available for agents to discover and call, making navigation more reliable.</p></li><li><p><b>Session Recordings</b>: capture every browser session for debugging purposes. When something goes wrong, you have the full recording with DOM changes, user interactions, and page navigation.</p></li><li><p><b>Higher limits</b>: run more tasks at once with 120 concurrent browsers, up from 30.  </p></li></ul><div>
-  
-</div><p><sup><i>An AI agent searching Google Hotels for up to date pricing for stays in Kyoto</i></sup></p>
-    <div>
-      <h2>Everything an agent needs</h2>
-      <a href="#everything-an-agent-needs">
-        
-      </a>
-    </div>
-    <p>Let’s think about what agents need when browsing the web and how each feature fits in:</p>
-<div><table><colgroup>
-<col></col>
-<col></col>
-</colgroup>
-<thead>
-  <tr>
-    <th><span>What an agent needs</span></th>
-    <th><span>Browser Run (formerly Browser Rendering)</span></th>
-  </tr></thead>
-<tbody>
-  <tr>
-    <td><span>1) Browsers on-demand</span></td>
-    <td><span>Chrome browser on Cloudflare’s global network</span></td>
-  </tr>
-  <tr>
-    <td><span>2) A way to control the browser</span></td>
-    <td><span>Take actions like navigate, click, fill forms, screenshot, and more with Puppeteer, Playwright, </span><span>CDP (new)</span><span>, </span><span>MCP Client Support (new)</span><span> and </span><span>WebMCP (new)</span></td>
-  </tr>
-  <tr>
-    <td><span>3) Observability</span></td>
-    <td><span>Live View (new)</span><span>, </span><span>Session Recordings (new)</span><span>, and </span><span>Dashboard redesign (new)</span></td>
-  </tr>
-  <tr>
-    <td><span>4) Human intervention</span></td>
-    <td><span>Human in the Loop (new)</span></td>
-  </tr>
-  <tr>
-    <td><span>5) Scale</span></td>
-    <td><span>10 requests/second for Quick Actions, </span><span>120 concurrent browsers (4x increase)</span></td>
-  </tr>
-</tbody></table></div>
-    <div>
-      <h2>1) Open a browser</h2>
-      <a href="#1-open-a-browser">
-        
-      </a>
-    </div>
-    <p>First, an agent needs a browser. With Browser Run, agents can spin up a headless Chrome instance on Cloudflare’s global network, on demand. No infrastructure to manage, no Chrome versions to maintain. Browser sessions open near users for low latency, and scale up and down as needed. Pair Browser Run with the <a href="https://developers.cloudflare.com/agents/api-reference/browse-the-web/"><u>Agents SDK</u></a> to build long-running agents that browse the web, remember everything, and act on their own. </p>
-    <div>
-      <h2>2) Take actions</h2>
-      <a href="#2-take-actions">
-        
-      </a>
-    </div>
-    <p>Once your agent has a browser, it needs ways to control it. Browser Run supports multiple approaches: new low-level protocol access with the Chrome DevTools Protocol (CDP) and WebMCP, in addition to existing higher-level automation using <a href="https://developers.cloudflare.com/browser-rendering/puppeteer/"><u>Puppeteer</u></a> and <a href="https://developers.cloudflare.com/browser-rendering/playwright/"><u>Playwright</u></a>, and <a href="https://developers.cloudflare.com/browser-rendering/rest-api/"><u>Quick Actions</u></a> for simple tasks. Let’s look at the details.</p>
-    <div>
-      <h3>Chrome DevTools Protocol (CDP) endpoint</h3>
-      <a href="#chrome-devtools-protocol-cdp-endpoint">
-        
-      </a>
-    </div>
-    <p>The <a href="https://chromedevtools.github.io/devtools-protocol/"><u>Chrome DevTools Protocol (CDP)</u></a> is the low-level protocol that powers browser automation. Exposing CDP directly means the growing ecosystem of agent tools and existing CDP automation scripts can use Browser Run. When you open Chrome DevTools and inspect a page, CDP is what's running underneath. Puppeteer, Playwright, and most agent frameworks are built on top of it.</p><p>Every way that you have been using Browser Run has actually been through CDP already. What’s new is that we're now <a href="https://developers.cloudflare.com/browser-rendering/cdp/"><u>exposing CDP directly</u></a> as an endpoint. This matters for agents because CDP gives agents the most control possible over the browser. Agent frameworks already speak CDP natively, and can now connect to Browser Run directly. CDP also unlocks browser actions that aren't available through Puppeteer or Playwright, like JavaScript debugging. And because you're working with raw CDP messages instead of going through higher-level libraries, you can pass messages directly to models for more token-efficient browser control.</p><p>If you already have CDP automation scripts running against self-hosted Chrome, they work on Browser Run with a one-line config change. Point your WebSocket URL at Browser Run and stop managing your own browser infrastructure.</p>
-            <pre><code>// Before: connecting to self-hosted Chrome
-const browser = await puppeteer.connect({
-  browserWSEndpoint: 'ws://localhost:9222/devtools/browser'
-});
-
-// After: connecting to Browser Run
-const browser = await puppeteer.connect({
-  browserWSEndpoint: 'wss://api.cloudflare.com/client/v4/accounts/&lt;ACCOUNT_ID&gt;/browser-rendering/devtools/browser',
-  headers: { 'Authorization': 'Bearer &lt;API_TOKEN&gt;' }
-});
-</code></pre>
-            <p>The CDP endpoint also makes Browser Run more accessible. You can now connect from any language, any environment, without needing to write a <a href="https://developers.cloudflare.com/workers/"><u>Cloudflare Worker</u></a>. (If you're already using Workers, nothing changes.)</p>
-    <div>
-      <h4>Using Browser Run with MCP Clients</h4>
-      <a href="#using-browser-run-with-mcp-clients">
-        
-      </a>
-    </div>
-    <p>Now that Browser Run exposes the Chrome DevTools Protocol (CDP), MCP clients including Claude Desktop, Cursor, Codex, and OpenCode can use Browser Run as their remote browser. The <a href="https://github.com/ChromeDevTools/chrome-devtools-mcp"><u>chrome-devtools-mcp package</u></a> from the Chrome DevTools team is an MCP server that gives your AI coding assistant access to the full power of Chrome DevTools for reliable automation, in-depth debugging, and performance analysis.</p><p>Here’s an example of how to configure Browser Run for Claude Desktop:</p>
-            <pre><code>{
-  "mcpServers": {
-    "browser-rendering": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "chrome-devtools-mcp@latest",
-        "--wsEndpoint=wss://api.cloudflare.com/client/v4/accounts/&lt;ACCOUNT_ID&gt;/browser-rendering/devtools/browser?keep_alive=600000",
-        "--wsHeaders={\"Authorization\":\"Bearer &lt;API_TOKEN&gt;\"}"
-      ]
-    }
-  }
-}
-</code></pre>
-            <p>For other MCP clients, see <a href="https://developers.cloudflare.com/browser-rendering/cdp/mcp-clients/"><u>documentation for using Browser Run with MCP clients</u></a>.</p>
-    <div>
-      <h3>WebMCP support</h3>
-      <a href="#webmcp-support">
-        
-      </a>
-    </div>
-    <p>The Internet was built for humans, so navigating as an AI agent today is unreliable. We’re betting on a future where more agents use the web than humans. In that world, sites need to be agent-friendly.</p><p>That’s why we’re launching support for <a href="https://developer.chrome.com/blog/webmcp-epp"><u>WebMCP</u></a>, a new browser API from the Google Chrome team that landed in Chromium 146+. WebMCP lets websites expose tools directly to AI agents, declaring what actions are available for agents to discover and call on each page. This helps agents navigate the web more reliably. Instead of agents needing to figure out how to use a site, websites can expose their tools for agents to discover and call</p><p>Two APIs make this work:</p><ul><li><p><code>navigator.modelContext</code> allows websites to register their tools</p></li><li><p><code>navigator.modelContextTesting</code> allows agents to discover and execute those tools</p></li></ul><p>Today, an agent visiting a travel booking site has to figure out the UI by looking at it. With WebMCP, the site declares “here’s a search_flights tool that takes an origin, destination, and date.” The agent calls it directly, without having to loop through slow screenshot-analyze-click loops. This makes navigation more reliable regardless of potential changes to the UI.</p><p>Tools are discovered on the page rather than preloaded. This matters for the long tail of the web, where preloading an MCP server for every possible site is not feasible and would bloat the context window. </p><div>
-  
-</div><p><sup><i>Using WebMCP to book a hotel through the Chrome DevTools console, discovering available tools with listTools()</i></sup></p><p>We have an experimental pool with browser instances running Chrome beta so you can test emerging browser features before they reach stable Chrome. We also just shipped <a href="https://developers.cloudflare.com/browser-rendering/reference/wrangler-commands/"><u>Wrangler browser commands</u></a> that let you manage browser sessions directly from the CLI, letting you create, manage, and view browser sessions directly from your terminal. To <a href="https://developers.cloudflare.com/browser-run/features/webmcp/"><u>access WebMCP-enabled browsers</u></a>, use the following Wrangler command to create a session in the experimental pool:</p>
-            <pre><code>npm i -g wrangler@latest
-wrangler browser create --lab --keepAlive 300  
-</code></pre>
-            
-    <div>
-      <h3>Existing ways to use Browser Run</h3>
-      <a href="#existing-ways-to-use-browser-run">
-        
-      </a>
-    </div>
-    <p>While CDP and WebMCP are new, you could already use <a href="https://developers.cloudflare.com/browser-rendering/puppeteer/"><u>Puppeteer</u></a>, <a href="https://developers.cloudflare.com/browser-rendering/playwright/"><u>Playwright</u></a>, or <a href="https://developers.cloudflare.com/browser-rendering/stagehand/"><u>Stagehand</u></a> for full browser automation through Browser Run. And for simple tasks like <a href="https://developers.cloudflare.com/browser-rendering/rest-api/screenshot-endpoint/"><u>capturing screenshots</u></a>, <a href="https://developers.cloudflare.com/browser-rendering/rest-api/pdf-endpoint/"><u>generating PDFs</u></a>, and <a href="https://developers.cloudflare.com/browser-rendering/rest-api/markdown-endpoint/"><u>extracting markdown</u></a>, there are the <a href="https://developers.cloudflare.com/browser-rendering/rest-api/"><u>Quick Action endpoints</u></a>. </p>
-    <div>
-      <h4>/crawl endpoint — crawl web content</h4>
-      <a href="#crawl-endpoint-crawl-web-content">
-        
-      </a>
-    </div>
-    <p>We also recently shipped a <a href="https://developers.cloudflare.com/browser-rendering/rest-api/crawl-endpoint/"><u>/crawl endpoint</u></a> that lets you crawl entire sites with a single API call. Give it a starting URL and pages are automatically discovered and scraped, then returned in your preferred format (HTML, Markdown, and structured JSON), with additional parameters to control crawl depth and scope, skip pages that haven’t changed, and specify certain paths to include or exclude. </p><p>We intentionally built /crawl to be a <a href="https://developers.cloudflare.com/browser-run/faq/#will-browser-run-be-detected-by-bot-management"><u>well-behaved crawler</u></a>. That means it respects site owner’s preferences out of the box, is a <a href="https://developers.cloudflare.com/bots/concepts/bot/signed-agents/"><u>signed agent</u></a> with a distinct bot ID that is cryptographically signed using <a href="https://developers.cloudflare.com/bots/reference/bot-verification/web-bot-auth/"><u>Web Bot Auth</u></a>, a non-customizable <a href="https://developers.cloudflare.com/browser-rendering/rest-api/crawl-endpoint/#user-agent"><u>User-Agent</u></a>, and follows robots.txt and <a href="https://www.cloudflare.com/ai-crawl-control/"><u>AI Crawl Control</u></a>. It does not bypass Cloudflare’s bot protections or CAPTCHAs. Site owners choose whether their content is accessible and /crawl respects it. </p>
-            <pre><code># Initiate a crawl
-curl -X POST 'https://api.cloudflare.com/client/v4/accounts/{account_id}/browser-rendering/crawl' \
-  -H 'Authorization: Bearer &lt;apiToken&gt;' \
-  -H 'Content-Type: application/json' \
-  -d '{
-    "url": "https://blog.cloudflare.com/"
-  }'
-</code></pre>
-            
-    <div>
-      <h2>3) Observe</h2>
-      <a href="#3-observe">
-        
-      </a>
-    </div>
-    <p>Things don’t always go right the first try. We kept hearing from customers that when their automations failed, they had no idea why. That’s why we’ve added multiple ways to observe what’s happening, so you can see exactly what your agent sees, both live and after the fact. </p>
-    <div>
-      <h3>Live View</h3>
-      <a href="#live-view">
-        
-      </a>
-    </div>
-    <p><a href="https://developers.cloudflare.com/browser-run/features/live-view/"><u>Live View</u></a> lets you watch your agent’s browser session in real time. Whether you’re debugging an agent or running a long automation script, you see exactly what’s happening as it happens. This includes the page itself, as well as the DOM, console, and network requests. When something goes wrong — the expected button isn't there, the page needs authentication, or a CAPTCHA appears — you can catch it immediately.</p><p>There are two ways to access Live View. From code, obtain the <code>session_id</code> of the browser you want to inspect and open the <code>devtoolsFrontendURL</code> from the response in Chrome. Or from the Cloudflare dashboard, open the new Live Sessions tab in the Browser Run section and click into any active session.</p><div>
-  
-</div><p><sup><i>Live View of an AI agent booking a hotel, showing real-time browser activity</i></sup></p>
-    <div>
-      <h3>Session Recordings</h3>
-      <a href="#session-recordings">
-        
-      </a>
-    </div>
-    <p>Live View is great when you’re available, but you can’t watch every session. <a href="https://developers.cloudflare.com/browser-run/features/session-recording/"><u>Session Recordings</u></a> captures DOM changes, mouse and keyboard events, and page navigation as structured JSON so you can replay any session after it ends. </p><p>Enable Session Recordings by passing <code>recording:true</code> when launching a browser. After the session closes, you can access the recording in the Cloudflare dashboard from the Runs tab or retrieve recordings via API and replay them with the <a href="https://github.com/rrweb-io/rrweb/tree/master/packages/rrweb-player"><u>rrweb-player</u></a>. Next, we’re adding the ability to inspect DOM state and console output at any point during the recording.   </p><div>
-  
-</div><p><sup><i>Session recording replay of a browser automation browsing the Sentry Shop and adding a bomber jacket to the cart </i></sup></p>
-    <div>
-      <h3>Dashboard Redesign</h3>
-      <a href="#dashboard-redesign">
-        
-      </a>
-    </div>
-    <p>Previously, the <a href="https://dash.cloudflare.com/?to=/:account/workers/browser-run"><u>Browser Run dashboard</u></a> only showed logs from browser sessions. Requests for screenshots, PDFs, markdown, and crawls were not visible. The redesigned dashboard changes that. The new Runs tab shows every request. You can filter by endpoint and view details including target URLs, status, and duration.  </p>
-          <figure>
-          <img src="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/7eExar2kjoc2QSq6skzTf6/ba4ad79fa01eb060f8b14cd5afa342e5/BLOG-3221_2.png" />
-          </figure><p><sup><i>The Browser Run dashboard Runs tab showing browser sessions and quick actions like PDF, Screenshot, and Crawl in a single view, with a crawl job expanded to show its progress</i></sup></p>
-    <div>
-      <h2>4) Intervene</h2>
-      <a href="#4-intervene">
-        
-      </a>
-    </div>
-    <p>Agents are good, but they’re not perfect. Sometimes they need their human to step in. Browser Run supports Human in the Loop workflows where a human can take control of a live browser session, handle what the automation cannot, then let the session continue. </p>
-    <div>
-      <h3>Human in the Loop</h3>
-      <a href="#human-in-the-loop">
-        
-      </a>
-    </div>
-    <p>When automation hits a wall, you don't have to restart. With <a href="https://developers.cloudflare.com/browser-run/features/human-in-the-loop/"><u>Human in the Loop</u></a>, you can step in and interact with the page directly to click, type, navigate, enter credentials, or submit forms. This unlocks workflows that agents cannot handle.</p><p>Today, you can step in by opening the Live View URL for any active session. Next, we’re adding a handoff flow where the agent can signal that it needs help, notify a human to step in, then hand control back to the agent once the issue is resolved.</p><div>
-  
-</div><p><sup><i>An AI agent searching Amazon for an orange lava lamp, comparing options, and handing off to a human when sign-in is required to complete the purchase</i></sup></p>
-    <div>
-      <h2>5) Scale</h2>
-      <a href="#5-scale">
-        
-      </a>
-    </div>
-    <p>Customers have asked us to raise limits so that they can do more, faster.</p>
-    <div>
-      <h3>Higher limits</h3>
-      <a href="#higher-limits">
-        
-      </a>
-    </div>
-    <p>We've quadrupled the <a href="https://developers.cloudflare.com/browser-rendering/limits/"><u>default concurrent browser limit from 30 to 120</u></a>. Every session gives you instant access to a browser from a global pool of warm instances, so there's no cold start waiting for a browser to spin up. In March, we also <a href="https://developers.cloudflare.com/changelog/post/2026-03-04-br-rest-api-limit-increase/"><u>increased limits for Quick Actions</u></a> to 10 requests per second. If you need higher limits, they're available by request.</p>
-    <div>
-      <h2>What's next</h2>
-      <a href="#whats-next">
-        
-      </a>
-    </div>
-    <ul><li><p><b>Human in the Loop Handoff</b>: today you can intervene in a browser session through Live View. Soon, the agent will be able to signal when it needs help, so you can build in notifications to alert a human to step in.</p></li><li><p><b>Session Recordings Inspection</b>: you can already scrub through the timeline and replay any session. Soon, you’ll be able to inspect DOM state and console output as well.</p></li><li><p><b>Traces and Browser Logs</b>: access debugging information without instrumenting your code. Console logs, network requests, timing data. If something broke, you'll know where.</p></li><li><p><b>Screenshot, PDF, and markdown directly from Workers</b>: the same simple tasks available through the <a href="https://developers.cloudflare.com/browser-rendering/rest-api/"><u>REST API</u></a> are coming to <a href="https://developers.cloudflare.com/browser-rendering/workers-bindings/"><u>Workers Bindings</u></a>. e<code>nv.BROWSER.screenshot()</code> just works, with no API tokens needed.</p></li></ul>
-    <div>
-      <h2>Get started</h2>
-      <a href="#get-started">
-        
-      </a>
-    </div>
-    <p>Browser Run is available today on both the Workers Free and Workers Paid plans. Everything we shipped today — Live View, Human in the Loop, Session Recordings, and higher concurrency limits — is ready to use. </p><p>If you were already using Browser Rendering, everything works the same, just with a new name and more features.  </p><p>Check out the <a href="https://developers.cloudflare.com/browser-rendering/"><u>documentation</u></a> to get started. </p>
-          <figure>
-          <img src="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/6mQq5rxfDK3oU80JCRUL7P/7842cac72f0f4170cc697011230146ab/BLOG-3221_3.png" />
-          </figure><p></p> ]]></content:encoded>
         </item>
     </channel>
 </rss>
