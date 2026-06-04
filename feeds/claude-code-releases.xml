@@ -4,11 +4,69 @@
         <title>claude-code Releases</title>
         <link>https://github.com/anthropics/claude-code/releases</link>
         <description>GitHub releases for anthropics/claude-code</description>
-        <lastBuildDate>Wed, 03 Jun 2026 21:31:35 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 04 Jun 2026 21:52:51 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>ai-rss-feeds (https://github.com/leontloveless/ai-rss-feeds)</generator>
         <language>en</language>
         <atom:link href="https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/claude-code-releases.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[v2.1.163]]></title>
+            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.163</link>
+            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.163</guid>
+            <pubDate>Thu, 04 Jun 2026 21:52:51 GMT</pubDate>
+            <description><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Added <code>requiredMinimumVersion</code> and <code>requiredMaximumVersion</code> managed settings — Claude Code refuses to start if its version is outside the allowed range and directs the user to an approved version</li>
+<li>Added <code>/plugin list</code> command to list installed plugins, with <code>--enabled</code>/<code>--disabled</code> filters</li>
+<li>Added a &quot;c to copy&quot; shortcut to <code>/btw</code> that copies the raw markdown answer to the clipboard, preserving formatting when pasted elsewhere</li>
+<li>Hooks: Stop and SubagentStop hooks can now return <code>hookSpecificOutput.additionalContext</code> to give Claude feedback and keep the turn going without being labeled a hook error</li>
+<li>Skills: added <code>\$</code> escape syntax to include a literal <code>$</code> before a digit in command bodies</li>
+<li>stdio MCP servers now receive the same <code>CLAUDE_CODE_SESSION_ID</code> as hooks/Bash on <code>--resume</code></li>
+<li>Fixed <code>claude -p</code> hanging forever after its final result when a backgrounded command never exits — background shells are now stopped ~5s after the result once stdin closes</li>
+<li>Fixed <code>claude -p</code> failing with &quot;ANTHROPIC_API_KEY required&quot; on Bedrock/Vertex/Foundry when <code>CI=true</code> and no Anthropic API key is set</li>
+<li>Fixed bash commands failing under bazel and EDR-protected Go workflows: <code>$TMPDIR</code> was overridden to <code>/tmp/claude-{uid}</code> for all commands instead of only sandboxed ones (regression in 2.1.154)</li>
+<li>Fixed Bash commands failing on Windows with &quot;EEXIST: file already exists&quot; on the session-env directory when it has the read-only attribute or is inside OneDrive</li>
+<li>Fixed org-managed permission rules not applying for the entire session when the managed settings fetch completed during startup on a fresh config directory</li>
+<li>Fixed background sessions in <code>claude agents</code> losing their running background tasks when reattached after a Claude Code update</li>
+<li>Fixed terminal misalignment and a multi-second hang when exiting the agent view by pressing Esc</li>
+<li>Fixed clicking Stop on a background-task chip in the desktop app not clearing the chip when the underlying process was already gone</li>
+<li>Fixed keyboard input becoming permanently unresponsive after a paste operation whose end marker is dropped by the terminal</li>
+<li>Fixed hook <code>if: &quot;Bash(...)&quot;</code> conditions firing on every Bash command containing <code>$()</code> or <code>$VAR</code>; the pattern now matches against commands inside subshells and backticks too</li>
+<li>Fixed deny rules on home-directory paths (e.g. <code>Read(~/Desktop/**)</code>) not blocking Bash commands that reference the path via <code>$HOME</code></li>
+<li>Fixed a stray &quot;(no content)&quot; line left in the transcript after closing panel dialogs like /mcp and /plugins</li>
+<li>Background agent sessions now update to a new Claude Code version in the background, so opening a session after an update no longer waits on a cold restart</li>
+<li>Clearer descriptions for built-in commands and skills in the / menu</li>
+<li>The subscription-switch suggestion now shows in the startup announcement slot instead of a toast</li>
+<li><code>claude agents</code> dispatching from the state-grouped view now starts the session in the directory the agent view was opened from</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Added <code>requiredMinimumVersion</code> and <code>requiredMaximumVersion</code> managed settings — Claude Code refuses to start if its version is outside the allowed range and directs the user to an approved version</li>
+<li>Added <code>/plugin list</code> command to list installed plugins, with <code>--enabled</code>/<code>--disabled</code> filters</li>
+<li>Added a &quot;c to copy&quot; shortcut to <code>/btw</code> that copies the raw markdown answer to the clipboard, preserving formatting when pasted elsewhere</li>
+<li>Hooks: Stop and SubagentStop hooks can now return <code>hookSpecificOutput.additionalContext</code> to give Claude feedback and keep the turn going without being labeled a hook error</li>
+<li>Skills: added <code>\$</code> escape syntax to include a literal <code>$</code> before a digit in command bodies</li>
+<li>stdio MCP servers now receive the same <code>CLAUDE_CODE_SESSION_ID</code> as hooks/Bash on <code>--resume</code></li>
+<li>Fixed <code>claude -p</code> hanging forever after its final result when a backgrounded command never exits — background shells are now stopped ~5s after the result once stdin closes</li>
+<li>Fixed <code>claude -p</code> failing with &quot;ANTHROPIC_API_KEY required&quot; on Bedrock/Vertex/Foundry when <code>CI=true</code> and no Anthropic API key is set</li>
+<li>Fixed bash commands failing under bazel and EDR-protected Go workflows: <code>$TMPDIR</code> was overridden to <code>/tmp/claude-{uid}</code> for all commands instead of only sandboxed ones (regression in 2.1.154)</li>
+<li>Fixed Bash commands failing on Windows with &quot;EEXIST: file already exists&quot; on the session-env directory when it has the read-only attribute or is inside OneDrive</li>
+<li>Fixed org-managed permission rules not applying for the entire session when the managed settings fetch completed during startup on a fresh config directory</li>
+<li>Fixed background sessions in <code>claude agents</code> losing their running background tasks when reattached after a Claude Code update</li>
+<li>Fixed terminal misalignment and a multi-second hang when exiting the agent view by pressing Esc</li>
+<li>Fixed clicking Stop on a background-task chip in the desktop app not clearing the chip when the underlying process was already gone</li>
+<li>Fixed keyboard input becoming permanently unresponsive after a paste operation whose end marker is dropped by the terminal</li>
+<li>Fixed hook <code>if: &quot;Bash(...)&quot;</code> conditions firing on every Bash command containing <code>$()</code> or <code>$VAR</code>; the pattern now matches against commands inside subshells and backticks too</li>
+<li>Fixed deny rules on home-directory paths (e.g. <code>Read(~/Desktop/**)</code>) not blocking Bash commands that reference the path via <code>$HOME</code></li>
+<li>Fixed a stray &quot;(no content)&quot; line left in the transcript after closing panel dialogs like /mcp and /plugins</li>
+<li>Background agent sessions now update to a new Claude Code version in the background, so opening a session after an update no longer waits on a cold restart</li>
+<li>Clearer descriptions for built-in commands and skills in the / menu</li>
+<li>The subscription-switch suggestion now shows in the startup announcement slot instead of a toast</li>
+<li><code>claude agents</code> dispatching from the state-grouped view now starts the session in the directory the agent view was opened from</li>
+</ul>
+]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[v2.1.162]]></title>
             <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.162</link>
@@ -3020,14 +3078,6 @@
 <li>[VSCode] Fixed the file attachment below the chat input not clearing when the last editor tab is closed</li>
 </ul>
 ]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[v2.1.100]]></title>
-            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.100</link>
-            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.100</guid>
-            <pubDate>Fri, 10 Apr 2026 05:16:35 GMT</pubDate>
-            <description><![CDATA[<p>Release v2.1.100</p>]]></description>
-            <content:encoded><![CDATA[<p>Release v2.1.100</p>]]></content:encoded>
         </item>
     </channel>
 </rss>
