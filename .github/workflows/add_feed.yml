@@ -10,6 +10,7 @@ on:
 permissions:
   contents: write
   issues: write
+  models: read
 
 jobs:
   add-feed:
@@ -17,8 +18,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GH_MODELS_TOKEN }}
 
       - uses: oven-sh/setup-bun@v2
       - run: bun install
@@ -55,7 +54,7 @@ jobs:
             exit 1
           fi
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_MODELS_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
 
       - name: Update README
         run: bun run readme
