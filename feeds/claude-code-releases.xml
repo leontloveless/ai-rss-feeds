@@ -4,11 +4,85 @@
         <title>claude-code Releases</title>
         <link>https://github.com/anthropics/claude-code/releases</link>
         <description>GitHub releases for anthropics/claude-code</description>
-        <lastBuildDate>Tue, 09 Jun 2026 17:23:09 GMT</lastBuildDate>
+        <lastBuildDate>Wed, 10 Jun 2026 20:44:15 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>ai-rss-feeds (https://github.com/leontloveless/ai-rss-feeds)</generator>
         <language>en</language>
         <atom:link href="https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/claude-code-releases.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[v2.1.172]]></title>
+            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.172</link>
+            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.172</guid>
+            <pubDate>Wed, 10 Jun 2026 20:44:15 GMT</pubDate>
+            <description><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Sub-agents can now spawn their own sub-agents (up to 5 levels deep)</li>
+<li>Amazon Bedrock now reads the AWS region from <code>~/.aws</code> config files when <code>AWS_REGION</code> isn&#39;t set, matching AWS SDK precedence; <code>/status</code> shows where the region came from</li>
+<li>Added a search bar when browsing a marketplace&#39;s plugins in <code>/plugin</code></li>
+<li>Added <code>model</code> attribute to the <code>claude_code.lines_of_code.count</code> OTEL metric</li>
+<li>Fixed sessions using 1M context without usage credits getting permanently stuck — the session now automatically compacts back under the standard context limit</li>
+<li>Fixed a repeating &quot;an image in the conversation could not be processed and was removed&quot; error when the conversation contained multiple images</li>
+<li>Fixed the agents view keeping a session under Working with a busy spinner for up to 30 seconds after the worker replied</li>
+<li>Fixed background agents potentially reading another directory&#39;s project settings (<code>.mcp.json</code> approvals, trust) when dispatched onto a pre-warmed worker</li>
+<li>Fixed background-session attach failing with EAUTH for sessions started on an older version after the daemon auto-updated</li>
+<li>Fixed a background sub-agent staying stuck as &quot;active&quot; in the agent panel after a nested agent it spawned was stopped</li>
+<li>Fixed <code>/model</code> suggestions in the <code>claude agents</code> dispatch input rendering with a misleading slash prefix and showing models disabled for your org</li>
+<li>Fixed <code>availableModels</code> restrictions not being applied to subagent model overrides, the agent dispatch model picker, and the advisor model</li>
+<li>Fixed <code>availableModels</code> allowlists hiding the <code>/model</code> picker&#39;s Opus and Sonnet 1M rows when entries use version-specific IDs like <code>claude-opus-4-8</code></li>
+<li>Fixed the <code>/model</code> picker on Bedrock offering models the provider doesn&#39;t serve — selecting one silently switched the session model and lit the selection marker on multiple rows</li>
+<li>Fixed model IDs getting a doubled 1M-context suffix (e.g. <code>[1M][1m]</code>) when <code>ANTHROPIC_DEFAULT_OPUS_MODEL</code> already includes one</li>
+<li>Fixed <code>opusplan</code> model setting not shipping with 1M context in plan mode for entitled users; the <code>opusplan[1m]</code> workaround now also correctly switches to Opus in plan mode</li>
+<li>Fixed <code>WebFetch(domain:*.example.com)</code> wildcard domain rules never matching subdomains in allow, deny, and ask position, and file permission rules with mid-pattern wildcards (e.g. <code>Read(secrets-*/config.json)</code>) being rejected at startup</li>
+<li>Fixed up-arrow prompt history showing the main agent&#39;s prompts while a subagent&#39;s chat tab is open</li>
+<li>Fixed memory recall not finding mounted team memory stores (<code>CLAUDE_MEMORY_STORES</code>) in remote sessions</li>
+<li>Fixed workflow validation rejecting scripts whose prompt strings or comments merely mention <code>Date.now()</code>/<code>Math.random()</code></li>
+<li>Disable mouse tracking on Windows consoles that don&#39;t fully support it</li>
+<li>Fixed the <code>/plugin</code> marketplace list losing its cursor after backing out of a long plugin list, and Esc from the plugin browser returning to the wrong tab</li>
+<li>Improved performance in long conversations by removing redundant message normalization and avoiding full message-history transforms when streaming tool-use state is unchanged</li>
+<li>Reduced idle CPU usage: <code>/goal</code> status chip no longer re-renders the terminal at 5 Hz while idle, and fewer UI re-renders while subagents run in parallel</li>
+<li>Improved Claude in Chrome tool loading: browser tools now load in a single batched call instead of one per tool</li>
+<li>Improved the non-interactive Usage Policy refusal message to suggest starting a new session or changing your model</li>
+<li><code>/code-review</code> now keeps the <code>ultra</code> option visible when you&#39;re not signed in to claude.ai, with an explanation that the cloud review requires a claude.ai account</li>
+<li>Shortened the Remote Control footer indicator to &quot;/rc active&quot; and hid it on narrow terminals</li>
+<li>Stopped promoting <code>/loop</code> in remote sessions, where pending loops don&#39;t keep the container alive</li>
+<li>[VSCode] Fixed PowerShell tool calls rendering as raw JSON instead of a proper command display and permission dialog, and stripped ANSI escape codes from displayed shell output</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Sub-agents can now spawn their own sub-agents (up to 5 levels deep)</li>
+<li>Amazon Bedrock now reads the AWS region from <code>~/.aws</code> config files when <code>AWS_REGION</code> isn&#39;t set, matching AWS SDK precedence; <code>/status</code> shows where the region came from</li>
+<li>Added a search bar when browsing a marketplace&#39;s plugins in <code>/plugin</code></li>
+<li>Added <code>model</code> attribute to the <code>claude_code.lines_of_code.count</code> OTEL metric</li>
+<li>Fixed sessions using 1M context without usage credits getting permanently stuck — the session now automatically compacts back under the standard context limit</li>
+<li>Fixed a repeating &quot;an image in the conversation could not be processed and was removed&quot; error when the conversation contained multiple images</li>
+<li>Fixed the agents view keeping a session under Working with a busy spinner for up to 30 seconds after the worker replied</li>
+<li>Fixed background agents potentially reading another directory&#39;s project settings (<code>.mcp.json</code> approvals, trust) when dispatched onto a pre-warmed worker</li>
+<li>Fixed background-session attach failing with EAUTH for sessions started on an older version after the daemon auto-updated</li>
+<li>Fixed a background sub-agent staying stuck as &quot;active&quot; in the agent panel after a nested agent it spawned was stopped</li>
+<li>Fixed <code>/model</code> suggestions in the <code>claude agents</code> dispatch input rendering with a misleading slash prefix and showing models disabled for your org</li>
+<li>Fixed <code>availableModels</code> restrictions not being applied to subagent model overrides, the agent dispatch model picker, and the advisor model</li>
+<li>Fixed <code>availableModels</code> allowlists hiding the <code>/model</code> picker&#39;s Opus and Sonnet 1M rows when entries use version-specific IDs like <code>claude-opus-4-8</code></li>
+<li>Fixed the <code>/model</code> picker on Bedrock offering models the provider doesn&#39;t serve — selecting one silently switched the session model and lit the selection marker on multiple rows</li>
+<li>Fixed model IDs getting a doubled 1M-context suffix (e.g. <code>[1M][1m]</code>) when <code>ANTHROPIC_DEFAULT_OPUS_MODEL</code> already includes one</li>
+<li>Fixed <code>opusplan</code> model setting not shipping with 1M context in plan mode for entitled users; the <code>opusplan[1m]</code> workaround now also correctly switches to Opus in plan mode</li>
+<li>Fixed <code>WebFetch(domain:*.example.com)</code> wildcard domain rules never matching subdomains in allow, deny, and ask position, and file permission rules with mid-pattern wildcards (e.g. <code>Read(secrets-*/config.json)</code>) being rejected at startup</li>
+<li>Fixed up-arrow prompt history showing the main agent&#39;s prompts while a subagent&#39;s chat tab is open</li>
+<li>Fixed memory recall not finding mounted team memory stores (<code>CLAUDE_MEMORY_STORES</code>) in remote sessions</li>
+<li>Fixed workflow validation rejecting scripts whose prompt strings or comments merely mention <code>Date.now()</code>/<code>Math.random()</code></li>
+<li>Disable mouse tracking on Windows consoles that don&#39;t fully support it</li>
+<li>Fixed the <code>/plugin</code> marketplace list losing its cursor after backing out of a long plugin list, and Esc from the plugin browser returning to the wrong tab</li>
+<li>Improved performance in long conversations by removing redundant message normalization and avoiding full message-history transforms when streaming tool-use state is unchanged</li>
+<li>Reduced idle CPU usage: <code>/goal</code> status chip no longer re-renders the terminal at 5 Hz while idle, and fewer UI re-renders while subagents run in parallel</li>
+<li>Improved Claude in Chrome tool loading: browser tools now load in a single batched call instead of one per tool</li>
+<li>Improved the non-interactive Usage Policy refusal message to suggest starting a new session or changing your model</li>
+<li><code>/code-review</code> now keeps the <code>ultra</code> option visible when you&#39;re not signed in to claude.ai, with an explanation that the cloud review requires a claude.ai account</li>
+<li>Shortened the Remote Control footer indicator to &quot;/rc active&quot; and hid it on narrow terminals</li>
+<li>Stopped promoting <code>/loop</code> in remote sessions, where pending loops don&#39;t keep the container alive</li>
+<li>[VSCode] Fixed PowerShell tool calls rendering as raw JSON instead of a proper command display and permission dialog, and stripped ANSI escape codes from displayed shell output</li>
+</ul>
+]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[v2.1.170]]></title>
             <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.170</link>
@@ -2896,86 +2970,6 @@
 <li>Fixed bare URLs in bash/PowerShell/MCP tool output being unclickable when the terminal wraps them across lines</li>
 <li>Windows: <code>CLAUDE_ENV_FILE</code> and SessionStart hook environment files now apply (previously a no-op)</li>
 <li>Windows: permission rules with drive-letter paths are now correctly root-anchored, and paths differing only by drive-letter case are recognized as the same path</li>
-</ul>
-]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[v2.1.110]]></title>
-            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.110</link>
-            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.110</guid>
-            <pubDate>Wed, 15 Apr 2026 22:07:18 GMT</pubDate>
-            <description><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>Added <code>/tui</code> command and <code>tui</code> setting — run <code>/tui fullscreen</code> to switch to flicker-free rendering in the same conversation</li>
-<li>Changed <code>Ctrl+O</code> to toggle between normal and verbose transcript only; focus view is now toggled separately with the new <code>/focus</code> command</li>
-<li>Added push notification tool — Claude can send mobile push notifications when Remote Control and &quot;Push when Claude decides&quot; config are enabled</li>
-<li>Added <code>autoScrollEnabled</code> config to disable conversation auto-scroll in fullscreen mode</li>
-<li>Added option to show Claude&#39;s last response as commented context in the <code>Ctrl+G</code> external editor (enable via <code>/config</code>)</li>
-<li>Improved <code>/plugin</code> Installed tab — items needing attention and favorites appear at the top, disabled items are hidden behind a fold, and <code>f</code> favorites the selected item</li>
-<li>Improved <code>/doctor</code> to warn when an MCP server is defined in multiple config scopes with different endpoints</li>
-<li><code>--resume</code>/<code>--continue</code> now resurrects unexpired scheduled tasks</li>
-<li><code>/autocompact</code>, <code>/context</code>, <code>/exit</code>, and <code>/reload-plugins</code> now work from Remote Control (mobile/web) clients</li>
-<li>Write tool now informs the model when you edit the proposed content in the IDE diff before accepting</li>
-<li>Bash tool now enforces the documented maximum timeout instead of accepting arbitrarily large values</li>
-<li>SDK/headless sessions now read <code>TRACEPARENT</code>/<code>TRACESTATE</code> from the environment for distributed trace linking</li>
-<li>Session recap is now enabled for users with telemetry disabled (Bedrock, Vertex, Foundry, <code>DISABLE_TELEMETRY</code>). Opt out via <code>/config</code> or <code>CLAUDE_CODE_ENABLE_AWAY_SUMMARY=0</code>.</li>
-<li>Fixed MCP tool calls hanging indefinitely when the server connection drops mid-response on SSE/HTTP transports</li>
-<li>Fixed non-streaming fallback retries causing multi-minute hangs when the API is unreachable</li>
-<li>Fixed session recap, local slash-command output, and other system status lines not appearing in focus mode</li>
-<li>Fixed high CPU usage in fullscreen when text is selected while a tool is running</li>
-<li>Fixed plugin install not honoring dependencies declared in <code>plugin.json</code> when the marketplace entry omits them; <code>/plugin</code> install now lists auto-installed dependencies</li>
-<li>Fixed skills with <code>disable-model-invocation: true</code> failing when invoked via <code>/&lt;skill&gt;</code> mid-message</li>
-<li>Fixed <code>--resume</code> sometimes showing the first prompt instead of the <code>/rename</code> name for sessions still running or exited uncleanly</li>
-<li>Fixed queued messages briefly appearing twice during multi-tool-call turns</li>
-<li>Fixed session cleanup not removing the full session directory including subagent transcripts</li>
-<li>Fixed dropped keystrokes after the CLI relaunches (e.g. <code>/tui</code>, provider setup wizards)</li>
-<li>Fixed garbled startup rendering in macOS Terminal.app and other terminals that don&#39;t support synchronized output</li>
-<li>Hardened &quot;Open in editor&quot; actions against command injection from untrusted filenames</li>
-<li>Fixed <code>PermissionRequest</code> hooks returning <code>updatedInput</code> not being re-checked against <code>permissions.deny</code> rules; <code>setMode:&#39;bypassPermissions&#39;</code> updates now respect <code>disableBypassPermissionsMode</code></li>
-<li>Fixed <code>PreToolUse</code> hook <code>additionalContext</code> being dropped when the tool call fails</li>
-<li>Fixed stdio MCP servers that print stray non-JSON lines to stdout being disconnected on the first stray line (regression in 2.1.105)</li>
-<li>Fixed headless/SDK session auto-title firing an extra Haiku request when <code>CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC</code> or <code>CLAUDE_CODE_DISABLE_TERMINAL_TITLE</code> is set</li>
-<li>Fixed potential excessive memory allocation when piped (non-TTY) Ink output contains a single very wide line</li>
-<li>Fixed <code>/skills</code> menu not scrolling when the list overflows the modal in fullscreen mode</li>
-<li>Fixed Remote Control sessions showing a generic error instead of prompting for re-login when the session is too old</li>
-<li>Fixed Remote Control session renames from claude.ai not persisting the title to the local CLI session</li>
-</ul>
-]]></description>
-            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>Added <code>/tui</code> command and <code>tui</code> setting — run <code>/tui fullscreen</code> to switch to flicker-free rendering in the same conversation</li>
-<li>Changed <code>Ctrl+O</code> to toggle between normal and verbose transcript only; focus view is now toggled separately with the new <code>/focus</code> command</li>
-<li>Added push notification tool — Claude can send mobile push notifications when Remote Control and &quot;Push when Claude decides&quot; config are enabled</li>
-<li>Added <code>autoScrollEnabled</code> config to disable conversation auto-scroll in fullscreen mode</li>
-<li>Added option to show Claude&#39;s last response as commented context in the <code>Ctrl+G</code> external editor (enable via <code>/config</code>)</li>
-<li>Improved <code>/plugin</code> Installed tab — items needing attention and favorites appear at the top, disabled items are hidden behind a fold, and <code>f</code> favorites the selected item</li>
-<li>Improved <code>/doctor</code> to warn when an MCP server is defined in multiple config scopes with different endpoints</li>
-<li><code>--resume</code>/<code>--continue</code> now resurrects unexpired scheduled tasks</li>
-<li><code>/autocompact</code>, <code>/context</code>, <code>/exit</code>, and <code>/reload-plugins</code> now work from Remote Control (mobile/web) clients</li>
-<li>Write tool now informs the model when you edit the proposed content in the IDE diff before accepting</li>
-<li>Bash tool now enforces the documented maximum timeout instead of accepting arbitrarily large values</li>
-<li>SDK/headless sessions now read <code>TRACEPARENT</code>/<code>TRACESTATE</code> from the environment for distributed trace linking</li>
-<li>Session recap is now enabled for users with telemetry disabled (Bedrock, Vertex, Foundry, <code>DISABLE_TELEMETRY</code>). Opt out via <code>/config</code> or <code>CLAUDE_CODE_ENABLE_AWAY_SUMMARY=0</code>.</li>
-<li>Fixed MCP tool calls hanging indefinitely when the server connection drops mid-response on SSE/HTTP transports</li>
-<li>Fixed non-streaming fallback retries causing multi-minute hangs when the API is unreachable</li>
-<li>Fixed session recap, local slash-command output, and other system status lines not appearing in focus mode</li>
-<li>Fixed high CPU usage in fullscreen when text is selected while a tool is running</li>
-<li>Fixed plugin install not honoring dependencies declared in <code>plugin.json</code> when the marketplace entry omits them; <code>/plugin</code> install now lists auto-installed dependencies</li>
-<li>Fixed skills with <code>disable-model-invocation: true</code> failing when invoked via <code>/&lt;skill&gt;</code> mid-message</li>
-<li>Fixed <code>--resume</code> sometimes showing the first prompt instead of the <code>/rename</code> name for sessions still running or exited uncleanly</li>
-<li>Fixed queued messages briefly appearing twice during multi-tool-call turns</li>
-<li>Fixed session cleanup not removing the full session directory including subagent transcripts</li>
-<li>Fixed dropped keystrokes after the CLI relaunches (e.g. <code>/tui</code>, provider setup wizards)</li>
-<li>Fixed garbled startup rendering in macOS Terminal.app and other terminals that don&#39;t support synchronized output</li>
-<li>Hardened &quot;Open in editor&quot; actions against command injection from untrusted filenames</li>
-<li>Fixed <code>PermissionRequest</code> hooks returning <code>updatedInput</code> not being re-checked against <code>permissions.deny</code> rules; <code>setMode:&#39;bypassPermissions&#39;</code> updates now respect <code>disableBypassPermissionsMode</code></li>
-<li>Fixed <code>PreToolUse</code> hook <code>additionalContext</code> being dropped when the tool call fails</li>
-<li>Fixed stdio MCP servers that print stray non-JSON lines to stdout being disconnected on the first stray line (regression in 2.1.105)</li>
-<li>Fixed headless/SDK session auto-title firing an extra Haiku request when <code>CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC</code> or <code>CLAUDE_CODE_DISABLE_TERMINAL_TITLE</code> is set</li>
-<li>Fixed potential excessive memory allocation when piped (non-TTY) Ink output contains a single very wide line</li>
-<li>Fixed <code>/skills</code> menu not scrolling when the list overflows the modal in fullscreen mode</li>
-<li>Fixed Remote Control sessions showing a generic error instead of prompting for re-login when the session is too old</li>
-<li>Fixed Remote Control session renames from claude.ai not persisting the title to the local CLI session</li>
 </ul>
 ]]></content:encoded>
         </item>
