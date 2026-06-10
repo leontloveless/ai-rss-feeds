@@ -4,66 +4,11 @@
         <title>blog.cloudflare.com</title>
         <link>https://blog.cloudflare.com/tag/ai/</link>
         <description>External RSS: https://blog.cloudflare.com/tag/ai/rss</description>
-        <lastBuildDate>Tue, 09 Jun 2026 06:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 05 Jun 2026 13:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>ai-rss-feeds (https://github.com/leontloveless/ai-rss-feeds)</generator>
         <language>en</language>
         <atom:link href="https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/cloudflare-com.xml" rel="self" type="application/rss+xml"/>
-        <item>
-            <title><![CDATA[Defend against frontier cyber models: Cloudflare's architecture as customer zero]]></title>
-            <link>https://blog.cloudflare.com/frontier-model-defense/</link>
-            <guid>https://blog.cloudflare.com/frontier-model-defense/</guid>
-            <pubDate>Tue, 09 Jun 2026 06:00:00 GMT</pubDate>
-            <description><![CDATA[In our post about Project Glasswing, we made the argument that the architecture around a vulnerability matters more than the speed of the patch. Here we walk through what that architecture looks like, the threats it defends against, and how we run it ourselves as Cloudflare's customer zero.]]></description>
-            <content:encoded><![CDATA[ <p></p><p></p><p>A few weeks ago, we <a href="https://blog.cloudflare.com/cyber-frontier-models/"><u>wrote about Project Glasswing</u></a> and what we observed when we pointed cyber frontier models at our own code. Since then, we’ve seen that the part of the post that has resonated most deeply is the argument that the architecture around the vulnerability matters more than the speed of the patch.</p><p>In the conversations we've had with CISOs and security teams since, the questions have been consistent: what does our architecture actually look like, what should we monitor for, where do we start, and how can Cloudflare help?</p><p>Before getting into the details: the architecture below is built almost entirely from Cloudflare's own products, because Cloudflare security is <a href="https://blog.cloudflare.com/tag/customer-zero/"><u>customer zero</u></a> for the security products we build. The Cloudflare stack already exists in front of our code, employees, and customer-facing applications. If you're a Cloudflare customer, every layer below is available to you today. If you're not, the principles still apply to whatever stack you've built.</p>
-    <div>
-      <h2>What a cyber frontier model actually changes</h2>
-      <a href="#what-a-cyber-frontier-model-actually-changes">
-        
-      </a>
-    </div>
-    <p>In the <a href="https://blog.cloudflare.com/cyber-frontier-models/"><u>previous post</u></a>, we showed how a cyber frontier model like Mythos changes the attacker’s timeline. It can find vulnerabilities, reason through exploit chains, and generate working proofs faster than earlier models. While models like Mythos do not change the shape of an intrusion — reconnaissance, initial access, lateral movement, persistence, and exfiltration still have to happen — the difference is in the speed and scale. When pointed at the open web, a model can find and hit low-hanging fruit quickly. Against a hardened target, it still has to probe, and adapt, and it often produces more noise than a careful human operator would.</p><p>Discovery, exploit chain construction, and proof-of-concept generation used to be the gating constraints on producing a working attack. A frontier model handles all three in a fraction of the time. Work that used to be slow and methodical is now fast and indiscriminate.</p><p>While AI is accelerating how fast developer teams at Cloudflare and many other companies can ship code, the security team’s work has not compressed the same way. An attacker only needs one opening to get in, while security teams need to find and close them all. Writing a fix, regressing it, and shipping it without breaking the code around it has constraints that AI doesn't remove. We learned this the hard way when we let an AI coding assistant write its own patches against our own bugs, as we described at the end of the previous <a href="https://blog.cloudflare.com/cyber-frontier-models/"><u>post</u></a>. Some of those patches fixed the original bug while quietly breaking something else the code depended on.</p><p>As these models become more competent and capable, our main focus from a threat standpoint comes down to three things. Each one shapes the architecture we walk through in the rest of this post.</p><ul><li><p>The first is the <b>speed of discovery.</b> Frontier models make it easier to search large bodies of public code, including the open-source libraries that many companies depend on. That does not mean every bug in a library is exploitable, or that library bugs are where most vulnerabilities live. Exploitability still depends on how the code is used, whether attacker-controlled input can reach the vulnerable path, and the protections that sit around it. But widely used open-source libraries and frameworks give attackers a shared surface to study at scale. When a real, reachable vulnerability exists there, a model can help find it, reason about possible exploit paths, and generate proof-of-concept variants faster than maintainers and defenders can review every downstream use. The gap between when an attacker discovers a vulnerability and when defenders learn it exists is what worries us most. If you are not running these models against your own code, it is safe to assume someone else is.</p></li><li><p>The second is <b>exploit</b> <b>volume and adaptation.</b> A model can produce thousands of variations of a single exploit and run reconnaissance at the same scale. All that volume gives an attacker an advantage, but it won’t necessarily get them past signature-based detections. Many of those iterations will have the same underlying signature, so a rule that catches the first one will catch the rest. Adaptation is how they will get past signature-based detections. Ask a model to show you a SQL injection, and it will return a textbook example. Tell it there is a WAF in the way, and it will start probing, learning what gets blocked, and rewriting the payload until it can slip past the rule blocking it. </p></li><li><p>The third is <b>the impact when a vulnerability is inevitably exploited. </b>No architecture catches everything. After the vulnerability is exploited, the question we ask ourselves is: where can the attacker get to with one identity, one path, or one credential, before something else stops them? If the answer is "anywhere they want," the vulnerability was never the problem. The architecture around the vulnerability was.</p></li></ul>
-    <div>
-      <h2>Cloudflare’s superpower: visibility</h2>
-      <a href="#cloudflares-superpower-visibility">
-        
-      </a>
-    </div>
-    <p>We see roughly a fifth of the world's web traffic and that traffic tells us, in real time, which payloads are mutating, which patterns are picking up, and where attacker tooling is moving next. Two teams turn that visibility into defense.</p><p>First is <a href="https://www.cloudflare.com/cloudforce-one/"><b><u>Cloudforce One</u></b></a>, our threat intelligence, research, and operations team, which sits within the Cloudflare security organization. They turn what we see across the network into insights the rest of the stack can act on: tracked adversaries, emerging campaigns, and indicators of compromise (IOCs). The hard part of this work was never knowing what is malicious — it was the delay in mitigation. Knowledge of a new threat normally has to travel from a threat report, into a feed, and then into a company’s defense before it can be used to block anything. Attackers have learned to move faster than that. Our network closes that gap: Cloudflare customers can now use Cloudforce One threat intelligence <a href="https://blog.cloudflare.com/realtime-threat-intel-waf-rules/"><u>directly within the WAF</u></a> to block high-risk traffic.</p><p>Second is the team that owns the WAF engine that does the actual detecting: the managed rulesets that run in front of our own properties and are available to every Cloudflare customer, the machine learning behind <a href="https://developers.cloudflare.com/waf/about/waf-attack-score/"><u>WAF Attack Score</u></a>, and the relationships that sometimes let us ship a rule before a CVE is publicly disclosed. The team is globally distributed and moves fast, releasing rules within hours of a proof-of-concept of an attack becoming known. Once a detection is deployed, it reaches our entire network, along with every Cloudflare customer, in under 30 seconds. <a href="https://blog.cloudflare.com/react2shell-rsc-vulnerabilities-exploitation-threat-brief/"><u>React2Shell</u></a> is a recent example: a managed WAF rule <a href="https://blog.cloudflare.com/waf-rules-react-vulnerability/"><u>was protecting our own properties, and everyone else's on Cloudflare</u></a>, hours before the official advisory was published.</p><p>The scoring layer, the defenses we put in front of the application, and the containment around the vulnerability all build on what these two teams see. </p>
-    <div>
-      <h2>Scores over signatures</h2>
-      <a href="#scores-over-signatures">
-        
-      </a>
-    </div>
-    <p>Signature-based defenses were built for a world where novel exploits were scarce and variations took weeks. Cloudflare's traditional SLA from a fresh proof-of-concept to a live, deployed rule has been 12 hours. With the advent of frontier models, this is not good enough anymore. Detections need to be in place <a href="https://blog.himanshuanand.com/2026/05/the-90-day-disclosure-policy-is-dead/"><u>before a CVE is discovered</u></a>. This is why we layer ML-based detection in front of the traditional signature-based WAF.</p><p>The model is trained on a large body of past attack traffic, and it catches new variants of vulnerabilities before they're publicly known. A novel <a href="https://www.cloudflare.com/learning/security/threats/sql-injection/"><u>SQL injection</u></a> or remote code execution chain is almost always a rearrangement of attack shapes the model has seen before, even when the specific exploit is brand new. We run the model on every request and assign a WAF Attack Score between 1 and 99, based on how closely the request resembles those underlying shapes, not against a list of known-bad signatures. The lower the score, the more aggressively we treat the request. That score determines whether we let the request through. We apply a similar scoring methodology to AI prompts with <a href="https://developers.cloudflare.com/waf/detections/ai-security-for-apps/"><u>AI Security for Apps</u></a>: rather than check each prompt against a list of known malicious prompts, we score how closely a prompt resembles an actual attack. </p>
-    <div>
-      <h2>The architecture around the vulnerability</h2>
-      <a href="#the-architecture-around-the-vulnerability">
-        
-      </a>
-    </div>
-    <p>Those capabilities only matter once they're stacked in front of an application, and the first layer in our defense-in-depth approach is the <a href="https://www.cloudflare.com/en-gb/application-services/products/waf/"><b><u>WAF</u></b></a>. Anything that matches a known-bad pattern gets dropped before it reaches the application, which clears the bulk of the obvious traffic and lets the more specialized layers below focus on what's left.
-
-On the API surface, we run a positive security model through <a href="https://www.cloudflare.com/en-gb/application-services/products/api-shield/"><b><u>API Shield</u></b></a>. Instead of trying to anticipate every bad request, we describe what a valid request to each API looks like, either from the API's own definition or learned from our real traffic, and anything that doesn't fit doesn't get through. This neutralizes the advantage of frontier AI models: because we only permit validated traffic, generating thousands of new attack variations fails to bypass the system.</p>
-          <figure>
-          <img src="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/5KSSyocxKzsJsOfG4pxOM7/059a597af1b67a3d5a5ccdeda5ab7ca1/image2.png" />
-          </figure><p><sup><i>Cloudflare’s layered architecture</i></sup></p><p><a href="https://www.cloudflare.com/learning/bots/what-is-bot-management/"><b><u>Bot Management</u></b></a> catches probing traffic on our network before frontier models can build a map. It scores every request on how likely it is to be automated, using the same signals across our whole network: how the client behaves, whether it looks like a real browser, and whether the connection matches a known-bad pattern. An attack only lands if it can find a soft spot. </p><p><a href="https://www.cloudflare.com/sase/products/access/"><b><u>Zero Trust Network Access</u></b></a> is used for every internal application. The implicit trust of being inside the network is replaced with explicit per-request identity and policy for every employee accessing every tool. The value of this was clear when one of our engineers shipped a misconfigured tool. A flat network would have exposed everything on the same segment, but in our deployment, the exposure stopped at the tool itself. We built <a href="https://developers.cloudflare.com/cloudflare-one/access-controls/access-settings/require-access-protection/"><b><u>Require Access Protection</u></b></a> afterwards so newly deployed or misconfigured applications can't be reachable before an access policy is in place.</p><p><a href="https://developers.cloudflare.com/cloudflare-one/integrations/identity-providers/idp-federation/"><b><u>IdP Federation</u></b></a> makes that secure by default posture easier to keep consistent across every Cloudflare account — which becomes even more necessary when more people are shipping internal tools quickly. Instead of asking each team to wire up SSO separately, we configure our identity provider (IdP) once and share it across the organization. New accounts get SSO automatically, recipient-side IdP connections are read-only, and Access policies in each account still evaluate the resulting identity as part of the normal request flow. </p><p><a href="https://developers.cloudflare.com/cloudflare-one/access-controls/ai-controls/mcp-portals/"><b><u>MCP Server Portal</u></b></a> gives teams a controlled way to connect AI agents to enterprise systems. Agents access MCP servers that are centrally managed through a single portal, with every action logged. That way when an agent acts on someone's behalf, we know what it did, what it touched, and whether it should have been allowed to. The full picture of how we built it is in our post on <a href="https://blog.cloudflare.com/enterprise-mcp/"><u>enterprise MCP</u></a>.</p><p><a href="https://www.cloudflare.com/developer-platform/products/ai-gateway/"><b><u>AI Gateway</u></b></a> runs in front of our internal AI tools the same way <a href="https://developers.cloudflare.com/waf/detections/ai-security-for-apps/"><u>AI Security for Apps</u></a> runs in front of customer-facing AI features, with the same scoring and the same visibility. Inside the company, the visibility piece is more useful than the blocking, because we needed to see what engineers were actually building before we could write meaningful policy on it.</p>
-    <div>
-      <h2>Where your teams can start </h2>
-      <a href="#where-your-teams-can-start">
-        
-      </a>
-    </div>
-    <p>Frontier models can help attackers find vulnerabilities, adapt payloads, and move faster, but they still have to pass through the layered defense you deploy in front of your application. That is where teams should start:</p><ul><li><p>Put inspection in front of public applications.</p></li><li><p>Define what valid API traffic looks like.</p></li><li><p>Use bot detection to limit automated probing.</p></li><li><p>Require identity and access policy before any internal tool is reachable.</p></li></ul><p>For AI and agentic systems:</p><ul><li><p>Route model traffic through a gateway.</p></li><li><p>Keep agents connected through approved MCP servers.</p></li><li><p>Log what they do. </p></li></ul><p>The goal is to make sure that when one layer misses, the next layer limits what the attacker can see, reach, or change.</p><p>That is the point of the architecture around the vulnerability: to limit the scope of an attack. The vulnerability may be what starts the attack, but the architecture determines how far it can go.</p>
-    <div>
-      <h2>How do we know this approach works?</h2>
-      <a href="#how-do-we-know-this-approach-works">
-        
-      </a>
-    </div>
-    <p>Plenty of security stacks look impenetrable on a whiteboard but fall over in practice. That is why we test ours continuously, both at the perimeter and inside our environment, with our red team involved across both.</p><p><b>At the perimeter</b>, frontier models are one tool we use to test our application security stack as an adaptive attacker. These models sit alongside the rest of our red team and detection workflows including: manual testing, threat intelligence, observed traffic patterns, proof-of-concept analysis, and signals from our own network. Together, those inputs help us decide where to aim testing: newly launched products, recently changed surfaces, and the paths an attacker is most likely to probe first. The most important part is the process that follows. When something gets through, we identify the gap, use the right mix of tools to understand it, write the rule or mitigation, ship the update, and test again to make sure the gap is closed.</p><p><b>Inside the environment,</b> our red team starts from the assumption that the perimeter has already failed. They look at what has changed, where sensitive systems carry risk, and whether one compromised identity, path, or credential can reach farther than it should. When we change the architecture based on what they find, they run the scenario again against the new version to confirm the gap is actually closed.</p><p>We confirm that this architecture is working by continuously testing its behavior during failures, rather than relying on the perfection of individual layers.</p><p>If your team is working on the same problems and would like to compare notes, reach out to us at <a href="#"><u>security-ai-research@cloudflare.com</u></a>.</p> ]]></content:encoded>
-        </item>
         <item>
             <title><![CDATA[Your AI bill is out of control. Cloudflare can fix it now.]]></title>
             <link>https://blog.cloudflare.com/ai-gateway-spend-limits/</link>
@@ -2741,6 +2686,147 @@ await env.AI_SEARCH.delete("old-instance");
           <figure>
           <img src="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/5Y5WLWBuK7NBMLmY6ZWL96/ce7ca954f4f51ac21f8e9d3f15d0343c/BLOG-3240_4.png" />
           </figure><p></p> ]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[Cloudflare Email Service: now in public beta. Ready for your agents]]></title>
+            <link>https://blog.cloudflare.com/email-for-agents/</link>
+            <guid>https://blog.cloudflare.com/email-for-agents/</guid>
+            <pubDate>Thu, 16 Apr 2026 06:00:00 GMT</pubDate>
+            <description><![CDATA[Agents are becoming multi-channel. That means making them available wherever your users already are — including the inbox. Today, Cloudflare Email Service enters public beta with the infrastructure layer to make that easy: send, receive, and process email natively from your agents.]]></description>
+            <content:encoded><![CDATA[ <p>Email is the most accessible interface in the world. It is ubiquitous. There’s no need for a custom chat application, no custom SDK for each channel. Everyone already has an email address, which means everyone can already interact with your application or agent. And your agent can interact with anyone.</p><p>If you are building an application, you already rely on email for signups, notifications, and invoices. Increasingly, it is not just your application logic that needs this channel. Your agents do, too. During our private beta, we talked to developers who are building exactly this: customer support agents, invoice processing pipelines, account verification flows, multi-agent workflows. All built on top of email. The pattern is clear: email is becoming a core interface for agents, and developers need infrastructure purpose-built for it.</p><p>Cloudflare Email Service is that piece. With <b>Email Routing</b>, you can receive email to your application or agent. With <b>Email Sending,</b> you can reply to emails or send outbounds to notify your users when your agents are done doing work. And with the rest of the developer platform, you can build a full email client and <a href="https://blog.cloudflare.com/project-think/"><u>Agents SDK</u></a> onEmail hook as native functionality. </p><p>Today, as part of Agents Week, Cloudflare Email Service is entering <b>public beta</b>, allowing any application and any agent to send emails. We are also completing the toolkit for building email-native agents: </p><ul><li><p>Email Sending binding, available from your Workers and the Agents SDK </p></li><li><p>A new Email MCP server</p></li><li><p>Wrangler CLI email commands</p></li><li><p>Skills for coding agents</p></li><li><p>An open-source agentic inbox reference app</p></li></ul>
+    <div>
+      <h2>Email Sending: now in public beta</h2>
+      <a href="#email-sending-now-in-public-beta">
+        
+      </a>
+    </div>
+    <p>Email Sending graduates from private beta to <b>public beta </b>today. You can now send transactional emails directly from Workers with a native Workers binding — no API keys, no secrets management.</p>
+            <pre><code>export default {
+  async fetch(request, env, ctx) {
+    await env.EMAIL.send({
+      to: "user@example.com",
+      from: "notifications@your-domain.com",
+      subject: "Your order has shipped",
+      text: "Your order #1234 has shipped and is on its way."
+    });
+    return new Response("Email sent");
+  },
+};
+</code></pre>
+            <p>Or send from any platform, any language, using the REST API and our TypeScript, Python, and Go SDKs:</p>
+            <pre><code>curl "https://api.cloudflare.com/client/v4/accounts/{account_id}/email-service/send" \
+   --header "Authorization: Bearer &lt;API_TOKEN&gt;" \
+   --header "Content-Type: application/json" \
+   --data '{
+     "to": "user@example.com",
+     "from": "notifications@your-domain.com",
+     "subject": "Your order has shipped",
+     "text": "Your order #1234 has shipped and is on its way."
+   }'
+</code></pre>
+            <p>Sending email that actually reaches inboxes usually means wrestling with SPF, DKIM, and DMARC records. When you add your domain to Email Service, we configure all of it automatically. Your emails are authenticated and delivered, not flagged as spam. And because Email Service is a global service built on Cloudflare's network, your emails are delivered with low latency anywhere in the world.</p><p>Combined with <a href="https://developers.cloudflare.com/email-routing/"><u>Email Routing</u></a>, which has been free and available for years, you now have complete bidirectional email within a single platform. Receive an email, process it in a Worker, and reply, all without leaving Cloudflare.</p><p>For the full deep dive on Email Sending, <a href="https://blog.cloudflare.com/email-service/"><u>refer to our Birthday Week announcement</u></a>. The rest of this post describes what Email Service unlocks for agents.</p>
+    <div>
+      <h2>Agents SDK: your agent is email-native</h2>
+      <a href="#agents-sdk-your-agent-is-email-native">
+        
+      </a>
+    </div>
+    <p>The Agents SDK for building agents on Cloudflare already has a first-class <a href="https://developers.cloudflare.com/agents/api-reference/agents-api/"><u>onEmail hook</u></a> for receiving and processing inbound email. But until now, your agent could only reply synchronously, or send emails to members of your Cloudflare account. </p><p>With Email Sending, that constraint is gone. This is the difference between a chatbot and an agent.</p>
+          <figure>
+          <img src="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/4aGV0BVpbrj3ql5TubPMXx/b85351f13c5fae93a27d11e20a5fc11e/BLOG-3210_2.png" />
+          </figure><p><sup><i>Email agents receive a message, orchestrate work across the platform, and respond asynchronously.</i></sup></p><p>A chatbot responds in the moment or not at all. An agent thinks, acts, and communicates on its own timeline. With Email Sending, your agent can receive a message, spend an hour processing data, check three other systems, and then reply with a complete answer. It can schedule follow-ups. It can escalate when it detects an edge case. It can operate independently. In other words: it can actually do work, not just answer questions. </p><p>Here's what a support agent looks like with the full pipeline — receive, persist, and reply:</p>
+            <pre><code>import { Agent, routeAgentEmail } from "agents";
+import { createAddressBasedEmailResolver, type AgentEmail } from "agents/email";
+import PostalMime from "postal-mime";
+
+export class SupportAgent extends Agent {
+  async onEmail(email: AgentEmail) {
+    const raw = await email.getRaw();
+    const parsed = await PostalMime.parse(raw);
+
+   // Persist in agent state
+    this.setState({
+      ...this.state,
+      ticket: { from: email.from, subject: parsed.subject, body: parsed.text, messageId: parsed.messageId },
+    });
+
+    // Kick off long running background agent task 
+    // Or place a message on a Queue to be handled by another Worker
+
+    // Reply here or in other Worker handler, like a Queue handler
+    await this.sendEmail({
+      binding: this.env.EMAIL,
+      fromName: "Support Agent",
+      from: "support@yourdomain.com",
+      to: this.state.ticket.from,
+      inReplyTo: this.state.ticket.messageId,
+      subject: `Re: ${this.state.ticket.subject}`,
+      text: `Thanks for reaching out. We received your message about "${this.state.ticket.subject}" and will follow up shortly.`
+    });
+  }
+}
+
+export default {
+  async email(message, env) {
+    await routeAgentEmail(message, env, {
+      resolver: createAddressBasedEmailResolver("SupportAgent"),
+    });
+  },
+} satisfies ExportedHandler&lt;Env&gt;;</code></pre>
+            <p>If you're new to the Agents SDK's email capabilities, here's what's happening under the hood.</p><p><b>Each agent gets its own identity from a single domain.</b> The address-based resolver routes support@yourdomain.com to a "support" agent instance, sales@yourdomain.com to a "sales" instance, and so on. You don't need to provision separate inboxes — the routing is built into the address. You can even use sub-addressing (NotificationAgent+user123@yourdomain.com) to route to different agent namespaces and instances.</p><p><b>State persists across emails.</b> Because agents are backed by Durable Objects, calling this.setState() means your agent remembers conversation history, contact information, and context across sessions. The inbox becomes the agent's memory, without needing a separate database or vector store.</p><p><b>Secure reply routing is built in.</b> When your agent sends an email and expects a reply, you can sign the routing headers with HMAC-SHA256 so that replies route back to the exact agent instance that sent the original message. This prevents attackers from forging headers to route emails to arbitrary agent instances — a security concern that most "email for agents" solutions haven't addressed.</p><p>This is the complete email agent pipeline that teams are building from scratch elsewhere: receive email, parse it, classify it, persist state, kick off async workflows, reply or escalate — all within a single Agent class, deployed globally on Cloudflare's network.</p>
+    <div>
+      <h2>Email tooling for your agents: MCP server, Wrangler CLI, and skills</h2>
+      <a href="#email-tooling-for-your-agents-mcp-server-wrangler-cli-and-skills">
+        
+      </a>
+    </div>
+    <p>Email Service isn't only for agents running on Cloudflare. Agents run everywhere, whether it’s coding agents like Claude Code, Cursor, or Copilot running locally or in remote environments, or production agents running in containers or external clouds. They all need to send email from those environments. We're shipping three integrations that make Email Service accessible to any agent, regardless of where it runs.</p><p>Email is now available through the <a href="https://github.com/cloudflare/mcp"><u>Cloudflare MCP server</u></a>, the same <a href="https://blog.cloudflare.com/code-mode/"><u>Code Mode</u></a>-powered server that gives agents access to the entire Cloudflare API. With this MCP server, your agent can discover and call the Email endpoints to send and configure emails. You can send an email with a simple prompt:</p>
+            <pre><code>"Send me a notification email at hello@example.com from my staging domain when the build completes"</code></pre>
+            <p>For agents running on a computer or a sandbox with bash access, the Wrangler CLI solves the MCP context window problem that we discussed in the <a href="https://blog.cloudflare.com/code-mode/"><u>Code Mode</u></a> blog post — tool definitions can consume tens of thousands of tokens before your agent even starts processing a single message. With Wrangler, your agent starts with near-zero context overhead and discovers capabilities on demand through `--help` commands. Here is how your agent can send an email via Wrangler:</p>
+            <pre><code>wrangler email send \
+  --to "teammate@example.com" \
+  --from "agent@your-domain.com" \
+  --subject "Build completed" \
+  --text "The build passed. Deployed to staging."
+</code></pre>
+            <p>Regardless of whether you give your agent the Cloudflare MCP or the Wrangler CLI, your agent will be able to now send emails on your behalf with just a prompt.</p>
+    <div>
+      <h3>Skills</h3>
+      <a href="#skills">
+        
+      </a>
+    </div>
+    <p>We are also publishing a <a href="https://github.com/cloudflare/skills"><u>Cloudflare Email Service skill</u></a>. It gives your agents complete guidance: configuring the Workers binding, sending emails via the REST API or SDKs, handling inbound email with Email Routing configuration, building with Agents SDK, and managing email through Wrangler CLI or MCP. It also covers deliverability best practices and how to craft good transactional emails that land in inboxes rather than spam. Drop it into your project and your coding agent has everything needed to build production-ready email on Cloudflare.</p>
+    <div>
+      <h2>Open-sourcing tools for email agents</h2>
+      <a href="#open-sourcing-tools-for-email-agents">
+        
+      </a>
+    </div>
+    <p>During the private beta, we also experimented with email agents. It became clear that you often want to keep the human-in-the-loop element to review emails and see what the agent is doing.The best way to do that is to have a fully featured email client with agent automations built-in.</p><p>That’s why we built <a href="https://github.com/cloudflare/agentic-inbox"><u>Agentic Inbox</u></a>: a reference application with full conversation threading, email rendering, receiving and storing emails and their attachments, and automatically replying to emails. It includes a dedicated MCP server built-in, so external agents can draft emails for your review before sending from your agentic-inbox. </p>
+          <figure>
+          <img src="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/4PgrSXLUD5kgA2SFOhksCS/75f85353cf710842420ed806be31b6f6/BLOG-3210_3.png" />
+          </figure><p>We’re <a href="https://github.com/cloudflare/agentic-inbox"><u>open-sourcing Agentic Inbox</u></a> as a reference application for how to build a full email application using Email Routing for inbound, Email Sending for outbound, Workers AI for classification, R2 for attachments, and Agents SDK for stateful agent logic. You can deploy it today to get a full inbox, email client and agent for your emails, with the click of a button.</p><p>We want email agent tooling to be composable and reusable. Rather than every team rebuilding the same inbound-classify-reply pipeline, start with this reference application. Fork it, extend it, use it as a starting point for your own email agents that fit your workflows.</p><a href="https://deploy.workers.cloudflare.com/?url=https://github.com/cloudflare/agentic-inbox"><img src="https://deploy.workers.cloudflare.com/button" /></a>
+<p></p>
+    <div>
+      <h2>Try it out today</h2>
+      <a href="#try-it-out-today">
+        
+      </a>
+    </div>
+    <p>Email is where the world’s most important workflows live, but for agents, it has often been a difficult channel to reach. With <b>Email Sending</b> now in public beta, Cloudflare Email Service becomes a complete platform for bidirectional communication, making the inbox a first-class interface for your agents.</p><p>Whether you’re building a support agent that meets customers in their inbox or a background process that keeps your team updated in real time, your agents now have a seamless way to communicate on a global scale. The inbox is no longer a silo. Now it’s one more place for your agents to be helpful.</p><ul><li><p>Try out <a href="https://dash.cloudflare.com/?to=/:account/email-service/sending"><u>Email Sending in the Cloudflare Dashboard</u></a></p></li><li><p>Read the <a href="http://developers.cloudflare.com/email-service/"><u>Email Service documentation</u></a></p></li><li><p>Follow the <a href="http://developers.cloudflare.com/agents/api-reference/email"><u>Agents SDK email docs</u></a> </p></li><li><p>Check out the <a href="http://github.com/cloudflare/mcp-server-cloudflare"><u>Email Service MCP server</u></a> and <a href="https://github.com/cloudflare/skills"><u>Skills</u></a></p></li><li><p><a href="https://github.com/cloudflare/agentic-inbox"><u>Deploy the open-source reference app</u></a></p></li></ul>
+          <figure>
+          <img src="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/2YaSov283la8ajbi0Sbprq/9108f26b499fd976470a79ee74034e59/BLOG-3210_5.png" />
+          </figure>
+    <div>
+      <h2>Watch on Cloudflare TV</h2>
+      <a href="#watch-on-cloudflare-tv">
+        
+      </a>
+    </div>
+    <div>
+  
+</div><p></p> ]]></content:encoded>
         </item>
     </channel>
 </rss>
