@@ -24,7 +24,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           FEED_NAME: ${{ inputs.feed_name }}
-      - if: steps.heal.outcome == 'success'
+      - id: commit
+        if: steps.heal.outcome == 'success'
         uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: "fix: heal feed ${{ inputs.feed_name }}"
@@ -35,11 +36,19 @@ jobs:
         env:
           FEED_NAME: ${{ inputs.feed_name }}
           HEAL_OUTCOME: ${{ steps.heal.outcome }}
+          CHANGES_DETECTED: ${{ steps.commit.outputs.changes_detected }}
         with:
           script: |
             const fs = require('fs');
             const feedName = process.env.FEED_NAME;
             const healed = process.env.HEAL_OUTCOME === 'success';
+            const changed = process.env.CHANGES_DETECTED === 'true';
+
+            if (healed && !changed) {
+              // Feed turned out to be healthy (heal-feed exited early) — nothing to report.
+              console.log('Feed healthy, no heal applied — skipping issue comment.');
+              return;
+            }
 
             let configUrl = '';
             try {
