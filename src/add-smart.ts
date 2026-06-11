@@ -265,7 +265,7 @@ async function main() {
     writeFileSync(join(CONFIGS_DIR, `${name}.json`), JSON.stringify(config, null, 2));
     console.log(`   Config: configs/${name}.json (external)`);
     console.log(`📖 Subscribe: ${existingFeed}`);
-    process.stdout.write(`native_feed_url=${existingFeed}`);
+    process.stdout.write(`native_feed_url=${existingFeed}\n`);
     process.exit(0);
   }
 

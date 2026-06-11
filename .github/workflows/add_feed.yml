@@ -71,6 +71,11 @@ jobs:
           if [ -n "$NATIVE_URL" ]; then
             # Native feed: confirm the URL actually serves RSS/Atom XML
             BODY_HEAD=$(curl -sL --max-time 20 "$NATIVE_URL" | head -c 2000 || true)
+            if [ -z "$BODY_HEAD" ]; then
+              # Some sites serve incomplete TLS chains (same fallback as tolerantFetch
+              # in src/fetcher.ts) — read-only content check, so verification-off is OK.
+              BODY_HEAD=$(curl -skL --max-time 20 "$NATIVE_URL" | head -c 2000 || true)
+            fi
             if echo "$BODY_HEAD" | grep -qE '<\?xml|<rss|<feed'; then
               VERIFIED=true
               FEED_URL="$NATIVE_URL"
