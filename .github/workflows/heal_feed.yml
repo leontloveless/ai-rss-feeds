@@ -9,17 +9,97 @@ on:
 
 permissions:
   contents: write
+  issues: write
 
 jobs:
   heal:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: oven-sh/setup-bun@v2
       - run: bun install
-      - run: bun run src/heal-feed.ts "${{ inputs.feed_name }}"
+      - id: heal
+        continue-on-error: true
+        run: bun run src/heal-feed.ts "$FEED_NAME"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - uses: stefanzweifel/git-auto-commit-action@v5
+          FEED_NAME: ${{ inputs.feed_name }}
+      - if: steps.heal.outcome == 'success'
+        uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: "fix: heal feed ${{ inputs.feed_name }}"
+
+      - name: Report result on original issue
+        if: always()
+        uses: actions/github-script@v8
+        env:
+          FEED_NAME: ${{ inputs.feed_name }}
+          HEAL_OUTCOME: ${{ steps.heal.outcome }}
+        with:
+          script: |
+            const fs = require('fs');
+            const feedName = process.env.FEED_NAME;
+            const healed = process.env.HEAL_OUTCOME === 'success';
+
+            let configUrl = '';
+            try {
+              const config = JSON.parse(fs.readFileSync(`configs/${feedName}.json`, 'utf8'));
+              configUrl = config.url || '';
+            } catch (e) {
+              console.log(`Could not read configs/${feedName}.json: ${e.message}`);
+            }
+
+            // Find the original new-feed issue (match source URL in body, then feed name in title)
+            const repoQ = `repo:${context.repo.owner}/${context.repo.repo} is:issue label:new-feed`;
+            let issue = null;
+            for (const q of [
+              configUrl ? `${repoQ} "${configUrl}" in:body` : null,
+              `${repoQ} "${feedName}" in:title`,
+            ].filter(Boolean)) {
+              try {
+                const res = await github.rest.search.issuesAndPullRequests({
+                  q, sort: 'created', order: 'desc', per_page: 1,
+                });
+                if (res.data.items.length > 0) { issue = res.data.items[0]; break; }
+              } catch (e) {
+                console.log(`Issue search failed for "${q}": ${e.message}`);
+              }
+            }
+
+            if (!issue) {
+              console.log('No matching new-feed issue found — nothing to report.');
+              return;
+            }
+
+            const feedUrl = `https://raw.githubusercontent.com/${context.repo.owner}/${context.repo.repo}/main/feeds/${feedName}.xml`;
+            if (healed) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                body: `🩹 Feed \`${feedName}\` stopped working and was automatically healed.\n\n📖 Subscribe: \`${feedUrl}\``,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                body: `❌ Feed \`${feedName}\` is broken and automatic healing failed — needs manual attention. Reopening this issue.`,
+              });
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                state: 'open',
+              });
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                labels: ['feed-failed'],
+              });
+            }
+
+      - name: Fail run if heal failed
+        if: steps.heal.outcome == 'failure'
+        run: exit 1

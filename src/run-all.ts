@@ -149,14 +149,21 @@ async function main() {
 
   let success = 0;
   let failed = 0;
+  let skipped = 0;
 
   for (const config of configs) {
+    if (config.parserMode === "external") {
+      // External configs only track a native feed in the README; nothing to generate.
+      console.log(`\n📡 ${config.name} — ⏭️  external feed (native RSS), skipping`);
+      skipped++;
+      continue;
+    }
     const ok = await processFeed(config, validateOnly);
     if (ok) success++;
     else failed++;
   }
 
-  console.log(`\n📊 Results: ${success} success, ${failed} failed`);
+  console.log(`\n📊 Results: ${success} success, ${failed} failed, ${skipped} skipped`);
 
   if (success === 0 && failed > 0) {
     process.exit(1);

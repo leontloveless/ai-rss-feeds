@@ -156,7 +156,8 @@ async function discoverExistingRSS(url: string): Promise<string | null> {
         signal: AbortSignal.timeout(5000),
       });
       if (res.ok && (res.headers.get("content-type") || "").includes("xml")) {
-        return pathBasedFeed;
+        // Prefer the final URL after redirects (e.g. /rss → /feed)
+        return res.url || pathBasedFeed;
       }
     } catch { /* ignore */ }
   }
@@ -169,7 +170,7 @@ async function discoverExistingRSS(url: string): Promise<string | null> {
       signal: AbortSignal.timeout(5000),
     });
     if (res.ok && (res.headers.get("content-type") || "").includes("xml")) {
-      return origin + "/rss";
+      return res.url || origin + "/rss";
     }
   } catch { /* ignore */ }
 
@@ -200,7 +201,7 @@ async function discoverExistingRSS(url: string): Promise<string | null> {
           ct.includes("rss") ||
           ct.includes("atom")
         ) {
-          return feedUrl;
+          return res.url || feedUrl;
         }
         // Some servers return text/html for feed URLs, do a GET to check
         const getRes = await tolerantFetch(feedUrl, {
@@ -213,7 +214,7 @@ async function discoverExistingRSS(url: string): Promise<string | null> {
           text.includes("<rss") ||
           text.includes("<feed")
         ) {
-          return feedUrl;
+          return getRes.url || feedUrl;
         }
       }
     } catch {

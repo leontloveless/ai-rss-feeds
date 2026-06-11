@@ -17,16 +17,18 @@ jobs:
     if: github.event.label.name == 'new-feed'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - uses: oven-sh/setup-bun@v2
       - run: bun install
 
       - name: Extract URL from issue
         id: url
+        env:
+          # Pass via env, not shell interpolation — issue bodies are untrusted input.
+          ISSUE_BODY: ${{ github.event.issue.body }}
         run: |
-          BODY='${{ github.event.issue.body }}'
-          URL=$(echo "$BODY" | grep -oP 'https?://\S+' | head -1)
+          URL=$(echo "$ISSUE_BODY" | grep -oP 'https?://\S+' | head -1)
           echo "url=$URL" >> $GITHUB_OUTPUT
           echo "Extracted URL: $URL"
 
@@ -38,7 +40,7 @@ jobs:
           # Snapshot the newest config BEFORE running (to detect whether a new one is created)
           PREV=$(ls -t configs/*.json 2>/dev/null | head -1 || echo "")
           echo "prev_config=$PREV" >> $GITHUB_OUTPUT
-          bun run src/add-smart.ts "${{ steps.url.outputs.url }}" 2>&1 | tee /tmp/add-smart.log
+          bun run src/add-smart.ts "$FEED_SOURCE_URL" 2>&1 | tee /tmp/add-smart.log
           OUTPUT=$(cat /tmp/add-smart.log)
           NATIVE_URL=$(echo "$OUTPUT" | grep '^native_feed_url=' | sed 's/^native_feed_url=//' || true)
           if [ -n "$NATIVE_URL" ]; then
@@ -55,36 +57,69 @@ jobs:
           fi
         env:
           GITHUB_TOKEN: ${{ github.token }}
+          FEED_SOURCE_URL: ${{ steps.url.outputs.url }}
+
+      - name: Verify feed URL
+        id: verify
+        shell: bash
+        env:
+          CONFIG_NAME: ${{ steps.add-feed.outputs.config_name }}
+          NATIVE_URL: ${{ steps.add-feed.outputs.native_url }}
+        run: |
+          VERIFIED=false
+          FEED_URL=""
+          if [ -n "$NATIVE_URL" ]; then
+            # Native feed: confirm the URL actually serves RSS/Atom XML
+            BODY_HEAD=$(curl -sL --max-time 20 "$NATIVE_URL" | head -c 2000 || true)
+            if echo "$BODY_HEAD" | grep -qE '<\?xml|<rss|<feed'; then
+              VERIFIED=true
+              FEED_URL="$NATIVE_URL"
+            fi
+          elif [ -n "$CONFIG_NAME" ] && [ -f "feeds/${CONFIG_NAME}.xml" ] && grep -q "<item>" "feeds/${CONFIG_NAME}.xml"; then
+            # Generated feed: confirm the XML exists and contains articles
+            VERIFIED=true
+            FEED_URL="https://raw.githubusercontent.com/${{ github.repository }}/main/feeds/${CONFIG_NAME}.xml"
+          fi
+          echo "verified=$VERIFIED" >> $GITHUB_OUTPUT
+          echo "feed_url=$FEED_URL" >> $GITHUB_OUTPUT
+          echo "Verified: $VERIFIED ($FEED_URL)"
 
       - name: Update README
         run: bun run readme
 
       - name: Commit changes
+        env:
+          FEED_SOURCE_URL: ${{ steps.url.outputs.url }}
         run: |
           git config --global user.name "ai-rss-feeds[bot]"
           git config --global user.email "ai-rss-feeds[bot]@users.noreply.github.com"
-          git add configs/ feeds/ README.md
+          git add configs/ feeds/ cache/ README.md
           if git diff --staged --quiet; then
             echo "No changes to commit"
           else
-            git commit -m "feat: add feed for ${{ steps.url.outputs.url }}"
+            git commit -m "feat: add feed for $FEED_SOURCE_URL"
             git push
           fi
 
       - name: Comment on issue
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
+        env:
+          VERIFIED: ${{ steps.verify.outputs.verified }}
+          FEED_URL: ${{ steps.verify.outputs.feed_url }}
+          NATIVE_URL: ${{ steps.add-feed.outputs.native_url }}
         with:
           script: |
-            const configName = '${{ steps.add-feed.outputs.config_name }}' || '';
-            const nativeUrl = '${{ steps.add-feed.outputs.native_url }}' || '';
+            const verified = process.env.VERIFIED === 'true';
+            const feedUrl = process.env.FEED_URL || '';
+            const nativeUrl = process.env.NATIVE_URL || '';
 
             let body = '';
-            if (configName && !nativeUrl) {
-              body = `✅ Feed added successfully!\n\n📖 Subscribe: \`https://raw.githubusercontent.com/${context.repo.owner}/${context.repo.repo}/main/feeds/${configName}.xml\``;
-            } else if (nativeUrl) {
-              body = `✅ Native RSS feed found — no copy needed.\n\n📖 Subscribe: \`${nativeUrl}\``;
+            if (verified && nativeUrl) {
+              body = `✅ Native RSS feed found — no copy needed.\n\n📖 Subscribe: \`${feedUrl}\``;
+            } else if (verified) {
+              body = `✅ Feed added successfully!\n\n📖 Subscribe: \`${feedUrl}\``;
             } else {
-              body = `⚠️ Could not determine feed URL. Check workflow logs.`;
+              body = `⚠️ A working feed URL could not be verified for this site. Leaving this issue open — check the workflow logs.`;
             }
 
             await github.rest.issues.createComment({
@@ -94,16 +129,26 @@ jobs:
               body,
             });
 
-            await github.rest.issues.update({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-              state: 'closed',
-            });
+            if (verified) {
+              // Only close the issue once a working feed URL has been confirmed.
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                state: 'closed',
+              });
+            } else {
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                labels: ['feed-failed'],
+              });
+            }
 
       - name: Comment failure
         if: failure()
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             const fs = require('fs');
@@ -123,12 +168,13 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
-              body: `❌ Failed to add feed.${errorHint}\n\nPlease check the URL and try again, or open a manual PR.`
+              body: `❌ Failed to add feed.${errorHint}\n\nLeaving this issue open for retry or manual handling.`
             });
 
-            await github.rest.issues.update({
+            // Keep the issue open — it is only closed after a verified feed URL exists.
+            await github.rest.issues.addLabels({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
-              state: 'closed'
+              labels: ['feed-failed'],
             });
