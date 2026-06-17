@@ -4,11 +4,103 @@
         <title>claude-code Releases</title>
         <link>https://github.com/anthropics/claude-code/releases</link>
         <description>GitHub releases for anthropics/claude-code</description>
-        <lastBuildDate>Tue, 16 Jun 2026 20:22:14 GMT</lastBuildDate>
+        <lastBuildDate>Wed, 17 Jun 2026 22:07:41 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>ai-rss-feeds (https://github.com/leontloveless/ai-rss-feeds)</generator>
         <language>en</language>
         <atom:link href="https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/claude-code-releases.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[v2.1.181]]></title>
+            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.181</link>
+            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.181</guid>
+            <pubDate>Wed, 17 Jun 2026 22:07:41 GMT</pubDate>
+            <description><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Added <code>/config key=value</code> syntax to set any setting from the prompt (e.g. <code>/config thinking=false</code>) — works in interactive, <code>-p</code>, and Remote Control</li>
+<li>Added <code>sandbox.allowAppleEvents</code> opt-in setting that lets sandboxed commands send Apple Events on macOS</li>
+<li>Added <code>CLAUDE_CLIENT_PRESENCE_FILE</code> environment variable: point it at a marker file to suppress mobile push notifications while you&#39;re at the machine</li>
+<li>Upgraded the bundled Bun runtime to 1.4</li>
+<li>Improved streaming of long paragraphs: text now appears line-by-line instead of waiting for the first line break</li>
+<li>Improved auto-retry: API connection drops mid-thinking now automatically retry instead of showing &quot;Connection closed while thinking&quot;</li>
+<li>Improved the subagent panel: idle subagents auto-hide after 30s, the list caps at 5 rows with scroll hints, and keyboard hints now show in the footer</li>
+<li>Improved the MCP OAuth browser page to match Claude Code&#39;s visual style and auto-close on success</li>
+<li>Changed fullscreen mode URL opening to require Cmd+click (macOS) / Ctrl+click, matching native terminal behavior</li>
+<li>Changed the <code>Improved N memories</code> line to no longer list individual files outside verbose mode</li>
+<li>Fixed prompt caching not reading on custom <code>ANTHROPIC_BASE_URL</code> and on Foundry due to a per-request attestation token changing every turn</li>
+<li>Fixed Write/Edit producing 0-byte or truncated files on network drives and cloud-synced folders</li>
+<li>Fixed <code>open</code>, <code>osascript</code>, and browser-based auth flows failing with error -600 on macOS by adding the Apple Events entitlement</li>
+<li>Fixed a startup regression (~120ms per launch in fresh environments, introduced in 2.1.169): the first prompt no longer waits for the managed-settings fetch when no MCP servers are configured</li>
+<li>Fixed startup blocking with a blank terminal for up to 15 seconds when the account settings fetch is slow on a degraded network</li>
+<li>Fixed startup crash (<code>TypeError: Cannot read properties of null</code>) when <code>.claude.json</code> contains corrupted null project entries</li>
+<li>Fixed macOS TUI freezing at session start (Ctrl+C unresponsive) when Spotlight is busy reindexing</li>
+<li>Fixed long-running idle sessions losing their history when another Claude Code process ran the 30-day transcript cleanup</li>
+<li>Fixed foreground subagents spawning unbounded nested chains; they now respect the same 5-level depth limit as background subagents</li>
+<li>Fixed <code>/recap</code> and conversation forks using the previous model immediately after a model switch</li>
+<li>Fixed subagent &quot;Thinking&quot; duration showing the parent agent&#39;s elapsed time instead of the subagent&#39;s own</li>
+<li>Fixed subagents blocked on a nested agent showing a ticking elapsed time instead of &quot;waiting&quot; in the agent panel</li>
+<li>Fixed the API retry indicator (&quot;Retrying in 0s · attempt N/10&quot;) staying on screen after the retry succeeded</li>
+<li>Fixed AWS <code>awsCredentialExport</code> credentials with a short remaining lifetime causing credential refreshes every minute, and now accepts the JSON shape from <code>aws configure export-credentials</code></li>
+<li>Fixed <code>claude mcp get</code>/<code>list</code> showing <code>✓ Connected</code> when tools/list fails; they now show <code>! Connected · tools fetch failed</code> with the error detail</li>
+<li>Fixed <code>/remote-control</code> leaving a stale &quot;connecting…&quot; line; it now confirms in the transcript once connected</li>
+<li>Fixed ExitWorktree refusing to remove a clean worktree with &quot;Could not verify worktree state&quot; when bare <code>git</code> cannot be resolved on Windows</li>
+<li>Fixed settings changes (such as <code>/effort</code> or <code>/model</code>) failing with ENOENT when <code>~/.claude/settings.json</code> is a relative symlink under a symlinked <code>~/.claude</code></li>
+<li>Fixed IDE selection line numbers in context reminders being off by one (IntelliJ and VS Code)</li>
+<li>Fixed Ctrl+C in fullscreen after a native terminal selection (modifier+drag) overwriting the clipboard with the app&#39;s prior selection</li>
+<li>Fixed Ctrl+V showing &quot;No image found in clipboard&quot; instead of pasting when the clipboard contains text</li>
+<li>Fixed agent creation failing with &quot;EEXIST: file already exists&quot; when the agents directory already exists (Windows/OneDrive)</li>
+<li>Fixed AskUserQuestion preview content being cut off at the dialog edge instead of word-wrapping</li>
+<li>Fixed AskUserQuestion multi-select questions silently dropping a typed &quot;Other&quot; free-text answer when submitting</li>
+<li>Fixed <code>/stats</code> &quot;Most active day&quot; and daily token chart dates showing one day early in UTC-negative timezones</li>
+<li>Fixed <code>/copy</code> and copy-on-select on Linux not detecting a clipboard utility installed after Claude Code started</li>
+<li>Fixed tab-indented code rendering with incorrect indentation in the Write (create-file) preview</li>
+<li>Fixed user prompts queued mid-turn not showing a full-width background highlight in the transcript</li>
+<li>Fixed the activity spinner&#39;s pulse dwelling on the wrong glyph size in Ghostty</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Added <code>/config key=value</code> syntax to set any setting from the prompt (e.g. <code>/config thinking=false</code>) — works in interactive, <code>-p</code>, and Remote Control</li>
+<li>Added <code>sandbox.allowAppleEvents</code> opt-in setting that lets sandboxed commands send Apple Events on macOS</li>
+<li>Added <code>CLAUDE_CLIENT_PRESENCE_FILE</code> environment variable: point it at a marker file to suppress mobile push notifications while you&#39;re at the machine</li>
+<li>Upgraded the bundled Bun runtime to 1.4</li>
+<li>Improved streaming of long paragraphs: text now appears line-by-line instead of waiting for the first line break</li>
+<li>Improved auto-retry: API connection drops mid-thinking now automatically retry instead of showing &quot;Connection closed while thinking&quot;</li>
+<li>Improved the subagent panel: idle subagents auto-hide after 30s, the list caps at 5 rows with scroll hints, and keyboard hints now show in the footer</li>
+<li>Improved the MCP OAuth browser page to match Claude Code&#39;s visual style and auto-close on success</li>
+<li>Changed fullscreen mode URL opening to require Cmd+click (macOS) / Ctrl+click, matching native terminal behavior</li>
+<li>Changed the <code>Improved N memories</code> line to no longer list individual files outside verbose mode</li>
+<li>Fixed prompt caching not reading on custom <code>ANTHROPIC_BASE_URL</code> and on Foundry due to a per-request attestation token changing every turn</li>
+<li>Fixed Write/Edit producing 0-byte or truncated files on network drives and cloud-synced folders</li>
+<li>Fixed <code>open</code>, <code>osascript</code>, and browser-based auth flows failing with error -600 on macOS by adding the Apple Events entitlement</li>
+<li>Fixed a startup regression (~120ms per launch in fresh environments, introduced in 2.1.169): the first prompt no longer waits for the managed-settings fetch when no MCP servers are configured</li>
+<li>Fixed startup blocking with a blank terminal for up to 15 seconds when the account settings fetch is slow on a degraded network</li>
+<li>Fixed startup crash (<code>TypeError: Cannot read properties of null</code>) when <code>.claude.json</code> contains corrupted null project entries</li>
+<li>Fixed macOS TUI freezing at session start (Ctrl+C unresponsive) when Spotlight is busy reindexing</li>
+<li>Fixed long-running idle sessions losing their history when another Claude Code process ran the 30-day transcript cleanup</li>
+<li>Fixed foreground subagents spawning unbounded nested chains; they now respect the same 5-level depth limit as background subagents</li>
+<li>Fixed <code>/recap</code> and conversation forks using the previous model immediately after a model switch</li>
+<li>Fixed subagent &quot;Thinking&quot; duration showing the parent agent&#39;s elapsed time instead of the subagent&#39;s own</li>
+<li>Fixed subagents blocked on a nested agent showing a ticking elapsed time instead of &quot;waiting&quot; in the agent panel</li>
+<li>Fixed the API retry indicator (&quot;Retrying in 0s · attempt N/10&quot;) staying on screen after the retry succeeded</li>
+<li>Fixed AWS <code>awsCredentialExport</code> credentials with a short remaining lifetime causing credential refreshes every minute, and now accepts the JSON shape from <code>aws configure export-credentials</code></li>
+<li>Fixed <code>claude mcp get</code>/<code>list</code> showing <code>✓ Connected</code> when tools/list fails; they now show <code>! Connected · tools fetch failed</code> with the error detail</li>
+<li>Fixed <code>/remote-control</code> leaving a stale &quot;connecting…&quot; line; it now confirms in the transcript once connected</li>
+<li>Fixed ExitWorktree refusing to remove a clean worktree with &quot;Could not verify worktree state&quot; when bare <code>git</code> cannot be resolved on Windows</li>
+<li>Fixed settings changes (such as <code>/effort</code> or <code>/model</code>) failing with ENOENT when <code>~/.claude/settings.json</code> is a relative symlink under a symlinked <code>~/.claude</code></li>
+<li>Fixed IDE selection line numbers in context reminders being off by one (IntelliJ and VS Code)</li>
+<li>Fixed Ctrl+C in fullscreen after a native terminal selection (modifier+drag) overwriting the clipboard with the app&#39;s prior selection</li>
+<li>Fixed Ctrl+V showing &quot;No image found in clipboard&quot; instead of pasting when the clipboard contains text</li>
+<li>Fixed agent creation failing with &quot;EEXIST: file already exists&quot; when the agents directory already exists (Windows/OneDrive)</li>
+<li>Fixed AskUserQuestion preview content being cut off at the dialog edge instead of word-wrapping</li>
+<li>Fixed AskUserQuestion multi-select questions silently dropping a typed &quot;Other&quot; free-text answer when submitting</li>
+<li>Fixed <code>/stats</code> &quot;Most active day&quot; and daily token chart dates showing one day early in UTC-negative timezones</li>
+<li>Fixed <code>/copy</code> and copy-on-select on Linux not detecting a clipboard utility installed after Claude Code started</li>
+<li>Fixed tab-indented code rendering with incorrect indentation in the Write (create-file) preview</li>
+<li>Fixed user prompts queued mid-turn not showing a full-width background highlight in the transcript</li>
+<li>Fixed the activity spinner&#39;s pulse dwelling on the wrong glyph size in Ghostty</li>
+</ul>
+]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[v2.1.179]]></title>
             <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.179</link>
@@ -2664,122 +2756,6 @@
 <li>Fixed <code>/focus</code> showing &quot;Unknown command&quot; when the fullscreen renderer is off — now explains how to enable it</li>
 <li>Fixed embedded grep/find/rg shell wrappers failing when the running binary is deleted mid-session — now falls back to installed tools</li>
 <li>Reduced peak file descriptor usage during <code>find</code> in the Bash tool on large directory trees</li>
-</ul>
-]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[v2.1.119]]></title>
-            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.119</link>
-            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.119</guid>
-            <pubDate>Thu, 23 Apr 2026 23:24:19 GMT</pubDate>
-            <description><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li><code>/config</code> settings (theme, editor mode, verbose, etc.) now persist to <code>~/.claude/settings.json</code> and participate in project/local/policy override precedence</li>
-<li>Added <code>prUrlTemplate</code> setting to point the footer PR badge at a custom code-review URL instead of github.com</li>
-<li>Added <code>CLAUDE_CODE_HIDE_CWD</code> environment variable to hide the working directory in the startup logo</li>
-<li><code>--from-pr</code> now accepts GitLab merge-request, Bitbucket pull-request, and GitHub Enterprise PR URLs</li>
-<li><code>--print</code> mode now honors the agent&#39;s <code>tools:</code> and <code>disallowedTools:</code> frontmatter, matching interactive-mode behavior</li>
-<li><code>--agent &lt;name&gt;</code> now honors the agent definition&#39;s <code>permissionMode</code> for built-in agents</li>
-<li>PowerShell tool commands can now be auto-approved in permission mode, matching Bash behavior</li>
-<li>Hooks: <code>PostToolUse</code> and <code>PostToolUseFailure</code> hook inputs now include <code>duration_ms</code> (tool execution time, excluding permission prompts and PreToolUse hooks)</li>
-<li>Subagent and SDK MCP server reconfiguration now connects servers in parallel instead of serially</li>
-<li>Plugins pinned by another plugin&#39;s version constraint now auto-update to the highest satisfying git tag</li>
-<li>Vim mode: Esc in INSERT no longer pulls a queued message back into the input; press Esc again to interrupt</li>
-<li>Slash command suggestions now highlight the characters that matched your query</li>
-<li>Slash command picker now wraps long descriptions onto a second line instead of truncating</li>
-<li><code>owner/repo#N</code> shorthand links in output now use your git remote&#39;s host instead of always pointing at github.com</li>
-<li>Security: <code>blockedMarketplaces</code> now correctly enforces <code>hostPattern</code> and <code>pathPattern</code> entries</li>
-<li>OpenTelemetry: <code>tool_result</code> and <code>tool_decision</code> events now include <code>tool_use_id</code>; <code>tool_result</code> also includes <code>tool_input_size_bytes</code></li>
-<li>Status line: stdin JSON now includes <code>effort.level</code> and <code>thinking.enabled</code></li>
-<li>Fixed pasting CRLF content (Windows clipboards, Xcode console) inserting an extra blank line between every line</li>
-<li>Fixed multi-line paste losing newlines in terminals using kitty keyboard protocol sequences inside bracketed paste</li>
-<li>Fixed Glob and Grep tools disappearing on native macOS/Linux builds when the Bash tool is denied via permissions</li>
-<li>Fixed scrolling up in fullscreen mode snapping back to the bottom every time a tool finishes</li>
-<li>Fixed MCP HTTP connections failing with &quot;Invalid OAuth error response&quot; when servers returned non-JSON bodies for OAuth discovery requests</li>
-<li>Fixed Rewind overlay showing &quot;(no prompt)&quot; for messages with image attachments</li>
-<li>Fixed auto mode overriding plan mode with conflicting &quot;Execute immediately&quot; instructions</li>
-<li>Fixed async <code>PostToolUse</code> hooks that emit no response payload writing empty entries to the session transcript</li>
-<li>Fixed spinner staying on when a subagent task notification is orphaned in the queue</li>
-<li>Tool search is now disabled by default on Vertex AI to avoid an unsupported beta header error (opt in with <code>ENABLE_TOOL_SEARCH</code>)</li>
-<li>Fixed <code>@</code>-file Tab completion replacing the entire prompt when used inside a slash command with an absolute path</li>
-<li>Fixed a stray <code>p</code> character appearing at the prompt on startup in macOS Terminal.app via Docker or SSH</li>
-<li>Fixed <code>${ENV_VAR}</code> placeholders in <code>headers</code> for HTTP/SSE/WebSocket MCP servers not being substituted before requests</li>
-<li>Fixed MCP OAuth client secret stored via <code>--client-secret</code> not being sent during token exchange for servers requiring <code>client_secret_post</code></li>
-<li>Fixed <code>/skills</code> Enter key closing the dialog instead of pre-filling <code>/&lt;skill-name&gt;</code> in the prompt</li>
-<li>Fixed <code>/agents</code> detail view mislabeling built-in tools unavailable to subagents as &quot;Unrecognized&quot;</li>
-<li>Fixed MCP servers from plugins not spawning on Windows when the plugin cache was incomplete</li>
-<li>Fixed <code>/export</code> showing the current default model instead of the model the conversation actually used</li>
-<li>Fixed verbose output setting not persisting after restart</li>
-<li>Fixed <code>/usage</code> progress bars overlapping with their &quot;Resets …&quot; labels</li>
-<li>Fixed plugin MCP servers failing when <code>${user_config.*}</code> references an optional field left blank</li>
-<li>Fixed list items containing a sentence-final number wrapping the number onto its own line</li>
-<li>Fixed <code>/plan</code> and <code>/plan open</code> not acting on the existing plan when entering plan mode</li>
-<li>Fixed skills invoked before auto-compaction being re-executed against the next user message</li>
-<li>Fixed <code>/reload-plugins</code> and <code>/doctor</code> reporting load errors for disabled plugins</li>
-<li>Fixed Agent tool with <code>isolation: &quot;worktree&quot;</code> reusing stale worktrees from prior sessions</li>
-<li>Fixed disabled MCP servers appearing as &quot;failed&quot; in <code>/status</code></li>
-<li>Fixed <code>TaskList</code> returning tasks in arbitrary filesystem order instead of sorted by ID</li>
-<li>Fixed spurious &quot;GitHub API rate limit exceeded&quot; hints when <code>gh</code> output contained PR titles mentioning &quot;rate limit&quot;</li>
-<li>Fixed SDK/bridge <code>read_file</code> not correctly enforcing size cap on growing files</li>
-<li>Fixed PR not linked to session when working in a git worktree</li>
-<li>Fixed <code>/doctor</code> warning about MCP server entries overridden by a higher-precedence scope</li>
-<li>Windows: removed false-positive &quot;Windows requires &#39;cmd /c&#39; wrapper&quot; MCP config warning</li>
-<li>[VSCode] Fixed voice dictation&#39;s first recording producing nothing on macOS while the microphone permission prompt is showing</li>
-</ul>
-]]></description>
-            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li><code>/config</code> settings (theme, editor mode, verbose, etc.) now persist to <code>~/.claude/settings.json</code> and participate in project/local/policy override precedence</li>
-<li>Added <code>prUrlTemplate</code> setting to point the footer PR badge at a custom code-review URL instead of github.com</li>
-<li>Added <code>CLAUDE_CODE_HIDE_CWD</code> environment variable to hide the working directory in the startup logo</li>
-<li><code>--from-pr</code> now accepts GitLab merge-request, Bitbucket pull-request, and GitHub Enterprise PR URLs</li>
-<li><code>--print</code> mode now honors the agent&#39;s <code>tools:</code> and <code>disallowedTools:</code> frontmatter, matching interactive-mode behavior</li>
-<li><code>--agent &lt;name&gt;</code> now honors the agent definition&#39;s <code>permissionMode</code> for built-in agents</li>
-<li>PowerShell tool commands can now be auto-approved in permission mode, matching Bash behavior</li>
-<li>Hooks: <code>PostToolUse</code> and <code>PostToolUseFailure</code> hook inputs now include <code>duration_ms</code> (tool execution time, excluding permission prompts and PreToolUse hooks)</li>
-<li>Subagent and SDK MCP server reconfiguration now connects servers in parallel instead of serially</li>
-<li>Plugins pinned by another plugin&#39;s version constraint now auto-update to the highest satisfying git tag</li>
-<li>Vim mode: Esc in INSERT no longer pulls a queued message back into the input; press Esc again to interrupt</li>
-<li>Slash command suggestions now highlight the characters that matched your query</li>
-<li>Slash command picker now wraps long descriptions onto a second line instead of truncating</li>
-<li><code>owner/repo#N</code> shorthand links in output now use your git remote&#39;s host instead of always pointing at github.com</li>
-<li>Security: <code>blockedMarketplaces</code> now correctly enforces <code>hostPattern</code> and <code>pathPattern</code> entries</li>
-<li>OpenTelemetry: <code>tool_result</code> and <code>tool_decision</code> events now include <code>tool_use_id</code>; <code>tool_result</code> also includes <code>tool_input_size_bytes</code></li>
-<li>Status line: stdin JSON now includes <code>effort.level</code> and <code>thinking.enabled</code></li>
-<li>Fixed pasting CRLF content (Windows clipboards, Xcode console) inserting an extra blank line between every line</li>
-<li>Fixed multi-line paste losing newlines in terminals using kitty keyboard protocol sequences inside bracketed paste</li>
-<li>Fixed Glob and Grep tools disappearing on native macOS/Linux builds when the Bash tool is denied via permissions</li>
-<li>Fixed scrolling up in fullscreen mode snapping back to the bottom every time a tool finishes</li>
-<li>Fixed MCP HTTP connections failing with &quot;Invalid OAuth error response&quot; when servers returned non-JSON bodies for OAuth discovery requests</li>
-<li>Fixed Rewind overlay showing &quot;(no prompt)&quot; for messages with image attachments</li>
-<li>Fixed auto mode overriding plan mode with conflicting &quot;Execute immediately&quot; instructions</li>
-<li>Fixed async <code>PostToolUse</code> hooks that emit no response payload writing empty entries to the session transcript</li>
-<li>Fixed spinner staying on when a subagent task notification is orphaned in the queue</li>
-<li>Tool search is now disabled by default on Vertex AI to avoid an unsupported beta header error (opt in with <code>ENABLE_TOOL_SEARCH</code>)</li>
-<li>Fixed <code>@</code>-file Tab completion replacing the entire prompt when used inside a slash command with an absolute path</li>
-<li>Fixed a stray <code>p</code> character appearing at the prompt on startup in macOS Terminal.app via Docker or SSH</li>
-<li>Fixed <code>${ENV_VAR}</code> placeholders in <code>headers</code> for HTTP/SSE/WebSocket MCP servers not being substituted before requests</li>
-<li>Fixed MCP OAuth client secret stored via <code>--client-secret</code> not being sent during token exchange for servers requiring <code>client_secret_post</code></li>
-<li>Fixed <code>/skills</code> Enter key closing the dialog instead of pre-filling <code>/&lt;skill-name&gt;</code> in the prompt</li>
-<li>Fixed <code>/agents</code> detail view mislabeling built-in tools unavailable to subagents as &quot;Unrecognized&quot;</li>
-<li>Fixed MCP servers from plugins not spawning on Windows when the plugin cache was incomplete</li>
-<li>Fixed <code>/export</code> showing the current default model instead of the model the conversation actually used</li>
-<li>Fixed verbose output setting not persisting after restart</li>
-<li>Fixed <code>/usage</code> progress bars overlapping with their &quot;Resets …&quot; labels</li>
-<li>Fixed plugin MCP servers failing when <code>${user_config.*}</code> references an optional field left blank</li>
-<li>Fixed list items containing a sentence-final number wrapping the number onto its own line</li>
-<li>Fixed <code>/plan</code> and <code>/plan open</code> not acting on the existing plan when entering plan mode</li>
-<li>Fixed skills invoked before auto-compaction being re-executed against the next user message</li>
-<li>Fixed <code>/reload-plugins</code> and <code>/doctor</code> reporting load errors for disabled plugins</li>
-<li>Fixed Agent tool with <code>isolation: &quot;worktree&quot;</code> reusing stale worktrees from prior sessions</li>
-<li>Fixed disabled MCP servers appearing as &quot;failed&quot; in <code>/status</code></li>
-<li>Fixed <code>TaskList</code> returning tasks in arbitrary filesystem order instead of sorted by ID</li>
-<li>Fixed spurious &quot;GitHub API rate limit exceeded&quot; hints when <code>gh</code> output contained PR titles mentioning &quot;rate limit&quot;</li>
-<li>Fixed SDK/bridge <code>read_file</code> not correctly enforcing size cap on growing files</li>
-<li>Fixed PR not linked to session when working in a git worktree</li>
-<li>Fixed <code>/doctor</code> warning about MCP server entries overridden by a higher-precedence scope</li>
-<li>Windows: removed false-positive &quot;Windows requires &#39;cmd /c&#39; wrapper&quot; MCP config warning</li>
-<li>[VSCode] Fixed voice dictation&#39;s first recording producing nothing on macOS while the microphone permission prompt is showing</li>
 </ul>
 ]]></content:encoded>
         </item>
