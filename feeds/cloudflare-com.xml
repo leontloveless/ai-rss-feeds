@@ -4,11 +4,141 @@
         <title>blog.cloudflare.com</title>
         <link>https://blog.cloudflare.com/tag/ai/</link>
         <description>External RSS: https://blog.cloudflare.com/tag/ai/rss</description>
-        <lastBuildDate>Mon, 15 Jun 2026 13:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Wed, 17 Jun 2026 19:35:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>ai-rss-feeds (https://github.com/leontloveless/ai-rss-feeds)</generator>
         <language>en</language>
         <atom:link href="https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/cloudflare-com.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[Bringing more agent harnesses and frameworks to Cloudflare, starting with Flue]]></title>
+            <link>https://blog.cloudflare.com/agents-platform-flue-sdk/</link>
+            <guid>https://blog.cloudflare.com/agents-platform-flue-sdk/</guid>
+            <pubDate>Wed, 17 Jun 2026 19:35:00 GMT</pubDate>
+            <description><![CDATA[The Agents SDK is now a runtime any agent framework can build on. Today we're opening up the Agents SDK primitives, with Flue as a first framework targeting Agents SDK, and rolling out agents in the dashboard.]]></description>
+            <content:encoded><![CDATA[ <p>2026 is the year agent harnesses go to production. The software that controls the model’s access to the outside world — harnesses like Codex, Claude Code, OpenCode, Pi, and Project Think — has matured to the point where teams are deploying agents as real, load-bearing infrastructure, not just prototypes. </p><p>But building agents that survive production is hard.</p><p>We learned this firsthand building <a href="https://blog.cloudflare.com/project-think/"><u>Project Think</u></a> as our first-party agent harness. In working with our customers to run agents in production, we found a common set of distributed systems problems that every agent faces when running in the cloud. When an agent is interrupted, how can it automatically and gracefully resume from where it left off, without losing context or wasting tokens? How can agents run untrusted code securely? How can agents use the tools they were trained for?</p><p>A harness can’t solve these problems on its own. They’re tied to state, storage and compute — which means they’re dependent on the platform the agent runs on. That’s why we’re taking our learnings from hardening <a href="https://blog.cloudflare.com/project-think/"><u>Project Think</u></a> for production and bringing them to the <a href="https://developers.cloudflare.com/agents/"><u>Cloudflare Agents SDK</u></a> as a base layer. Durable execution, dynamic code execution, a durable filesystem and dynamic workflows, now available to any harness building on Agents SDK.</p><p>At the same time, a new layer has emerged above the harness. Frameworks like <a href="https://flueframework.com/">Flue</a> wrap a harness with the project structures, conventions, integrations and developer experience that make agents productive to build. </p><p>To solve these scaling challenges, there’s a new, three-layer stack that is emerging for building production-grade AI. Here is how the pieces fit together, moving from the user-facing developer experience down to the underlying platform primitives: </p><ul><li><p><b>The framework (Flue)</b> — the project structure, the conventions, the integrations, the CLI and the developer experience for building agents.</p></li><li><p><b>The harness</b> <b>(Pi, Project Think)</b> —  the agentic loop that calls tools, reads results, manages context and keeps going until the task is done.</p></li><li><p><b>The runtime/platform</b> <b>(the Cloudflare Agents SDK)</b> — the compute, state, and storage primitives everything above depends on</p></li></ul><p>The Agents SDK is that bottom layer: it makes primitives like durable execution available to any harness and any framework. Flue, our new open-source framework from the team behind <a href="https://astro.build/"><u>Astro</u></a>, is the first to build on it. Here’s how. </p>
+    <div>
+      <h2>Flue</h2>
+      <a href="#flue">
+        
+      </a>
+    </div>
+    <p><a href="https://flueframework.com/"><u>Flue</u></a> shipped 1.0 Beta this week, built on the <a href="https://pi.dev/"><u>Pi</u></a> harness, the same harness that <a href="https://openclaw.ai/"><u>OpenClaw</u></a> is built on. What makes it different as an agent framework is the approach: you don’t script what your agent does, you describe what it knows. Define the context an agent needs — its model, skills, sandbox, and instructions — and it solves whatever task you give it, autonomously. There’s no orchestration loop to write.</p><p>This declarative model is what makes writing agents easy: here’s a triage agent that intercepts a bug report, reproduces it in a sandbox, and diagnoses the issue in under 25 lines.</p>
+          <figure>
+          <img src="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/5U50mjNZpg7RD3fb0pOLLs/5e20ad63c1e6ab92cf5d334b79996c1a/image5.png" />
+          </figure>
+    <div>
+      <h3>The Flue developer experience</h3>
+      <a href="#the-flue-developer-experience">
+        
+      </a>
+    </div>
+    <p>Flue’s power comes from the fact that agents don’t live in isolation. They are built to exist where your users already work, and integrate with your preferred tooling:</p><ul><li><p><b>Anywhere agents</b>: Drop your agents into Slack, GitHub, Linear, or Discord with pre-configured Channels that handle event verification and dispatch boilerplate automatically.</p></li><li><p><b>Headless, but UI-ready</b>: Agents shouldn’t live in a black box. Flue agents can run completely headlessly for background tasks, but <a href="https://flueframework.com/blog/flue-1-0-beta/#introducing-fluereact"><u>@flue/react</u></a> provides native frontend hooks that stream an agent’s state, tool execution, and live messages straight into your frontend application, without you having to build custom real-time plumbing from scratch.</p></li><li><p><b>Ecosystem-ready</b>: Flue makes it easy to add and upgrade integrations with commands like <code>flue add channel slack</code>, generating a Markdown blueprint that your own coding agent can read, modify, and cleanly integrate straight into your codebase.</p></li></ul>
+    <div>
+      <h3>Designed for production, not just prototypes</h3>
+      <a href="#designed-for-production-not-just-prototypes">
+        
+      </a>
+    </div>
+    <p>Moving an agent out of a local terminal and into a production ecosystem introduces traditional distributed systems failures. Host crashes, API timeouts from LLM providers, and unexpected restarts threaten to erase the short-term memory of a running agent turn. </p><p>Flue solves this via Durable Streams. Each event in the execution history is added to an append-only log. By processing every prompt, tool response and model choice as an unchangeable ledger, an agent’s state is never volatile. If a process dies, another simply picks up the log and continues from the exact step it left off. </p>
+    <div>
+      <h3>Deploy anywhere, including Cloudflare</h3>
+      <a href="#deploy-anywhere-including-cloudflare">
+        
+      </a>
+    </div>
+    <p>Flue is a multi-cloud framework. On <a href="http://node.js"><u>Node.js</u></a>, each agent runs as a long-lived process. You can deploy it to any VM or container, run it in GitHub Actions, or embed it on an existing server. But when you target Cloudflare, each agent becomes a Durable Object.</p><p>By running each Flue agent inside its own Durable Object, Cloudflare can automatically scale to as many agents as you need, each with their own isolated storage and compute. You don’t have to provision servers, manage sticky sessions, or worry about noisy neighbors. And when Flue agents are deployed to Cloudflare, they get durable execution using Agents SDK’s <code>runFiber()</code>, <code>stash()</code>, and <code>onFiberRecovered()</code> methods. Flue also uses <code>@cloudflare/codemode</code> and <code>@cloudflare/shell</code> for sandboxed code execution against a durable workspace. </p>
+    <div>
+      <h2>What harnesses need out of an agentic platform</h2>
+      <a href="#what-harnesses-need-out-of-an-agentic-platform">
+        
+      </a>
+    </div>
+    <p>Flue’s Cloudflare target works so effectively because it maps cleanly to the core primitives we built into the Agents SDK. You can even <a href="https://github.com/withastro/flue/blob/0fd59475d303d8e8d5bc184a9d3fc4ed58c0de93/packages/runtime/src/session.ts#L13"><u>dig into the Flue source code</u></a> to understand how Pi, the underlying harness, is adapted to work on Cloudflare Agents SDK.</p><p>Here’s how Flue leverages the Agents SDK under the hood, and what it takes to run any modern agent harness reliably at scale. </p>
+    <div>
+      <h3>Every agent harness needs durable execution</h3>
+      <a href="#every-agent-harness-needs-durable-execution">
+        
+      </a>
+    </div>
+    <p>An agent turn is not a single request. The model streams tokens, calls tools, waits for results, maybe asks a human for approval, or delegates work to a subagent. That sequence can take seconds or minutes, and at any point the process can be interrupted or crash. When that happens, all of the agent state that was in memory is gone: the streaming connection, the pending tool calls, where the agent was in its turn. Sure, the conversation history is persisted on disk, but the user sees a spinner that never resolves. That’s a broken user experience.</p><p><a href="https://developers.cloudflare.com/agents/runtime/execution/durable-execution/"><u>Fibers</u></a> solve this problem by providing a native checkpointing mechanism directly inside the Agent’s underlying <a href="https://developers.cloudflare.com/durable-objects/"><u>Durable Object</u></a>. <code>runFiber()</code> records the progress to the Durable Object’s SQLite storage before the work in the Agent turn starts and checkpoints with <code>stash()</code> as the turn advances. When a fresh agent instance boots after an interruption, <code>onFiberRecovered()</code> delivers the last checkpoint, so your agent knows a turn was interrupted, where it got to, and can decide how to continue. </p>
+            <pre><code>import { Agent } from "agents";
+import type { FiberRecoveryContext } from "agents";
+
+class MyAgent extends Agent {
+  async doWork() {
+    await this.runFiber("my-task", async (ctx) =&gt; {
+      const step1 = await expensiveOperation();
+      ctx.stash({ step1 });
+
+      const step2 = await anotherExpensiveOperation(step1);
+      this.setState({ ...this.state, result: step2 });
+    });
+  }
+
+  async onFiberRecovered(ctx: FiberRecoveryContext) {
+    if (ctx.name !== "my-task") return;
+
+    const { step1 } = (ctx.snapshot ?? {}) as { step1?: unknown };
+    if (step1) {
+      const step2 = await anotherExpensiveOperation(step1);
+      this.setState({ ...this.state, result: step2 });
+    }
+  }
+}</code></pre>
+            <p>Flue uses <code>runFiber()</code> <a href="https://github.com/withastro/flue/blob/cf775a84e7cf1d7037a464b947d8b2f7e9efcfd1/packages/runtime/src/cloudflare/agent-coordinator.ts#L475"><u>on its Cloudflare target</u></a> for exactly this. With the <code>onFiberRecovered()</code> hook, your harness can decide how to resume the execution of the turn, whether it attempts a full reconstruction model like Project Think that repairs turn state or whether it replays certain parts of the turn. </p>
+    <div>
+      <h3>Executing code is better than overloading agents with tools</h3>
+      <a href="#executing-code-is-better-than-overloading-agents-with-tools">
+        
+      </a>
+    </div>
+    <p>Agent harnesses give models access to the outside world through tools. But tool surfaces grow fast, and models get worse at selecting the right tool as the list gets longer and the context window fills up with tool definitions. A better pattern: give the model one tool that executes code. The model writes a TypeScript function that calls the APIs it needs, and the harness runs it. We wrote about this when we introduced <a href="https://blog.cloudflare.com/code-mode"><u>Code Mode</u></a>.</p><p>The question is where that code runs. To run LLM-generated code securely, you need a sandbox. But typical sandboxes would be slow, cost-prohibitive and inefficient to run each tool call. That’s why the Agents SDK provides <a href="https://www.npmjs.com/package/@cloudflare/codemode"><code><u>@cloudflare/codemode</u></code></a>, which wraps <a href="https://developers.cloudflare.com/dynamic-workers/"><u>Dynamic Workers</u></a>, to execute LLM-generated code in its own Worker isolate with only the bindings you provide. </p>
+          <figure>
+          <img src="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/1NCq9AP9xL1b70WyB0iqE0/7569fc7ee43b6071f0b98945d872e9c7/BLOG-3336_3.png" />
+          </figure><p>Code Mode creates a fresh Dynamic Worker for each snippet, runs it, and discards it. Isolates start in under 10ms and $0.002 per load, resulting in drastically faster and cheaper cost of execution than booting a container every time your agent needs to execute a short piece of code. Flue uses <a href="https://www.npmjs.com/package/@cloudflare/codemode"><code><u>@cloudflare/codemode</u></code></a> on its Cloudflare target to power its code tool. The agent writes JavaScript against the workspace and runs it with Code Mode.</p>
+    <div>
+      <h3>You don’t need a full container for most workspace tasks</h3>
+      <a href="#you-dont-need-a-full-container-for-most-workspace-tasks">
+        
+      </a>
+    </div>
+    <p>Agent harnesses often need a filesystem, whether it’s to read files, write outputs, search through code and understand diffs. Coding agents in particular live in the filesystem. But if the harness is running in a serverless environment, how can it get a durable filesystem that persists across executions? </p><p>The usual answer is a container. That works, but it’s expensive for what agents mostly do. The majority of filesystem operations in an agent turn are text. Consider a review agent that reads files, greps through source code, or perhaps writes a patch. You don’t need a full Linux boot for that.</p><p><a href="https://github.com/cloudflare/agents/tree/main/packages/shell"><code><u>@cloudflare/shell</u></code></a> gives your agent a durable virtual filesystem inside its Durable Object, backed by SQLite. It provides typed file operations — read, write, edit, search, grep, diff — that agent harnesses can use as tools.</p><p>Instead of calling individual tools, a Flue agent running on the Cloudflare target writes JavaScript against the workspace virtual file state API. By running more operations within the Durable Object, the agent benefits from the isolate model’s more efficient execution process, entirely avoiding container overhead:</p>
+            <pre><code>async () =&gt; {
+  const files = await state.glob("src/**/*.ts");
+  const results = [];
+  for (const file of files) {
+    const content = await state.readFile(file);
+    const todos = content.match(/\/\/ TODO:.*/g);
+    if (todos) results.push({ file, todos });
+  }
+  return results;
+}</code></pre>
+            <p>This translates into a faster and more cost-efficient sandbox environment for agents that need to run shell and filesystem operations to get their work done. And for agents that need a full OS, to run npm install, git, or compilers, Cloudflare Containers provides that. We’re also building <a href="https://github.com/cloudflare/workspace"><code><u>@cloudflare/workspace</u></code></a>, to keep the virtual file system of a given Durable Object in sync with a container’s, allowing for seamless transition from lightweight Workers to a Linux environment only when it needs one. </p>
+    <div>
+      <h3>Dynamic Workflows: let agents write their own workflows to repeat tasks consistently</h3>
+      <a href="#dynamic-workflows-let-agents-write-their-own-workflows-to-repeat-tasks-consistently">
+        
+      </a>
+    </div>
+    <p>But what happens when an agent needs to do more than read files or execute single code snippets? What happens when it needs to orchestrate a massive, multi-step pipeline that must repeat consistently over time, like a code review that successfully resolves bugs or a research workflow that produces good results? A harness can’t provide durable multi-step execution on its own. It needs the platform to persist each step, retry failures, and resume after interruptions. </p><p>This pattern is gaining traction. Claude Code recently shipped <a href="https://code.claude.com/docs/en/workflows"><u>dynamic workflows</u></a>, where Claude writes a JavaScript script at runtime to hand off work to dozens of subagents, and the runtime executes it durably. <a href="https://developers.cloudflare.com/dynamic-workers/usage/dynamic-workflows/"><u>@cloudflare/dynamic-workflows</u></a> provides this for any harness running on the Agents SDK. Your agent generates a workflow at runtime, and the Workflows engine persists each step, retries failures, and can sleep for hours or wait for external events like human approval. </p><p>From the Agent class, <code>runWorkflow()</code> connects your agent to the <a href="https://developers.cloudflare.com/workflows/"><u>Workflows</u></a> engine. The agent kicks off the workflow and can go to sleep. The workflow calls back into the agent via RPC to report progress, update state, or request approval. When the workflow finishes, the agent wakes up with the result. </p>
+    <div>
+      <h3>Direct access to the Cloudflare ecosystem</h3>
+      <a href="#direct-access-to-the-cloudflare-ecosystem">
+        
+      </a>
+    </div>
+    <p>Beyond compute and storage, agent harnesses need access to external capabilities: web browsing, email, memory, search, inference. A harness shouldn't have to integrate each of these separately, manage API keys for each, or worry about credentials leaking through agent-generated code.</p><p>The Agent class gives your harness access to the rest of Cloudflare through <a href="https://developers.cloudflare.com/workers/runtime-apis/bindings/"><u>bindings</u></a>: <a href="https://developers.cloudflare.com/ai-gateway/"><u>AI Gateway</u></a> for per-agent spend tracking and limits, <a href="https://developers.cloudflare.com/browser-rendering/"><u>Browser Run</u></a> for web automation, <a href="https://developers.cloudflare.com/email-service/"><u>Email Service</u></a> for inbox workflows, <a href="https://developers.cloudflare.com/agents/api-reference/agent-memory/"><u>Agent Memory</u></a> for persistent recall, <a href="https://developers.cloudflare.com/ai-search/"><u>AI Search</u></a> for retrieval, <a href="https://developers.cloudflare.com/containers/"><u>Containers</u></a> for workloads that need a full OS, and inference across <a href="https://blog.cloudflare.com/ai-platform/"><u>14+ model providers</u></a>. Bindings grant capabilities without exposing credentials: your agent uses them, but the keys never enter agent-generated code.</p>
+          <figure>
+          <img src="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/7jLx08K0FuCd8mJ4xIjwop/3833967f110d119a260979608cc57fce/BLOG-3336_4.png" />
+          </figure>
+    <div>
+      <h2>Bring your agents to the agentic cloud</h2>
+      <a href="#bring-your-agents-to-the-agentic-cloud">
+        
+      </a>
+    </div>
+    <p>We know this approach works because it is the exact architectural foundation we used to build <a href="https://blog.cloudflare.com/project-think/"><u>Project Think</u></a>, our first-party agent harness. While Project Think remains our highly optimized, out-of-the-box solution for native Cloudflare agent experiences, the Agents SDK ensures that the broader open-source ecosystem can leverage those exact same battle-tested primitives, including Flue.</p><p>If you're building agents today with Flue, you can deploy in just a few clicks to Cloudflare. And if you're building your own agent harness or you’re building an agent framework, target the Agents SDK and get the platform integration for free.</p><ul><li><p>Agents SDK: <a href="https://developers.cloudflare.com/agents/"><u>developers.cloudflare.com/agents</u></a></p></li><li><p>Flue: <a href="https://flueframework.com/"><u>flueframework.com</u></a>, <a href="https://www.npmjs.com/package/@flue/runtime"><code><u>npm install @flue/runtime</u></code></a></p></li><li><p>Think: <a href="https://github.com/cloudflare/agents/blob/main/docs/think/index.md"><u>docs</u></a></p></li><li><p>Cloudflare Community: <a href="https://community.cloudflare.com/"><u>community.cloudflare.com</u></a></p></li></ul><p></p> ]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[Growing the Cloudflare AI team with talent from Ensemble AI]]></title>
             <link>https://blog.cloudflare.com/ensemble-ai-talent-joins-cloudflare/</link>
@@ -2388,103 +2518,6 @@ class Predictor(BasePredictor):
     <div>
   
 </div><p></p> ]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[Building the foundation for running extra-large language models]]></title>
-            <link>https://blog.cloudflare.com/high-performance-llms/</link>
-            <guid>https://blog.cloudflare.com/high-performance-llms/</guid>
-            <pubDate>Thu, 16 Apr 2026 14:00:00 GMT</pubDate>
-            <description><![CDATA[We built a custom technology stack to run fast large language models on Cloudflare’s infrastructure. This post explores the engineering trade-offs and technical optimizations required to make high-performance AI inference accessible.]]></description>
-            <content:encoded><![CDATA[ <p>An agent needs to be powered by a large language model. A few weeks ago, we announced that Workers AI is officially entering the arena for hosting large open-source models like Moonshot’s Kimi K2.5. Since then, we’ve made Kimi K2.5 3x faster and have more model additions in-flight. These models have been the backbone of a lot of the agentic products, harnesses, and tools that we have been launching this week. </p><p>Hosting AI models is an interesting challenge: it requires a delicate balance between software and very, very expensive hardware. At Cloudflare, we’re good at squeezing every bit of efficiency out of our hardware through clever software engineering. This is a deep dive on how we’re laying the foundation to run extra-large language models.</p>
-    <div>
-      <h2>Hardware configurations</h2>
-      <a href="#hardware-configurations">
-        
-      </a>
-    </div>
-    <p>As we mentioned in <a href="https://blog.cloudflare.com/workers-ai-large-models/"><u>our previous Kimi K2.5 blog post</u></a>, we’re using a variety of hardware configurations in order to best serve models. A lot of hardware configurations depend on the size of inputs and outputs that users are sending to the model. For example, if you are using a model to write fanfiction, you might give it a few small prompts (input tokens) while asking it to generate pages of content (output tokens). </p><p>Conversely, if you are running a summarization task, you might be sending in hundreds of thousands of input tokens, but only generating a small summary with a few thousand output tokens. Presented with these opposing use cases, you have to make a choice — should you tune your model configuration so it’s faster at processing input tokens, or faster at generating output tokens?</p><p>When we launched large language models on Workers AI, we knew that most of the use cases would be used for agents. With agents, you send in a large number of input tokens. It starts off with a large system prompt, all the tools, MCPs. With the first user prompt, that context keeps growing. Each new prompt from the user sends a request to the model, which consists of everything that was said before — all the previous user prompts, assistant messages, code generated, etc. For Workers AI, that means we had to focus on two things: fast input token processing and fast tool calling.</p>
-    <div>
-      <h3>Prefill decode (PD) disaggregation</h3>
-      <a href="#prefill-decode-pd-disaggregation">
-        
-      </a>
-    </div>
-    <p>One hardware configuration that we use to improve performance and efficiency is disaggregated prefill. There are two stages to processing an LLM request: prefill, which processes the input tokens and populates the KV cache, and decode, which generates output tokens. Prefill is usually compute bound, while decode is memory bound. This means that the parts of the GPU that are used in each stage are different, and since prefill is always done before decode, the stages block one another. Ultimately, it means that we are not efficiently utilizing all of our GPU power if we do both prefill and decode on a single machine.</p><p>With prefill decode disaggregation, separate inference servers are run for each stage. First, a request is sent to the prefill stage which performs prefill and stores it in its KV cache. Then the same request is sent to the decode server, with information about how to transfer the KV cache from the prefill server and begin decoding. This has a number of advantages, because it allows the servers to be tuned independently for the role they are performing, scaled to account for more input-heavy or output-heavy traffic, or even to run on heterogeneous hardware.</p><p>This architecture requires a relatively complex load balancer to achieve. Beyond just routing the requests as described above, it must rewrite the responses (including streaming SSE) of the decode server to include information from the prefill server such as cached tokens. To complicate matters, different inference servers require different information to initiate the KV cache transfer. We extended this to implement token-aware load balancing, in which there is a pool of prefill and decode endpoints, and the load balancer estimates how many prefill or decode tokens are in-flight to each endpoint in the pool and attempts to spread this load evenly. </p><p>After our public model launch, our input/output patterns changed drastically again. We took the time to analyze our new usage patterns and then tuned our configuration to fit our customer’s use cases.</p><p>Here’s a graph of our p90 Time to First Token drop after shifting traffic to our new PD disaggregated architecture, whilst request volume increased, using the same quantity of GPUs. We see a significant improvement in the tail latency variance.</p>
-          <figure>
-          <img src="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/5j6AEIF1GMhnHuJD08VQtw/9e65e2badc5fd1e75557230e8f455ccc/BLOG-3266_2.png" />
-          </figure><p>Similarly, p90 time per token went from ~100 ms with high variance to 20-30 ms, a 3x improvement in intertoken latency.</p>
-          <figure>
-          <img src="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/6MNBGFHwI3U0bYwuAosg2g/394f4f5708cc1d3b045dc3f52c64b808/BLOG-3266_3.png" />
-          </figure>
-    <div>
-      <h3>Prompt Caching</h3>
-      <a href="#prompt-caching">
-        
-      </a>
-    </div>
-    <p>Since agentic use cases usually have long contexts, we optimize for efficient prompt caching in order to not recompute input tensors on every turn. We leverage a header called <code>x-session-affinity</code> in order to help requests route to the right region that previously had the computed input tensors. We wrote about this in our <a href="https://blog.cloudflare.com/workers-ai-large-models/"><u>original blog post</u></a> about launching large LLMs on Workers AI. We added session affinity headers to popular agent harnesses <a href="https://github.com/anomalyco/opencode/pull/20744"><u>like OpenCode</u></a>, where we noticed a significant increase in total throughput. A small difference in prompt caching from our users can sum to a factor of additional GPUs needed to run a model. While we have KV-aware routing internally, we also rely on clients sending the <code>x-session-affinity</code> in order to be explicit about prompt caching. We incentivize the use of the header by offering discounted cached tokens. We highly encourage users to <a href="https://developers.cloudflare.com/workers-ai/features/prompt-caching/"><u>leverage prompt caching</u></a> in order to have faster inference and cheaper pricing.</p>
-          <figure>
-          <img src="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/gKzvEB0JlL1L0IHIby7TV/fe82399fe870d343a572f053d62b4e52/BLOG-3266_4.png" />
-          </figure><p>We worked with our heaviest internal users to adopt this header. The result was an increase in input token cache hit ratios from 60% to 80% during peak times. This significantly increases the request throughput that we can handle, while offering better performance for interactive or time-sensitive sessions like OpenCode or AI code reviews.</p>
-    <div>
-      <h3>KV-cache optimization</h3>
-      <a href="#kv-cache-optimization">
-        
-      </a>
-    </div>
-    <p>As we’re serving larger models now, one instance can span multiple GPUs. This means that we had to find an efficient way to share KV cache across GPUs. KV cache is where all the input tensors from prefill (result of prompts in a session) are stored, and initially lives in the VRAM of a GPU. Every GPU has a fixed VRAM size, but if your model instance requires multiple GPUs, there needs to be a way for the KV cache to live across GPUs and talk to each other. To achieve this for Kimi, we leveraged<a href="https://github.com/kvcache-ai/Mooncake"><u> Moonshot AI’s</u></a> Mooncake Transfer Engine and Mooncake Store.</p><p>Mooncake’s Transfer Engine is a high-performance data transfer framework. It works with different Remote Direct Memory Access (RDMA) protocols such as NVLink and NVMe over Fabric, which enables direct memory-to-memory data transfer without involving the CPU. It improves the speed of transferring data across multiple GPU machines, which is particularly important in multi-GPU and multi-node configurations for models. </p><p>When paired with LMCache or SGLang HiCache, the cache is shared across all nodes in the cluster, allowing a prefill node to identify and re-use a cache from a previous request that was originally pre-filled on a different node. This eliminates the need for session aware routing within a cluster and allows us to load balance the traffic much more evenly. Mooncake Store also allows us to extend the cache beyond GPU VRAM, and leverage NVMe storage. This extends the time that sessions remain in cache, improving our cache hit ratio and allowing us to handle more traffic and offer better performance to users.</p>
-    <div>
-      <h3>Speculative decoding</h3>
-      <a href="#speculative-decoding">
-        
-      </a>
-    </div>
-    <p>LLMs work by predicting the next token in a sequence, based on the tokens that came before it. With a naive implementation, models only predict the next <i>n</i> token, but we can actually make it predict the next <i>n+1, n+2...</i> tokens in a single forward pass of the model. This popular technique is known as speculative decoding, which we’ve written about in a <a href="https://blog.cloudflare.com/making-workers-ai-faster/"><u>previous post on Workers AI. </u></a></p>
-          <figure>
-          <img src="https://cf-assets.www.cloudflare.com/zkvhlag99gkb/25Au0LKNr8ozQg5UQM34wY/06080a8699d5f8edb050450913a19a40/BLOG-3266_5.png" />
-          </figure><p>With speculative decoding, we leverage a smaller LLM (the draft model) to generate a few candidate tokens for the target model to choose from. The target model then just has to select from a small pool of candidate tokens in a single forward pass. Validating the tokens is faster and less computationally expensive than using the larger target model to generate the tokens. However, quality is still upheld as the target model ultimately has to accept or reject the draft tokens.</p><p>In agentic use cases, speculative decoding really shines because of the volume of tool calls and structured outputs that models need to generate. A tool call is largely predictable — you know there will be a name, description, and it’s wrapped in a JSON envelope.</p><p>To do this with Kimi K2.5, we leverage <a href="https://huggingface.co/nvidia/Kimi-K2.5-Thinking-Eagle3"><u>NVIDIA’s EAGLE-3</u></a> (Extrapolation Algorithm for Greater Language-model Efficiency) draft model. The levers for tuning speculative decoding include the number of future tokens to generate. As a result, we’re able to achieve high-quality inference while speeding up tokens per second throughput.</p>
-    <div>
-      <h2>Infire: our proprietary inference engine</h2>
-      <a href="#infire-our-proprietary-inference-engine">
-        
-      </a>
-    </div>
-    <p>As we announced during Birthday Week in 2025, Cloudflare has a proprietary inference engine, <a href="https://blog.cloudflare.com/cloudflares-most-efficient-ai-inference-engine/"><u>Infire</u></a>, that makes machine learning models faster. Infire is an inference engine written in Rust, designed to support Cloudflare’s unique challenges with inference given our distributed global network. We’ve extended Infire support for this new class of large language models we are planning to run, which meant we had to build a few new features to make it all work.</p>
-    <div>
-      <h3>Multi-GPU support</h3>
-      <a href="#multi-gpu-support">
-        
-      </a>
-    </div>
-    <p>Large language models like Kimi K2.5 are over 1 trillion parameters, which is about 560GB of model weights. A typical H100 has about 80GB of VRAM and the model weights need to be loaded in GPU memory in order to run. This means that a model like Kimi K2.5 needs at least 8 H100s in order to load the model into memory and run — and that’s not even including the extra VRAM you would need for KV Cache, which includes your context window.</p><p>Since we initially launched Infire, we had to add support for multi-GPU, letting the inference engine run across multiple GPUs in either pipeline-parallel or tensor-parallel modes with expert-parallelism supported as well.</p><p>For pipeline parallelism, Infire attempts to properly load balance all stages of the pipeline, in order to prevent the GPUs of one stage from starving while other stages are executing. On the other hand, for tensor parallelism, Infire optimizes for reducing cross-GPU communication, making it as fast as possible. For most models, utilizing both pipeline parallelism and tensor parallelism in tandem provides the best balance of throughput and latency.</p>
-    <div>
-      <h3>Even lower memory overhead</h3>
-      <a href="#even-lower-memory-overhead">
-        
-      </a>
-    </div>
-    <p>While already having much lower GPU memory overhead than <a href="https://vllm.ai/"><u>vLLM</u></a>, we optimized Infire even further, tightening the memory required for internal state like activations. Currently Infire is capable of running Llama 4 Scout on just two H200 GPUs with more than 56 GiB remaining for KV-cache, sufficient for more than 1.2m tokens. Infire is also capable of running Kimi K2.5 on 8 H100 GPUs (yes that is H100), with more than 30 GiB still available for KV-cache. In both cases you would have trouble even booting vLLM in the first place.</p>
-    <div>
-      <h3>Faster cold-starts</h3>
-      <a href="#faster-cold-starts">
-        
-      </a>
-    </div>
-    <p>While adding multi-GPU support, we identified additional opportunities to improve boot times. Even for the largest models, such as Kimi K2.5, Infire can begin serving requests in under 20 seconds. The load times are only bounded by the drive speed.</p>
-    <div>
-      <h3>Maximizing our hardware for faster throughput</h3>
-      <a href="#maximizing-our-hardware-for-faster-throughput">
-        
-      </a>
-    </div>
-    <p>Investing in our proprietary inference engine enables us to maximize our hardware by getting up to 20% higher tokens per second throughput on unconstrained systems, and also enabling us to use lower-end hardware to run the latest models, where it was previously completely infeasible.</p>
-    <div>
-      <h2>The journey doesn’t end</h2>
-      <a href="#the-journey-doesnt-end">
-        
-      </a>
-    </div>
-    <p>New technologies, research, and models come out on a weekly basis for the machine learning community. We’re continuously optimizing our technology stack in order to provide high-quality, performant inference for our customers while operating our GPUs efficiently. If these sound like interesting challenges for you – <a href="https://www.cloudflare.com/careers/jobs/"><u>we’re hiring</u></a>!</p> ]]></content:encoded>
         </item>
     </channel>
 </rss>
