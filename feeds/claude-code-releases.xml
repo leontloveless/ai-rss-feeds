@@ -4,11 +4,67 @@
         <title>claude-code Releases</title>
         <link>https://github.com/anthropics/claude-code/releases</link>
         <description>GitHub releases for anthropics/claude-code</description>
-        <lastBuildDate>Mon, 22 Jun 2026 20:37:34 GMT</lastBuildDate>
+        <lastBuildDate>Tue, 23 Jun 2026 21:03:48 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>ai-rss-feeds (https://github.com/leontloveless/ai-rss-feeds)</generator>
         <language>en</language>
         <atom:link href="https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/claude-code-releases.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[v2.1.187]]></title>
+            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.187</link>
+            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.187</guid>
+            <pubDate>Tue, 23 Jun 2026 21:03:48 GMT</pubDate>
+            <description><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Added <code>sandbox.credentials</code> setting to block sandboxed commands from reading credential files and secret environment variables</li>
+<li>Added org-configured model restrictions to the model picker, <code>--model</code>, <code>/model</code>, and <code>ANTHROPIC_MODEL</code>, with a &quot;restricted by your organization&#39;s settings&quot; message when a restricted model is selected</li>
+<li>Added mouse click support to select menus (permission prompts, <code>/model</code>, <code>/config</code>, etc.) in fullscreen mode</li>
+<li>Fixed <code>--resume</code> failing with &quot;No conversation found&quot; when the original <code>-p</code> run produced no model turns</li>
+<li>Fixed <code>--json-schema</code> and workflow <code>agent({schema})</code> structured output: the model can no longer re-call <code>StructuredOutput</code> indefinitely after a successful call, and follow-up turns now reliably return structured output</li>
+<li>Fixed remote MCP tool calls that hang with no response for 5 minutes — they now abort with an error instead of blocking indefinitely (override with <code>CLAUDE_CODE_MCP_TOOL_IDLE_TIMEOUT</code>)</li>
+<li>Fixed Claude Code Remote sessions taking ~2.7s longer to start after the agent proxy CA system-trust install was added</li>
+<li>Fixed pasted Korean/CJK text turning into mojibake in terminals that deliver paste as per-byte extended-key events</li>
+<li>Fixed <code>/update</code> over Remote Control hanging when a startup trust dialog would have shown</li>
+<li>Fixed background jobs in the agents view getting stuck in &quot;working&quot; indefinitely when the agent ended a turn without producing structured output</li>
+<li>Fixed channel connections dropping after navigating to the agents view and back, and after <code>/bg</code>, <code>/tui</code>, or <code>/update</code></li>
+<li>Fixed agent stop notifications not correctly attributing who stopped the agent, and improved wording (&quot;finished&quot;/&quot;stopped&quot; instead of &quot;came to rest&quot;)</li>
+<li>Fixed subagent depth tracking: resumed subagents now restore their original spawn depth, and forked subagents now count toward the depth cap</li>
+<li>Fixed leaked agent worktree registrations: locked <code>.git/worktrees/</code> entries from killed agents are now cleaned up automatically</li>
+<li>Fixed Cmd+click not opening URLs in fullscreen mode in Ghostty on macOS</li>
+<li>Fixed <code>claude --help</code> not listing the <code>--bg</code>/<code>--background</code> flag</li>
+<li>Fixed Esc, Ctrl-C, and Ctrl-D not working while <code>/share</code> is uploading</li>
+<li>Improved <code>/install-github-app</code>: GitHub Actions workflow setup is now optional — you can install just the GitHub App and skip the workflow/secret steps</li>
+<li>Improved <code>/btw</code> with ←/→ arrow navigation to step through earlier answers</li>
+<li>Improved <code>/plugin</code> to surface plugins you haven&#39;t used recently so you can clean them up</li>
+<li>[VSCode] Fixed extension becoming unresponsive when resuming a large session</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Added <code>sandbox.credentials</code> setting to block sandboxed commands from reading credential files and secret environment variables</li>
+<li>Added org-configured model restrictions to the model picker, <code>--model</code>, <code>/model</code>, and <code>ANTHROPIC_MODEL</code>, with a &quot;restricted by your organization&#39;s settings&quot; message when a restricted model is selected</li>
+<li>Added mouse click support to select menus (permission prompts, <code>/model</code>, <code>/config</code>, etc.) in fullscreen mode</li>
+<li>Fixed <code>--resume</code> failing with &quot;No conversation found&quot; when the original <code>-p</code> run produced no model turns</li>
+<li>Fixed <code>--json-schema</code> and workflow <code>agent({schema})</code> structured output: the model can no longer re-call <code>StructuredOutput</code> indefinitely after a successful call, and follow-up turns now reliably return structured output</li>
+<li>Fixed remote MCP tool calls that hang with no response for 5 minutes — they now abort with an error instead of blocking indefinitely (override with <code>CLAUDE_CODE_MCP_TOOL_IDLE_TIMEOUT</code>)</li>
+<li>Fixed Claude Code Remote sessions taking ~2.7s longer to start after the agent proxy CA system-trust install was added</li>
+<li>Fixed pasted Korean/CJK text turning into mojibake in terminals that deliver paste as per-byte extended-key events</li>
+<li>Fixed <code>/update</code> over Remote Control hanging when a startup trust dialog would have shown</li>
+<li>Fixed background jobs in the agents view getting stuck in &quot;working&quot; indefinitely when the agent ended a turn without producing structured output</li>
+<li>Fixed channel connections dropping after navigating to the agents view and back, and after <code>/bg</code>, <code>/tui</code>, or <code>/update</code></li>
+<li>Fixed agent stop notifications not correctly attributing who stopped the agent, and improved wording (&quot;finished&quot;/&quot;stopped&quot; instead of &quot;came to rest&quot;)</li>
+<li>Fixed subagent depth tracking: resumed subagents now restore their original spawn depth, and forked subagents now count toward the depth cap</li>
+<li>Fixed leaked agent worktree registrations: locked <code>.git/worktrees/</code> entries from killed agents are now cleaned up automatically</li>
+<li>Fixed Cmd+click not opening URLs in fullscreen mode in Ghostty on macOS</li>
+<li>Fixed <code>claude --help</code> not listing the <code>--bg</code>/<code>--background</code> flag</li>
+<li>Fixed Esc, Ctrl-C, and Ctrl-D not working while <code>/share</code> is uploading</li>
+<li>Improved <code>/install-github-app</code>: GitHub Actions workflow setup is now optional — you can install just the GitHub App and skip the workflow/secret steps</li>
+<li>Improved <code>/btw</code> with ←/→ arrow navigation to step through earlier answers</li>
+<li>Improved <code>/plugin</code> to surface plugins you haven&#39;t used recently so you can clean them up</li>
+<li>[VSCode] Fixed extension becoming unresponsive when resuming a large session</li>
+</ul>
+]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[v2.1.186]]></title>
             <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.186</link>
@@ -2658,90 +2714,6 @@
 <li>Fixed <code>/plugin update</code> never detecting new versions of npm-sourced plugins</li>
 <li>Fixed sub-agent summaries firing repeatedly while a sub-agent&#39;s transcript is static, capping worst-case token cost on idle sub-agents</li>
 <li>Headless <code>--output-format stream-json</code>: <code>init.plugin_errors</code> now includes <code>--plugin-dir</code> load failures in addition to dependency demotions</li>
-</ul>
-]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[v2.1.126]]></title>
-            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.126</link>
-            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.126</guid>
-            <pubDate>Fri, 01 May 2026 02:05:23 GMT</pubDate>
-            <description><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>The <code>/model</code> picker now lists models from your gateway&#39;s <code>/v1/models</code> endpoint when <code>ANTHROPIC_BASE_URL</code> points at an Anthropic-compatible gateway</li>
-<li><ul>
-<li>Added <code>claude project purge [path]</code> to delete all Claude Code state for a project (transcripts, tasks, file history, config entry) — supports <code>--dry-run</code>, <code>-y/--yes</code>, <code>-i/--interactive</code>, and <code>--all</code></li>
-</ul>
-</li>
-<li><code>--dangerously-skip-permissions</code> now bypasses prompts for writes to <code>.claude/</code>, <code>.git/</code>, <code>.vscode/</code>, shell config files, and other previously-protected paths (catastrophic removal commands still prompt as a safety net)</li>
-<li><code>claude auth login</code> now accepts the OAuth code pasted into the terminal when the browser callback can&#39;t reach localhost (WSL2, SSH, containers)</li>
-<li><code>claude_code.skill_activated</code> OpenTelemetry event now fires for user-typed slash commands and carries a new <code>invocation_trigger</code> attribute (<code>&quot;user-slash&quot;</code>, <code>&quot;claude-proactive&quot;</code>, or <code>&quot;nested-skill&quot;</code>)</li>
-<li>Auto mode: the spinner now turns red when a permission check stalls, instead of looking like the tool is running</li>
-<li>Host-managed deployments (<code>CLAUDE_CODE_PROVIDER_MANAGED_BY_HOST</code>) no longer auto-disable analytics on Bedrock/Vertex/Foundry</li>
-<li>Windows: PowerShell 7 installed via the Microsoft Store, MSI without PATH, or <code>.NET global tool</code> is now detected</li>
-<li>Windows: when the PowerShell tool is enabled, Claude now treats PowerShell as the primary shell instead of defaulting to Bash</li>
-<li>Read tool: removed the per-file malware-assessment reminder that could cause spurious refusals and &quot;this is not malware&quot; commentary on legacy models</li>
-<li><strong>Security:</strong> Fixed <code>allowManagedDomainsOnly</code> / <code>allowManagedReadPathsOnly</code> being ignored when a higher-priority managed-settings source lacked a <code>sandbox</code> block</li>
-<li>Fixed pasting an image larger than 2000px breaking the session — images are now downscaled on paste, and oversized images in history are automatically removed and the request retried</li>
-<li>Fixed showing the login screen for &quot;OAuth not allowed for organization&quot; errors — now shows guidance to contact your admin</li>
-<li>Fixed OAuth login failing with timeout on slow or proxied connections, in IPv6-only devcontainers, and when the browser callback can&#39;t reach localhost</li>
-<li>Fixed a rare race where a concurrent credential write could clear a valid OAuth refresh token</li>
-<li>Fixed API retry countdown sticking at &quot;0s&quot; instead of counting down between attempts</li>
-<li>Fixed &quot;Stream idle timeout&quot; error after waking Mac from sleep mid-request</li>
-<li>Fixed background and remote sessions falsely aborting with &quot;Stream idle timeout&quot; during long model thinking pauses</li>
-<li>Fixed a hang where the assistant could finish thinking but show no output after a run of empty turns</li>
-<li>Fixed overly fast trackpad scrolling in Cursor and VS Code 1.92–1.104 integrated terminals</li>
-<li>Fixed claude.ai MCP connectors being suppressed by manual servers stuck in needs-auth state</li>
-<li>Fixed Japanese/Korean/Chinese text rendering as garbled characters on Windows in no-flicker mode</li>
-<li>Fixed <code>Ctrl+L</code> clearing the prompt input — it now only forces a screen redraw, matching readline behavior</li>
-<li>Fixed deferred tools (WebSearch, WebFetch, etc.) not being available to skills with <code>context: fork</code> and other subagents on their first turn</li>
-<li>Fixed plan-mode tools being unavailable in interactive sessions launched with <code>--channels</code></li>
-<li>Fixed <code>/plugin</code> Uninstall reporting &quot;Enabled&quot; instead of &quot;Uninstalled&quot;</li>
-<li>Bounded total size of file-modified reminders when a linter touches many files at once</li>
-<li>Fixed <code>/remote-control</code> retries appearing stuck on &quot;connecting…&quot; — each retry now shows its result</li>
-<li>Fixed Remote Control failure notification not showing the error reason for initial connection failures</li>
-<li>Windows: clipboard writes no longer expose copied content in process command-line arguments visible to EDR/SIEM telemetry; also fixes &gt;22KB selections not reaching the clipboard</li>
-<li>PowerShell tool: bare <code>--</code> (e.g. <code>git diff -- file</code>) is no longer mis-flagged as the <code>--%</code> stop-parsing token</li>
-<li>Fixed Agent SDK hang when the model emits a malformed tool name in a parallel tool call batch</li>
-</ul>
-]]></description>
-            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>The <code>/model</code> picker now lists models from your gateway&#39;s <code>/v1/models</code> endpoint when <code>ANTHROPIC_BASE_URL</code> points at an Anthropic-compatible gateway</li>
-<li><ul>
-<li>Added <code>claude project purge [path]</code> to delete all Claude Code state for a project (transcripts, tasks, file history, config entry) — supports <code>--dry-run</code>, <code>-y/--yes</code>, <code>-i/--interactive</code>, and <code>--all</code></li>
-</ul>
-</li>
-<li><code>--dangerously-skip-permissions</code> now bypasses prompts for writes to <code>.claude/</code>, <code>.git/</code>, <code>.vscode/</code>, shell config files, and other previously-protected paths (catastrophic removal commands still prompt as a safety net)</li>
-<li><code>claude auth login</code> now accepts the OAuth code pasted into the terminal when the browser callback can&#39;t reach localhost (WSL2, SSH, containers)</li>
-<li><code>claude_code.skill_activated</code> OpenTelemetry event now fires for user-typed slash commands and carries a new <code>invocation_trigger</code> attribute (<code>&quot;user-slash&quot;</code>, <code>&quot;claude-proactive&quot;</code>, or <code>&quot;nested-skill&quot;</code>)</li>
-<li>Auto mode: the spinner now turns red when a permission check stalls, instead of looking like the tool is running</li>
-<li>Host-managed deployments (<code>CLAUDE_CODE_PROVIDER_MANAGED_BY_HOST</code>) no longer auto-disable analytics on Bedrock/Vertex/Foundry</li>
-<li>Windows: PowerShell 7 installed via the Microsoft Store, MSI without PATH, or <code>.NET global tool</code> is now detected</li>
-<li>Windows: when the PowerShell tool is enabled, Claude now treats PowerShell as the primary shell instead of defaulting to Bash</li>
-<li>Read tool: removed the per-file malware-assessment reminder that could cause spurious refusals and &quot;this is not malware&quot; commentary on legacy models</li>
-<li><strong>Security:</strong> Fixed <code>allowManagedDomainsOnly</code> / <code>allowManagedReadPathsOnly</code> being ignored when a higher-priority managed-settings source lacked a <code>sandbox</code> block</li>
-<li>Fixed pasting an image larger than 2000px breaking the session — images are now downscaled on paste, and oversized images in history are automatically removed and the request retried</li>
-<li>Fixed showing the login screen for &quot;OAuth not allowed for organization&quot; errors — now shows guidance to contact your admin</li>
-<li>Fixed OAuth login failing with timeout on slow or proxied connections, in IPv6-only devcontainers, and when the browser callback can&#39;t reach localhost</li>
-<li>Fixed a rare race where a concurrent credential write could clear a valid OAuth refresh token</li>
-<li>Fixed API retry countdown sticking at &quot;0s&quot; instead of counting down between attempts</li>
-<li>Fixed &quot;Stream idle timeout&quot; error after waking Mac from sleep mid-request</li>
-<li>Fixed background and remote sessions falsely aborting with &quot;Stream idle timeout&quot; during long model thinking pauses</li>
-<li>Fixed a hang where the assistant could finish thinking but show no output after a run of empty turns</li>
-<li>Fixed overly fast trackpad scrolling in Cursor and VS Code 1.92–1.104 integrated terminals</li>
-<li>Fixed claude.ai MCP connectors being suppressed by manual servers stuck in needs-auth state</li>
-<li>Fixed Japanese/Korean/Chinese text rendering as garbled characters on Windows in no-flicker mode</li>
-<li>Fixed <code>Ctrl+L</code> clearing the prompt input — it now only forces a screen redraw, matching readline behavior</li>
-<li>Fixed deferred tools (WebSearch, WebFetch, etc.) not being available to skills with <code>context: fork</code> and other subagents on their first turn</li>
-<li>Fixed plan-mode tools being unavailable in interactive sessions launched with <code>--channels</code></li>
-<li>Fixed <code>/plugin</code> Uninstall reporting &quot;Enabled&quot; instead of &quot;Uninstalled&quot;</li>
-<li>Bounded total size of file-modified reminders when a linter touches many files at once</li>
-<li>Fixed <code>/remote-control</code> retries appearing stuck on &quot;connecting…&quot; — each retry now shows its result</li>
-<li>Fixed Remote Control failure notification not showing the error reason for initial connection failures</li>
-<li>Windows: clipboard writes no longer expose copied content in process command-line arguments visible to EDR/SIEM telemetry; also fixes &gt;22KB selections not reaching the clipboard</li>
-<li>PowerShell tool: bare <code>--</code> (e.g. <code>git diff -- file</code>) is no longer mis-flagged as the <code>--%</code> stop-parsing token</li>
-<li>Fixed Agent SDK hang when the model emits a malformed tool name in a parallel tool call batch</li>
 </ul>
 ]]></content:encoded>
         </item>
