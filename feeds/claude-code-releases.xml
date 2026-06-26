@@ -4,11 +4,49 @@
         <title>claude-code Releases</title>
         <link>https://github.com/anthropics/claude-code/releases</link>
         <description>GitHub releases for anthropics/claude-code</description>
-        <lastBuildDate>Thu, 25 Jun 2026 21:45:57 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 26 Jun 2026 21:29:42 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>ai-rss-feeds (https://github.com/leontloveless/ai-rss-feeds)</generator>
         <language>en</language>
         <atom:link href="https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/claude-code-releases.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[v2.1.195]]></title>
+            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.195</link>
+            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.195</guid>
+            <pubDate>Fri, 26 Jun 2026 21:29:42 GMT</pubDate>
+            <description><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Added <code>CLAUDE_CODE_DISABLE_MOUSE_CLICKS</code> to disable mouse click/drag/hover in fullscreen mode while keeping wheel scroll</li>
+<li>Fixed hook matchers with hyphenated identifiers (e.g. <code>code-reviewer</code>, <code>mcp__brave-search</code>) accidentally substring-matching — they now exact-match. Use <code>mcp__brave-search__.*</code> to match all tools from a hyphenated MCP server.</li>
+<li>Fixed voice dictation on macOS capturing silence in long-running sessions after the default input device changes</li>
+<li>Fixed voice dictation auto-submit never firing for languages written without spaces (Japanese, Chinese, Thai)</li>
+<li>Fixed external plugins enabled only by project <code>.claude/settings.json</code> not requiring explicit install consent on every loader path</li>
+<li>Fixed <code>/plugin</code> Enable/Disable not working when a plugin&#39;s <code>plugin.json</code> <code>name</code> differs from its marketplace entry name</li>
+<li>Fixed background jobs disappearing from <code>claude agents</code> or losing data when written by a newer Claude Code version</li>
+<li>Fixed reopening a crashed background task showing a blank screen for up to 5 seconds instead of its restart</li>
+<li>Fixed background agent daemons running unreachable when the control socket fails to start, blocking restarts</li>
+<li>Improved voice mode on Linux: now distinguishes &quot;no microphone&quot; from &quot;SoX not installed&quot; when SoX is present but no audio capture device exists</li>
+<li>Improved <code>claude agents</code> completed list to fill available vertical space; on short terminals the header compacts so live sessions stay visible</li>
+<li>Improved Remote session startup with a provisioning checklist while the container starts</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Added <code>CLAUDE_CODE_DISABLE_MOUSE_CLICKS</code> to disable mouse click/drag/hover in fullscreen mode while keeping wheel scroll</li>
+<li>Fixed hook matchers with hyphenated identifiers (e.g. <code>code-reviewer</code>, <code>mcp__brave-search</code>) accidentally substring-matching — they now exact-match. Use <code>mcp__brave-search__.*</code> to match all tools from a hyphenated MCP server.</li>
+<li>Fixed voice dictation on macOS capturing silence in long-running sessions after the default input device changes</li>
+<li>Fixed voice dictation auto-submit never firing for languages written without spaces (Japanese, Chinese, Thai)</li>
+<li>Fixed external plugins enabled only by project <code>.claude/settings.json</code> not requiring explicit install consent on every loader path</li>
+<li>Fixed <code>/plugin</code> Enable/Disable not working when a plugin&#39;s <code>plugin.json</code> <code>name</code> differs from its marketplace entry name</li>
+<li>Fixed background jobs disappearing from <code>claude agents</code> or losing data when written by a newer Claude Code version</li>
+<li>Fixed reopening a crashed background task showing a blank screen for up to 5 seconds instead of its restart</li>
+<li>Fixed background agent daemons running unreachable when the control socket fails to start, blocking restarts</li>
+<li>Improved voice mode on Linux: now distinguishes &quot;no microphone&quot; from &quot;SoX not installed&quot; when SoX is present but no audio capture device exists</li>
+<li>Improved <code>claude agents</code> completed list to fill available vertical space; on short terminals the header compacts so live sessions stay visible</li>
+<li>Improved Remote session startup with a provisioning checklist while the container starts</li>
+</ul>
+]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[v2.1.193]]></title>
             <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.193</link>
@@ -2584,76 +2622,6 @@
 <li>Fixed subagents not discovering project, user, or plugin skills via the Skill tool</li>
 <li><code>claude --help</code> now lists <code>--remote-control</code> alongside <code>--remote-control-session-name-prefix</code></li>
 <li>[VSCode] Fixed <code>claudeCode.claudeProcessWrapper</code> failing with &quot;Unsupported platform&quot; when the extension build doesn&#39;t bundle a Claude binary</li>
-</ul>
-]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[v2.1.132]]></title>
-            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.132</link>
-            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.132</guid>
-            <pubDate>Wed, 06 May 2026 22:08:13 GMT</pubDate>
-            <description><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>Added <code>CLAUDE_CODE_SESSION_ID</code> environment variable to the Bash tool subprocess environment, matching the <code>session_id</code> passed to hooks</li>
-<li>Added <code>CLAUDE_CODE_DISABLE_ALTERNATE_SCREEN=1</code> env var to opt out of the fullscreen alternate-screen renderer and keep the conversation in the terminal&#39;s native scrollback</li>
-<li>Added a &quot;Pasting…&quot; footer hint while a Ctrl+V image paste is being read from the clipboard</li>
-<li>Fixed external SIGINT (e.g. IDE stop button, <code>kill -INT</code>) not running graceful shutdown — terminal modes are now restored and the <code>--resume</code> hint is printed instead of an abrupt exit</li>
-<li>Fixed an uncaught exception when the terminal is closed or SSH disconnects mid-session under the native build</li>
-<li>Fixed <code>--resume</code> failing with <code>no low surrogate in string</code> when a tool error truncation split an emoji; pre-corrupted sessions are sanitized on load</li>
-<li>Fixed <code>--permission-mode</code> flag being ignored when resuming a plan-mode session with <code>-p --continue</code>/<code>--resume</code>, and plan mode not being re-applied after <code>ExitPlanMode</code> within the same session</li>
-<li>Fixed fullscreen mode showing a blank screen after laptop sleep/wake or Ctrl+Z/<code>fg</code> until the next keystroke or stream output</li>
-<li>Fixed cursor landing mid-grapheme on Ctrl+E/A/K/U/arrow keys when an Indic conjunct or ZWJ emoji wraps across lines</li>
-<li>Fixed vim operators corrupting text containing decomposed (NFD) accented characters</li>
-<li>Fixed pasting text starting with <code>/</code> silently swallowing the input or triggering an unknown-command reply</li>
-<li>Fixed pasting dumping stray escape sequences into the prompt when focus events or mouse-tracking reports interleave with the bracketed paste</li>
-<li>Fixed mouse wheel scrolling being too fast in Cursor and VS Code 1.92–1.104 due to an upstream xterm.js bug</li>
-<li>Fixed scroll-wheel handling in JetBrains IDE 2025.2 terminals (spurious arrow keys, wrong-direction events, runaway acceleration)</li>
-<li>Fixed <code>/usage</code> Ctrl+S hanging when copying the stats screenshot to the clipboard on Linux/X11</li>
-<li>Fixed <code>/terminal-setup</code> showing a contradictory error in Windows Terminal — Shift+Enter is natively supported there</li>
-<li>Fixed <code>/effort</code> picker not reflecting the <code>CLAUDE_CODE_EFFORT_LEVEL</code> env var override</li>
-<li>Fixed <code>/status</code> showing the wrong default model for some users</li>
-<li>Fixed slash command autocomplete popup being capped at ~3–5 visible commands instead of scaling with terminal height</li>
-<li>Fixed statusline <code>context_window</code> token counts reflecting cumulative session totals instead of current context usage</li>
-<li>Fixed Alt+T (thinking toggle) not working on macOS terminals without &quot;Option as Meta&quot; enabled (iTerm2, Terminal.app defaults)</li>
-<li>Fixed dead keyboard input on Windows after re-opening a background session from <code>claude agents</code></li>
-<li>Fixed unbounded memory growth (10GB+ RSS) when a stdio MCP server writes non-protocol data to stdout</li>
-<li>Fixed MCP servers that connect but fail <code>tools/list</code> silently showing 0 tools — they now retry once and show &quot;connected · tools fetch failed&quot; in <code>/mcp</code></li>
-<li>Fixed unauthorized claude.ai MCP connectors showing as &quot;failed&quot; instead of &quot;needs auth&quot;, and headless <code>-p</code> mode retrying non-transient 4xx connection failures</li>
-<li>Improved visual consistency in slash command dialogs and <code>/login</code>, <code>/upgrade</code>, <code>/extra-usage</code> dialog spacing</li>
-<li>Updated the <code>/tui fullscreen</code> startup banner to describe additional renderer benefits (lower memory usage, mouse support, auto-copy on select)</li>
-<li>Fixed Bedrock and Vertex 400 errors when <code>ENABLE_PROMPT_CACHING_1H</code> is set</li>
-</ul>
-]]></description>
-            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>Added <code>CLAUDE_CODE_SESSION_ID</code> environment variable to the Bash tool subprocess environment, matching the <code>session_id</code> passed to hooks</li>
-<li>Added <code>CLAUDE_CODE_DISABLE_ALTERNATE_SCREEN=1</code> env var to opt out of the fullscreen alternate-screen renderer and keep the conversation in the terminal&#39;s native scrollback</li>
-<li>Added a &quot;Pasting…&quot; footer hint while a Ctrl+V image paste is being read from the clipboard</li>
-<li>Fixed external SIGINT (e.g. IDE stop button, <code>kill -INT</code>) not running graceful shutdown — terminal modes are now restored and the <code>--resume</code> hint is printed instead of an abrupt exit</li>
-<li>Fixed an uncaught exception when the terminal is closed or SSH disconnects mid-session under the native build</li>
-<li>Fixed <code>--resume</code> failing with <code>no low surrogate in string</code> when a tool error truncation split an emoji; pre-corrupted sessions are sanitized on load</li>
-<li>Fixed <code>--permission-mode</code> flag being ignored when resuming a plan-mode session with <code>-p --continue</code>/<code>--resume</code>, and plan mode not being re-applied after <code>ExitPlanMode</code> within the same session</li>
-<li>Fixed fullscreen mode showing a blank screen after laptop sleep/wake or Ctrl+Z/<code>fg</code> until the next keystroke or stream output</li>
-<li>Fixed cursor landing mid-grapheme on Ctrl+E/A/K/U/arrow keys when an Indic conjunct or ZWJ emoji wraps across lines</li>
-<li>Fixed vim operators corrupting text containing decomposed (NFD) accented characters</li>
-<li>Fixed pasting text starting with <code>/</code> silently swallowing the input or triggering an unknown-command reply</li>
-<li>Fixed pasting dumping stray escape sequences into the prompt when focus events or mouse-tracking reports interleave with the bracketed paste</li>
-<li>Fixed mouse wheel scrolling being too fast in Cursor and VS Code 1.92–1.104 due to an upstream xterm.js bug</li>
-<li>Fixed scroll-wheel handling in JetBrains IDE 2025.2 terminals (spurious arrow keys, wrong-direction events, runaway acceleration)</li>
-<li>Fixed <code>/usage</code> Ctrl+S hanging when copying the stats screenshot to the clipboard on Linux/X11</li>
-<li>Fixed <code>/terminal-setup</code> showing a contradictory error in Windows Terminal — Shift+Enter is natively supported there</li>
-<li>Fixed <code>/effort</code> picker not reflecting the <code>CLAUDE_CODE_EFFORT_LEVEL</code> env var override</li>
-<li>Fixed <code>/status</code> showing the wrong default model for some users</li>
-<li>Fixed slash command autocomplete popup being capped at ~3–5 visible commands instead of scaling with terminal height</li>
-<li>Fixed statusline <code>context_window</code> token counts reflecting cumulative session totals instead of current context usage</li>
-<li>Fixed Alt+T (thinking toggle) not working on macOS terminals without &quot;Option as Meta&quot; enabled (iTerm2, Terminal.app defaults)</li>
-<li>Fixed dead keyboard input on Windows after re-opening a background session from <code>claude agents</code></li>
-<li>Fixed unbounded memory growth (10GB+ RSS) when a stdio MCP server writes non-protocol data to stdout</li>
-<li>Fixed MCP servers that connect but fail <code>tools/list</code> silently showing 0 tools — they now retry once and show &quot;connected · tools fetch failed&quot; in <code>/mcp</code></li>
-<li>Fixed unauthorized claude.ai MCP connectors showing as &quot;failed&quot; instead of &quot;needs auth&quot;, and headless <code>-p</code> mode retrying non-transient 4xx connection failures</li>
-<li>Improved visual consistency in slash command dialogs and <code>/login</code>, <code>/upgrade</code>, <code>/extra-usage</code> dialog spacing</li>
-<li>Updated the <code>/tui fullscreen</code> startup banner to describe additional renderer benefits (lower memory usage, mouse support, auto-copy on select)</li>
-<li>Fixed Bedrock and Vertex 400 errors when <code>ENABLE_PROMPT_CACHING_1H</code> is set</li>
 </ul>
 ]]></content:encoded>
         </item>
