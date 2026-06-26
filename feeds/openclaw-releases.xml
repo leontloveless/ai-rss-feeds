@@ -708,40 +708,83 @@
             <link>https://github.com/openclaw/openclaw/releases/tag/v2026.6.10</link>
             <guid>https://github.com/openclaw/openclaw/releases/tag/v2026.6.10</guid>
             <pubDate>Wed, 24 Jun 2026 03:06:38 GMT</pubDate>
-            <description><![CDATA[<h3>Highlights</h3>
+            <description><![CDATA[<p>Automatic fast mode starts short conversations quickly, then returns longer or fallback work to normal mode without losing visible state. Provider routing, channel progress, session identity, and trusted tool policies are more reliable, with smaller improvements spanning provider setup, diagnostics, and transcript tooling.</p>
+<h3>Highlights</h3>
+<h4>Automatic fast mode</h4>
 <ul>
-<li><strong>Automatic fast mode for talks:</strong> OpenClaw can enable fast mode for short conversational turns, then return to normal mode for longer runs with bounded fallback and delivery behavior. (#85104) Thanks @alexph-dev and @vincentkoc.</li>
-<li><strong>More reliable model routing:</strong> Zai model synthesis, GLM overload failover, and native reasoning-level selection now follow the active model catalog more consistently. (#94461, #93241, #94067, #94136) Thanks @Pandah97, @chrysb, @0xghost42, @zhengli0922, @openperf, @civiltox, and @BorClaw.</li>
-<li><strong>Safer session and channel state:</strong> channel switches reset stale origin fields, and cron delivery awareness stays attached to the target session. (#95328, #93580) Thanks @ZengWen-DT, @jalehman, @gorkem2020, and @scotthuang.</li>
-<li><strong>Trusted policies survive hook composition:</strong> composed hook registries keep the trusted tool policies required by approval-sensitive flows. (#94545) Thanks @jesse-merhi.</li>
+<li>Adds <a href="https://docs.openclaw.ai/tools/thinking"><code>/fast auto</code></a> so short conversational calls can start quickly, while longer or fallback work returns to normal mode with the effective state still visible. <a href="https://github.com/openclaw/openclaw/pull/85104">PR #85104</a>, <a href="https://github.com/openclaw/openclaw/issues/85087">Issue #85087</a>. Thanks @alexph-dev and @vincentkoc.</li>
+<li>Shows the effective automatic fast-mode state in status instead of reducing it to on/off, and avoids carrying a cleared Codex service-tier choice into later runs. <a href="https://github.com/openclaw/openclaw/commit/8845f2fd6143becc37110ab5021dd5e1517f0cdc">8845f2f</a>. Thanks @vincentkoc.</li>
+<li>Keeps automatic fast-mode timing consistent when a turn switches to a fallback model. <a href="https://github.com/openclaw/openclaw/commit/075091d0cab94053ff094268efc0acb225d514f4">075091d</a>. Thanks @vincentkoc.</li>
+<li>Keeps the original fast-mode timing and progress behavior when a live model switch retries a turn. <a href="https://github.com/openclaw/openclaw/commit/d1e190fbe822ad6ae4e660ce376b60ec9fdb0fba">d1e190f</a>. Thanks @vincentkoc.</li>
+<li>Keeps automatic fast-mode progress and reset behavior distinct from explicit fast mode after a run switches modes. <a href="https://github.com/openclaw/openclaw/commit/20aec985545db7a24ea066e5bff1c47b789cbded">20aec98</a>. Thanks @vincentkoc.</li>
+<li>Shows the effective fast-mode value in connected-agent sessions instead of the configured value, so status reflects what the session is actually using. <a href="https://github.com/openclaw/openclaw/commit/9509aa063c0ef3e32be1516fcb0c23606b6d5c7b">9509aa0</a>. Thanks @vincentkoc.</li>
+<li>Keeps the effective automatic fast-mode setting visible through fallback transitions in connected-agent sessions. <a href="https://github.com/openclaw/openclaw/commit/7f5423ca97174a3f16c211db54a6c96e5b3a6089">7f5423c</a>. Thanks @vincentkoc.</li>
+<li>Keeps automatic fast-mode timing and progress consistent when reply and <a href="https://docs.openclaw.ai/automation/cron-jobs">scheduled-agent runs</a> retry or switch models. <a href="https://github.com/openclaw/openclaw/commit/6c29f88913796bfe05696556cd82246670b126f0">6c29f88</a>. Thanks @vincentkoc.</li>
+<li>Keeps fast-mode cleanup and status consistent when a run switches between fallback models. <a href="https://github.com/openclaw/openclaw/commit/c4694f84ffd52064f89609098cc4f8570fb72e1b">c4694f8</a>. Thanks @vincentkoc.</li>
+<li>Shows the automatic fast-mode reset only when fallback work is finished, so status messages match the end of the transition. <a href="https://github.com/openclaw/openclaw/commit/f4d93c855bff6930f5e5d739b95e0c2612ec4899">f4d93c8</a>. Thanks @vincentkoc.</li>
+<li>Shows reset and delivery progress at the right time when auto-reply or other follow-up runs retry or leave automatic fast mode. <a href="https://github.com/openclaw/openclaw/commit/684e44013778bd47d159e64b2595e4d09a92ebea">684e440</a>. Thanks @vincentkoc.</li>
 </ul>
-<h3>Changes</h3>
+<h3>Channels and Messaging</h3>
+<h4>Channel delivery and progress updates</h4>
 <ul>
-<li><strong>Agent and channel runtime:</strong> fast-mode state now survives retries, fallback transitions, progress events, and embedded/CLI/ACP normalization; session and channel routing retain the current target and delivery context. (#85104, #93580, #95328) Thanks @alexph-dev, @vincentkoc, @scotthuang, @ZengWen-DT, @jalehman, and @gorkem2020.</li>
-<li><strong>Provider behavior:</strong> model catalogs now supply the correct Zai base URL, overload classification, and native reasoning controls for live-discovered models. (#94461, #93241, #94067, #94136) Thanks @Pandah97, @chrysb, @0xghost42, @zhengli0922, @openperf, @civiltox, and @BorClaw.</li>
+<li>Prevents the next turn after a <a href="https://docs.openclaw.ai/automation/cron-jobs">scheduled message</a> from losing what was delivered or whether delivery failed, so replies can use that context without exposing cron details in the channel. <a href="https://github.com/openclaw/openclaw/pull/93580">PR #93580</a>. Thanks @jalehman and @scotthuang.</li>
+<li>Prevents streamed channel progress from dropping a repeated status that represents a separate step, so each meaningful step remains visible in the draft. <a href="https://github.com/openclaw/openclaw/commit/2d42e52ac5513e0bd824b8a0e069db83e04bc056">2d42e52</a>. Thanks @vincentkoc.</li>
+<li>Prevents keyed streamed progress from staying on an older status, so viewers see the latest state instead of stale text. <a href="https://github.com/openclaw/openclaw/commit/8bb6472c4de2eea06f1ba31d6ed679e2ac4581b0">8bb6472</a>. Thanks @vincentkoc.</li>
 </ul>
-<h3>Fixes</h3>
+<h3>Providers and Models</h3>
+<h4>Provider model catalogs and reasoning controls</h4>
 <ul>
-<li><strong>Fast-mode and policy correctness:</strong> fallback cutoffs and reset notices are bounded, repeated progress events remain visible, Codex service-tier state is normalized, and trusted policies are not lost when hook registries are composed. (#85104, #94545) Thanks @alexph-dev, @vincentkoc, and @jesse-merhi.</li>
-<li><strong>Model and delivery edge cases:</strong> Zai and GLM failover paths use the right runtime metadata, while stale channel-origin state no longer leaks across session changes. (#94461, #93241, #95328) Thanks @Pandah97, @chrysb, @0xghost42, @zhengli0922, @ZengWen-DT, @jalehman, and @gorkem2020.</li>
-<li><strong>Provider plugin onboarding:</strong> setup refreshes provider plugin registry metadata after installing setup-selected provider plugins, so auth continuation uses the newly installed provider instead of stale registry state. (#95792) Thanks @snowzlmbot.</li>
+<li>Treats Zhipu/GLM overload responses as overloads, so a configured fallback is selected for the right reason instead of following the wrong failover path. <a href="https://github.com/openclaw/openclaw/pull/93241">PR #93241</a>, <a href="https://github.com/openclaw/openclaw/issues/93211">Issue #93211</a>. Thanks @0xghost42 and @zhengli0922.</li>
+<li>Prevents Telegram, Slack, and Discord <code>/think</code> menus for live Ollama models from hiding supported levels, so users can choose valid reasoning settings without guessing. <a href="https://github.com/openclaw/openclaw/pull/94067">PR #94067</a>, <a href="https://github.com/openclaw/openclaw/issues/93835">Issue #93835</a>. Thanks @civiltox and @openperf.</li>
+<li>Expands <a href="https://docs.openclaw.ai/tools/thinking"><code>zai/glm-5.2</code> thinking choices</a> beyond binary on/off and sends high or max requests as the intended Z.AI reasoning effort. <a href="https://github.com/openclaw/openclaw/pull/94136">PR #94136</a>. Thanks @borclaw.</li>
+<li>Prevents bundled <a href="https://docs.openclaw.ai/providers/zai">Z.ai GLM-5 models</a> from falling through to OpenAI and producing misleading API-key errors, so they use Z.AI by default. <a href="https://github.com/openclaw/openclaw/pull/94461">PR #94461</a>, <a href="https://github.com/openclaw/openclaw/issues/94269">Issue #94269</a>. Thanks @chrysb and @pandah97.</li>
+<li>Adds GLM-5.2 and Kimi K2.7 Code to the <a href="https://docs.openclaw.ai/providers/opencode-go">OpenCode Go catalog</a> with current limits, so users can select the models from OpenClaw. <a href="https://github.com/openclaw/openclaw/commit/66f84a9bf1082de26f92b2b3741cc2f34aba34fa">66f84a9</a>. Thanks @samson1357924.</li>
+<li>Corrects <code>kimi-k2.7-code</code> capability listings so OpenCode Go users are not offered unsupported video prompts when the model accepts text and images. <a href="https://github.com/openclaw/openclaw/commit/715dc718fc5a2a5d6f7e9ec16e0269382b726e83">715dc71</a>.</li>
 </ul>
-<h3>Complete contribution record</h3>
-<p>This audited record covers the complete v2026.6.9..HEAD history: 12 merged PRs. The generation manifest also supplies direct commits as editorial input; the grouped notes above prioritize user impact.</p>
-<h4>Pull requests</h4>
+<h4>Provider plugin onboarding</h4>
 <ul>
-<li><strong>PR #86627</strong> Keep core doctor health in contribution order. Thanks @giodl73-repo.</li>
-<li><strong>PR #93580</strong> fix: preserve cron delivery awareness for target sessions. Thanks @scotthuang and @jalehman.</li>
-<li><strong>PR #95030</strong> refactor: add SDK transcript identity target API. Thanks @jalehman.</li>
-<li><strong>PR #94838</strong> refactor(copilot): complete harness lifecycle parity. Thanks @vincentkoc.</li>
-<li><strong>PR #95328</strong> fix(sessions): reset stale per-channel origin fields on channel switch. Related #95325. Thanks @ZengWen-DT and @jalehman and @gorkem2020.</li>
-<li><strong>PR #94461</strong> fix(zai): fall back to manifest baseUrl for synthesized GLM-5 models. Related #94269. Thanks @Pandah97 and @chrysb.</li>
-<li><strong>PR #93241</strong> fix(agents): classify Zhipu GLM overload as overloaded for failover. Related #93211. Thanks @0xghost42 and @zhengli0922.</li>
-<li><strong>PR #94067</strong> fix(channels): resolve native /think menu levels via runtime catalog for live-discovered models. Related #93835. Thanks @openperf and @civiltox.</li>
-<li><strong>PR #94136</strong> fix(zai): expose GLM-5.2 reasoning levels [AI-assisted]. Thanks @BorClaw.</li>
-<li><strong>PR #85104</strong> feat: fast talks auto mode. Related #85087. Thanks @alexph-dev.</li>
-<li><strong>PR #94545</strong> fix: keep trusted policies with hook registry. Thanks @jesse-merhi.</li>
-<li><strong>PR #95792</strong> fix(onboard): refresh provider plugin registry after setup installs. Related #95765. Thanks @snowzlmbot.</li>
+<li>Prevents first-run setup from skipping the selected provider&#39;s credential prompt after plugin installation, so onboarding continues with that provider instead of falling back to OpenAI. <a href="https://github.com/openclaw/openclaw/pull/95792">PR #95792</a>, <a href="https://github.com/openclaw/openclaw/issues/95765">Issue #95765</a>. Thanks @snowzlmbot.</li>
+</ul>
+<h3>Memory, Sessions, and State</h3>
+<h4>Session transcript SDK helpers</h4>
+<ul>
+<li>Adds a durable <a href="https://docs.openclaw.ai/plugins/sdk-runtime">session-transcript SDK contract</a> so plugins can read, append, publish, and lock the intended transcript without treating <a href="https://docs.openclaw.ai/plugins/sdk-subpaths">legacy file paths</a> as identity. <a href="https://github.com/openclaw/openclaw/pull/95030">PR #95030</a>. Thanks @jalehman.</li>
+</ul>
+<h4>Cross-channel session identity</h4>
+<ul>
+<li>Prevents a shared direct-message <a href="https://docs.openclaw.ai/concepts/session">session</a> from carrying the previous <a href="https://docs.openclaw.ai/channels/channel-routing">channel&#39;s identity</a> after a switch, so status, reactions, threads, and message references target the current channel. <a href="https://github.com/openclaw/openclaw/pull/95328">PR #95328</a>, <a href="https://github.com/openclaw/openclaw/issues/95325">Issue #95325</a>. Thanks @gorkem2020, @jalehman, and @zengwen-dt.</li>
+</ul>
+<h3>Gateway, Security, and Trust</h3>
+<h4>Prompt context boundaries</h4>
+<ul>
+<li>Keeps empty prompts separate from hook-added context during compaction or session reuse in <a href="https://docs.openclaw.ai/plugins/copilot">Copilot and Codex sessions</a>, so prompt boundaries remain consistent. <a href="https://github.com/openclaw/openclaw/pull/94838">PR #94838</a>. Thanks @vincentkoc.</li>
+</ul>
+<h4>Trusted tool policy enforcement</h4>
+<ul>
+<li>Keeps <a href="https://docs.openclaw.ai/plugins/hooks">approval-sensitive Gateway and plugin tools</a> protected when connected extensions change, so configured safeguards continue to apply. <a href="https://github.com/openclaw/openclaw/pull/94545">PR #94545</a>. Thanks @jesse-merhi.</li>
+</ul>
+<h4>Trusted package redirects</h4>
+<ul>
+<li>Prevents authenticated package-source tokens from being sent to an allowed redirect on another origin, while the valid redirected download still completes. <a href="https://github.com/openclaw/openclaw/commit/b0df6dc10eb5b9e9fdca93063a16316f8589954e">b0df6dc</a>.</li>
+</ul>
+<h3>Clients and Interfaces</h3>
+<h4>Docker and Podman setup timeouts</h4>
+<ul>
+<li>Prevents <a href="https://docs.openclaw.ai/install/docker">Docker</a> and <a href="https://docs.openclaw.ai/install/podman">Podman</a> setup from running unbounded on hosts where GNU timeout is installed as <code>gtimeout</code>, so image pulls, builds, and detached startup receive the intended guard. <a href="https://github.com/openclaw/openclaw/commit/62b2e9ef14b4be6fd396621c8e5e248331f08695">62b2e9e</a>.</li>
+</ul>
+<h3>Plugins, Packaging, and QA</h3>
+<h4>Codex service-tier clearing</h4>
+<ul>
+<li>Prevents cleared <a href="https://docs.openclaw.ai/tools/thinking">Codex service tiers</a> from being persisted as explicit stale state, so resumed or switched conversations use the normal default instead. <a href="https://github.com/openclaw/openclaw/commit/cd32d9ff91caf84c0ead38796ef096cdc5bea06e">cd32d9f</a>. Thanks @vincentkoc.</li>
+</ul>
+<h4>StepFun provider installation</h4>
+<ul>
+<li>Restores <a href="https://docs.openclaw.ai/plugins/reference/stepfun">ClawHub discovery</a> for the <a href="https://docs.openclaw.ai/providers/stepfun">StepFun provider</a> plugin, so operators can install it through either ClawHub or npm. <a href="https://github.com/openclaw/openclaw/commit/ecb82f1be93024be23c1b191ebea92c63230b6c0">ecb82f1</a>. Thanks @vincentkoc.</li>
+</ul>
+<h3>Docs and Operator Workflows</h3>
+<h4>Doctor check ordering</h4>
+<ul>
+<li>Keeps core <a href="https://docs.openclaw.ai/gateway/doctor"><code>openclaw doctor</code></a> diagnostics in their normal order before extension checks, making lint and repair output easier to follow. <a href="https://github.com/openclaw/openclaw/pull/86627">PR #86627</a>. Thanks @giodl73-repo.</li>
 </ul>
 <h3>Release verification</h3>
 <ul>
@@ -761,40 +804,83 @@
 <li>Windows Hub promotion: <a href="https://github.com/openclaw/openclaw/actions/runs/28072271374">https://github.com/openclaw/openclaw/actions/runs/28072271374</a> from openclaw/<a href="mailto:openclaw-windows-node@v0.6.3">openclaw-windows-node@v0.6.3</a></li>
 </ul>
 ]]></description>
-            <content:encoded><![CDATA[<h3>Highlights</h3>
+            <content:encoded><![CDATA[<p>Automatic fast mode starts short conversations quickly, then returns longer or fallback work to normal mode without losing visible state. Provider routing, channel progress, session identity, and trusted tool policies are more reliable, with smaller improvements spanning provider setup, diagnostics, and transcript tooling.</p>
+<h3>Highlights</h3>
+<h4>Automatic fast mode</h4>
 <ul>
-<li><strong>Automatic fast mode for talks:</strong> OpenClaw can enable fast mode for short conversational turns, then return to normal mode for longer runs with bounded fallback and delivery behavior. (#85104) Thanks @alexph-dev and @vincentkoc.</li>
-<li><strong>More reliable model routing:</strong> Zai model synthesis, GLM overload failover, and native reasoning-level selection now follow the active model catalog more consistently. (#94461, #93241, #94067, #94136) Thanks @Pandah97, @chrysb, @0xghost42, @zhengli0922, @openperf, @civiltox, and @BorClaw.</li>
-<li><strong>Safer session and channel state:</strong> channel switches reset stale origin fields, and cron delivery awareness stays attached to the target session. (#95328, #93580) Thanks @ZengWen-DT, @jalehman, @gorkem2020, and @scotthuang.</li>
-<li><strong>Trusted policies survive hook composition:</strong> composed hook registries keep the trusted tool policies required by approval-sensitive flows. (#94545) Thanks @jesse-merhi.</li>
+<li>Adds <a href="https://docs.openclaw.ai/tools/thinking"><code>/fast auto</code></a> so short conversational calls can start quickly, while longer or fallback work returns to normal mode with the effective state still visible. <a href="https://github.com/openclaw/openclaw/pull/85104">PR #85104</a>, <a href="https://github.com/openclaw/openclaw/issues/85087">Issue #85087</a>. Thanks @alexph-dev and @vincentkoc.</li>
+<li>Shows the effective automatic fast-mode state in status instead of reducing it to on/off, and avoids carrying a cleared Codex service-tier choice into later runs. <a href="https://github.com/openclaw/openclaw/commit/8845f2fd6143becc37110ab5021dd5e1517f0cdc">8845f2f</a>. Thanks @vincentkoc.</li>
+<li>Keeps automatic fast-mode timing consistent when a turn switches to a fallback model. <a href="https://github.com/openclaw/openclaw/commit/075091d0cab94053ff094268efc0acb225d514f4">075091d</a>. Thanks @vincentkoc.</li>
+<li>Keeps the original fast-mode timing and progress behavior when a live model switch retries a turn. <a href="https://github.com/openclaw/openclaw/commit/d1e190fbe822ad6ae4e660ce376b60ec9fdb0fba">d1e190f</a>. Thanks @vincentkoc.</li>
+<li>Keeps automatic fast-mode progress and reset behavior distinct from explicit fast mode after a run switches modes. <a href="https://github.com/openclaw/openclaw/commit/20aec985545db7a24ea066e5bff1c47b789cbded">20aec98</a>. Thanks @vincentkoc.</li>
+<li>Shows the effective fast-mode value in connected-agent sessions instead of the configured value, so status reflects what the session is actually using. <a href="https://github.com/openclaw/openclaw/commit/9509aa063c0ef3e32be1516fcb0c23606b6d5c7b">9509aa0</a>. Thanks @vincentkoc.</li>
+<li>Keeps the effective automatic fast-mode setting visible through fallback transitions in connected-agent sessions. <a href="https://github.com/openclaw/openclaw/commit/7f5423ca97174a3f16c211db54a6c96e5b3a6089">7f5423c</a>. Thanks @vincentkoc.</li>
+<li>Keeps automatic fast-mode timing and progress consistent when reply and <a href="https://docs.openclaw.ai/automation/cron-jobs">scheduled-agent runs</a> retry or switch models. <a href="https://github.com/openclaw/openclaw/commit/6c29f88913796bfe05696556cd82246670b126f0">6c29f88</a>. Thanks @vincentkoc.</li>
+<li>Keeps fast-mode cleanup and status consistent when a run switches between fallback models. <a href="https://github.com/openclaw/openclaw/commit/c4694f84ffd52064f89609098cc4f8570fb72e1b">c4694f8</a>. Thanks @vincentkoc.</li>
+<li>Shows the automatic fast-mode reset only when fallback work is finished, so status messages match the end of the transition. <a href="https://github.com/openclaw/openclaw/commit/f4d93c855bff6930f5e5d739b95e0c2612ec4899">f4d93c8</a>. Thanks @vincentkoc.</li>
+<li>Shows reset and delivery progress at the right time when auto-reply or other follow-up runs retry or leave automatic fast mode. <a href="https://github.com/openclaw/openclaw/commit/684e44013778bd47d159e64b2595e4d09a92ebea">684e440</a>. Thanks @vincentkoc.</li>
 </ul>
-<h3>Changes</h3>
+<h3>Channels and Messaging</h3>
+<h4>Channel delivery and progress updates</h4>
 <ul>
-<li><strong>Agent and channel runtime:</strong> fast-mode state now survives retries, fallback transitions, progress events, and embedded/CLI/ACP normalization; session and channel routing retain the current target and delivery context. (#85104, #93580, #95328) Thanks @alexph-dev, @vincentkoc, @scotthuang, @ZengWen-DT, @jalehman, and @gorkem2020.</li>
-<li><strong>Provider behavior:</strong> model catalogs now supply the correct Zai base URL, overload classification, and native reasoning controls for live-discovered models. (#94461, #93241, #94067, #94136) Thanks @Pandah97, @chrysb, @0xghost42, @zhengli0922, @openperf, @civiltox, and @BorClaw.</li>
+<li>Prevents the next turn after a <a href="https://docs.openclaw.ai/automation/cron-jobs">scheduled message</a> from losing what was delivered or whether delivery failed, so replies can use that context without exposing cron details in the channel. <a href="https://github.com/openclaw/openclaw/pull/93580">PR #93580</a>. Thanks @jalehman and @scotthuang.</li>
+<li>Prevents streamed channel progress from dropping a repeated status that represents a separate step, so each meaningful step remains visible in the draft. <a href="https://github.com/openclaw/openclaw/commit/2d42e52ac5513e0bd824b8a0e069db83e04bc056">2d42e52</a>. Thanks @vincentkoc.</li>
+<li>Prevents keyed streamed progress from staying on an older status, so viewers see the latest state instead of stale text. <a href="https://github.com/openclaw/openclaw/commit/8bb6472c4de2eea06f1ba31d6ed679e2ac4581b0">8bb6472</a>. Thanks @vincentkoc.</li>
 </ul>
-<h3>Fixes</h3>
+<h3>Providers and Models</h3>
+<h4>Provider model catalogs and reasoning controls</h4>
 <ul>
-<li><strong>Fast-mode and policy correctness:</strong> fallback cutoffs and reset notices are bounded, repeated progress events remain visible, Codex service-tier state is normalized, and trusted policies are not lost when hook registries are composed. (#85104, #94545) Thanks @alexph-dev, @vincentkoc, and @jesse-merhi.</li>
-<li><strong>Model and delivery edge cases:</strong> Zai and GLM failover paths use the right runtime metadata, while stale channel-origin state no longer leaks across session changes. (#94461, #93241, #95328) Thanks @Pandah97, @chrysb, @0xghost42, @zhengli0922, @ZengWen-DT, @jalehman, and @gorkem2020.</li>
-<li><strong>Provider plugin onboarding:</strong> setup refreshes provider plugin registry metadata after installing setup-selected provider plugins, so auth continuation uses the newly installed provider instead of stale registry state. (#95792) Thanks @snowzlmbot.</li>
+<li>Treats Zhipu/GLM overload responses as overloads, so a configured fallback is selected for the right reason instead of following the wrong failover path. <a href="https://github.com/openclaw/openclaw/pull/93241">PR #93241</a>, <a href="https://github.com/openclaw/openclaw/issues/93211">Issue #93211</a>. Thanks @0xghost42 and @zhengli0922.</li>
+<li>Prevents Telegram, Slack, and Discord <code>/think</code> menus for live Ollama models from hiding supported levels, so users can choose valid reasoning settings without guessing. <a href="https://github.com/openclaw/openclaw/pull/94067">PR #94067</a>, <a href="https://github.com/openclaw/openclaw/issues/93835">Issue #93835</a>. Thanks @civiltox and @openperf.</li>
+<li>Expands <a href="https://docs.openclaw.ai/tools/thinking"><code>zai/glm-5.2</code> thinking choices</a> beyond binary on/off and sends high or max requests as the intended Z.AI reasoning effort. <a href="https://github.com/openclaw/openclaw/pull/94136">PR #94136</a>. Thanks @borclaw.</li>
+<li>Prevents bundled <a href="https://docs.openclaw.ai/providers/zai">Z.ai GLM-5 models</a> from falling through to OpenAI and producing misleading API-key errors, so they use Z.AI by default. <a href="https://github.com/openclaw/openclaw/pull/94461">PR #94461</a>, <a href="https://github.com/openclaw/openclaw/issues/94269">Issue #94269</a>. Thanks @chrysb and @pandah97.</li>
+<li>Adds GLM-5.2 and Kimi K2.7 Code to the <a href="https://docs.openclaw.ai/providers/opencode-go">OpenCode Go catalog</a> with current limits, so users can select the models from OpenClaw. <a href="https://github.com/openclaw/openclaw/commit/66f84a9bf1082de26f92b2b3741cc2f34aba34fa">66f84a9</a>. Thanks @samson1357924.</li>
+<li>Corrects <code>kimi-k2.7-code</code> capability listings so OpenCode Go users are not offered unsupported video prompts when the model accepts text and images. <a href="https://github.com/openclaw/openclaw/commit/715dc718fc5a2a5d6f7e9ec16e0269382b726e83">715dc71</a>.</li>
 </ul>
-<h3>Complete contribution record</h3>
-<p>This audited record covers the complete v2026.6.9..HEAD history: 12 merged PRs. The generation manifest also supplies direct commits as editorial input; the grouped notes above prioritize user impact.</p>
-<h4>Pull requests</h4>
+<h4>Provider plugin onboarding</h4>
 <ul>
-<li><strong>PR #86627</strong> Keep core doctor health in contribution order. Thanks @giodl73-repo.</li>
-<li><strong>PR #93580</strong> fix: preserve cron delivery awareness for target sessions. Thanks @scotthuang and @jalehman.</li>
-<li><strong>PR #95030</strong> refactor: add SDK transcript identity target API. Thanks @jalehman.</li>
-<li><strong>PR #94838</strong> refactor(copilot): complete harness lifecycle parity. Thanks @vincentkoc.</li>
-<li><strong>PR #95328</strong> fix(sessions): reset stale per-channel origin fields on channel switch. Related #95325. Thanks @ZengWen-DT and @jalehman and @gorkem2020.</li>
-<li><strong>PR #94461</strong> fix(zai): fall back to manifest baseUrl for synthesized GLM-5 models. Related #94269. Thanks @Pandah97 and @chrysb.</li>
-<li><strong>PR #93241</strong> fix(agents): classify Zhipu GLM overload as overloaded for failover. Related #93211. Thanks @0xghost42 and @zhengli0922.</li>
-<li><strong>PR #94067</strong> fix(channels): resolve native /think menu levels via runtime catalog for live-discovered models. Related #93835. Thanks @openperf and @civiltox.</li>
-<li><strong>PR #94136</strong> fix(zai): expose GLM-5.2 reasoning levels [AI-assisted]. Thanks @BorClaw.</li>
-<li><strong>PR #85104</strong> feat: fast talks auto mode. Related #85087. Thanks @alexph-dev.</li>
-<li><strong>PR #94545</strong> fix: keep trusted policies with hook registry. Thanks @jesse-merhi.</li>
-<li><strong>PR #95792</strong> fix(onboard): refresh provider plugin registry after setup installs. Related #95765. Thanks @snowzlmbot.</li>
+<li>Prevents first-run setup from skipping the selected provider&#39;s credential prompt after plugin installation, so onboarding continues with that provider instead of falling back to OpenAI. <a href="https://github.com/openclaw/openclaw/pull/95792">PR #95792</a>, <a href="https://github.com/openclaw/openclaw/issues/95765">Issue #95765</a>. Thanks @snowzlmbot.</li>
+</ul>
+<h3>Memory, Sessions, and State</h3>
+<h4>Session transcript SDK helpers</h4>
+<ul>
+<li>Adds a durable <a href="https://docs.openclaw.ai/plugins/sdk-runtime">session-transcript SDK contract</a> so plugins can read, append, publish, and lock the intended transcript without treating <a href="https://docs.openclaw.ai/plugins/sdk-subpaths">legacy file paths</a> as identity. <a href="https://github.com/openclaw/openclaw/pull/95030">PR #95030</a>. Thanks @jalehman.</li>
+</ul>
+<h4>Cross-channel session identity</h4>
+<ul>
+<li>Prevents a shared direct-message <a href="https://docs.openclaw.ai/concepts/session">session</a> from carrying the previous <a href="https://docs.openclaw.ai/channels/channel-routing">channel&#39;s identity</a> after a switch, so status, reactions, threads, and message references target the current channel. <a href="https://github.com/openclaw/openclaw/pull/95328">PR #95328</a>, <a href="https://github.com/openclaw/openclaw/issues/95325">Issue #95325</a>. Thanks @gorkem2020, @jalehman, and @zengwen-dt.</li>
+</ul>
+<h3>Gateway, Security, and Trust</h3>
+<h4>Prompt context boundaries</h4>
+<ul>
+<li>Keeps empty prompts separate from hook-added context during compaction or session reuse in <a href="https://docs.openclaw.ai/plugins/copilot">Copilot and Codex sessions</a>, so prompt boundaries remain consistent. <a href="https://github.com/openclaw/openclaw/pull/94838">PR #94838</a>. Thanks @vincentkoc.</li>
+</ul>
+<h4>Trusted tool policy enforcement</h4>
+<ul>
+<li>Keeps <a href="https://docs.openclaw.ai/plugins/hooks">approval-sensitive Gateway and plugin tools</a> protected when connected extensions change, so configured safeguards continue to apply. <a href="https://github.com/openclaw/openclaw/pull/94545">PR #94545</a>. Thanks @jesse-merhi.</li>
+</ul>
+<h4>Trusted package redirects</h4>
+<ul>
+<li>Prevents authenticated package-source tokens from being sent to an allowed redirect on another origin, while the valid redirected download still completes. <a href="https://github.com/openclaw/openclaw/commit/b0df6dc10eb5b9e9fdca93063a16316f8589954e">b0df6dc</a>.</li>
+</ul>
+<h3>Clients and Interfaces</h3>
+<h4>Docker and Podman setup timeouts</h4>
+<ul>
+<li>Prevents <a href="https://docs.openclaw.ai/install/docker">Docker</a> and <a href="https://docs.openclaw.ai/install/podman">Podman</a> setup from running unbounded on hosts where GNU timeout is installed as <code>gtimeout</code>, so image pulls, builds, and detached startup receive the intended guard. <a href="https://github.com/openclaw/openclaw/commit/62b2e9ef14b4be6fd396621c8e5e248331f08695">62b2e9e</a>.</li>
+</ul>
+<h3>Plugins, Packaging, and QA</h3>
+<h4>Codex service-tier clearing</h4>
+<ul>
+<li>Prevents cleared <a href="https://docs.openclaw.ai/tools/thinking">Codex service tiers</a> from being persisted as explicit stale state, so resumed or switched conversations use the normal default instead. <a href="https://github.com/openclaw/openclaw/commit/cd32d9ff91caf84c0ead38796ef096cdc5bea06e">cd32d9f</a>. Thanks @vincentkoc.</li>
+</ul>
+<h4>StepFun provider installation</h4>
+<ul>
+<li>Restores <a href="https://docs.openclaw.ai/plugins/reference/stepfun">ClawHub discovery</a> for the <a href="https://docs.openclaw.ai/providers/stepfun">StepFun provider</a> plugin, so operators can install it through either ClawHub or npm. <a href="https://github.com/openclaw/openclaw/commit/ecb82f1be93024be23c1b191ebea92c63230b6c0">ecb82f1</a>. Thanks @vincentkoc.</li>
+</ul>
+<h3>Docs and Operator Workflows</h3>
+<h4>Doctor check ordering</h4>
+<ul>
+<li>Keeps core <a href="https://docs.openclaw.ai/gateway/doctor"><code>openclaw doctor</code></a> diagnostics in their normal order before extension checks, making lint and repair output easier to follow. <a href="https://github.com/openclaw/openclaw/pull/86627">PR #86627</a>. Thanks @giodl73-repo.</li>
 </ul>
 <h3>Release verification</h3>
 <ul>
