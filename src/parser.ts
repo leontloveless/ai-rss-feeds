@@ -542,18 +542,28 @@ export async function parseArticles(html: string, config: FeedConfig): Promise<A
   // over those instead of the container itself, otherwise .find() on the container
   // collects ALL matching elements across the entire subtree and .first() then
   // returns only the first — giving 1 article instead of N.
-  function queryArticleItems($el: cheerio.Cheerio<any>): cheerio.Cheerio<any> {
+  function queryArticleItems(
+    $el: cheerio.Cheerio<any>,
+    totalMatches: number
+  ): cheerio.Cheerio<any> {
+    // If articleList already matched multiple elements, those are the article
+    // items. Only expand children when a single wrapper/container was matched.
+    if (totalMatches > 1) return $el;
+
     const kids = $el.children();
     // If the articleList matched an article container (has direct children),
     // those children are the individual article items. Otherwise use $el as-is.
     return kids.length > 0 ? kids : $el;
   }
 
-  $(selectors.articleList).each((_, el) => {
+  const $articleMatches = $(selectors.articleList);
+  const totalMatches = $articleMatches.length;
+
+  $articleMatches.each((_, el) => {
     const $container = $(el);
 
     // Get individual article items within this container
-    const $items = queryArticleItems($container);
+    const $items = queryArticleItems($container, totalMatches);
 
     $items.each((_, itemEl) => {
       const $el = $(itemEl);
