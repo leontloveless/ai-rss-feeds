@@ -478,6 +478,47 @@ async function parseRssMirrorArticles(xml: string): Promise<Article[]> {
 /**
  * Parse HTML using a FeedConfig and return extracted articles.
  */
+export function validateSelectorSyntax(config: FeedConfig): string[] {
+  const mode = config.parserMode ?? "css";
+  const errors: string[] = [];
+  const $ = cheerio.load("<article><a><h2>Example</h2></a></article>");
+  const $article = $("article").first();
+
+  function check(
+    path: string,
+    selector: string | undefined,
+    scope: "document" | "relative" = "document"
+  ): void {
+    if (!selector?.trim()) {
+      errors.push(`${path}: missing selector`);
+      return;
+    }
+    try {
+      if (scope === "relative") $article.find(selector);
+      else $(selector);
+    } catch (err) {
+      errors.push(`${path}: ${JSON.stringify(selector)} is invalid: ${(err as Error).message}`);
+    }
+  }
+
+  if (mode === "css") {
+    check("selectors.articleList", config.selectors.articleList);
+    check("selectors.title", config.selectors.title, "relative");
+    if (config.selectors.date) check("selectors.date", config.selectors.date, "relative");
+    if (config.selectors.description) {
+      check("selectors.description", config.selectors.description, "relative");
+    }
+  }
+
+  if (mode === "json" && config.jsonExtraction) {
+    check("jsonExtraction.scriptSelector", config.jsonExtraction.scriptSelector);
+  } else if (mode === "json") {
+    errors.push("jsonExtraction: missing configuration for parserMode json");
+  }
+
+  return errors;
+}
+
 export async function parseArticles(html: string, config: FeedConfig): Promise<Article[]> {
   if (config.parserMode === "github-releases" && config.githubReleasesExtraction) {
     return parseGithubReleasesArticles(html, config);

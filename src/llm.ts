@@ -51,7 +51,9 @@ Rules:
 4. If URLs are relative (e.g. "/blog/post-1"), set \`link.prefix\` to the site origin.
 5. Only output valid JSON. No markdown, no explanation, no code fences.
 6. Set \`createdAt\` to today's date in ISO format.
-7. If the page is a CHANGELOG or release notes in "Keep a Changelog" format (## headings for versions, ### for categories), set \`parserMode\` to "changelog" and provide \`changelogExtraction\` with \`linkTemplate\` if the source is a GitHub repo.`;
+7. If the page is a CHANGELOG or release notes in "Keep a Changelog" format (## headings for versions, ### for categories), set \`parserMode\` to "changelog" and provide \`changelogExtraction\` with \`linkTemplate\` if the source is a GitHub repo.
+8. Selectors must be valid Cheerio/css-select syntax. If a class name contains ":" (for example Tailwind "hover:underline"), escape the colon as "\\\\:" in JSON, or prefer a stable structural selector such as article, a[href], h1-h3, time, or data-* attributes.
+9. Avoid Tailwind utility classes and generated/hash-like classes when stable tags or attributes are available.`;
 
 /**
  * Generate a FeedConfig from a blog URL's HTML using LLM.

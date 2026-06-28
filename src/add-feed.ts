@@ -11,7 +11,7 @@ import { writeFileSync, mkdirSync } from "fs";
 import { join } from "path";
 import { fetchHTML } from "./fetcher.js";
 import { generateConfig } from "./llm.js";
-import { parseArticles } from "./parser.js";
+import { parseArticles, validateSelectorSyntax } from "./parser.js";
 import { validateQuick } from "./validator.js";
 import { generateRSS } from "./generator.js";
 import { saveSnapshot } from "./snapshot.js";
@@ -20,6 +20,57 @@ import type { Article, FeedConfig } from "./types.js";
 const CONFIGS_DIR = join(import.meta.dir, "..", "configs");
 const FEEDS_DIR = join(import.meta.dir, "..", "feeds");
 const MAX_PARSE_ATTEMPTS = 3;
+
+function selectorFeedback(config: FeedConfig, errors: string[]): string {
+  return (
+    `Your previous FeedConfig used invalid CSS selector syntax.\n` +
+    `Selector errors:\n${errors.map((e) => `- ${e}`).join("\n")}\n\n` +
+    `Selectors used: ${JSON.stringify(config.selectors)}.\n` +
+    `Selectors must be valid Cheerio/css-select syntax. If you use a class name ` +
+    `containing ":" (for example Tailwind "hover:underline"), escape the colon ` +
+    `as "\\:" in the JSON string, or choose a more stable structural selector ` +
+    `such as article, a[href], h1-h3, time, or data-* attributes.`
+  );
+}
+
+function parseFeedback(config: FeedConfig, err: unknown): string {
+  return (
+    `Your previous FeedConfig crashed the deterministic parser.\n` +
+    `Parser error: ${(err as Error).message}\n\n` +
+    `Selectors used: ${JSON.stringify(config.selectors)}.\n` +
+    `Return a corrected FeedConfig whose selectors can be executed by Cheerio. ` +
+    `Avoid raw Tailwind variant classes such as ".hover:underline"; escape ":" ` +
+    `as "\\:" or use stable structural selectors.`
+  );
+}
+
+function emptyArticlesFeedback(config: FeedConfig): string {
+  return (
+    `Your previous selectors produced 0 articles when applied to this exact HTML. ` +
+    `Selectors used: ${JSON.stringify(config.selectors)}. ` +
+    `The articleList selector "${config.selectors.articleList}" matched no usable articles. ` +
+    `Pick selectors that actually exist in the HTML below; avoid hashed CSS-Modules class names ` +
+    `(e.g. "Foo-module-scss-module__abc123__bar"), prefer stable tags/attributes (article, h1-h3, ` +
+    `data-* attributes, or simple class names). If the page is a JavaScript-rendered SPA with no ` +
+    `article markup in the static HTML, return parserMode "json" with jsonExtraction targeting ` +
+    `the __NEXT_DATA__ script and the appropriate dataPath.`
+  );
+}
+
+function validationFeedback(config: FeedConfig, articles: Article[], errors: string[]): string {
+  const sample = articles.slice(0, 3).map((a) => ({
+    title: a.title,
+    link: a.link,
+    date: a.date?.toISOString(),
+  }));
+  return (
+    `Your previous FeedConfig parsed articles, but they failed validation.\n` +
+    `Validation errors:\n${errors.map((e) => `- ${e}`).join("\n")}\n\n` +
+    `Selectors used: ${JSON.stringify(config.selectors)}.\n` +
+    `Sample parsed articles: ${JSON.stringify(sample)}.\n` +
+    `Return corrected selectors that produce non-empty titles and absolute http(s) links without duplicates.`
+  );
+}
 
 async function main() {
   const url = process.argv[2];
@@ -36,14 +87,16 @@ async function main() {
   const html = await fetchHTML(url);
   console.log(`✅ Fetched ${(html.length / 1024).toFixed(1)}KB`);
 
-  // 2. Generate config + verify it parses; on 0 articles, feed the failing
-  //    selectors back to the LLM and try again (sites with hashed class names
-  //    or shifted markup often need 1–2 corrections).
+  // 2. Generate config + verify it parses and validates. Any failed stage
+  //    becomes feedback for the next LLM attempt instead of crashing early.
   let config: FeedConfig | undefined;
   let articles: Article[] = [];
   let feedback: string | undefined;
+  let lastFailure = "";
+  let readyToSave = false;
 
   for (let attempt = 1; attempt <= MAX_PARSE_ATTEMPTS; attempt++) {
+    articles = [];
     console.log(
       `🤖 Generating config via LLM (attempt ${attempt}/${MAX_PARSE_ATTEMPTS})...`
     );
@@ -51,44 +104,61 @@ async function main() {
     config.createdAt = new Date().toISOString();
     console.log(`✅ Config generated: "${config.name}"`);
 
+    const selectorErrors = validateSelectorSyntax(config);
+    if (selectorErrors.length > 0) {
+      lastFailure = selectorErrors.join("; ");
+      feedback = selectorFeedback(config, selectorErrors);
+      console.warn("⚠️  Config has invalid selector syntax; retrying with feedback to LLM...");
+      continue;
+    }
+
     console.log("📝 Parsing articles...");
-    articles = await parseArticles(html, config);
+    try {
+      articles = await parseArticles(html, config);
+    } catch (err) {
+      lastFailure = (err as Error).message;
+      feedback = parseFeedback(config, err);
+      console.warn(`⚠️  Parser failed: ${lastFailure}; retrying with feedback to LLM...`);
+      continue;
+    }
     console.log(`   Found ${articles.length} articles`);
 
-    if (articles.length > 0) break;
+    if (articles.length === 0) {
+      lastFailure = "No articles found";
+      feedback = emptyArticlesFeedback(config);
+      console.warn(`⚠️  No articles parsed; retrying with feedback to LLM...`);
+      continue;
+    }
 
-    feedback =
-      `Your previous selectors produced 0 articles when applied to this exact HTML. ` +
-      `Selectors used: ${JSON.stringify(config.selectors)}. ` +
-      `The articleList selector "${config.selectors.articleList}" matched no elements. ` +
-      `Pick selectors that actually exist in the HTML below — avoid hashed CSS-Modules class names ` +
-      `(e.g. "Foo-module-scss-module__abc123__bar"), prefer stable tags/attributes (article, h1-h3, ` +
-      `data-* attributes, or simple class names). If the page is a JavaScript-rendered SPA with no ` +
-      `article markup in the static HTML, return parserMode "json" with jsonExtraction targeting ` +
-      `the __NEXT_DATA__ script and the appropriate dataPath.`;
-    console.warn(`⚠️  No articles parsed; retrying with feedback to LLM...`);
+    const validation = validateQuick(articles);
+    if (!validation.valid) {
+      lastFailure = validation.errors.join("; ");
+      feedback = validationFeedback(config, articles, validation.errors);
+      console.warn("⚠️  Parsed articles failed validation; retrying with feedback to LLM...");
+      continue;
+    }
+    if (validation.warnings.length > 0) {
+      for (const w of validation.warnings) {
+        console.warn(`⚠️  ${w}`);
+      }
+    }
+
+    readyToSave = true;
+    break;
   }
 
-  if (!config || articles.length === 0) {
-    console.error("❌ No articles found after all attempts.");
+  if (!config || !readyToSave) {
+    console.error("❌ Failed to generate a valid feed config after all attempts.");
     if (config) {
       console.error("   Last config:", JSON.stringify(config.selectors, null, 2));
+    }
+    if (lastFailure) {
+      console.error(`   Last failure: ${lastFailure}`);
     }
     console.error(
       "   This site may be a JavaScript-rendered SPA, or use unusual structure."
     );
     process.exit(1);
-  }
-
-  const validation = validateQuick(articles);
-  if (!validation.valid) {
-    console.error("❌ Validation failed:", validation.errors);
-    process.exit(1);
-  }
-  if (validation.warnings.length > 0) {
-    for (const w of validation.warnings) {
-      console.warn(`⚠️  ${w}`);
-    }
   }
 
   // 4. Generate RSS

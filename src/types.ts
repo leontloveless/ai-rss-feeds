@@ -17,7 +17,7 @@ export interface FeedConfig {
       prefix?: string;
     };
   };
-  parserMode?: "css" | "json" | "changelog" | "github-releases" | "rss"; // default: "css"
+  parserMode?: "css" | "json" | "changelog" | "github-releases" | "rss" | "external"; // default: "css"
   jsonExtraction?: {
     scriptSelector: string; // e.g., 'script#__NEXT_DATA__'
     dataPath: string; // e.g., 'props.pageProps.posts'

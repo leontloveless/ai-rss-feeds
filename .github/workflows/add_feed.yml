@@ -14,7 +14,7 @@ permissions:
 
 jobs:
   add-feed:
-    if: github.event.label.name == 'new-feed'
+    if: github.event.label.name == 'new-feed' || github.event.label.name == 'retry-feed'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
@@ -142,13 +142,41 @@ jobs:
                 issue_number: context.issue.number,
                 state: 'closed',
               });
+              for (const label of ['feed-failed', 'retry-feed']) {
+                try {
+                  await github.rest.issues.removeLabel({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    issue_number: context.issue.number,
+                    name: label,
+                  });
+                } catch (err) {
+                  if (err.status !== 404) throw err;
+                }
+              }
             } else {
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                state: 'open',
+              });
               await github.rest.issues.addLabels({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: context.issue.number,
                 labels: ['feed-failed'],
               });
+              try {
+                await github.rest.issues.removeLabel({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: context.issue.number,
+                  name: 'retry-feed',
+                });
+              } catch (err) {
+                if (err.status !== 404) throw err;
+              }
             }
 
       - name: Comment failure
@@ -162,6 +190,8 @@ jobs:
               const logContent = fs.readFileSync('/tmp/add-smart.log', 'utf8');
               if (logContent.includes('Cloudflare') || logContent.includes('cf-mitigated')) {
                 errorHint = '\n\n⚠️ This site is protected by Cloudflare bot detection. Static HTTP requests cannot access it.';
+              } else if (logContent.includes('Unknown pseudo-class')) {
+                errorHint = '\n\n⚠️ The generated CSS selector was invalid for Cheerio. Apply the `retry-feed` label after selector retry fixes are merged.';
               } else if (logContent.includes('No articles found')) {
                 errorHint = '\n\n⚠️ The site structure could not be parsed. It may be a JavaScript-rendered SPA.';
               } else if (logContent.includes('No releases found')) {
@@ -177,9 +207,25 @@ jobs:
             });
 
             // Keep the issue open — it is only closed after a verified feed URL exists.
+            await github.rest.issues.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              state: 'open',
+            });
             await github.rest.issues.addLabels({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
               labels: ['feed-failed'],
             });
+            try {
+              await github.rest.issues.removeLabel({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                name: 'retry-feed',
+              });
+            } catch (err) {
+              if (err.status !== 404) throw err;
+            }
