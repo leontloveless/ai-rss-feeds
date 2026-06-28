@@ -82,25 +82,70 @@ function extractLink(
 /**
  * Try to parse a date string with optional format.
  */
+const DATE_TEXT_PATTERNS: Array<{ regex: RegExp; formats: string[] }> = [
+  {
+    regex: /\b[A-Z][a-z]+ \d{1,2}, \d{4}\b/g,
+    formats: ["MMMM d, yyyy", "MMM d, yyyy"],
+  },
+  {
+    regex: /\b\d{4}-\d{1,2}-\d{1,2}\b/g,
+    formats: ["yyyy-M-d", "yyyy-MM-dd"],
+  },
+  {
+    regex: /\b\d{1,2}\/\d{1,2}\/\d{4}\b/g,
+    formats: ["M/d/yyyy", "MM/dd/yyyy"],
+  },
+];
+
+function isValidDate(date: Date): boolean {
+  return !isNaN(date.getTime());
+}
+
+function asUtcDateOnly(date: Date): Date {
+  return new Date(
+    Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
+  );
+}
+
+function parseWithDateFns(raw: string, format: string): Date | undefined {
+  try {
+    const parsed = dateParse(raw, format, new Date(0));
+    if (isValidDate(parsed)) return parsed;
+  } catch {
+    // Invalid format/raw pair; try the next one.
+  }
+  return undefined;
+}
+
+function parseEmbeddedDate(raw: string): Date | undefined {
+  for (const { regex, formats } of DATE_TEXT_PATTERNS) {
+    regex.lastIndex = 0;
+    const matches = raw.match(regex) ?? [];
+    for (const match of matches) {
+      for (const format of formats) {
+        const parsed = parseWithDateFns(match, format);
+        if (parsed) return asUtcDateOnly(parsed);
+      }
+    }
+  }
+  return undefined;
+}
+
 function parseDate(raw: string, format?: string): Date | undefined {
   if (!raw) return undefined;
   const trimmed = raw.trim();
 
   // Try explicit format first
   if (format) {
-    try {
-      const d = dateParse(trimmed, format, new Date());
-      if (!isNaN(d.getTime())) return d;
-    } catch {
-      // fall through
-    }
+    const parsed = parseWithDateFns(trimmed, format);
+    if (parsed) return parsed;
   }
 
   // Try native Date parsing
   const d = new Date(trimmed);
-  if (!isNaN(d.getTime())) return d;
+  if (isValidDate(d)) return d;
 
-  return undefined;
+  return parseEmbeddedDate(trimmed);
 }
 
 /**
