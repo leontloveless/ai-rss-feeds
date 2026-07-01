@@ -4,11 +4,89 @@
         <title>claude-code Releases</title>
         <link>https://github.com/anthropics/claude-code/releases</link>
         <description>GitHub releases for anthropics/claude-code</description>
-        <lastBuildDate>Tue, 30 Jun 2026 17:56:37 GMT</lastBuildDate>
+        <lastBuildDate>Wed, 01 Jul 2026 20:45:36 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>ai-rss-feeds (https://github.com/leontloveless/ai-rss-feeds)</generator>
         <language>en</language>
         <atom:link href="https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/claude-code-releases.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[v2.1.198]]></title>
+            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.198</link>
+            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.198</guid>
+            <pubDate>Wed, 01 Jul 2026 20:45:36 GMT</pubDate>
+            <description><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Claude in Chrome is now generally available</li>
+<li>Added background agent notifications in <code>claude agents</code> — sessions that need input or finish now fire the <code>Notification</code> hook (<code>agent_needs_input</code> / <code>agent_completed</code>)</li>
+<li>Added <code>/dataviz</code> skill for chart and dashboard design guidance with a runnable color-palette validator</li>
+<li>Gateway: added Claude Platform on AWS (anthropicAws) as an upstream provider; model-not-found responses now advance the failover chain</li>
+<li>Background agents launched from <code>claude agents</code> now commit, push, and open a draft PR when they finish code work in a worktree, instead of stopping to ask</li>
+<li>The built-in Explore agent now inherits the main session&#39;s model (capped at opus) instead of running on haiku</li>
+<li>Subagents and context compaction now inherit the session&#39;s extended thinking configuration, improving output quality on delegated tasks</li>
+<li>Fixed brief network drops mid-response aborting the turn — transient errors like ECONNRESET now retry with backoff instead of failing</li>
+<li>Fixed excessive background classifier requests when sandboxed processes repeatedly accessed the same network host</li>
+<li>Fixed background tasks in web, desktop, and VS Code task panels getting stuck on &quot;Running&quot; after they finish or after resuming a session</li>
+<li>Fixed agent teams: a teammate that dies on an API error now reports &quot;failed&quot; to the lead, and messaging a stuck teammate wakes it to retry immediately</li>
+<li>Fixed the <code>/diff</code> panel not refreshing when you switch branches or commit outside the session</li>
+<li>Fixed markdown tables overflowing and wrapping their right border when rendered in fullscreen mode</li>
+<li>Fixed Claude Platform on AWS and Mantle sessions dead-ending with &quot;Please run /login&quot; when the STS token expires — <code>awsAuthRefresh</code> now runs automatically</li>
+<li>Fixed &quot;no route to host&quot; for local-network hosts in macOS background agent sessions by declaring Local Network entitlements</li>
+<li>Fixed <code>/desktop</code> failing with &quot;Cannot determine working directory&quot; after entering and exiting a worktree</li>
+<li>Fixed background agents repeatedly showing &quot;Reconnecting…&quot; every ~52 seconds on macOS while the agents view was open</li>
+<li>Fixed pressing <code>←</code> inside <code>claude attach &lt;id&gt;</code> exiting to the shell instead of opening the agent view</li>
+<li>Fixed <code>claude --bg</code> silently creating an unattachable session when combined with <code>--print</code>/<code>-p</code>; the conflicting flags are now rejected up front</li>
+<li>Fixed the workflow progress view dropping the earliest agents from the list while the phase counter stayed correct in SDK and desktop-app sessions</li>
+<li>Fixed <code>.claude/rules/</code> conditional rules not loading when the target file is reached via a symlinked path</li>
+<li>Fixed Cmd+click not opening URLs in fullscreen mode in Warp on macOS</li>
+<li>Fixed double-click word selection in fullscreen mode to select the entire URL including the scheme</li>
+<li>Fixed plan mode not auto-allowing read-only tool calls when a session starts in plan mode</li>
+<li>Fixed <code>/branch</code> deriving its default fork name from the compaction summary instead of the first real prompt</li>
+<li>Improved focus mode: subagents launched in a turn now appear in its activity summary, and completed background notifications fold into a single count</li>
+<li>Improved syntax highlighting accuracy in code blocks, diffs, and file previews by upgrading to highlight.js 11</li>
+<li>Keyboard shortcut hints now show opt/cmd instead of alt/super when connected from a Mac over SSH</li>
+<li>Improved API retry UX: the error reason is now shown after the second attempt, and a status page link replaces the spinner tip when the API is overloaded</li>
+<li><code>/login</code> now opens the sign-in dialog from the <code>claude agents</code> view instead of saying it isn&#39;t available</li>
+<li>Subagents now treat messages from the agent that launched them as normal task direction; an agent&#39;s message is still never treated as the user&#39;s approval</li>
+<li>Removed the <code>/agents</code> wizard; ask Claude to create or manage subagents, or edit <code>.claude/agents/</code> directly</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Claude in Chrome is now generally available</li>
+<li>Added background agent notifications in <code>claude agents</code> — sessions that need input or finish now fire the <code>Notification</code> hook (<code>agent_needs_input</code> / <code>agent_completed</code>)</li>
+<li>Added <code>/dataviz</code> skill for chart and dashboard design guidance with a runnable color-palette validator</li>
+<li>Gateway: added Claude Platform on AWS (anthropicAws) as an upstream provider; model-not-found responses now advance the failover chain</li>
+<li>Background agents launched from <code>claude agents</code> now commit, push, and open a draft PR when they finish code work in a worktree, instead of stopping to ask</li>
+<li>The built-in Explore agent now inherits the main session&#39;s model (capped at opus) instead of running on haiku</li>
+<li>Subagents and context compaction now inherit the session&#39;s extended thinking configuration, improving output quality on delegated tasks</li>
+<li>Fixed brief network drops mid-response aborting the turn — transient errors like ECONNRESET now retry with backoff instead of failing</li>
+<li>Fixed excessive background classifier requests when sandboxed processes repeatedly accessed the same network host</li>
+<li>Fixed background tasks in web, desktop, and VS Code task panels getting stuck on &quot;Running&quot; after they finish or after resuming a session</li>
+<li>Fixed agent teams: a teammate that dies on an API error now reports &quot;failed&quot; to the lead, and messaging a stuck teammate wakes it to retry immediately</li>
+<li>Fixed the <code>/diff</code> panel not refreshing when you switch branches or commit outside the session</li>
+<li>Fixed markdown tables overflowing and wrapping their right border when rendered in fullscreen mode</li>
+<li>Fixed Claude Platform on AWS and Mantle sessions dead-ending with &quot;Please run /login&quot; when the STS token expires — <code>awsAuthRefresh</code> now runs automatically</li>
+<li>Fixed &quot;no route to host&quot; for local-network hosts in macOS background agent sessions by declaring Local Network entitlements</li>
+<li>Fixed <code>/desktop</code> failing with &quot;Cannot determine working directory&quot; after entering and exiting a worktree</li>
+<li>Fixed background agents repeatedly showing &quot;Reconnecting…&quot; every ~52 seconds on macOS while the agents view was open</li>
+<li>Fixed pressing <code>←</code> inside <code>claude attach &lt;id&gt;</code> exiting to the shell instead of opening the agent view</li>
+<li>Fixed <code>claude --bg</code> silently creating an unattachable session when combined with <code>--print</code>/<code>-p</code>; the conflicting flags are now rejected up front</li>
+<li>Fixed the workflow progress view dropping the earliest agents from the list while the phase counter stayed correct in SDK and desktop-app sessions</li>
+<li>Fixed <code>.claude/rules/</code> conditional rules not loading when the target file is reached via a symlinked path</li>
+<li>Fixed Cmd+click not opening URLs in fullscreen mode in Warp on macOS</li>
+<li>Fixed double-click word selection in fullscreen mode to select the entire URL including the scheme</li>
+<li>Fixed plan mode not auto-allowing read-only tool calls when a session starts in plan mode</li>
+<li>Fixed <code>/branch</code> deriving its default fork name from the compaction summary instead of the first real prompt</li>
+<li>Improved focus mode: subagents launched in a turn now appear in its activity summary, and completed background notifications fold into a single count</li>
+<li>Improved syntax highlighting accuracy in code blocks, diffs, and file previews by upgrading to highlight.js 11</li>
+<li>Keyboard shortcut hints now show opt/cmd instead of alt/super when connected from a Mac over SSH</li>
+<li>Improved API retry UX: the error reason is now shown after the second attempt, and a status page link replaces the spinner tip when the API is overloaded</li>
+<li><code>/login</code> now opens the sign-in dialog from the <code>claude agents</code> view instead of saying it isn&#39;t available</li>
+<li>Subagents now treat messages from the agent that launched them as normal task direction; an agent&#39;s message is still never treated as the user&#39;s approval</li>
+<li>Removed the <code>/agents</code> wizard; ask Claude to create or manage subagents, or edit <code>.claude/agents/</code> directly</li>
+</ul>
+]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[v2.1.197]]></title>
             <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.197</link>
@@ -2524,22 +2602,6 @@
             <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
 <ul>
 <li>Internal fixes</li>
-</ul>
-]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[v2.1.137]]></title>
-            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.137</link>
-            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.137</guid>
-            <pubDate>Sat, 09 May 2026 00:11:04 GMT</pubDate>
-            <description><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>[VSCode] Fixed extension failing to activate on Windows</li>
-</ul>
-]]></description>
-            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>[VSCode] Fixed extension failing to activate on Windows</li>
 </ul>
 ]]></content:encoded>
         </item>
