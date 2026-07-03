@@ -4,11 +4,73 @@
         <title>claude-code Releases</title>
         <link>https://github.com/anthropics/claude-code/releases</link>
         <description>GitHub releases for anthropics/claude-code</description>
-        <lastBuildDate>Wed, 01 Jul 2026 20:45:36 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 02 Jul 2026 23:35:18 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>ai-rss-feeds (https://github.com/leontloveless/ai-rss-feeds)</generator>
         <language>en</language>
         <atom:link href="https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/claude-code-releases.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[v2.1.199]]></title>
+            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.199</link>
+            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.199</guid>
+            <pubDate>Thu, 02 Jul 2026 23:35:18 GMT</pubDate>
+            <description><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Stacked slash-skill invocations like <code>/skill-a /skill-b do XYZ</code> now load all leading skills (up to 5), not just the first</li>
+<li>Fixed SSL certificate errors (TLS-inspecting proxies, missing <code>NODE_EXTRA_CA_CERTS</code>, expired certs) burning retries before showing actionable guidance — they now fail immediately with the fix hint</li>
+<li>Fixed streaming responses being discarded when the API emits a mid-stream overloaded/server error after partial output — the partial is now kept with an incomplete-response notice</li>
+<li>Fixed subagents cut off by a rate limit or server error silently failing instead of returning their partial work to the parent</li>
+<li>Fixed subagents reporting API errors (e.g. usage limit reached) as successful results — the error is now reported to the parent agent</li>
+<li>Fixed the background-agent daemon on Linux killing itself and every running agent every ~50 seconds after an unclean shutdown left a corrupted worker record</li>
+<li>Fixed background agents failing to cold-start over SSH on macOS with &quot;Could not switch to audit session&quot; (regression in 2.1.196)</li>
+<li>Fixed <code>claude stop</code> being silently undone when it raced a background-agent respawn — the respawn now honors the stop</li>
+<li>Fixed background job progress indicators stalling for minutes while the job ran long commands</li>
+<li>Fixed background sessions on memory-starved machines showing a generic error — they now indicate low memory and suggest freeing resources</li>
+<li>Fixed remote sessions briefly flapping between Working and Idle in the agent view when a background agent completes</li>
+<li>Fixed idle subagents vanishing from the agent panel while other subagents were still working; surplus idle agents now collapse into an expandable summary row</li>
+<li>Fixed typing <code>/model</code> or <code>/fast</code> while viewing a subagent silently opening the lead&#39;s model picker — a notice now explains the command applies to the lead</li>
+<li>Fixed <code>SessionStart</code>, <code>Setup</code>, and <code>SubagentStart</code> hooks silently hiding stderr when exiting with code 2 — the error is now shown in the transcript</li>
+<li>Fixed <code>claude --dangerously-skip-permissions daemon &lt;subcommand&gt;</code> being treated as a chat prompt instead of running the subcommand</li>
+<li>Fixed <code>SendMessage</code> silently misrouting when a re-spawned agent reuses a previous agent&#39;s name — the tool now detects the mismatch and asks the caller to retarget</li>
+<li>Fixed opening or resuming a session with no new messages needlessly growing the transcript file</li>
+<li>Fixed backgrounding a session with <code>←</code> or <code>/background</code> dropping its <code>/color</code> from the agent view row</li>
+<li>Fixed resetting a corrupted config file from the startup recovery dialog destroying it unrecoverably — it now backs up the file first</li>
+<li>Fixed Claude in Chrome repeatedly opening the reconnect page when sessions run from different builds or config directories</li>
+<li>Fixed plan mode not prompting for state-changing browser tool calls; read-only <code>browser_batch</code> calls are now correctly auto-allowed</li>
+<li>Transient server rate-limit errors (429s unrelated to your usage limit) are now retried automatically with backoff for subscribers instead of failing the turn</li>
+<li><code>CLAUDE_CODE_RETRY_WATCHDOG</code> now raises the default retry count for non-capacity transient errors to 300 and lifts the cap of 15 on <code>CLAUDE_CODE_MAX_RETRIES</code></li>
+<li><code>claude agents</code> session rows now show pull-request links as bare <code>#N</code> without the redundant &quot;PR&quot; label</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Stacked slash-skill invocations like <code>/skill-a /skill-b do XYZ</code> now load all leading skills (up to 5), not just the first</li>
+<li>Fixed SSL certificate errors (TLS-inspecting proxies, missing <code>NODE_EXTRA_CA_CERTS</code>, expired certs) burning retries before showing actionable guidance — they now fail immediately with the fix hint</li>
+<li>Fixed streaming responses being discarded when the API emits a mid-stream overloaded/server error after partial output — the partial is now kept with an incomplete-response notice</li>
+<li>Fixed subagents cut off by a rate limit or server error silently failing instead of returning their partial work to the parent</li>
+<li>Fixed subagents reporting API errors (e.g. usage limit reached) as successful results — the error is now reported to the parent agent</li>
+<li>Fixed the background-agent daemon on Linux killing itself and every running agent every ~50 seconds after an unclean shutdown left a corrupted worker record</li>
+<li>Fixed background agents failing to cold-start over SSH on macOS with &quot;Could not switch to audit session&quot; (regression in 2.1.196)</li>
+<li>Fixed <code>claude stop</code> being silently undone when it raced a background-agent respawn — the respawn now honors the stop</li>
+<li>Fixed background job progress indicators stalling for minutes while the job ran long commands</li>
+<li>Fixed background sessions on memory-starved machines showing a generic error — they now indicate low memory and suggest freeing resources</li>
+<li>Fixed remote sessions briefly flapping between Working and Idle in the agent view when a background agent completes</li>
+<li>Fixed idle subagents vanishing from the agent panel while other subagents were still working; surplus idle agents now collapse into an expandable summary row</li>
+<li>Fixed typing <code>/model</code> or <code>/fast</code> while viewing a subagent silently opening the lead&#39;s model picker — a notice now explains the command applies to the lead</li>
+<li>Fixed <code>SessionStart</code>, <code>Setup</code>, and <code>SubagentStart</code> hooks silently hiding stderr when exiting with code 2 — the error is now shown in the transcript</li>
+<li>Fixed <code>claude --dangerously-skip-permissions daemon &lt;subcommand&gt;</code> being treated as a chat prompt instead of running the subcommand</li>
+<li>Fixed <code>SendMessage</code> silently misrouting when a re-spawned agent reuses a previous agent&#39;s name — the tool now detects the mismatch and asks the caller to retarget</li>
+<li>Fixed opening or resuming a session with no new messages needlessly growing the transcript file</li>
+<li>Fixed backgrounding a session with <code>←</code> or <code>/background</code> dropping its <code>/color</code> from the agent view row</li>
+<li>Fixed resetting a corrupted config file from the startup recovery dialog destroying it unrecoverably — it now backs up the file first</li>
+<li>Fixed Claude in Chrome repeatedly opening the reconnect page when sessions run from different builds or config directories</li>
+<li>Fixed plan mode not prompting for state-changing browser tool calls; read-only <code>browser_batch</code> calls are now correctly auto-allowed</li>
+<li>Transient server rate-limit errors (429s unrelated to your usage limit) are now retried automatically with backoff for subscribers instead of failing the turn</li>
+<li><code>CLAUDE_CODE_RETRY_WATCHDOG</code> now raises the default retry count for non-capacity transient errors to 300 and lifts the cap of 15 on <code>CLAUDE_CODE_MAX_RETRIES</code></li>
+<li><code>claude agents</code> session rows now show pull-request links as bare <code>#N</code> without the redundant &quot;PR&quot; label</li>
+</ul>
+]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[v2.1.198]]></title>
             <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.198</link>
@@ -2588,22 +2650,6 @@
 <li>Fixed <code>claude_code.active_time.total</code> OpenTelemetry metric not being emitted in <code>--print</code> mode</li>
 <li>Fixed <code>claude plugin update</code> not preserving cross-plugin symlinks inside a marketplace</li>
 <li>[VSCode] Press Cmd/Ctrl+Shift+T to reopen the most recently closed session tab, configurable via <code>claudeCode.enableReopenClosedSessionShortcut</code></li>
-</ul>
-]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[v2.1.138]]></title>
-            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.138</link>
-            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.138</guid>
-            <pubDate>Sat, 09 May 2026 06:33:25 GMT</pubDate>
-            <description><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>Internal fixes</li>
-</ul>
-]]></description>
-            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>Internal fixes</li>
 </ul>
 ]]></content:encoded>
         </item>
