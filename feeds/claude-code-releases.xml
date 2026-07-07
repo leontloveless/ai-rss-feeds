@@ -4,11 +4,99 @@
         <title>claude-code Releases</title>
         <link>https://github.com/anthropics/claude-code/releases</link>
         <description>GitHub releases for anthropics/claude-code</description>
-        <lastBuildDate>Mon, 06 Jul 2026 22:51:16 GMT</lastBuildDate>
+        <lastBuildDate>Tue, 07 Jul 2026 21:06:12 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>ai-rss-feeds (https://github.com/leontloveless/ai-rss-feeds)</generator>
         <language>en</language>
         <atom:link href="https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/claude-code-releases.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[v2.1.203]]></title>
+            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.203</link>
+            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.203</guid>
+            <pubDate>Tue, 07 Jul 2026 21:06:12 GMT</pubDate>
+            <description><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Added a warning when your login is about to expire, so you can re-authenticate before background sessions are interrupted</li>
+<li>Added a grey ⏸ badge to the footer when in manual permission mode, making the active mode always visible</li>
+<li>Added the session&#39;s additional working directories to MCP <code>roots/list</code>, with <code>notifications/roots/list_changed</code> sent when the set changes</li>
+<li>Fixed opening or switching background agent sessions on macOS stalling for 15–20 seconds due to a false low-memory detection (regression in 2.1.196)</li>
+<li>Fixed background sessions becoming permanently unresponsive to attach, replies, and stop when the daemon&#39;s session token went stale — the session now recovers automatically</li>
+<li>Fixed returning to <code>claude agents</code> silently stopping running subagents and re-running the prompt from scratch — their work now carries over</li>
+<li>Fixed a memory and per-turn CPU regression in interactive sessions: the context-usage indicator no longer re-analyzes the entire transcript after every turn</li>
+<li>Fixed background agents inheriting a stale <code>PATH</code> from the daemon instead of the dispatching shell, causing missing tools on Windows</li>
+<li>Fixed background and agent-view sessions dropping a shell-exported <code>ANTHROPIC_BASE_URL</code>, which sent API keys to the default endpoint and failed with 401</li>
+<li>Fixed Bash failing with &quot;argument list too long&quot; in repos with many git worktrees</li>
+<li>Fixed worktree-isolated subagents sometimes running shell commands in the parent checkout instead of their own worktree</li>
+<li>Fixed worktree creation rejecting nested repositories in multi-repo workspaces, leaving background sessions unable to isolate and edit</li>
+<li>Fixed background agents crash-looping when their working directory was deleted, replaced by a file, or became an invalid path — they now fail once with a clear error</li>
+<li>Fixed a background daemon auto-upgrade failure silently killing all running background sessions</li>
+<li>Fixed <code>TaskStop</code> and <code>TaskOutput</code> failing to find background agents spawned by another agent — errors now list running agents by id and description</li>
+<li>Fixed the <code>claude agents</code> composer discarding your typed message when a slash command isn&#39;t available there</li>
+<li>Fixed the agent list crashing when opening a stopped session whose conversation was already open in another session</li>
+<li>Fixed background sessions showing &quot;Needs input&quot; in the agent list after the question was already answered</li>
+<li>Fixed background agent startup failures showing only &quot;exit_with_message&quot; instead of the actual error</li>
+<li>Fixed background sessions ignoring <code>effortLevel</code> changes in settings.json when forked through the daemon</li>
+<li>Fixed attached background sessions ignoring <code>CLAUDE_CODE_DISABLE_MOUSE</code> and <code>CLAUDE_CODE_DISABLE_MOUSE_CLICKS</code> opt-outs</li>
+<li>Fixed <code>/exit</code> incorrectly warning about running background agents after all named agents had completed</li>
+<li>Fixed background sessions started from a non-git directory unable to edit files when a <code>WorktreeCreate</code> hook was configured</li>
+<li>Fixed the <code>@</code> directory picker in <code>claude agents</code> not showing registered git worktrees</li>
+<li>Fixed background task output on Windows being permanently replaced by an empty file after <code>/clear</code></li>
+<li>Fixed content jumping when scrolling up through long transcript history</li>
+<li>Fixed the terminal flickering and jumping while typing in bash mode when a shell-history suggestion was shown</li>
+<li>Fixed literal <code>^[[I</code> / <code>^[[O</code> escape codes being printed when reattaching to a background session</li>
+<li>Fixed LSP-only plugins being incorrectly flagged for disuse when their language servers deliver diagnostics or answer navigation requests</li>
+<li>Improved responsiveness while long responses stream: live-preview updates no longer re-render the whole screen</li>
+<li>Improved subagent behavior: agents are now less likely to re-delegate their entire task to another subagent</li>
+<li>Reduced binary size by ~7 MB and startup memory by ~7 MB by loading a large bundled dependency lazily instead of inlining it</li>
+<li>Changed left arrow to no longer close the background tasks, diff, and workflow detail views — press Esc instead</li>
+<li>Changed the empty <code>claude agents</code> view to always show the organized sections (Needs input / Working / Completed) with descriptions</li>
+<li>Removed the startup &quot;claude command missing or broken&quot; warnings — they now appear in <code>/doctor</code> and <code>/status</code> instead</li>
+<li>Removed a redundant navigation hint from the <code>claude agents</code> footer</li>
+<li>[VSCode] Added a Settings toggle for &quot;Enable Remote Control for all sessions&quot;</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Added a warning when your login is about to expire, so you can re-authenticate before background sessions are interrupted</li>
+<li>Added a grey ⏸ badge to the footer when in manual permission mode, making the active mode always visible</li>
+<li>Added the session&#39;s additional working directories to MCP <code>roots/list</code>, with <code>notifications/roots/list_changed</code> sent when the set changes</li>
+<li>Fixed opening or switching background agent sessions on macOS stalling for 15–20 seconds due to a false low-memory detection (regression in 2.1.196)</li>
+<li>Fixed background sessions becoming permanently unresponsive to attach, replies, and stop when the daemon&#39;s session token went stale — the session now recovers automatically</li>
+<li>Fixed returning to <code>claude agents</code> silently stopping running subagents and re-running the prompt from scratch — their work now carries over</li>
+<li>Fixed a memory and per-turn CPU regression in interactive sessions: the context-usage indicator no longer re-analyzes the entire transcript after every turn</li>
+<li>Fixed background agents inheriting a stale <code>PATH</code> from the daemon instead of the dispatching shell, causing missing tools on Windows</li>
+<li>Fixed background and agent-view sessions dropping a shell-exported <code>ANTHROPIC_BASE_URL</code>, which sent API keys to the default endpoint and failed with 401</li>
+<li>Fixed Bash failing with &quot;argument list too long&quot; in repos with many git worktrees</li>
+<li>Fixed worktree-isolated subagents sometimes running shell commands in the parent checkout instead of their own worktree</li>
+<li>Fixed worktree creation rejecting nested repositories in multi-repo workspaces, leaving background sessions unable to isolate and edit</li>
+<li>Fixed background agents crash-looping when their working directory was deleted, replaced by a file, or became an invalid path — they now fail once with a clear error</li>
+<li>Fixed a background daemon auto-upgrade failure silently killing all running background sessions</li>
+<li>Fixed <code>TaskStop</code> and <code>TaskOutput</code> failing to find background agents spawned by another agent — errors now list running agents by id and description</li>
+<li>Fixed the <code>claude agents</code> composer discarding your typed message when a slash command isn&#39;t available there</li>
+<li>Fixed the agent list crashing when opening a stopped session whose conversation was already open in another session</li>
+<li>Fixed background sessions showing &quot;Needs input&quot; in the agent list after the question was already answered</li>
+<li>Fixed background agent startup failures showing only &quot;exit_with_message&quot; instead of the actual error</li>
+<li>Fixed background sessions ignoring <code>effortLevel</code> changes in settings.json when forked through the daemon</li>
+<li>Fixed attached background sessions ignoring <code>CLAUDE_CODE_DISABLE_MOUSE</code> and <code>CLAUDE_CODE_DISABLE_MOUSE_CLICKS</code> opt-outs</li>
+<li>Fixed <code>/exit</code> incorrectly warning about running background agents after all named agents had completed</li>
+<li>Fixed background sessions started from a non-git directory unable to edit files when a <code>WorktreeCreate</code> hook was configured</li>
+<li>Fixed the <code>@</code> directory picker in <code>claude agents</code> not showing registered git worktrees</li>
+<li>Fixed background task output on Windows being permanently replaced by an empty file after <code>/clear</code></li>
+<li>Fixed content jumping when scrolling up through long transcript history</li>
+<li>Fixed the terminal flickering and jumping while typing in bash mode when a shell-history suggestion was shown</li>
+<li>Fixed literal <code>^[[I</code> / <code>^[[O</code> escape codes being printed when reattaching to a background session</li>
+<li>Fixed LSP-only plugins being incorrectly flagged for disuse when their language servers deliver diagnostics or answer navigation requests</li>
+<li>Improved responsiveness while long responses stream: live-preview updates no longer re-render the whole screen</li>
+<li>Improved subagent behavior: agents are now less likely to re-delegate their entire task to another subagent</li>
+<li>Reduced binary size by ~7 MB and startup memory by ~7 MB by loading a large bundled dependency lazily instead of inlining it</li>
+<li>Changed left arrow to no longer close the background tasks, diff, and workflow detail views — press Esc instead</li>
+<li>Changed the empty <code>claude agents</code> view to always show the organized sections (Needs input / Working / Completed) with descriptions</li>
+<li>Removed the startup &quot;claude command missing or broken&quot; warnings — they now appear in <code>/doctor</code> and <code>/status</code> instead</li>
+<li>Removed a redundant navigation hint from the <code>claude agents</code> footer</li>
+<li>[VSCode] Added a Settings toggle for &quot;Enable Remote Control for all sessions&quot;</li>
+</ul>
+]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[v2.1.202]]></title>
             <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.202</link>
@@ -2412,68 +2500,6 @@
 <li><code>/bg</code> and <code>←</code>-detach now preserve <code>--allow-dangerously-skip-permissions</code>, so the forked worker keeps bypass-permissions available in its Shift+Tab cycle.</li>
 <li>Fixed: background daemon spawn now falls back to the running binary when the <code>~/.local/bin/claude</code> launcher is missing or non-executable</li>
 <li>Fixed <code>claude agents --allow-dangerously-skip-permissions</code> defaulting dispatched sessions to bypass mode instead of making it available in the permission cycle</li>
-</ul>
-]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[v2.1.142]]></title>
-            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.142</link>
-            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.142</guid>
-            <pubDate>Thu, 14 May 2026 22:55:10 GMT</pubDate>
-            <description><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>Added new <code>claude agents</code> flags: <code>--add-dir</code>, <code>--settings</code>, <code>--mcp-config</code>, <code>--plugin-dir</code>, <code>--permission-mode</code>, <code>--model</code>, <code>--effort</code>, and <code>--dangerously-skip-permissions</code> to configure dispatched background sessions</li>
-<li>Fast mode now uses Opus 4.7 by default (previously Opus 4.6). Set <code>CLAUDE_CODE_OPUS_4_6_FAST_MODE_OVERRIDE=1</code> to pin fast mode to Opus 4.6</li>
-<li>Plugins with a root-level <code>SKILL.md</code> and no <code>skills/</code> subdirectory are now surfaced as a skill</li>
-<li>The <code>/plugin</code> details pane and <code>claude plugin details</code> now show LSP servers a plugin provides</li>
-<li><code>/web-setup</code> warns before replacing an existing GitHub App connection</li>
-<li>Fixed <code>MCP_TOOL_TIMEOUT</code> not raising the per-request fetch timeout for remote HTTP and SSE MCP servers, which capped tool calls at 60 seconds regardless of the configured value</li>
-<li>Fixed background sessions not recognizing pre-existing git worktrees, blocking Edit while EnterWorktree refused to create a duplicate</li>
-<li>Fixed background sessions disappearing and daemon reconnect failing after macOS sleep/wake — the daemon now detects clock jumps instead of treating them as elapsed idle time</li>
-<li>Fixed daemon not exiting cleanly after the binary is upgraded (e.g. <code>brew upgrade</code>), causing dispatched agents to crash-loop on the deleted path</li>
-<li>Fixed background agents crash-looping when the Claude-in-Chrome extension is connected without a shared tab</li>
-<li>Fixed clicking links in an attached <code>claude agents</code> session — the background worker&#39;s headless browser shim no longer applies while attached</li>
-<li>Fixed <code>claude agents</code> &quot;v to open in editor&quot; using the daemon&#39;s default editor instead of your shell&#39;s <code>$EDITOR</code>/<code>$VISUAL</code></li>
-<li>Fixed <code>claude agents</code> deadlocking on Windows with network-drive working directories; Ctrl+C now works during startup</li>
-<li>Fixed background-color bleed when attaching to a <code>claude agents</code> session from Apple Terminal or other 256-color-only terminals</li>
-<li>Fixed <code>claude --bg --dangerously-skip-permissions</code> not persisting across retire/wake</li>
-<li>Fixed session titles being derived from the URL when the first message is a link</li>
-<li>Fixed redundant <code>set_model</code> requests from remote clients injecting duplicate <code>/model</code> breadcrumbs into the transcript</li>
-<li>Fixed plugins using <code>skills: [&quot;./&quot;]</code> showing a false &quot;path escapes plugin directory&quot; error</li>
-<li>Fixed plugin cache cleanup deleting the active plugin version directory when no installation metadata is present</li>
-<li>Fixed <code>/plugin</code> browse pane showing &quot;0 installs&quot; for newly published plugins</li>
-<li>Fixed plugin advisories not naming every <code>plugin.json</code> key that shadows a default folder</li>
-<li>Improved reactive compaction: the first summarize attempt now seeds from the original request&#39;s overflow size, avoiding a wasted near-full-context retry</li>
-<li>Improved hook configuration error: configuring a prompt- or agent-type hook for <code>SessionStart</code>/<code>Setup</code>/<code>SubagentStart</code> now shows a clear &quot;use a command-type hook instead&quot; error</li>
-<li>Removed stale <code>/model claude-sonnet-4-20250514</code> suggestion from Usage Policy refusal messages</li>
-</ul>
-]]></description>
-            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>Added new <code>claude agents</code> flags: <code>--add-dir</code>, <code>--settings</code>, <code>--mcp-config</code>, <code>--plugin-dir</code>, <code>--permission-mode</code>, <code>--model</code>, <code>--effort</code>, and <code>--dangerously-skip-permissions</code> to configure dispatched background sessions</li>
-<li>Fast mode now uses Opus 4.7 by default (previously Opus 4.6). Set <code>CLAUDE_CODE_OPUS_4_6_FAST_MODE_OVERRIDE=1</code> to pin fast mode to Opus 4.6</li>
-<li>Plugins with a root-level <code>SKILL.md</code> and no <code>skills/</code> subdirectory are now surfaced as a skill</li>
-<li>The <code>/plugin</code> details pane and <code>claude plugin details</code> now show LSP servers a plugin provides</li>
-<li><code>/web-setup</code> warns before replacing an existing GitHub App connection</li>
-<li>Fixed <code>MCP_TOOL_TIMEOUT</code> not raising the per-request fetch timeout for remote HTTP and SSE MCP servers, which capped tool calls at 60 seconds regardless of the configured value</li>
-<li>Fixed background sessions not recognizing pre-existing git worktrees, blocking Edit while EnterWorktree refused to create a duplicate</li>
-<li>Fixed background sessions disappearing and daemon reconnect failing after macOS sleep/wake — the daemon now detects clock jumps instead of treating them as elapsed idle time</li>
-<li>Fixed daemon not exiting cleanly after the binary is upgraded (e.g. <code>brew upgrade</code>), causing dispatched agents to crash-loop on the deleted path</li>
-<li>Fixed background agents crash-looping when the Claude-in-Chrome extension is connected without a shared tab</li>
-<li>Fixed clicking links in an attached <code>claude agents</code> session — the background worker&#39;s headless browser shim no longer applies while attached</li>
-<li>Fixed <code>claude agents</code> &quot;v to open in editor&quot; using the daemon&#39;s default editor instead of your shell&#39;s <code>$EDITOR</code>/<code>$VISUAL</code></li>
-<li>Fixed <code>claude agents</code> deadlocking on Windows with network-drive working directories; Ctrl+C now works during startup</li>
-<li>Fixed background-color bleed when attaching to a <code>claude agents</code> session from Apple Terminal or other 256-color-only terminals</li>
-<li>Fixed <code>claude --bg --dangerously-skip-permissions</code> not persisting across retire/wake</li>
-<li>Fixed session titles being derived from the URL when the first message is a link</li>
-<li>Fixed redundant <code>set_model</code> requests from remote clients injecting duplicate <code>/model</code> breadcrumbs into the transcript</li>
-<li>Fixed plugins using <code>skills: [&quot;./&quot;]</code> showing a false &quot;path escapes plugin directory&quot; error</li>
-<li>Fixed plugin cache cleanup deleting the active plugin version directory when no installation metadata is present</li>
-<li>Fixed <code>/plugin</code> browse pane showing &quot;0 installs&quot; for newly published plugins</li>
-<li>Fixed plugin advisories not naming every <code>plugin.json</code> key that shadows a default folder</li>
-<li>Improved reactive compaction: the first summarize attempt now seeds from the original request&#39;s overflow size, avoiding a wasted near-full-context retry</li>
-<li>Improved hook configuration error: configuring a prompt- or agent-type hook for <code>SessionStart</code>/<code>Setup</code>/<code>SubagentStart</code> now shows a clear &quot;use a command-type hook instead&quot; error</li>
-<li>Removed stale <code>/model claude-sonnet-4-20250514</code> suggestion from Usage Policy refusal messages</li>
 </ul>
 ]]></content:encoded>
         </item>
