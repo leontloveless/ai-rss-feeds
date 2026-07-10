@@ -4,11 +4,79 @@
         <title>claude-code Releases</title>
         <link>https://github.com/anthropics/claude-code/releases</link>
         <description>GitHub releases for anthropics/claude-code</description>
-        <lastBuildDate>Wed, 08 Jul 2026 21:22:06 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 10 Jul 2026 01:45:26 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>ai-rss-feeds (https://github.com/leontloveless/ai-rss-feeds)</generator>
         <language>en</language>
         <atom:link href="https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/claude-code-releases.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[v2.1.206]]></title>
+            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.206</link>
+            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.206</guid>
+            <pubDate>Fri, 10 Jul 2026 01:45:26 GMT</pubDate>
+            <description><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Added directory path suggestions to <code>/cd</code>, matching <code>/add-dir</code> behavior</li>
+<li>Added a <code>/doctor</code> check that proposes trimming checked-in <code>CLAUDE.md</code> files by cutting content Claude could derive from the codebase</li>
+<li><code>/commit-push-pr</code> now auto-allows <code>git push</code> to the repo&#39;s configured push remote (<code>remote.pushDefault</code>, or the sole remote when only one is configured) in addition to <code>origin</code></li>
+<li>Gateway: <code>/login</code> now supports Anthropic-operated public gateway endpoints</li>
+<li><code>EnterWorktree</code> now asks for confirmation before entering a git worktree outside the project&#39;s <code>.claude/worktrees/</code> directory</li>
+<li>Background agents now upgrade to a new version in the background right after a Claude Code update, instead of paying a slow stale-session upgrade when you attach</li>
+<li>Fixed an expired login failing every model with a misleading &quot;There&#39;s an issue with the selected model&quot; error instead of prompting to run <code>/login</code></li>
+<li>Fixed <code>claude --resume</code> and <code>--continue</code> not responding to keyboard input on startup</li>
+<li>Fixed MCP servers configured via <code>--mcp-config</code> or <code>.mcp.json</code> ignoring a per-server <code>request_timeout_ms</code>, which caused long-running MCP tool calls to time out at the 60s default in fresh sessions</li>
+<li>Fixed <code>CLAUDE_CODE_EXTRA_BODY</code> being silently ignored by <code>claude agents</code> / <code>--bg</code> background workers; the shell-exported override now follows the dispatching session</li>
+<li>Fixed OAuth MCP servers requiring manual re-authentication after a single failed token refresh</li>
+<li>Fixed <code>--permission-prompt-tool</code> pointing at an MCP server crashing with &quot;MCP tool not found&quot; on cold start before the server finishes connecting</li>
+<li>Fixed <code>/model</code> picker rows printing a price for a different model than the row named, and stopped quoting first-party list prices on providers that don&#39;t bill them</li>
+<li>Fixed server-provided model rows being misplaced in the <code>/model</code> picker when an entitlement or allowlist restriction drops the row they were positioned against</li>
+<li>Fixed desktop sessions getting stuck showing &quot;running&quot; after a slash command was sent mid-turn</li>
+<li>Fixed keyboard input being ignored in the agents view when a setup prompt appeared before a bare <code>claude --resume</code> on Windows</li>
+<li>Fixed <code>claude rm</code> leaving the removed job in the daemon roster, causing the row to reappear in <code>claude agents</code></li>
+<li>Fixed <code>/remote-control</code> showing &quot;Unknown command&quot; when logged out — it now explains how to sign in</li>
+<li>Fixed left arrow not stepping back out of a phase or agent in the workflow detail view</li>
+<li>Fixed <code>/status</code> listing the same broken-install warning twice</li>
+<li>Fixed false &quot;disused plugin&quot; tips and skewed disuse telemetry for LSP plugins</li>
+<li>Fixed <code>/doctor</code>&#39;s update check to compare Homebrew installs against their cask&#39;s channel instead of the settings channel</li>
+<li>Fixed the fullscreen jump-to-bottom pill suggesting Ctrl+End on macOS, not showing rebound chords, and wrapping over the transcript</li>
+<li>Bedrock: fixed a multi-minute startup hang when using an <code>awsCredentialExport</code> helper on networks with restricted egress</li>
+<li>Improved <code>/code-review</code> findings quality on claude-opus-4-8 across all effort levels</li>
+<li>Improved agents view: status column now uses full terminal width instead of truncating at 64 characters</li>
+<li>Changed agents view: Ctrl+X now permanently removes a completed session, and sessions no longer render twice; deleted background jobs stay deleted</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Added directory path suggestions to <code>/cd</code>, matching <code>/add-dir</code> behavior</li>
+<li>Added a <code>/doctor</code> check that proposes trimming checked-in <code>CLAUDE.md</code> files by cutting content Claude could derive from the codebase</li>
+<li><code>/commit-push-pr</code> now auto-allows <code>git push</code> to the repo&#39;s configured push remote (<code>remote.pushDefault</code>, or the sole remote when only one is configured) in addition to <code>origin</code></li>
+<li>Gateway: <code>/login</code> now supports Anthropic-operated public gateway endpoints</li>
+<li><code>EnterWorktree</code> now asks for confirmation before entering a git worktree outside the project&#39;s <code>.claude/worktrees/</code> directory</li>
+<li>Background agents now upgrade to a new version in the background right after a Claude Code update, instead of paying a slow stale-session upgrade when you attach</li>
+<li>Fixed an expired login failing every model with a misleading &quot;There&#39;s an issue with the selected model&quot; error instead of prompting to run <code>/login</code></li>
+<li>Fixed <code>claude --resume</code> and <code>--continue</code> not responding to keyboard input on startup</li>
+<li>Fixed MCP servers configured via <code>--mcp-config</code> or <code>.mcp.json</code> ignoring a per-server <code>request_timeout_ms</code>, which caused long-running MCP tool calls to time out at the 60s default in fresh sessions</li>
+<li>Fixed <code>CLAUDE_CODE_EXTRA_BODY</code> being silently ignored by <code>claude agents</code> / <code>--bg</code> background workers; the shell-exported override now follows the dispatching session</li>
+<li>Fixed OAuth MCP servers requiring manual re-authentication after a single failed token refresh</li>
+<li>Fixed <code>--permission-prompt-tool</code> pointing at an MCP server crashing with &quot;MCP tool not found&quot; on cold start before the server finishes connecting</li>
+<li>Fixed <code>/model</code> picker rows printing a price for a different model than the row named, and stopped quoting first-party list prices on providers that don&#39;t bill them</li>
+<li>Fixed server-provided model rows being misplaced in the <code>/model</code> picker when an entitlement or allowlist restriction drops the row they were positioned against</li>
+<li>Fixed desktop sessions getting stuck showing &quot;running&quot; after a slash command was sent mid-turn</li>
+<li>Fixed keyboard input being ignored in the agents view when a setup prompt appeared before a bare <code>claude --resume</code> on Windows</li>
+<li>Fixed <code>claude rm</code> leaving the removed job in the daemon roster, causing the row to reappear in <code>claude agents</code></li>
+<li>Fixed <code>/remote-control</code> showing &quot;Unknown command&quot; when logged out — it now explains how to sign in</li>
+<li>Fixed left arrow not stepping back out of a phase or agent in the workflow detail view</li>
+<li>Fixed <code>/status</code> listing the same broken-install warning twice</li>
+<li>Fixed false &quot;disused plugin&quot; tips and skewed disuse telemetry for LSP plugins</li>
+<li>Fixed <code>/doctor</code>&#39;s update check to compare Homebrew installs against their cask&#39;s channel instead of the settings channel</li>
+<li>Fixed the fullscreen jump-to-bottom pill suggesting Ctrl+End on macOS, not showing rebound chords, and wrapping over the transcript</li>
+<li>Bedrock: fixed a multi-minute startup hang when using an <code>awsCredentialExport</code> helper on networks with restricted egress</li>
+<li>Improved <code>/code-review</code> findings quality on claude-opus-4-8 across all effort levels</li>
+<li>Improved agents view: status column now uses full terminal width instead of truncating at 64 characters</li>
+<li>Changed agents view: Ctrl+X now permanently removes a completed session, and sessions no longer render twice; deleted background jobs stay deleted</li>
+</ul>
+]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[v2.1.205]]></title>
             <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.205</link>
@@ -2328,60 +2396,6 @@
 <li>Fixed <code>CLAUDE_CODE_SUBAGENT_MODEL</code> not being forwarded to child processes in multi-agent sessions</li>
 <li>Improved auto-updater reliability: native version checks and downloads now retry transient network failures instead of failing immediately</li>
 <li>Improved diff rendering performance for large file edits</li>
-</ul>
-]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[v2.1.145]]></title>
-            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.145</link>
-            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.145</guid>
-            <pubDate>Tue, 19 May 2026 21:31:07 GMT</pubDate>
-            <description><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>Added <code>claude agents --json</code> to list live Claude sessions as JSON for scripting (tmux-resurrect, status bars, session pickers)</li>
-<li>Added <code>agent_id</code> and <code>parent_agent_id</code> attributes to <code>claude_code.tool</code> OTEL spans, and fixed trace parenting so background subagent spans nest under the dispatching Agent tool span</li>
-<li>Status line JSON input now includes GitHub repo and PR information when detected</li>
-<li><code>/plugin</code> Discover and Browse screens now show a plugin&#39;s commands, agents, skills, hooks, and MCP/LSP servers before installation</li>
-<li><code>claude agents</code> terminal tab title now shows the awaiting-input count so an alt-tabbed window tells you when an agent needs attention</li>
-<li>Slash command and @-mention suggestion list now supports mouse hover and click in fullscreen mode</li>
-<li>Stop and SubagentStop hook input now includes <code>background_tasks</code> and <code>session_crons</code> fields</li>
-<li>Fixed a permission-prompt bypass where bare variable assignments to non-allowlisted environment variables in Bash commands were auto-approved</li>
-<li>Fixed MCP prompt slash commands showing raw server validation errors when a required argument is omitted — the error now names the missing argument and shows expected usage</li>
-<li>Fixed the spinner and elapsed-time display freezing until a keypress after the terminal was resized or refocused</li>
-<li>Fixed the cross-project resume hint failing in default Windows PowerShell 5.1 — Windows now uses <code>;</code> as the command separator</li>
-<li>Fixed voice push-to-talk not working in the agent view&#39;s reply pane</li>
-<li>Fixed task lists rendering in random order when several tasks are created at once</li>
-<li>Fixed stale &quot;Failed to install Anthropic marketplace&quot; banner showing when the marketplace is already installed</li>
-<li>Fixed the PR badge in the footer not updating immediately after <code>gh pr create</code> and other PR-state-changing commands run in-session</li>
-<li>Fixed Agent Teams teammates with non-ASCII names failing every API call due to invalid header encoding</li>
-<li>Fixed <code>/review</code> using a deprecated <code>projectCards</code> GraphQL query that errored on repos with Classic Projects</li>
-<li>Fixed <code>claude plugin validate</code> not flagging <code>skills:</code> entries that point at a file instead of a directory — the error now suggests the parent directory</li>
-<li>Fixed an infinite loop where a skill using <code>context: fork</code> could repeatedly re-invoke itself instead of running</li>
-<li>Improved the Read tool to return a truncated first page with a &quot;PARTIAL view&quot; notice instead of a hard error when a whole-file read exceeds the token limit</li>
-</ul>
-]]></description>
-            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>Added <code>claude agents --json</code> to list live Claude sessions as JSON for scripting (tmux-resurrect, status bars, session pickers)</li>
-<li>Added <code>agent_id</code> and <code>parent_agent_id</code> attributes to <code>claude_code.tool</code> OTEL spans, and fixed trace parenting so background subagent spans nest under the dispatching Agent tool span</li>
-<li>Status line JSON input now includes GitHub repo and PR information when detected</li>
-<li><code>/plugin</code> Discover and Browse screens now show a plugin&#39;s commands, agents, skills, hooks, and MCP/LSP servers before installation</li>
-<li><code>claude agents</code> terminal tab title now shows the awaiting-input count so an alt-tabbed window tells you when an agent needs attention</li>
-<li>Slash command and @-mention suggestion list now supports mouse hover and click in fullscreen mode</li>
-<li>Stop and SubagentStop hook input now includes <code>background_tasks</code> and <code>session_crons</code> fields</li>
-<li>Fixed a permission-prompt bypass where bare variable assignments to non-allowlisted environment variables in Bash commands were auto-approved</li>
-<li>Fixed MCP prompt slash commands showing raw server validation errors when a required argument is omitted — the error now names the missing argument and shows expected usage</li>
-<li>Fixed the spinner and elapsed-time display freezing until a keypress after the terminal was resized or refocused</li>
-<li>Fixed the cross-project resume hint failing in default Windows PowerShell 5.1 — Windows now uses <code>;</code> as the command separator</li>
-<li>Fixed voice push-to-talk not working in the agent view&#39;s reply pane</li>
-<li>Fixed task lists rendering in random order when several tasks are created at once</li>
-<li>Fixed stale &quot;Failed to install Anthropic marketplace&quot; banner showing when the marketplace is already installed</li>
-<li>Fixed the PR badge in the footer not updating immediately after <code>gh pr create</code> and other PR-state-changing commands run in-session</li>
-<li>Fixed Agent Teams teammates with non-ASCII names failing every API call due to invalid header encoding</li>
-<li>Fixed <code>/review</code> using a deprecated <code>projectCards</code> GraphQL query that errored on repos with Classic Projects</li>
-<li>Fixed <code>claude plugin validate</code> not flagging <code>skills:</code> entries that point at a file instead of a directory — the error now suggests the parent directory</li>
-<li>Fixed an infinite loop where a skill using <code>context: fork</code> could repeatedly re-invoke itself instead of running</li>
-<li>Improved the Read tool to return a truncated first page with a &quot;PARTIAL view&quot; notice instead of a hard error when a whole-file read exceeds the token limit</li>
 </ul>
 ]]></content:encoded>
         </item>
