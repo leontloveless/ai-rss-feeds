@@ -4,11 +4,73 @@
         <title>claude-code Releases</title>
         <link>https://github.com/anthropics/claude-code/releases</link>
         <description>GitHub releases for anthropics/claude-code</description>
-        <lastBuildDate>Fri, 10 Jul 2026 01:45:26 GMT</lastBuildDate>
+        <lastBuildDate>Sat, 11 Jul 2026 00:52:10 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>ai-rss-feeds (https://github.com/leontloveless/ai-rss-feeds)</generator>
         <language>en</language>
         <atom:link href="https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/claude-code-releases.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[v2.1.207]]></title>
+            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.207</link>
+            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.207</guid>
+            <pubDate>Sat, 11 Jul 2026 00:52:10 GMT</pubDate>
+            <description><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Auto mode is now available without <code>CLAUDE_CODE_ENABLE_AUTO_MODE</code> opt-in on Bedrock, Vertex AI, and Foundry; disable via <code>disableAutoMode</code> in settings</li>
+<li>Fixed the terminal freezing and keystrokes lagging while streaming responses containing very long lists, tables, paragraphs, or code blocks</li>
+<li>Fixed remote managed settings from a non-interactive run (<code>claude -p</code>, the SDK) being permanently recorded as consented without ever showing the security consent dialog</li>
+<li>Fixed spurious prompt-injection warnings triggered by benign system-generated conversation updates</li>
+<li>Fixed the auto-updater overwriting a custom launcher script or symlink at <code>~/.local/bin/claude</code> on every release; <code>/doctor</code> now reports an externally managed launcher</li>
+<li>Fixed compound commands with <code>cd</code> prompting for permission when the only output redirect was to <code>/dev/null</code></li>
+<li>Fixed the transcript jumping above the start of the answer when a response finishes streaming</li>
+<li>Fixed <code>extensions.worktreeConfig</code> being left in the repo&#39;s <code>.git/config</code> (breaking go-git tools like <code>tea</code>) after the last <code>worktree.sparsePaths</code> worktree was removed</li>
+<li>Fixed malformed bracket patterns in rules globs, skill paths, <code>.ignore</code>, and <code>.worktreeinclude</code> breaking file reads, file suggestions, and worktree creation</li>
+<li>Fixed a crash loop in agent teams where a malformed teammate mailbox message caused repeated errors every second until the mailbox file was manually deleted</li>
+<li>Fixed background sessions auto-named by accepting a plan not showing that name on their agent-view row</li>
+<li>Fixed background sessions that entered a git worktree resuming blank after a cold reopen from the agent list</li>
+<li>Fixed Remote Control task status updates being lost when the connection recovered from a network interruption or credential refresh</li>
+<li>Fixed Remote Control sessions hosted by the desktop app not showing background agent and workflow progress on mobile and web</li>
+<li>Fixed Deep research runs labeling every Fetch-phase agent &quot;unknown&quot; — chips now show the source hostname</li>
+<li>Fixed Bedrock repeatedly requesting fresh AWS SSO credentials from IAM Identity Center on every API request</li>
+<li>Improved agent view: pasting the same text again now expands the collapsed <code>[Pasted text #N]</code> placeholder instead of adding a second one</li>
+<li>Improved agent view: blocked session peeks now lead with the question and show a worded staleness clock (<code>waiting 3m</code>) instead of the same timestamp twice</li>
+<li>Changed Bedrock, Vertex, and Claude Platform on AWS to default to Claude Opus 4.8</li>
+<li>Changed auto mode to no longer read <code>autoMode</code> from <code>.claude/settings.local.json</code> (repo-resident); use <code>~/.claude/settings.json</code> instead</li>
+<li>Fixed an indefinite hang on Windows when AWS credential resolution stalls (e.g. a stuck <code>credential_process</code>): the 60-second stall guard now fires instead of waiting forever.</li>
+<li>Plugin hooks/monitors/MCP headersHelper: <code>${user_config.*}</code> in shell-form commands is now rejected (shell-injection fix). Hooks: use exec form (<code>args</code> array) or <code>$CLAUDE_PLUGIN_OPTION_&lt;KEY&gt;</code>; monitors and headersHelper: read the value inside the script (config file or the server&#39;s <code>env</code> block).</li>
+<li>Plugin option values (<code>pluginConfigs</code>) are no longer read from project-level <code>.claude/settings.json</code>; only user, <code>--settings</code>, and managed settings are honored</li>
+<li>Fixed <code>/usage-credits</code> amount inputs silently stripping malformed values (e.g. a pasted timestamp) to digits; malformed amounts are now rejected with an error, and amounts over $1,000 require a typed confirmation</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Auto mode is now available without <code>CLAUDE_CODE_ENABLE_AUTO_MODE</code> opt-in on Bedrock, Vertex AI, and Foundry; disable via <code>disableAutoMode</code> in settings</li>
+<li>Fixed the terminal freezing and keystrokes lagging while streaming responses containing very long lists, tables, paragraphs, or code blocks</li>
+<li>Fixed remote managed settings from a non-interactive run (<code>claude -p</code>, the SDK) being permanently recorded as consented without ever showing the security consent dialog</li>
+<li>Fixed spurious prompt-injection warnings triggered by benign system-generated conversation updates</li>
+<li>Fixed the auto-updater overwriting a custom launcher script or symlink at <code>~/.local/bin/claude</code> on every release; <code>/doctor</code> now reports an externally managed launcher</li>
+<li>Fixed compound commands with <code>cd</code> prompting for permission when the only output redirect was to <code>/dev/null</code></li>
+<li>Fixed the transcript jumping above the start of the answer when a response finishes streaming</li>
+<li>Fixed <code>extensions.worktreeConfig</code> being left in the repo&#39;s <code>.git/config</code> (breaking go-git tools like <code>tea</code>) after the last <code>worktree.sparsePaths</code> worktree was removed</li>
+<li>Fixed malformed bracket patterns in rules globs, skill paths, <code>.ignore</code>, and <code>.worktreeinclude</code> breaking file reads, file suggestions, and worktree creation</li>
+<li>Fixed a crash loop in agent teams where a malformed teammate mailbox message caused repeated errors every second until the mailbox file was manually deleted</li>
+<li>Fixed background sessions auto-named by accepting a plan not showing that name on their agent-view row</li>
+<li>Fixed background sessions that entered a git worktree resuming blank after a cold reopen from the agent list</li>
+<li>Fixed Remote Control task status updates being lost when the connection recovered from a network interruption or credential refresh</li>
+<li>Fixed Remote Control sessions hosted by the desktop app not showing background agent and workflow progress on mobile and web</li>
+<li>Fixed Deep research runs labeling every Fetch-phase agent &quot;unknown&quot; — chips now show the source hostname</li>
+<li>Fixed Bedrock repeatedly requesting fresh AWS SSO credentials from IAM Identity Center on every API request</li>
+<li>Improved agent view: pasting the same text again now expands the collapsed <code>[Pasted text #N]</code> placeholder instead of adding a second one</li>
+<li>Improved agent view: blocked session peeks now lead with the question and show a worded staleness clock (<code>waiting 3m</code>) instead of the same timestamp twice</li>
+<li>Changed Bedrock, Vertex, and Claude Platform on AWS to default to Claude Opus 4.8</li>
+<li>Changed auto mode to no longer read <code>autoMode</code> from <code>.claude/settings.local.json</code> (repo-resident); use <code>~/.claude/settings.json</code> instead</li>
+<li>Fixed an indefinite hang on Windows when AWS credential resolution stalls (e.g. a stuck <code>credential_process</code>): the 60-second stall guard now fires instead of waiting forever.</li>
+<li>Plugin hooks/monitors/MCP headersHelper: <code>${user_config.*}</code> in shell-form commands is now rejected (shell-injection fix). Hooks: use exec form (<code>args</code> array) or <code>$CLAUDE_PLUGIN_OPTION_&lt;KEY&gt;</code>; monitors and headersHelper: read the value inside the script (config file or the server&#39;s <code>env</code> block).</li>
+<li>Plugin option values (<code>pluginConfigs</code>) are no longer read from project-level <code>.claude/settings.json</code>; only user, <code>--settings</code>, and managed settings are honored</li>
+<li>Fixed <code>/usage-credits</code> amount inputs silently stripping malformed values (e.g. a pasted timestamp) to digits; malformed amounts are now rejected with an error, and amounts over $1,000 require a typed confirmation</li>
+</ul>
+]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[v2.1.206]]></title>
             <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.206</link>
@@ -2350,52 +2412,6 @@
 <li>Fixed slash commands followed by a tab or newline being treated as an unknown command</li>
 <li>Fixed several spacing and layout glitches in the <code>/plugin</code>, <code>/status</code>, <code>/mobile</code>, <code>/sandbox</code>, and <code>/permissions</code> menus</li>
 <li>Fixed stripped images prompting the model to repeatedly re-read media that was no longer present</li>
-</ul>
-]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[v2.1.146]]></title>
-            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.146</link>
-            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.146</guid>
-            <pubDate>Thu, 21 May 2026 01:51:52 GMT</pubDate>
-            <description><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>Renamed <code>/simplify</code> to <code>/code-review</code> with an optional effort level (e.g. <code>/code-review high</code>)</li>
-<li>Auto mode no longer suppresses <code>AskUserQuestion</code> when the user or a skill explicitly relies on it</li>
-<li>Fixed Windows PowerShell tool failing with &quot;command line is invalid&quot; when <code>pwsh</code> is installed via winget or the Microsoft Store (regression in v2.1.124)</li>
-<li>Fixed MCP <code>resources/list</code>, <code>resources/templates/list</code>, and <code>prompts/list</code> dropping items past page 1 on paginating servers</li>
-<li>Fixed full-screen strobing in attached background sessions on Windows Terminal while Claude is streaming</li>
-<li>Fixed the auto-updater status line not showing your current version when an update fails</li>
-<li>Fixed on Windows, removing a background-job worktree no longer follows NTFS junctions into the main repo</li>
-<li>Fixed <code>/background</code> refusing sessions whose only typed input was a skill or custom slash command</li>
-<li>Fixed backgrounded sessions re-prompting for tool permissions you already granted with &quot;don&#39;t ask again&quot;</li>
-<li>Fixed <code>/theme</code> color editor and &quot;New custom theme&quot; dialogs not responding to Esc</li>
-<li>Fixed an uncaught exception at the end of streaming sessions when running via the Agent SDK</li>
-<li>Fixed <code>forceLoginOrgUUID</code> and <code>forceLoginMethod</code> managed-settings policies not being enforced against third-party-provider and API-key sessions</li>
-<li>Fixed GNOME Terminal right-click and middle-click paste not inserting text</li>
-<li>Fixed <code>CLAUDE_CODE_SUBAGENT_MODEL</code> not being forwarded to child processes in multi-agent sessions</li>
-<li>Improved auto-updater reliability: native version checks and downloads now retry transient network failures instead of failing immediately</li>
-<li>Improved diff rendering performance for large file edits</li>
-</ul>
-]]></description>
-            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>Renamed <code>/simplify</code> to <code>/code-review</code> with an optional effort level (e.g. <code>/code-review high</code>)</li>
-<li>Auto mode no longer suppresses <code>AskUserQuestion</code> when the user or a skill explicitly relies on it</li>
-<li>Fixed Windows PowerShell tool failing with &quot;command line is invalid&quot; when <code>pwsh</code> is installed via winget or the Microsoft Store (regression in v2.1.124)</li>
-<li>Fixed MCP <code>resources/list</code>, <code>resources/templates/list</code>, and <code>prompts/list</code> dropping items past page 1 on paginating servers</li>
-<li>Fixed full-screen strobing in attached background sessions on Windows Terminal while Claude is streaming</li>
-<li>Fixed the auto-updater status line not showing your current version when an update fails</li>
-<li>Fixed on Windows, removing a background-job worktree no longer follows NTFS junctions into the main repo</li>
-<li>Fixed <code>/background</code> refusing sessions whose only typed input was a skill or custom slash command</li>
-<li>Fixed backgrounded sessions re-prompting for tool permissions you already granted with &quot;don&#39;t ask again&quot;</li>
-<li>Fixed <code>/theme</code> color editor and &quot;New custom theme&quot; dialogs not responding to Esc</li>
-<li>Fixed an uncaught exception at the end of streaming sessions when running via the Agent SDK</li>
-<li>Fixed <code>forceLoginOrgUUID</code> and <code>forceLoginMethod</code> managed-settings policies not being enforced against third-party-provider and API-key sessions</li>
-<li>Fixed GNOME Terminal right-click and middle-click paste not inserting text</li>
-<li>Fixed <code>CLAUDE_CODE_SUBAGENT_MODEL</code> not being forwarded to child processes in multi-agent sessions</li>
-<li>Improved auto-updater reliability: native version checks and downloads now retry transient network failures instead of failing immediately</li>
-<li>Improved diff rendering performance for large file edits</li>
 </ul>
 ]]></content:encoded>
         </item>
