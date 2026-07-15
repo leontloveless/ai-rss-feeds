@@ -4,11 +4,99 @@
         <title>claude-code Releases</title>
         <link>https://github.com/anthropics/claude-code/releases</link>
         <description>GitHub releases for anthropics/claude-code</description>
-        <lastBuildDate>Tue, 14 Jul 2026 23:45:25 GMT</lastBuildDate>
+        <lastBuildDate>Wed, 15 Jul 2026 23:02:35 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>ai-rss-feeds (https://github.com/leontloveless/ai-rss-feeds)</generator>
         <language>en</language>
         <atom:link href="https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/claude-code-releases.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[v2.1.211]]></title>
+            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.211</link>
+            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.211</guid>
+            <pubDate>Wed, 15 Jul 2026 23:02:35 GMT</pubDate>
+            <description><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Added <code>--forward-subagent-text</code> flag and <code>CLAUDE_CODE_FORWARD_SUBAGENT_TEXT</code> environment variable to include subagent text and thinking in stream-json output</li>
+<li>Fixed permission previews relayed to chat channels not neutralizing bidirectional-override, zero-width, and look-alike quote characters, so tool inputs cannot visually alter the approval message</li>
+<li>Fixed auto mode overriding a PreToolUse hook&#39;s <code>ask</code> decision for unsandboxed Bash — a hook <code>ask</code> now floors the decision at a prompt</li>
+<li>Fixed parallel Claude Code sessions all logging out simultaneously after wake-from-sleep when many sessions share one credential store</li>
+<li>Fixed plugin MCP servers not reconnecting after an idle web session woke, leaving MCP calls failing until the next message</li>
+<li>Fixed Claude Code on Vertex and Bedrock attempting the default Opus model at startup and printing a spurious fallback notice when a model is explicitly configured</li>
+<li>Fixed subagents spawned with an explicit model override reverting to the parent&#39;s model when resumed or sent a follow-up message</li>
+<li>Fixed nested <code>.claude/rules/*.md</code> files loading even when setting sources exclude project settings</li>
+<li>Fixed file upload validation: filenames ending in a DOS device suffix (<code>.prn</code>) or trailing dot are now accepted, and files with multiple hard links are refused</li>
+<li>Fixed file uploads to Claude in Chrome from remote and CLI sessions</li>
+<li>Fixed edits that leave the input as &quot;?&quot; being silently swallowed and toggling the shortcuts panel</li>
+<li>Fixed a startup hang when the Claude in Chrome extension is enabled but Chrome is not running</li>
+<li>Fixed a 300ms delay revealing async content (Settings tabs, Stats, diff views, and other loading states)</li>
+<li>Fixed reopening a just-stopped background session from the agents view starting a blank conversation under the same session id</li>
+<li>Fixed <code>/loop</code> hiding the session from <code>/resume</code> after a single use</li>
+<li>Fixed screen reader users losing the audible terminal bell after <code>/terminal-setup</code> or onboarding terminal setup</li>
+<li>Fixed background jobs on LLM gateway auth (<code>ANTHROPIC_AUTH_TOKEN</code> + <code>ANTHROPIC_BASE_URL</code>) coming back &quot;Not logged in&quot; after the daemon respawns them</li>
+<li>Fixed <code>claude agents</code> jobs becoming permanently undeletable when git no longer recognizes their worktree — the row now shows why the delete was refused instead of silently reappearing</li>
+<li>Fixed <code>/clear</code> not resetting the session cost counter — the statusline&#39;s cost now starts at $0 after <code>/clear</code></li>
+<li>Fixed Claude in Chrome setup pages failing to open in the browser on Windows</li>
+<li>Fixed headless print-mode sessions on Windows crashing or silently exiting when stdin is unreadable</li>
+<li>Fixed background session titles in the agents view showing the naming model&#39;s refusal text when the prompt contains a link</li>
+<li>Fixed background agents killed by the user auto-respawning, and revived agents re-running stale prompts from old sessions</li>
+<li>Fixed routines with no schedule reporting a next run time in the year 1</li>
+<li>Hardened synced skill/plugin directory naming on Windows and kept CCR web fetch/search proxies working after <code>/clear</code></li>
+<li>Improved terminal layout and rendering performance</li>
+<li>Improved background agent result reporting — Claude now reports the status of still-running agents and waits for the real completion instead of fabricating results</li>
+<li>Improved the memory index over-limit warning to measure only loaded content, excluding frontmatter and HTML comments</li>
+<li>Updated integer environment variables (timeouts, token budgets, retry counts) to accept scientific notation and digit-separator spellings like <code>1e6</code> and <code>64_000</code></li>
+<li>Updated documentation links to the current docs sites</li>
+<li>Changed &quot;always allow&quot; permission rules to save at the repository root, so approvals granted in a git worktree persist across sessions and worktrees</li>
+<li>Changed <code>/usage-credits</code> to ask for confirmation before sending a request to organization admins</li>
+<li>Changed Vim mode <code>s</code> and <code>S</code> (substitute char/line) to work in NORMAL mode, matching vim behavior</li>
+<li>[VSCode] Updated the Remote Control banner to describe what it does</li>
+<li>Claude in Chrome: hardened file-upload path validation</li>
+<li>Claude in Chrome: <code>save_to_disk</code> on screenshot actions now writes the image to disk and returns the path; previously it did nothing</li>
+<li>Fixed a prompt-caching regression on Bedrock, Vertex, Mantle, and Foundry that billed the trailing system context block as fresh input tokens on every request.</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Added <code>--forward-subagent-text</code> flag and <code>CLAUDE_CODE_FORWARD_SUBAGENT_TEXT</code> environment variable to include subagent text and thinking in stream-json output</li>
+<li>Fixed permission previews relayed to chat channels not neutralizing bidirectional-override, zero-width, and look-alike quote characters, so tool inputs cannot visually alter the approval message</li>
+<li>Fixed auto mode overriding a PreToolUse hook&#39;s <code>ask</code> decision for unsandboxed Bash — a hook <code>ask</code> now floors the decision at a prompt</li>
+<li>Fixed parallel Claude Code sessions all logging out simultaneously after wake-from-sleep when many sessions share one credential store</li>
+<li>Fixed plugin MCP servers not reconnecting after an idle web session woke, leaving MCP calls failing until the next message</li>
+<li>Fixed Claude Code on Vertex and Bedrock attempting the default Opus model at startup and printing a spurious fallback notice when a model is explicitly configured</li>
+<li>Fixed subagents spawned with an explicit model override reverting to the parent&#39;s model when resumed or sent a follow-up message</li>
+<li>Fixed nested <code>.claude/rules/*.md</code> files loading even when setting sources exclude project settings</li>
+<li>Fixed file upload validation: filenames ending in a DOS device suffix (<code>.prn</code>) or trailing dot are now accepted, and files with multiple hard links are refused</li>
+<li>Fixed file uploads to Claude in Chrome from remote and CLI sessions</li>
+<li>Fixed edits that leave the input as &quot;?&quot; being silently swallowed and toggling the shortcuts panel</li>
+<li>Fixed a startup hang when the Claude in Chrome extension is enabled but Chrome is not running</li>
+<li>Fixed a 300ms delay revealing async content (Settings tabs, Stats, diff views, and other loading states)</li>
+<li>Fixed reopening a just-stopped background session from the agents view starting a blank conversation under the same session id</li>
+<li>Fixed <code>/loop</code> hiding the session from <code>/resume</code> after a single use</li>
+<li>Fixed screen reader users losing the audible terminal bell after <code>/terminal-setup</code> or onboarding terminal setup</li>
+<li>Fixed background jobs on LLM gateway auth (<code>ANTHROPIC_AUTH_TOKEN</code> + <code>ANTHROPIC_BASE_URL</code>) coming back &quot;Not logged in&quot; after the daemon respawns them</li>
+<li>Fixed <code>claude agents</code> jobs becoming permanently undeletable when git no longer recognizes their worktree — the row now shows why the delete was refused instead of silently reappearing</li>
+<li>Fixed <code>/clear</code> not resetting the session cost counter — the statusline&#39;s cost now starts at $0 after <code>/clear</code></li>
+<li>Fixed Claude in Chrome setup pages failing to open in the browser on Windows</li>
+<li>Fixed headless print-mode sessions on Windows crashing or silently exiting when stdin is unreadable</li>
+<li>Fixed background session titles in the agents view showing the naming model&#39;s refusal text when the prompt contains a link</li>
+<li>Fixed background agents killed by the user auto-respawning, and revived agents re-running stale prompts from old sessions</li>
+<li>Fixed routines with no schedule reporting a next run time in the year 1</li>
+<li>Hardened synced skill/plugin directory naming on Windows and kept CCR web fetch/search proxies working after <code>/clear</code></li>
+<li>Improved terminal layout and rendering performance</li>
+<li>Improved background agent result reporting — Claude now reports the status of still-running agents and waits for the real completion instead of fabricating results</li>
+<li>Improved the memory index over-limit warning to measure only loaded content, excluding frontmatter and HTML comments</li>
+<li>Updated integer environment variables (timeouts, token budgets, retry counts) to accept scientific notation and digit-separator spellings like <code>1e6</code> and <code>64_000</code></li>
+<li>Updated documentation links to the current docs sites</li>
+<li>Changed &quot;always allow&quot; permission rules to save at the repository root, so approvals granted in a git worktree persist across sessions and worktrees</li>
+<li>Changed <code>/usage-credits</code> to ask for confirmation before sending a request to organization admins</li>
+<li>Changed Vim mode <code>s</code> and <code>S</code> (substitute char/line) to work in NORMAL mode, matching vim behavior</li>
+<li>[VSCode] Updated the Remote Control banner to describe what it does</li>
+<li>Claude in Chrome: hardened file-upload path validation</li>
+<li>Claude in Chrome: <code>save_to_disk</code> on screenshot actions now writes the image to disk and returns the path; previously it did nothing</li>
+<li>Fixed a prompt-caching regression on Bedrock, Vertex, Mantle, and Foundry that billed the trailing system context block as fresh input tokens on every request.</li>
+</ul>
+]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[v2.1.210]]></title>
             <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.210</link>
@@ -2434,22 +2522,6 @@
 <li>Fixed <code>cache_creation_input_tokens</code> reporting as 0 in transcript and result usage when the API reports cache writes only via the nested <code>cache_creation</code> breakdown</li>
 <li>Fixed the PushNotification tool incorrectly reporting &quot;Mobile push not sent (Remote Control inactive)&quot; in SDK-hosted sessions when Remote Control is enabled</li>
 <li>Fixed sessions getting stuck after a model or login switch left stale thinking-block signatures in history; now stripped proactively with a retry safety-net</li>
-</ul>
-]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[v2.1.150]]></title>
-            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.150</link>
-            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.150</guid>
-            <pubDate>Sat, 23 May 2026 04:03:51 GMT</pubDate>
-            <description><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>Internal infrastructure improvements (no user-facing changes)</li>
-</ul>
-]]></description>
-            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>Internal infrastructure improvements (no user-facing changes)</li>
 </ul>
 ]]></content:encoded>
         </item>
