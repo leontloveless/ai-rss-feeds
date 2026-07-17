@@ -4,11 +4,121 @@
         <title>claude-code Releases</title>
         <link>https://github.com/anthropics/claude-code/releases</link>
         <description>GitHub releases for anthropics/claude-code</description>
-        <lastBuildDate>Wed, 15 Jul 2026 23:02:35 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 17 Jul 2026 00:26:27 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>ai-rss-feeds (https://github.com/leontloveless/ai-rss-feeds)</generator>
         <language>en</language>
         <atom:link href="https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/claude-code-releases.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[v2.1.212]]></title>
+            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.212</link>
+            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.212</guid>
+            <pubDate>Fri, 17 Jul 2026 00:26:27 GMT</pubDate>
+            <description><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li><code>/fork</code> now copies your conversation into a new background session (its own row in <code>claude agents</code>) while you keep working; the in-session subagent it used to launch is now <code>/subtask</code></li>
+<li>Added <code>claude auto-mode reset</code> to restore the default auto-mode configuration, with a confirmation prompt (pass <code>--yes</code> to skip)</li>
+<li>Added a session-wide limit on WebSearch tool calls (default 200, tunable via <code>CLAUDE_CODE_MAX_WEB_SEARCHES_PER_SESSION</code>) to stop runaway search loops</li>
+<li>Added a per-session cap on subagent spawns (default 200, override with <code>CLAUDE_CODE_MAX_SUBAGENTS_PER_SESSION</code>) to stop runaway delegation loops; <code>/clear</code> resets the budget</li>
+<li>MCP tool calls running longer than 2 minutes now move to the background automatically so the session stays usable; configure the threshold or disable with <code>CLAUDE_CODE_MCP_AUTO_BACKGROUND_MS</code></li>
+<li>Typing <code>/resume</code> in the agent view now opens a picker of past sessions — including sessions deleted from the list — and resumes your pick as a background session</li>
+<li>Fixed plan mode auto-running file-modifying Bash commands (e.g. <code>touch</code>, <code>rm</code>) without a permission prompt or SDK <code>canUseTool</code> callback</li>
+<li>Fixed worktree creation following a repository-committed symlink at <code>.claude/worktrees</code>, which could create files outside the repository</li>
+<li>Fixed a <code>continue:false</code> hook&#39;s halt being dropped when the tool fails or completes mid-stream, and hook infrastructure errors being misreported as user rejections</li>
+<li>Fixed SIGTERM during a running Bash tool orphaning the command&#39;s process tree in print/SDK mode; the CLI now aborts the turn, kills the tree, and exits 143</li>
+<li>Fixed <code>/background</code> and <code>claude --bg</code> failing with &quot;EUNKNOWN: unknown error, uv_spawn&quot; on Windows when Group Policy blocks PowerShell 5.1; the daemon now prefers PowerShell 7</li>
+<li>Fixed shell mode (<code>!</code>) not executing commands containing file paths while the path autocomplete popup was open</li>
+<li>Fixed auto-mode denial notifications rendering broken characters when a long denial reason was truncated mid-emoji</li>
+<li>Fixed Ctrl+J not inserting a newline in the agent view dispatch input on terminals with extended key reporting, and surfaced the newline shortcut in the <code>?</code> help overlay</li>
+<li>Fixed <code>/ultrareview</code> rejecting PR references like <code>#123</code>, <code>PR 123</code>, and pasted PR URLs; error hints now name the command you actually typed</li>
+<li>Fixed <code>/ultrareview &lt;branch&gt;</code> not fetching the branch from origin when it exists remotely; it now suggests the closest branch name on typos</li>
+<li>Fixed <code>/ultrareview</code> skipping the billing confirmation in a new conversation after <code>/clear</code></li>
+<li>Fixed <code>/ultrareview</code>&#39;s &quot;not a git repository&quot; error on Claude Desktop now suggesting the project&#39;s repository folder instead of terminal commands</li>
+<li>Fixed hosted (host-managed) sessions failing at startup when repository settings configured mTLS certs, extra CA bundles, or OAuth scopes; these transport settings are now ignored with a warning</li>
+<li>Fixed a spurious &quot;File has not been read yet&quot; error when editing a file that had been read with offset/limit before resuming a session</li>
+<li>Fixed <code>ExitWorktree</code> failing with &quot;no active EnterWorktree session&quot; after resuming a session with <code>--continue</code>/<code>--resume</code> in print/SDK mode</li>
+<li>Fixed the workflow agent grid staying empty for Remote Control clients that join a session mid-run</li>
+<li>Fixed streaming-mode control requests being marked complete before their handler finished, which could lose the request on session restart</li>
+<li>Fixed background sessions created with <code>/fork</code> losing their live-parent protection after a state write failure</li>
+<li>Fixed reopening a stopped background session from the agent view failing silently — it now resumes the session, or shows why it can&#39;t and lets you force a restart</li>
+<li>Fixed agent teams: a stopping teammate could send the leader duplicate idle notifications when team initialization re-ran within a session</li>
+<li>Fixed the plan-approval dialog footer splitting &quot;ctrl+g to edit in <editor>&quot; apart when the file path is long</li>
+<li>Fixed the welcome banner keeping its old panel widths after a combined width+height terminal resize in fullscreen mode</li>
+<li>Fixed diff previews losing their line numbers and +/- markers in narrow layouts</li>
+<li>Fixed @-mentions attaching nothing after a partial file read, plugin uninstall targeting the wrong marketplace, and false &quot;Command timed out&quot; on exit code 143</li>
+<li>Fixed OpenTelemetry HTTP exports being rejected with 411/400 by Azure Monitor and other endpoints that don&#39;t accept chunked transfer encoding</li>
+<li>Fixed OTLP event log records missing <code>trace_id</code>/<code>span_id</code> when <code>TRACEPARENT</code> is set in SDK/headless mode</li>
+<li>Fixed conversations with many images incorrectly failing with &quot;Request too large&quot; errors, and improved the error message to explain the actual cause</li>
+<li>Fixed web search and web fetch returning &quot;API Error&quot; text as search results or page content when the API was overloaded</li>
+<li>Improved web search and web fetch reliability by retrying 529 errors and rate-limited requests with bounded backoff</li>
+<li>Improved prompt caching: the mid-conversation system block now works behind LLM gateways and custom base URLs (Bedrock, Vertex, 1P)</li>
+<li>Improved background agent attach: cold-attaching now instantly shows the formatted transcript while the session boots, instead of a blank wait</li>
+<li>Reduced token usage in inter-agent messaging: <code>SendMessage</code> bodies are no longer duplicated into replayed history and tool results</li>
+<li>Changed <code>/fork</code> to name the copy after your prompt when the session has no title, so the row is recognizable in the agent view</li>
+<li>Changed bare <code>/btw</code> to reopen the side-question panel on your most recent exchange so you can browse earlier answers</li>
+<li>Changed the <code>←</code> footer hint to pulse <code>N done</code> for a moment when a background agent finishes while nothing needs your input</li>
+<li>Deprecated the Task tool&#39;s <code>mode</code> parameter (now ignored); subagents inherit the parent session&#39;s permission mode by default</li>
+<li>Changed Enterprise <code>forceLoginMethod</code> to be enforced for VS Code extension, SDK, <code>setup-token</code>, and <code>install-github-app</code> logins, not just the terminal</li>
+<li>Changed session transcripts to record the reasoning effort level on each assistant message</li>
+<li>Changed headless/SDK sessions to apply a <code>set_model</code> control request mid-turn; the next model round-trip uses the new model instead of waiting for the next turn</li>
+<li>Changed agent view / <code>claude agents --json</code>: sessions waiting on a sandbox, MCP-input, or managed-settings prompt now show as &quot;Needs input&quot; instead of &quot;Working&quot;</li>
+<li>Updated the auth status panel title from &quot;Cloud authentication&quot; to &quot;Authentication&quot;</li>
+<li>Corrected an earlier release note (2.1.200): tmux through the 3.6 series lacks synchronized output; newer tmux with support is detected automatically</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li><code>/fork</code> now copies your conversation into a new background session (its own row in <code>claude agents</code>) while you keep working; the in-session subagent it used to launch is now <code>/subtask</code></li>
+<li>Added <code>claude auto-mode reset</code> to restore the default auto-mode configuration, with a confirmation prompt (pass <code>--yes</code> to skip)</li>
+<li>Added a session-wide limit on WebSearch tool calls (default 200, tunable via <code>CLAUDE_CODE_MAX_WEB_SEARCHES_PER_SESSION</code>) to stop runaway search loops</li>
+<li>Added a per-session cap on subagent spawns (default 200, override with <code>CLAUDE_CODE_MAX_SUBAGENTS_PER_SESSION</code>) to stop runaway delegation loops; <code>/clear</code> resets the budget</li>
+<li>MCP tool calls running longer than 2 minutes now move to the background automatically so the session stays usable; configure the threshold or disable with <code>CLAUDE_CODE_MCP_AUTO_BACKGROUND_MS</code></li>
+<li>Typing <code>/resume</code> in the agent view now opens a picker of past sessions — including sessions deleted from the list — and resumes your pick as a background session</li>
+<li>Fixed plan mode auto-running file-modifying Bash commands (e.g. <code>touch</code>, <code>rm</code>) without a permission prompt or SDK <code>canUseTool</code> callback</li>
+<li>Fixed worktree creation following a repository-committed symlink at <code>.claude/worktrees</code>, which could create files outside the repository</li>
+<li>Fixed a <code>continue:false</code> hook&#39;s halt being dropped when the tool fails or completes mid-stream, and hook infrastructure errors being misreported as user rejections</li>
+<li>Fixed SIGTERM during a running Bash tool orphaning the command&#39;s process tree in print/SDK mode; the CLI now aborts the turn, kills the tree, and exits 143</li>
+<li>Fixed <code>/background</code> and <code>claude --bg</code> failing with &quot;EUNKNOWN: unknown error, uv_spawn&quot; on Windows when Group Policy blocks PowerShell 5.1; the daemon now prefers PowerShell 7</li>
+<li>Fixed shell mode (<code>!</code>) not executing commands containing file paths while the path autocomplete popup was open</li>
+<li>Fixed auto-mode denial notifications rendering broken characters when a long denial reason was truncated mid-emoji</li>
+<li>Fixed Ctrl+J not inserting a newline in the agent view dispatch input on terminals with extended key reporting, and surfaced the newline shortcut in the <code>?</code> help overlay</li>
+<li>Fixed <code>/ultrareview</code> rejecting PR references like <code>#123</code>, <code>PR 123</code>, and pasted PR URLs; error hints now name the command you actually typed</li>
+<li>Fixed <code>/ultrareview &lt;branch&gt;</code> not fetching the branch from origin when it exists remotely; it now suggests the closest branch name on typos</li>
+<li>Fixed <code>/ultrareview</code> skipping the billing confirmation in a new conversation after <code>/clear</code></li>
+<li>Fixed <code>/ultrareview</code>&#39;s &quot;not a git repository&quot; error on Claude Desktop now suggesting the project&#39;s repository folder instead of terminal commands</li>
+<li>Fixed hosted (host-managed) sessions failing at startup when repository settings configured mTLS certs, extra CA bundles, or OAuth scopes; these transport settings are now ignored with a warning</li>
+<li>Fixed a spurious &quot;File has not been read yet&quot; error when editing a file that had been read with offset/limit before resuming a session</li>
+<li>Fixed <code>ExitWorktree</code> failing with &quot;no active EnterWorktree session&quot; after resuming a session with <code>--continue</code>/<code>--resume</code> in print/SDK mode</li>
+<li>Fixed the workflow agent grid staying empty for Remote Control clients that join a session mid-run</li>
+<li>Fixed streaming-mode control requests being marked complete before their handler finished, which could lose the request on session restart</li>
+<li>Fixed background sessions created with <code>/fork</code> losing their live-parent protection after a state write failure</li>
+<li>Fixed reopening a stopped background session from the agent view failing silently — it now resumes the session, or shows why it can&#39;t and lets you force a restart</li>
+<li>Fixed agent teams: a stopping teammate could send the leader duplicate idle notifications when team initialization re-ran within a session</li>
+<li>Fixed the plan-approval dialog footer splitting &quot;ctrl+g to edit in <editor>&quot; apart when the file path is long</li>
+<li>Fixed the welcome banner keeping its old panel widths after a combined width+height terminal resize in fullscreen mode</li>
+<li>Fixed diff previews losing their line numbers and +/- markers in narrow layouts</li>
+<li>Fixed @-mentions attaching nothing after a partial file read, plugin uninstall targeting the wrong marketplace, and false &quot;Command timed out&quot; on exit code 143</li>
+<li>Fixed OpenTelemetry HTTP exports being rejected with 411/400 by Azure Monitor and other endpoints that don&#39;t accept chunked transfer encoding</li>
+<li>Fixed OTLP event log records missing <code>trace_id</code>/<code>span_id</code> when <code>TRACEPARENT</code> is set in SDK/headless mode</li>
+<li>Fixed conversations with many images incorrectly failing with &quot;Request too large&quot; errors, and improved the error message to explain the actual cause</li>
+<li>Fixed web search and web fetch returning &quot;API Error&quot; text as search results or page content when the API was overloaded</li>
+<li>Improved web search and web fetch reliability by retrying 529 errors and rate-limited requests with bounded backoff</li>
+<li>Improved prompt caching: the mid-conversation system block now works behind LLM gateways and custom base URLs (Bedrock, Vertex, 1P)</li>
+<li>Improved background agent attach: cold-attaching now instantly shows the formatted transcript while the session boots, instead of a blank wait</li>
+<li>Reduced token usage in inter-agent messaging: <code>SendMessage</code> bodies are no longer duplicated into replayed history and tool results</li>
+<li>Changed <code>/fork</code> to name the copy after your prompt when the session has no title, so the row is recognizable in the agent view</li>
+<li>Changed bare <code>/btw</code> to reopen the side-question panel on your most recent exchange so you can browse earlier answers</li>
+<li>Changed the <code>←</code> footer hint to pulse <code>N done</code> for a moment when a background agent finishes while nothing needs your input</li>
+<li>Deprecated the Task tool&#39;s <code>mode</code> parameter (now ignored); subagents inherit the parent session&#39;s permission mode by default</li>
+<li>Changed Enterprise <code>forceLoginMethod</code> to be enforced for VS Code extension, SDK, <code>setup-token</code>, and <code>install-github-app</code> logins, not just the terminal</li>
+<li>Changed session transcripts to record the reasoning effort level on each assistant message</li>
+<li>Changed headless/SDK sessions to apply a <code>set_model</code> control request mid-turn; the next model round-trip uses the new model instead of waiting for the next turn</li>
+<li>Changed agent view / <code>claude agents --json</code>: sessions waiting on a sandbox, MCP-input, or managed-settings prompt now show as &quot;Needs input&quot; instead of &quot;Working&quot;</li>
+<li>Updated the auth status panel title from &quot;Cloud authentication&quot; to &quot;Authentication&quot;</li>
+<li>Corrected an earlier release note (2.1.200): tmux through the 3.6 series lacks synchronized output; newer tmux with support is detected automatically</li>
+</ul>
+]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[v2.1.211]]></title>
             <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.211</link>
@@ -2442,86 +2552,6 @@
 <li>[VSCode] Fixed Claude Code processes not shutting down cleanly when VS Code closed on Windows, causing false &quot;unclean exit&quot; reports and orphaned MCP servers</li>
 <li><code>/model</code> now saves your selection as the default for new sessions (matching the IDE). Press <code>s</code> in the picker to switch models for the current session only.</li>
 <li>If you customized the <code>modelPicker:setAsDefault</code> keybinding, rename it to <code>modelPicker:thisSessionOnly</code> in keybindings.json (the <code>d</code> action was replaced by <code>s</code>)</li>
-</ul>
-]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[v2.1.152]]></title>
-            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.152</link>
-            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.152</guid>
-            <pubDate>Wed, 27 May 2026 01:30:59 GMT</pubDate>
-            <description><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li><code>/code-review --fix</code> now applies review findings to your working tree after the review, surfacing reuse, simplification, and efficiency suggestions; <code>/simplify</code> now invokes <code>/code-review --fix</code></li>
-<li>Skills and slash commands can now set <code>disallowed-tools</code> in frontmatter to remove tools from the model while the skill is active</li>
-<li>Added <code>/reload-skills</code> command to re-scan skill directories without restarting the session</li>
-<li><code>SessionStart</code> hooks can now return <code>reloadSkills: true</code> to re-scan skill directories, making skills installed by the hook available in the same session</li>
-<li><code>SessionStart</code> hooks can now set the session title via <code>hookSpecificOutput.sessionTitle</code> on startup and resume</li>
-<li>Added a <code>MessageDisplay</code> hook event that lets hooks transform or hide assistant message text as it is displayed</li>
-<li>Added <code>pluginSuggestionMarketplaces</code> managed setting: admins can allowlist org marketplaces whose plugins may be suggested via context-aware tips</li>
-<li><code>claude plugin marketplace remove</code> now accepts <code>--scope user|project|local</code> for symmetry with <code>marketplace add</code>, <code>install</code>, and <code>uninstall</code></li>
-<li>Claude Code now switches to your configured <code>--fallback-model</code> for the rest of the session when the primary model is not found, instead of failing every request</li>
-<li>Auto mode no longer requires opt-in consent</li>
-<li>Vim mode: <code>/</code> in NORMAL mode now opens reverse history search (like Ctrl+R), matching bash/zsh vi-mode</li>
-<li>The <code>/usage</code> breakdown now includes large session files; files are scanned with a streaming read so memory usage stays flat</li>
-<li>Thinking summaries in the collapsed group now stay readable for at least 3 seconds, render as markdown, and cap at 10 lines (<code>Ctrl+O</code> shows the full thinking)</li>
-<li>In fullscreen mode, the &quot;Thinking for Ns&quot; indicator now counts up live while the model is thinking, and keeps its value if you interrupt mid-thought</li>
-<li>Simplified the Workflow tool&#39;s inline progress display — live agent counts now show only in the persistent workflow status row below the prompt</li>
-<li>The post-response timer now shows &quot;Waiting for N background agents/workflows to finish&quot; when backgrounded agents or workflows are still running, and reports the cumulative time once their results are processed</li>
-<li>Added the session entrypoint as an OpenTelemetry metric attribute (<code>app.entrypoint</code>, opt-in via <code>OTEL_METRICS_INCLUDE_ENTRYPOINT=true</code>)</li>
-<li>Fixed terminal styling degrading in very long sessions by recycling the renderer&#39;s style pool</li>
-<li>Fixed the sandbox-enabled warning not appearing in condensed startup mode — it now shows in every layout</li>
-<li>Fixed the loading spinner showing &quot;still thinking&quot;/&quot;almost done thinking&quot; while a tool is running, and reset the thinking status to &quot;thinking&quot; after each tool</li>
-<li>Fixed focus mode showing a spurious &quot;N messages hidden&quot; count on turns with no hidden activity</li>
-<li>Fixed clicking a link inside an expanded tool result collapsing the section instead of opening the link</li>
-<li>Fixed markdown table cell borders inheriting the color of inline code, wrapped continuation lines losing their style, and empty header cells showing a label in the narrow-terminal stacked layout</li>
-<li>Fixed plugin MCP servers with the same command but different environment variables being incorrectly deduplicated</li>
-<li>Fixed <code>/doctor</code> reporting &quot;marketplace not found&quot; or &quot;plugin not found&quot; for stale <code>enabledPlugins</code> entries referencing removed marketplaces or dropped plugins</li>
-<li>Fixed plugins that track a git branch silently no longer receiving updates after the plugin registry was rebuilt</li>
-<li>Fixed remote MCP servers failing to connect in Claude Code Remote sessions when the egress proxy is enabled</li>
-<li>Fixed the effort-change confirmation dialog appearing when the conversation has no messages or when switching between effort levels that resolve to the same underlying value</li>
-<li>Fixed the Agent tool description referencing an agent list that is never delivered when running with <code>--bare</code> or with attachments disabled</li>
-<li>Fixed a background worker crash in <code>claude agents</code> when accepting a stale permission prompt after a subagent was cancelled</li>
-<li>Fixed <code>cache_creation_input_tokens</code> reporting as 0 in transcript and result usage when the API reports cache writes only via the nested <code>cache_creation</code> breakdown</li>
-<li>Fixed the PushNotification tool incorrectly reporting &quot;Mobile push not sent (Remote Control inactive)&quot; in SDK-hosted sessions when Remote Control is enabled</li>
-<li>Fixed sessions getting stuck after a model or login switch left stale thinking-block signatures in history; now stripped proactively with a retry safety-net</li>
-</ul>
-]]></description>
-            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li><code>/code-review --fix</code> now applies review findings to your working tree after the review, surfacing reuse, simplification, and efficiency suggestions; <code>/simplify</code> now invokes <code>/code-review --fix</code></li>
-<li>Skills and slash commands can now set <code>disallowed-tools</code> in frontmatter to remove tools from the model while the skill is active</li>
-<li>Added <code>/reload-skills</code> command to re-scan skill directories without restarting the session</li>
-<li><code>SessionStart</code> hooks can now return <code>reloadSkills: true</code> to re-scan skill directories, making skills installed by the hook available in the same session</li>
-<li><code>SessionStart</code> hooks can now set the session title via <code>hookSpecificOutput.sessionTitle</code> on startup and resume</li>
-<li>Added a <code>MessageDisplay</code> hook event that lets hooks transform or hide assistant message text as it is displayed</li>
-<li>Added <code>pluginSuggestionMarketplaces</code> managed setting: admins can allowlist org marketplaces whose plugins may be suggested via context-aware tips</li>
-<li><code>claude plugin marketplace remove</code> now accepts <code>--scope user|project|local</code> for symmetry with <code>marketplace add</code>, <code>install</code>, and <code>uninstall</code></li>
-<li>Claude Code now switches to your configured <code>--fallback-model</code> for the rest of the session when the primary model is not found, instead of failing every request</li>
-<li>Auto mode no longer requires opt-in consent</li>
-<li>Vim mode: <code>/</code> in NORMAL mode now opens reverse history search (like Ctrl+R), matching bash/zsh vi-mode</li>
-<li>The <code>/usage</code> breakdown now includes large session files; files are scanned with a streaming read so memory usage stays flat</li>
-<li>Thinking summaries in the collapsed group now stay readable for at least 3 seconds, render as markdown, and cap at 10 lines (<code>Ctrl+O</code> shows the full thinking)</li>
-<li>In fullscreen mode, the &quot;Thinking for Ns&quot; indicator now counts up live while the model is thinking, and keeps its value if you interrupt mid-thought</li>
-<li>Simplified the Workflow tool&#39;s inline progress display — live agent counts now show only in the persistent workflow status row below the prompt</li>
-<li>The post-response timer now shows &quot;Waiting for N background agents/workflows to finish&quot; when backgrounded agents or workflows are still running, and reports the cumulative time once their results are processed</li>
-<li>Added the session entrypoint as an OpenTelemetry metric attribute (<code>app.entrypoint</code>, opt-in via <code>OTEL_METRICS_INCLUDE_ENTRYPOINT=true</code>)</li>
-<li>Fixed terminal styling degrading in very long sessions by recycling the renderer&#39;s style pool</li>
-<li>Fixed the sandbox-enabled warning not appearing in condensed startup mode — it now shows in every layout</li>
-<li>Fixed the loading spinner showing &quot;still thinking&quot;/&quot;almost done thinking&quot; while a tool is running, and reset the thinking status to &quot;thinking&quot; after each tool</li>
-<li>Fixed focus mode showing a spurious &quot;N messages hidden&quot; count on turns with no hidden activity</li>
-<li>Fixed clicking a link inside an expanded tool result collapsing the section instead of opening the link</li>
-<li>Fixed markdown table cell borders inheriting the color of inline code, wrapped continuation lines losing their style, and empty header cells showing a label in the narrow-terminal stacked layout</li>
-<li>Fixed plugin MCP servers with the same command but different environment variables being incorrectly deduplicated</li>
-<li>Fixed <code>/doctor</code> reporting &quot;marketplace not found&quot; or &quot;plugin not found&quot; for stale <code>enabledPlugins</code> entries referencing removed marketplaces or dropped plugins</li>
-<li>Fixed plugins that track a git branch silently no longer receiving updates after the plugin registry was rebuilt</li>
-<li>Fixed remote MCP servers failing to connect in Claude Code Remote sessions when the egress proxy is enabled</li>
-<li>Fixed the effort-change confirmation dialog appearing when the conversation has no messages or when switching between effort levels that resolve to the same underlying value</li>
-<li>Fixed the Agent tool description referencing an agent list that is never delivered when running with <code>--bare</code> or with attachments disabled</li>
-<li>Fixed a background worker crash in <code>claude agents</code> when accepting a stale permission prompt after a subagent was cancelled</li>
-<li>Fixed <code>cache_creation_input_tokens</code> reporting as 0 in transcript and result usage when the API reports cache writes only via the nested <code>cache_creation</code> breakdown</li>
-<li>Fixed the PushNotification tool incorrectly reporting &quot;Mobile push not sent (Remote Control inactive)&quot; in SDK-hosted sessions when Remote Control is enabled</li>
-<li>Fixed sessions getting stuck after a model or login switch left stale thinking-block signatures in history; now stripped proactively with a retry safety-net</li>
 </ul>
 ]]></content:encoded>
         </item>
