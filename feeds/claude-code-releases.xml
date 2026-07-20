@@ -4,11 +4,105 @@
         <title>claude-code Releases</title>
         <link>https://github.com/anthropics/claude-code/releases</link>
         <description>GitHub releases for anthropics/claude-code</description>
-        <lastBuildDate>Sun, 19 Jul 2026 02:56:01 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 20 Jul 2026 22:14:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>ai-rss-feeds (https://github.com/leontloveless/ai-rss-feeds)</generator>
         <language>en</language>
         <atom:link href="https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/claude-code-releases.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[v2.1.216]]></title>
+            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.216</link>
+            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.216</guid>
+            <pubDate>Mon, 20 Jul 2026 22:14:00 GMT</pubDate>
+            <description><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Added <code>sandbox.filesystem.disabled</code> setting to skip filesystem isolation while keeping network egress control</li>
+<li>Fixed a slowdown in long sessions where message normalization cost grew quadratically with the number of turns, causing multi-second stalls and slow resumes</li>
+<li>Fixed auto mode denying commands with &quot;HTTP 401&quot; classifier errors after the OAuth token expired or rotated mid-session</li>
+<li>Fixed AskUserQuestion telling Claude to continue even when your answer asked it to wait or explain first — free-text answers now get neutral wording</li>
+<li>Fixed Claude Code on the web re-asking the same question and dropping your answer after the session sat idle for a few minutes</li>
+<li>Fixed @-mentions silently attaching nothing after file-modifying hooks, vim dot-repeat of <code>c</code>-operators and paste, statusline running twice on resume, and resume-picker hangs on failure</li>
+<li>Fixed resumed background agent sessions reverting to the default agent: the agent&#39;s prompt and tool restrictions are now restored</li>
+<li>Fixed worktree-isolated subagents redirecting git into the shared checkout via <code>git -C</code>, <code>--git-dir</code>, or <code>GIT_DIR</code>/<code>GIT_WORK_TREE</code></li>
+<li>Fixed worktree sessions landing in another project&#39;s leftover worktree when the working directory did not match the selected project</li>
+<li>Fixed background sessions whose worktree has no git repository being undeletable</li>
+<li>Fixed <code>claude daemon stop --any</code> potentially terminating an unrelated process via a stale legacy daemon lockfile</li>
+<li>Fixed Esc-Esc at an idle prompt not opening the rewind picker in long-running sessions with background tasks</li>
+<li>Fixed Bash command permission checking for compound statements with redirects inside <code>&amp;&amp;</code> lists or negations</li>
+<li>Fixed pressing Ctrl+X twice in the agent list failing to delete a session, and deleted sessions reappearing when their background worker had died</li>
+<li>Fixed background subagents getting cancelled when a high-priority message arrives during their startup window</li>
+<li>Fixed mouse and focus garbage in the terminal while a GUI editor from <code>/memory</code>, <code>/plan</code>, <code>/keybindings</code>, or Ctrl+G is open; <code>/memory</code> no longer waits for the editor to close</li>
+<li>Fixed Claude-in-Chrome 403-looping on reconnect when the session&#39;s OAuth token lacks a required scope</li>
+<li>Fixed workflow saves and scheduled-task writes following a symlink at <code>.claude</code>, which could redirect writes outside the project</li>
+<li>Fixed MCP re-authenticate revoking working credentials before the new sign-in succeeds, and the reconnect needs-auth message in background sessions pointing at an unusable command</li>
+<li>Fixed read-only commands on Windows accessing network paths without a permission prompt</li>
+<li>Fixed Bash command parsing of non-ASCII characters to match real shell word boundaries</li>
+<li>Fixed PowerShell tool permission validation of commands containing invisible Unicode characters</li>
+<li>Fixed dialogs in fullscreen mode stretching past the right-hand edge of their panel</li>
+<li>Fixed the <code>/config</code> settings list in fullscreen mode clipping its keyboard-hint footer</li>
+<li>Fixed the transcript-mode (Ctrl+O) footer hint wrapping on terminals narrower than 104 columns</li>
+<li>Fixed the Prometheus metrics endpoint (<code>OTEL_METRICS_EXPORTER=prometheus</code>) emitting invalid <code># UNIT</code> lines</li>
+<li>Fixed skills and commands changed during a session not appearing in the slash menu until restart</li>
+<li>Fixed plugin skills with a <code>name</code> frontmatter field losing their plugin prefix in slash-command autocomplete</li>
+<li>Fixed telemetry misreporting permission denials: failed permission-prompt requests no longer count as user rejections, and user interrupts are now reported as user aborts instead of rejections</li>
+<li>Improved the <code>/fork</code> confirmation to one line with the new session&#39;s name, <code>claude attach</code> id, and a note when the copy shares your checkout</li>
+<li>Improved validation of <code>git</code> and <code>gh</code> command arguments in the PowerShell tool</li>
+<li>Improved the <code>/ultrareview</code> diff-too-large error to show configured limits, measured diff size, and largest contributing files</li>
+<li>Improved <code>/code-review ultra</code> empty-diff message to name the exact base ref and suggest passing an explicit base</li>
+<li>Improved the spend limit adjustment prompt to show the server&#39;s reason when a spend limit change is rejected</li>
+<li><code>/context</code> now shows an explicit warning when the conversation exceeds the context window, and a failed <code>/compact</code> displays as an error</li>
+<li><code>/rewind</code> no longer restores or deletes files through symlinks or hard links at tracked paths and reports how many paths it skipped</li>
+<li>Background sessions: <code>/mcp</code> and <code>/install-github-app</code> now park a &quot;needs input&quot; request in the agent view when no client is attached</li>
+<li>Updated the bundled dataviz skill: reordered the default chart palette and fixed guidance that suggested direct labels for four-series charts</li>
+<li>[VSCode] Fixed right-to-left text (Arabic, Hebrew, Persian) rendering in the wrong order when mixed with English or code</li>
+<li>Fixed cloud sessions dropping the in-flight message when the session&#39;s container restarts mid-turn — the interrupted turn now re-runs on resume instead of leaving the session unresponsive</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Added <code>sandbox.filesystem.disabled</code> setting to skip filesystem isolation while keeping network egress control</li>
+<li>Fixed a slowdown in long sessions where message normalization cost grew quadratically with the number of turns, causing multi-second stalls and slow resumes</li>
+<li>Fixed auto mode denying commands with &quot;HTTP 401&quot; classifier errors after the OAuth token expired or rotated mid-session</li>
+<li>Fixed AskUserQuestion telling Claude to continue even when your answer asked it to wait or explain first — free-text answers now get neutral wording</li>
+<li>Fixed Claude Code on the web re-asking the same question and dropping your answer after the session sat idle for a few minutes</li>
+<li>Fixed @-mentions silently attaching nothing after file-modifying hooks, vim dot-repeat of <code>c</code>-operators and paste, statusline running twice on resume, and resume-picker hangs on failure</li>
+<li>Fixed resumed background agent sessions reverting to the default agent: the agent&#39;s prompt and tool restrictions are now restored</li>
+<li>Fixed worktree-isolated subagents redirecting git into the shared checkout via <code>git -C</code>, <code>--git-dir</code>, or <code>GIT_DIR</code>/<code>GIT_WORK_TREE</code></li>
+<li>Fixed worktree sessions landing in another project&#39;s leftover worktree when the working directory did not match the selected project</li>
+<li>Fixed background sessions whose worktree has no git repository being undeletable</li>
+<li>Fixed <code>claude daemon stop --any</code> potentially terminating an unrelated process via a stale legacy daemon lockfile</li>
+<li>Fixed Esc-Esc at an idle prompt not opening the rewind picker in long-running sessions with background tasks</li>
+<li>Fixed Bash command permission checking for compound statements with redirects inside <code>&amp;&amp;</code> lists or negations</li>
+<li>Fixed pressing Ctrl+X twice in the agent list failing to delete a session, and deleted sessions reappearing when their background worker had died</li>
+<li>Fixed background subagents getting cancelled when a high-priority message arrives during their startup window</li>
+<li>Fixed mouse and focus garbage in the terminal while a GUI editor from <code>/memory</code>, <code>/plan</code>, <code>/keybindings</code>, or Ctrl+G is open; <code>/memory</code> no longer waits for the editor to close</li>
+<li>Fixed Claude-in-Chrome 403-looping on reconnect when the session&#39;s OAuth token lacks a required scope</li>
+<li>Fixed workflow saves and scheduled-task writes following a symlink at <code>.claude</code>, which could redirect writes outside the project</li>
+<li>Fixed MCP re-authenticate revoking working credentials before the new sign-in succeeds, and the reconnect needs-auth message in background sessions pointing at an unusable command</li>
+<li>Fixed read-only commands on Windows accessing network paths without a permission prompt</li>
+<li>Fixed Bash command parsing of non-ASCII characters to match real shell word boundaries</li>
+<li>Fixed PowerShell tool permission validation of commands containing invisible Unicode characters</li>
+<li>Fixed dialogs in fullscreen mode stretching past the right-hand edge of their panel</li>
+<li>Fixed the <code>/config</code> settings list in fullscreen mode clipping its keyboard-hint footer</li>
+<li>Fixed the transcript-mode (Ctrl+O) footer hint wrapping on terminals narrower than 104 columns</li>
+<li>Fixed the Prometheus metrics endpoint (<code>OTEL_METRICS_EXPORTER=prometheus</code>) emitting invalid <code># UNIT</code> lines</li>
+<li>Fixed skills and commands changed during a session not appearing in the slash menu until restart</li>
+<li>Fixed plugin skills with a <code>name</code> frontmatter field losing their plugin prefix in slash-command autocomplete</li>
+<li>Fixed telemetry misreporting permission denials: failed permission-prompt requests no longer count as user rejections, and user interrupts are now reported as user aborts instead of rejections</li>
+<li>Improved the <code>/fork</code> confirmation to one line with the new session&#39;s name, <code>claude attach</code> id, and a note when the copy shares your checkout</li>
+<li>Improved validation of <code>git</code> and <code>gh</code> command arguments in the PowerShell tool</li>
+<li>Improved the <code>/ultrareview</code> diff-too-large error to show configured limits, measured diff size, and largest contributing files</li>
+<li>Improved <code>/code-review ultra</code> empty-diff message to name the exact base ref and suggest passing an explicit base</li>
+<li>Improved the spend limit adjustment prompt to show the server&#39;s reason when a spend limit change is rejected</li>
+<li><code>/context</code> now shows an explicit warning when the conversation exceeds the context window, and a failed <code>/compact</code> displays as an error</li>
+<li><code>/rewind</code> no longer restores or deletes files through symlinks or hard links at tracked paths and reports how many paths it skipped</li>
+<li>Background sessions: <code>/mcp</code> and <code>/install-github-app</code> now park a &quot;needs input&quot; request in the agent view when no client is attached</li>
+<li>Updated the bundled dataviz skill: reordered the default chart palette and fixed guidance that suggested direct labels for four-series charts</li>
+<li>[VSCode] Fixed right-to-left text (Arabic, Hebrew, Persian) rendering in the wrong order when mixed with English or code</li>
+<li>Fixed cloud sessions dropping the in-flight message when the session&#39;s container restarts mid-turn — the interrupted turn now re-runs on resume instead of leaving the session unresponsive</li>
+</ul>
+]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[v2.1.215]]></title>
             <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.215</link>
@@ -2472,22 +2566,6 @@
 <li>[VSCode] Fixed the fast mode indicator not appearing on Opus 4.8</li>
 <li>Pressing backspace right after a workflow trigger keyword now dismisses the workflow request (same as alt+w) instead of deleting a character</li>
 <li>Added a &quot;Workflow keyword trigger&quot; setting in /config to stop the word &quot;workflow&quot; in a prompt from triggering a dynamic workflow</li>
-</ul>
-]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[v2.1.156]]></title>
-            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.156</link>
-            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.156</guid>
-            <pubDate>Fri, 29 May 2026 01:42:23 GMT</pubDate>
-            <description><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>Fixed an issue when using Opus 4.8 where thinking blocks were modified, leading to API errors.</li>
-</ul>
-]]></description>
-            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>Fixed an issue when using Opus 4.8 where thinking blocks were modified, leading to API errors.</li>
 </ul>
 ]]></content:encoded>
         </item>
