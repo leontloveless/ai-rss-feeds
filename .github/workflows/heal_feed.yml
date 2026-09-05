@@ -10,19 +10,11 @@ on:
 permissions:
   contents: write
   issues: write
+  models: read
 
 jobs:
   heal:
     runs-on: ubuntu-latest
-    # Switch providers by changing the repository variable AI_ENVIRONMENT.
-    # Each GitHub Environment owns its own AI_API_KEY secret plus
-    # AI_BASE_URL / AI_MODEL variables, so provider credentials/config live
-    # in one place and the workflow/code remain provider-agnostic.
-    environment: ${{ vars.AI_ENVIRONMENT || 'openrouter' }}
-    env:
-      AI_API_KEY: ${{ secrets.AI_API_KEY }}
-      AI_BASE_URL: ${{ vars.AI_BASE_URL }}
-      AI_MODEL: ${{ vars.AI_MODEL }}
     steps:
       - uses: actions/checkout@v6
       - uses: oven-sh/setup-bun@v2
@@ -32,6 +24,10 @@ jobs:
         run: bun run src/heal-feed.ts "$FEED_NAME"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Optional repository configuration; empty values use GitHub Models.
+          AI_API_KEY: ${{ secrets.AI_API_KEY }}
+          AI_BASE_URL: ${{ vars.AI_BASE_URL }}
+          AI_MODEL: ${{ vars.AI_MODEL }}
           FEED_NAME: ${{ inputs.feed_name }}
       - id: commit
         if: steps.heal.outcome == 'success'

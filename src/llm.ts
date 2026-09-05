@@ -3,6 +3,7 @@
  */
 
 import type { FeedConfig } from "./types.js";
+import { createLlmProvider, type LlmProvider } from "./llm-provider.js";
 
 const MAX_RETRIES = 3;
 const MAX_HTML_CHARS = 12_000; // Keep prompts small enough for inexpensive/free models
@@ -54,46 +55,10 @@ Rules:
 9. Avoid Tailwind utility classes and generated/hash-like classes when stable tags or attributes are available.`;
 
 /**
- * Build the OpenAI-compatible chat-completions endpoint from AI_BASE_URL.
- *
- * Environment examples:
- *   OpenRouter: AI_BASE_URL=https://openrouter.ai/api/v1
- *   OpenAI:     AI_BASE_URL=https://api.openai.com/v1
- *   xAI:        AI_BASE_URL=https://api.x.ai/v1
- *
- * A full .../chat/completions URL is also accepted.
- */
-export function getAiConfig(): { endpoint: string; apiKey: string; model: string } {
-  const apiKey = process.env.AI_API_KEY?.trim();
-  const baseUrl = process.env.AI_BASE_URL?.trim();
-  const model = process.env.AI_MODEL?.trim();
-
-  const missing = [
-    !apiKey && "AI_API_KEY",
-    !baseUrl && "AI_BASE_URL",
-    !model && "AI_MODEL",
-  ].filter(Boolean);
-
-  if (missing.length > 0) {
-    throw new Error(
-      `Missing AI provider configuration: ${missing.join(", ")}. ` +
-        "Set them on the selected GitHub Environment."
-    );
-  }
-
-  const normalized = baseUrl!.replace(/\/+$/, "");
-  const endpoint = normalized.endsWith("/chat/completions")
-    ? normalized
-    : `${normalized}/chat/completions`;
-
-  return { endpoint, apiKey: apiKey!, model: model! };
-}
-
-/**
  * Generate a FeedConfig from a blog URL's HTML using the configured provider.
  *
- * The provider is intentionally generic: any service implementing the OpenAI
- * chat-completions API can be selected by changing the GitHub Environment.
+ * Provider selection and HTTP transport live in llm-provider.ts. Alternate
+ * implementations can be injected without changing feed generation logic.
  *
  * @param feedback Optional message describing why the previous config failed
  *                 at the parse step (e.g. selectors matched 0 articles). When
@@ -103,10 +68,9 @@ export function getAiConfig(): { endpoint: string; apiKey: string; model: string
 export async function generateConfig(
   url: string,
   html: string,
-  feedback?: string
+  feedback?: string,
+  provider: LlmProvider = createLlmProvider()
 ): Promise<FeedConfig> {
-  const { endpoint, apiKey, model } = getAiConfig();
-
   // Strip scripts, styles, comments, and other noise to reduce token count
   let cleaned = html
     .replace(/<script[\s\S]*?<\/script>/gi, "")
@@ -136,34 +100,10 @@ export async function generateConfig(
     const userPrompt = `${preamble}\n\nURL: ${url}\n\nHTML:\n${truncated}`;
 
     try {
-      const res = await fetch(endpoint, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${apiKey}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          model,
-          messages: [
-            { role: "system", content: SYSTEM_PROMPT },
-            { role: "user", content: userPrompt },
-          ],
-          response_format: { type: "json_object" },
-          temperature: 0.1,
-          max_tokens: 2000,
-        }),
-      });
-
-      if (!res.ok) {
-        const text = await res.text().catch(() => "");
-        throw new Error(`API error ${res.status}: ${text.slice(0, 200)}`);
-      }
-
-      const data = (await res.json()) as {
-        choices: { message: { content: string } }[];
-      };
-      const content = data.choices?.[0]?.message?.content;
-      if (!content) throw new Error("Empty response from API");
+      const content = await provider.complete([
+        { role: "system", content: SYSTEM_PROMPT },
+        { role: "user", content: userPrompt },
+      ]);
 
       const config = JSON.parse(content) as FeedConfig;
 

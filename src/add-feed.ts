@@ -4,8 +4,7 @@
  *
  * Usage:
  *   bun run src/add-feed.ts https://ollama.com/blog
- *   AI_API_KEY=xxx AI_BASE_URL=https://openrouter.ai/api/v1 AI_MODEL=openrouter/free \
- *     bun run src/add-feed.ts https://example.com/blog
+ *   GITHUB_TOKEN=xxx bun run src/add-feed.ts https://example.com/blog
  */
 
 import { writeFileSync, mkdirSync } from "fs";

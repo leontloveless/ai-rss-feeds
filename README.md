@@ -148,11 +148,11 @@ bun run validate
 bun run add https://github.com/owner/repo
 
 # Legacy LLM-based parser generation for complex pages
-# (requires an OpenAI-compatible provider; see below)
-AI_API_KEY=xxx AI_BASE_URL=https://openrouter.ai/api/v1 AI_MODEL=openrouter/free bun run add:legacy https://example.com/blog
+# (defaults to GitHub Models; optional custom provider below)
+GITHUB_TOKEN=xxx bun run add:legacy https://example.com/blog
 
-# Heal a broken feed (same AI_* provider config as above)
-AI_API_KEY=xxx AI_BASE_URL=https://openrouter.ai/api/v1 AI_MODEL=openrouter/free bun run heal cursor-blog
+# Heal a broken feed
+GITHUB_TOKEN=xxx bun run heal cursor-blog
 
 # Regenerate the feed table in this README
 bun run readme
@@ -160,23 +160,39 @@ bun run readme
 
 ### AI provider configuration
 
-`src/llm.ts` talks to any OpenAI-compatible chat-completions API, so the
-provider is a matter of configuration rather than code. The `Heal Feed`
-workflow selects a [GitHub Environment](https://docs.github.com/en/actions/deployment/targeting-different-environments/using-environments-for-deployment)
-via the `AI_ENVIRONMENT` repository variable (defaults to `openrouter`), and
-that environment supplies:
+`generateConfig()` handles prompts, retries, JSON parsing, and feed-config
+validation. It accepts an optional `LlmProvider` from `src/llm-provider.ts`,
+whose `complete(messages)` method returns model text. New providers can implement
+that interface without changing the feed-generation logic.
 
-| Name | Kind | Example |
+By default, the shared OpenAI-compatible client uses GitHub Models
+(`openai/gpt-4o-mini`) with `GITHUB_TOKEN`. The `Heal Feed` workflow supplies
+its built-in token with `models: read` permission, so no separate provider key
+or GitHub Environment is required. GitHub Models must be available to the
+repository/account. For local commands, supply a GitHub token with Models read
+access.
+
+To select a custom OpenAI-compatible provider, set **all three** values:
+
+| Name | GitHub Actions repository setting | Example |
 |------|------|---------|
-| `AI_API_KEY` | secret | your provider API key |
-| `AI_BASE_URL` | variable | `https://openrouter.ai/api/v1` |
-| `AI_MODEL` | variable | `openrouter/free` |
+| `AI_API_KEY` | Actions secret | your provider API key |
+| `AI_BASE_URL` | Actions variable | `https://openrouter.ai/api/v1` |
+| `AI_MODEL` | Actions variable | your provider's model ID |
 
-Swapping providers (OpenRouter, OpenAI, xAI, etc.) is a matter of creating a
-new GitHub Environment with these three values and pointing `AI_ENVIRONMENT`
-at it — no code or workflow changes needed. The same variables configure the
-local `add:legacy` and `heal` scripts, replacing the old `GITHUB_TOKEN`-only
-GitHub Models integration.
+Set these under **Settings → Secrets and variables → Actions**. The workflow
+no longer selects an Environment through `AI_ENVIRONMENT`; migrate any previous
+Environment-scoped `AI_*` values to these repository settings.
+
+For local `add:legacy` and `heal` commands, set the same three environment
+variables. `AI_BASE_URL` accepts either a base URL or the full
+`/chat/completions` endpoint. The selected model must support JSON-object output
+and the client's `temperature` and `max_tokens` parameters.
+
+Empty or whitespace-only `AI_*` values count as unset. When all are unset,
+GitHub Models is selected. When only some are set, configuration fails before
+any model request, even if `GITHUB_TOKEN` exists. A custom provider failure does
+not switch to GitHub Models automatically.
 
 ### Agentic fallback
 
