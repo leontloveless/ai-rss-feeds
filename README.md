@@ -43,7 +43,7 @@ GitHub release feeds and native RSS/Atom feeds are added without a model call. S
 | [Engineering Blog](https://engineering.roku.com/) | [Subscribe](https://engineering.roku.com/feed) | ✅ native RSS |
 | [Monzo – It's time for a new kind of bank](https://share.google/DVO0e53D9NBLGntfT) | [Subscribe](https://monzo.com/feed.xml) | ✅ native RSS |
 
-### GitHub Releases (6)
+### GitHub Releases (7)
 
 | Project | Feed | Status |
 |---------|------|--------|
@@ -53,6 +53,7 @@ GitHub release feeds and native RSS/Atom feeds are added without a model call. S
 | [kubernetes/kubernetes](https://github.com/kubernetes/kubernetes) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/kubernetes-releases.xml) | ✅ 36 releases |
 | [grafana/mcp-grafana](https://github.com/grafana/mcp-grafana) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/mcp-grafana-releases.xml) | ✅ 50 releases |
 | [openclaw/openclaw](https://github.com/openclaw/openclaw) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/openclaw-releases.xml) | ✅ 50 releases |
+| [prometheus/prometheus](https://github.com/prometheus/prometheus) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/prometheus-releases.xml) | ✅ 33 releases |
 <!-- FEEDS_TABLE_END -->
 
 ## 🚀 Quick Start
