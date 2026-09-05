@@ -148,14 +148,35 @@ bun run validate
 bun run add https://github.com/owner/repo
 
 # Legacy LLM-based parser generation for complex pages
-GITHUB_TOKEN=xxx bun run add:legacy https://example.com/blog
+# (requires an OpenAI-compatible provider; see below)
+AI_API_KEY=xxx AI_BASE_URL=https://openrouter.ai/api/v1 AI_MODEL=openrouter/free bun run add:legacy https://example.com/blog
 
-# Heal a broken feed (requires GITHUB_TOKEN for LLM)
-GITHUB_TOKEN=xxx bun run heal cursor-blog
+# Heal a broken feed (same AI_* provider config as above)
+AI_API_KEY=xxx AI_BASE_URL=https://openrouter.ai/api/v1 AI_MODEL=openrouter/free bun run heal cursor-blog
 
 # Regenerate the feed table in this README
 bun run readme
 ```
+
+### AI provider configuration
+
+`src/llm.ts` talks to any OpenAI-compatible chat-completions API, so the
+provider is a matter of configuration rather than code. The `Heal Feed`
+workflow selects a [GitHub Environment](https://docs.github.com/en/actions/deployment/targeting-different-environments/using-environments-for-deployment)
+via the `AI_ENVIRONMENT` repository variable (defaults to `openrouter`), and
+that environment supplies:
+
+| Name | Kind | Example |
+|------|------|---------|
+| `AI_API_KEY` | secret | your provider API key |
+| `AI_BASE_URL` | variable | `https://openrouter.ai/api/v1` |
+| `AI_MODEL` | variable | `openrouter/free` |
+
+Swapping providers (OpenRouter, OpenAI, xAI, etc.) is a matter of creating a
+new GitHub Environment with these three values and pointing `AI_ENVIRONMENT`
+at it — no code or workflow changes needed. The same variables configure the
+local `add:legacy` and `heal` scripts, replacing the old `GITHUB_TOKEN`-only
+GitHub Models integration.
 
 ### Agentic fallback
 

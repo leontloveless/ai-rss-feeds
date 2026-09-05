@@ -3,7 +3,8 @@
  * Self-healing: re-generate a feed's config when the parser is broken.
  *
  * Usage:
- *   GITHUB_TOKEN=xxx bun run src/heal-feed.ts ollama
+ *   AI_API_KEY=xxx AI_BASE_URL=https://openrouter.ai/api/v1 AI_MODEL=openrouter/free \
+ *     bun run src/heal-feed.ts ollama
  */
 
 import { existsSync, readFileSync, writeFileSync } from "fs";
