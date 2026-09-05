@@ -43,14 +43,17 @@ GitHub release feeds and native RSS/Atom feeds are added without a model call. S
 | [Engineering Blog](https://engineering.roku.com/) | [Subscribe](https://engineering.roku.com/feed) | ✅ native RSS |
 | [Monzo – It's time for a new kind of bank](https://share.google/DVO0e53D9NBLGntfT) | [Subscribe](https://monzo.com/feed.xml) | ✅ native RSS |
 
-### GitHub Releases (5)
+### GitHub Releases (8)
 
 | Project | Feed | Status |
 |---------|------|--------|
 | [anthropics/claude-code](https://github.com/anthropics/claude-code) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/claude-code-releases.xml) | ✅ 50 releases |
-| [deepseek-ai/deepseek-harness](https://github.com/deepseek-ai/deepseek-harness) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/deepseek-harness-releases.xml) | ✅ 8 releases |
+| [deepseek-ai/deepseek-harness](https://github.com/deepseek-ai/deepseek-harness) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/deepseek-harness-releases.xml) | ✅ 11 releases |
 | [NousResearch/hermes-agent](https://github.com/NousResearch/hermes-agent) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/hermes-agent-releases.xml) | ✅ 31 releases |
+| [kubernetes/kubernetes](https://github.com/kubernetes/kubernetes) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/kubernetes-releases.xml) | ✅ 36 releases |
+| [grafana/mcp-grafana](https://github.com/grafana/mcp-grafana) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/mcp-grafana-releases.xml) | ✅ 50 releases |
 | [openclaw/openclaw](https://github.com/openclaw/openclaw) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/openclaw-releases.xml) | ✅ 50 releases |
+| [prometheus/prometheus](https://github.com/prometheus/prometheus) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/prometheus-releases.xml) | ✅ 33 releases |
 | [thanos-io/thanos](https://github.com/thanos-io/thanos) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/thanos-releases.xml) | ✅ 31 releases |
 <!-- FEEDS_TABLE_END -->
 
@@ -149,14 +152,51 @@ bun run validate
 bun run add https://github.com/owner/repo
 
 # Legacy LLM-based parser generation for complex pages
+# (defaults to GitHub Models; optional custom provider below)
 GITHUB_TOKEN=xxx bun run add:legacy https://example.com/blog
 
-# Heal a broken feed (requires GITHUB_TOKEN for LLM)
+# Heal a broken feed
 GITHUB_TOKEN=xxx bun run heal cursor-blog
 
 # Regenerate the feed table in this README
 bun run readme
 ```
+
+### AI provider configuration
+
+`generateConfig()` handles prompts, retries, JSON parsing, and feed-config
+validation. It accepts an optional `LlmProvider` from `src/llm-provider.ts`,
+whose `complete(messages)` method returns model text. New providers can implement
+that interface without changing the feed-generation logic.
+
+By default, the shared OpenAI-compatible client uses GitHub Models
+(`openai/gpt-4o-mini`) with `GITHUB_TOKEN`. The `Heal Feed` workflow supplies
+its built-in token with `models: read` permission, so no separate provider key
+or GitHub Environment is required. GitHub Models must be available to the
+repository/account. For local commands, supply a GitHub token with Models read
+access.
+
+To select a custom OpenAI-compatible provider, set **all three** values:
+
+| Name | GitHub Actions repository setting | Example |
+|------|------|---------|
+| `AI_API_KEY` | Actions secret | your provider API key |
+| `AI_BASE_URL` | Actions variable | `https://openrouter.ai/api/v1` |
+| `AI_MODEL` | Actions variable | your provider's model ID |
+
+Set these under **Settings → Secrets and variables → Actions**. The workflow
+no longer selects an Environment through `AI_ENVIRONMENT`; migrate any previous
+Environment-scoped `AI_*` values to these repository settings.
+
+For local `add:legacy` and `heal` commands, set the same three environment
+variables. `AI_BASE_URL` accepts either a base URL or the full
+`/chat/completions` endpoint. The selected model must support JSON-object output
+and the client's `temperature` and `max_tokens` parameters.
+
+Empty or whitespace-only `AI_*` values count as unset. When all are unset,
+GitHub Models is selected. When only some are set, configuration fails before
+any model request, even if `GITHUB_TOKEN` exists. A custom provider failure does
+not switch to GitHub Models automatically.
 
 ### Agentic fallback
 
