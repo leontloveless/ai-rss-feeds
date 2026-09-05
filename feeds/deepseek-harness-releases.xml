@@ -4,11 +4,583 @@
         <title>deepseek-harness Releases</title>
         <link>https://github.com/deepseek-ai/deepseek-harness/releases</link>
         <description>GitHub releases for deepseek-ai/deepseek-harness</description>
-        <lastBuildDate>Tue, 01 Sep 2026 15:45:07 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 04 Sep 2026 11:34:32 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>ai-rss-feeds (https://github.com/leontloveless/ai-rss-feeds)</generator>
         <language>en</language>
         <atom:link href="https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/deepseek-harness-releases.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[v0.1.3-alpha.1]]></title>
+            <link>https://github.com/deepseek-ai/deepseek-harness/releases/tag/dsh-v0.1.3-alpha.1</link>
+            <guid>https://github.com/deepseek-ai/deepseek-harness/releases/tag/dsh-v0.1.3-alpha.1</guid>
+            <pubDate>Fri, 04 Sep 2026 11:34:32 GMT</pubDate>
+            <description><![CDATA[<p><a href="#cn-v0.1.3-alpha.1">中文</a> | <a href="#en-v0.1.3-alpha.1">English</a></p>
+<h3 id="cn-v0.1.3-alpha.1">新增功能</h3>
+
+<ul>
+<li>Web 支持上传任意类型的通用文件：文件与图片可在同一预览区混排，后台上传支持进度、取消与会话切换续显，模型可通过已保存路径使用现有文件工具按需读取。 @CreatixChu</li>
+<li>所有出站网络请求都会遵循启动环境中的 <code>HTTP_PROXY</code>、<code>HTTPS_PROXY</code>、<code>ALL_PROXY</code> 与 <code>NO_PROXY</code> 配置。 @LegGasai</li>
+<li>Python SDK 新增 macOS x64 runtime wheel，可在 Intel 架构的 Mac 上安装并运行随包 runtime。 @koalazf99</li>
+<li><code>read_image</code> 的顶层与 PTC 嵌套工具调用会在 Web 工具卡中直接渲染图片，不再展示原始附件对象。 @Chinesezjc</li>
+<li>模型探测新增对自定义模型提供商 <code>models</code> 对象和 Anthropic 原生模型列表的支持，并支持回填模型名称、上下文窗口及最大输出 token 的回填。 @LegGasai</li>
+</ul>
+<h3>问题修复</h3>
+
+<ul>
+<li>在 Web 中手动暂停目标会立即终止当前模型轮次，避免运行中的模型继续执行或在同一轮恢复目标。 @mektpoy</li>
+<li>修复 DeepSeek 流式工具调用的续传分片用空值覆盖调用 ID 或名称的问题，避免工具以空名称失败并写入无法重新打开的会话记录。 @LegGasai</li>
+<li>修复 Python SDK 单文件 runtime 将 Bash 中以 <code>node</code> 开头的命令错误重写为 dsh runtime 的问题。 @imccyu</li>
+<li>修复从会话搜索结果进入会话后仍停留在搜索界面的问题；目标会话会在所属 Workspace 中展开并滚动到可见位置。 @Dudu-0223</li>
+<li>修复 Windows 盘符根目录 Workspace 的路径分隔符、标题与绝对路径校验，确保盘符根目录可以正常使用。 @turtle1999</li>
+<li>修复 Session 缓存读取问题。 @imccyu</li>
+</ul>
+<h3>体验优化</h3>
+
+<ul>
+<li>Skill 选择器支持模糊搜索；优化聊天气泡中的的 Skill 和命令引用。 @LegGasai</li>
+<li>统一会话内可点击链接的颜色、hover/focus 样式和分类图标，优化 Markdown 链接、文件引用、网页来源、产物链接与 Workflow 成员链接的辨识度。 @yixiangihsiang</li>
+<li>统一未观察文件写入与编辑失败的 <code>FS_NOT_OBSERVED</code> 诊断，保留文件路径、结构化错误码和原始原因。 @turtle1999</li>
+<li>Windows 上的本地非终端子进程不再弹出控制台窗口。 @turtle1999</li>
+<li>Agent Team 的 <code>send_message</code> 统一采用 steer 语义，并在跨 Agent 和冷恢复投递中保留发送者归属与顺序。 @Dudu-0223</li>
+</ul>
+<h3>其他变更</h3>
+
+<ul>
+<li>**破坏性变更：**Session persistence API 改为由生命周期持有的 <code>SessionHandle</code>；<code>agentLoop.create()</code> 改为异步，新增session锁，同一session至多被一个进程持有。 @turtle1999</li>
+<li>Session format 升级至 v2：旧 v0/v1 日志通过不可变的相邻 generation 迁移到当前格式，Assistant 流按 attempt 聚合进持久化 settlement，同时 Web 保持实时增量显示。 @tianyicui</li>
+<li>已知的性能缺陷：本版本存在一项已知的性能回退，可能影响部分历史session加载的响应速度；我们将在下一个版本中修复。</li>
+</ul>
+<hr>
+<h3 id="en-v0.1.3-alpha.1">New Features</h3>
+
+<ul>
+<li>Web now supports uploads of arbitrary file types: files and images share a preview area, background uploads expose progress and cancellation and remain visible across conversation switches, and models can use existing file tools to read saved paths on demand. by @CreatixChu</li>
+<li>All outbound network requests honor the <code>HTTP_PROXY</code>, <code>HTTPS_PROXY</code>, <code>ALL_PROXY</code>, and <code>NO_PROXY</code> settings from the startup environment. by @LegGasai</li>
+<li>The Python SDK adds a macOS x64 runtime wheel, allowing Intel-based Macs to install and run the bundled runtime. by @koalazf99</li>
+<li>Render images directly in Web tool cards for top-level and PTC-nested <code>read_image</code> calls instead of showing raw attachment objects. by @Chinesezjc</li>
+<li>Model discovery now supports <code>models</code> objects from custom model providers and native Anthropic model lists, and fills in model names, context windows, and maximum output tokens when needed. by @LegGasai</li>
+</ul>
+<h3>Bug Fixes</h3>
+
+<ul>
+<li>Immediately abort the active model turn when a goal is paused manually in Web, preventing the running model from continuing or resuming within the same turn. by @mektpoy</li>
+<li>Preserve tool-call IDs and names across DeepSeek streaming continuation chunks, preventing empty tool names and conversation records that cannot be reopened. by @LegGasai</li>
+<li>Prevent the Python SDK single-file runtime from rewriting Bash commands that begin with <code>node</code> as dsh runtime invocations. by @imccyu</li>
+<li>Open a conversation selected from search in its Workspace, expand it, and scroll it into view instead of leaving the search interface open. by @Dudu-0223</li>
+<li>Fix path separators, titles, and absolute-path validation for Windows drive-root Workspaces so drive roots work correctly. by @turtle1999</li>
+<li>Fix Session cache reads. by @imccyu</li>
+</ul>
+<h3>Improvements</h3>
+
+<ul>
+<li>The Skill picker supports fuzzy search, with improved Skill and command references in chat bubbles. by @LegGasai</li>
+<li>Unify colors, hover and focus states, and category icons for clickable conversation links, making Markdown links, file references, web sources, artifact links, and Workflow member links easier to distinguish. by @yixiangihsiang</li>
+<li>Standardize <code>FS_NOT_OBSERVED</code> diagnostics for unobserved file writes and failed edits while preserving the file path, structured error code, and original cause. by @turtle1999</li>
+<li>Prevent local non-terminal subprocesses from opening console windows on Windows. by @turtle1999</li>
+<li>Agent Team <code>send_message</code> consistently uses steer semantics and preserves sender attribution and ordering across agents and cold recovery. by @Dudu-0223</li>
+</ul>
+<h3>Chores</h3>
+
+<ul>
+<li><strong>Breaking change:</strong> The Session persistence API is now owned by lifecycle-scoped <code>SessionHandle</code>s; <code>agentLoop.create()</code> is asynchronous, and a new Session lock ensures that each Session is held by at most one process. by @turtle1999</li>
+<li>Upgrade the Session format to v2: immutable adjacent-generation migrations convert v0/v1 logs to the current format, Assistant streams are aggregated by attempt into durable settlements, and Web preserves real-time incremental rendering. by @tianyicui</li>
+<li>This release has a known performance regression that may affect responsiveness in some scenarios. We will address it in the next release.</li>
+</ul>
+<hr>
+<p>Full Changelog: <a href="https://github.com/deepseek-ai/deepseek-harness/compare/dsh-v0.1.2-rc.1...dsh-v0.1.3-alpha.1">https://github.com/deepseek-ai/deepseek-harness/compare/dsh-v0.1.2-rc.1...dsh-v0.1.3-alpha.1</a></p>
+]]></description>
+            <content:encoded><![CDATA[<p><a href="#cn-v0.1.3-alpha.1">中文</a> | <a href="#en-v0.1.3-alpha.1">English</a></p>
+<h3 id="cn-v0.1.3-alpha.1">新增功能</h3>
+
+<ul>
+<li>Web 支持上传任意类型的通用文件：文件与图片可在同一预览区混排，后台上传支持进度、取消与会话切换续显，模型可通过已保存路径使用现有文件工具按需读取。 @CreatixChu</li>
+<li>所有出站网络请求都会遵循启动环境中的 <code>HTTP_PROXY</code>、<code>HTTPS_PROXY</code>、<code>ALL_PROXY</code> 与 <code>NO_PROXY</code> 配置。 @LegGasai</li>
+<li>Python SDK 新增 macOS x64 runtime wheel，可在 Intel 架构的 Mac 上安装并运行随包 runtime。 @koalazf99</li>
+<li><code>read_image</code> 的顶层与 PTC 嵌套工具调用会在 Web 工具卡中直接渲染图片，不再展示原始附件对象。 @Chinesezjc</li>
+<li>模型探测新增对自定义模型提供商 <code>models</code> 对象和 Anthropic 原生模型列表的支持，并支持回填模型名称、上下文窗口及最大输出 token 的回填。 @LegGasai</li>
+</ul>
+<h3>问题修复</h3>
+
+<ul>
+<li>在 Web 中手动暂停目标会立即终止当前模型轮次，避免运行中的模型继续执行或在同一轮恢复目标。 @mektpoy</li>
+<li>修复 DeepSeek 流式工具调用的续传分片用空值覆盖调用 ID 或名称的问题，避免工具以空名称失败并写入无法重新打开的会话记录。 @LegGasai</li>
+<li>修复 Python SDK 单文件 runtime 将 Bash 中以 <code>node</code> 开头的命令错误重写为 dsh runtime 的问题。 @imccyu</li>
+<li>修复从会话搜索结果进入会话后仍停留在搜索界面的问题；目标会话会在所属 Workspace 中展开并滚动到可见位置。 @Dudu-0223</li>
+<li>修复 Windows 盘符根目录 Workspace 的路径分隔符、标题与绝对路径校验，确保盘符根目录可以正常使用。 @turtle1999</li>
+<li>修复 Session 缓存读取问题。 @imccyu</li>
+</ul>
+<h3>体验优化</h3>
+
+<ul>
+<li>Skill 选择器支持模糊搜索；优化聊天气泡中的的 Skill 和命令引用。 @LegGasai</li>
+<li>统一会话内可点击链接的颜色、hover/focus 样式和分类图标，优化 Markdown 链接、文件引用、网页来源、产物链接与 Workflow 成员链接的辨识度。 @yixiangihsiang</li>
+<li>统一未观察文件写入与编辑失败的 <code>FS_NOT_OBSERVED</code> 诊断，保留文件路径、结构化错误码和原始原因。 @turtle1999</li>
+<li>Windows 上的本地非终端子进程不再弹出控制台窗口。 @turtle1999</li>
+<li>Agent Team 的 <code>send_message</code> 统一采用 steer 语义，并在跨 Agent 和冷恢复投递中保留发送者归属与顺序。 @Dudu-0223</li>
+</ul>
+<h3>其他变更</h3>
+
+<ul>
+<li>**破坏性变更：**Session persistence API 改为由生命周期持有的 <code>SessionHandle</code>；<code>agentLoop.create()</code> 改为异步，新增session锁，同一session至多被一个进程持有。 @turtle1999</li>
+<li>Session format 升级至 v2：旧 v0/v1 日志通过不可变的相邻 generation 迁移到当前格式，Assistant 流按 attempt 聚合进持久化 settlement，同时 Web 保持实时增量显示。 @tianyicui</li>
+<li>已知的性能缺陷：本版本存在一项已知的性能回退，可能影响部分历史session加载的响应速度；我们将在下一个版本中修复。</li>
+</ul>
+<hr>
+<h3 id="en-v0.1.3-alpha.1">New Features</h3>
+
+<ul>
+<li>Web now supports uploads of arbitrary file types: files and images share a preview area, background uploads expose progress and cancellation and remain visible across conversation switches, and models can use existing file tools to read saved paths on demand. by @CreatixChu</li>
+<li>All outbound network requests honor the <code>HTTP_PROXY</code>, <code>HTTPS_PROXY</code>, <code>ALL_PROXY</code>, and <code>NO_PROXY</code> settings from the startup environment. by @LegGasai</li>
+<li>The Python SDK adds a macOS x64 runtime wheel, allowing Intel-based Macs to install and run the bundled runtime. by @koalazf99</li>
+<li>Render images directly in Web tool cards for top-level and PTC-nested <code>read_image</code> calls instead of showing raw attachment objects. by @Chinesezjc</li>
+<li>Model discovery now supports <code>models</code> objects from custom model providers and native Anthropic model lists, and fills in model names, context windows, and maximum output tokens when needed. by @LegGasai</li>
+</ul>
+<h3>Bug Fixes</h3>
+
+<ul>
+<li>Immediately abort the active model turn when a goal is paused manually in Web, preventing the running model from continuing or resuming within the same turn. by @mektpoy</li>
+<li>Preserve tool-call IDs and names across DeepSeek streaming continuation chunks, preventing empty tool names and conversation records that cannot be reopened. by @LegGasai</li>
+<li>Prevent the Python SDK single-file runtime from rewriting Bash commands that begin with <code>node</code> as dsh runtime invocations. by @imccyu</li>
+<li>Open a conversation selected from search in its Workspace, expand it, and scroll it into view instead of leaving the search interface open. by @Dudu-0223</li>
+<li>Fix path separators, titles, and absolute-path validation for Windows drive-root Workspaces so drive roots work correctly. by @turtle1999</li>
+<li>Fix Session cache reads. by @imccyu</li>
+</ul>
+<h3>Improvements</h3>
+
+<ul>
+<li>The Skill picker supports fuzzy search, with improved Skill and command references in chat bubbles. by @LegGasai</li>
+<li>Unify colors, hover and focus states, and category icons for clickable conversation links, making Markdown links, file references, web sources, artifact links, and Workflow member links easier to distinguish. by @yixiangihsiang</li>
+<li>Standardize <code>FS_NOT_OBSERVED</code> diagnostics for unobserved file writes and failed edits while preserving the file path, structured error code, and original cause. by @turtle1999</li>
+<li>Prevent local non-terminal subprocesses from opening console windows on Windows. by @turtle1999</li>
+<li>Agent Team <code>send_message</code> consistently uses steer semantics and preserves sender attribution and ordering across agents and cold recovery. by @Dudu-0223</li>
+</ul>
+<h3>Chores</h3>
+
+<ul>
+<li><strong>Breaking change:</strong> The Session persistence API is now owned by lifecycle-scoped <code>SessionHandle</code>s; <code>agentLoop.create()</code> is asynchronous, and a new Session lock ensures that each Session is held by at most one process. by @turtle1999</li>
+<li>Upgrade the Session format to v2: immutable adjacent-generation migrations convert v0/v1 logs to the current format, Assistant streams are aggregated by attempt into durable settlements, and Web preserves real-time incremental rendering. by @tianyicui</li>
+<li>This release has a known performance regression that may affect responsiveness in some scenarios. We will address it in the next release.</li>
+</ul>
+<hr>
+<p>Full Changelog: <a href="https://github.com/deepseek-ai/deepseek-harness/compare/dsh-v0.1.2-rc.1...dsh-v0.1.3-alpha.1">https://github.com/deepseek-ai/deepseek-harness/compare/dsh-v0.1.2-rc.1...dsh-v0.1.3-alpha.1</a></p>
+]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[v0.1.2-rc.1]]></title>
+            <link>https://github.com/deepseek-ai/deepseek-harness/releases/tag/dsh-v0.1.2-rc.1</link>
+            <guid>https://github.com/deepseek-ai/deepseek-harness/releases/tag/dsh-v0.1.2-rc.1</guid>
+            <pubDate>Thu, 03 Sep 2026 06:06:07 GMT</pubDate>
+            <description><![CDATA[<p><a href="#cn-v0.1.2-rc.1">中文</a> | <a href="#en-v0.1.2-rc.1">English</a></p>
+<p>作为 0.1.2 系列的首个候选版本，本版本汇总了自 v0.1.1-rc.2 以来的主要用户和开发者相关变更。</p>
+<blockquote>
+<p>oh-my-dsh 开源社区推出了帮助插件作者随着 DSH 版本升级插件代码的 skill： <a href="https://github.com/oh-my-dsh/dsh-plugin-upgrade-skill">https://github.com/oh-my-dsh/dsh-plugin-upgrade-skill</a>. 欢迎 DSH 插件作者试用并参与开源共建。oh-my-dsh 与 DeepSeek AI 没有隶属关系，相关项目非 DeepSeek 官方出品。</p>
+</blockquote>
+<h3 id="cn-v0.1.2-rc.1">新增功能</h3>
+
+<ul>
+<li>会话流默认在每个已完成回答前折叠过程内容，并默认折叠的「System prompt」 @07akioni, @lsdsjy</li>
+<li>会话流正文宽度可自适应或拖拽调整 @yixiangihsiang</li>
+<li>回答末尾显示 token 用量和耗时，可展开查看精确用量与详细统计 @hypatiamay, @ZiyaZhang, @Yifffan</li>
+<li>会话视图提供覆盖完整历史的回合导航，可预览并跳转尚未载入的轮次 @LegGasai</li>
+<li>统一界面次级文字层级，会话流支持字号调节，Markdown 表格随正文字号缩放 @yixiangihsiang</li>
+<li>插件支持在模型设置页添加提供方登录配置 @LegGasai</li>
+<li>界面支持第三方语言，并统一权限分类和标签的本地化表达 @tianyicui, @LegGasai, @imccyu, @ZiyaZhang</li>
+<li>子代理模型选择支持 Agent 在授权范围内自主选择，也支持调用方指定提供方、模型、推理力度和最大输出长度，以及为 Claude Code、Codex 配置模型 @Dudu-0223, @pku-xht</li>
+<li>Python SDK runtime 新增 Windows x64 发行包 @tianyicui</li>
+<li>ACP 补齐标准会话控制、模型设置、MCP、权限和取消能力 @tianyicui, @pku-xht</li>
+<li>DeepSeek 官方适配器默认随请求提供已启用插件的包名和版本，可在配置中关闭 @tianyicui</li>
+<li>DeepSeek 官方适配器新增可选的 Session 日志增量上传，默认关闭 @tianyicui</li>
+<li>新增实验性 Inspector 工具 @imccyu</li>
+<li>新增实验性 Web Preview @imccyu</li>
+<li>界面显示连接状态，容忍短暂服务端卡顿，并支持连接中断后的自动重试或立即重连 @imccyu</li>
+<li>会话标题区域支持在不同视口宽度下查看活动的定时计划 @pku-xht</li>
+<li>父 Agent 与可持续子 Agent 可通过 <code>send_message</code> 双向传递后续消息，取代单向 <code>report</code> 工具 @Dudu-0223</li>
+</ul>
+<h3>体验优化</h3>
+
+<ul>
+<li>减少页面启动和会话初始化中的代码加载、数据传输与解析开销 @lsdsjy, @imccyu, @Kingwl, @kermanx</li>
+<li>改善会话记录占用的磁盘空间 @Magolor</li>
+<li>优化 <code>/</code> 与 <code>@</code> 菜单的图标、目录加载和文件搜索，支持通过鼠标在目录层级间导航 @Yifffan, @LegGasai</li>
+<li>会话运行中存在草稿时主按钮切换为「发送」，消息排队发送 @lsdsjy</li>
+<li>输入框中的文件和会话引用在相邻文字编辑后仍保持有效 @LegGasai</li>
+<li>切换会话后仍保留未提交的提问卡片草稿 @LegGasai</li>
+<li>会话流中的流式回复代码块在生成期间持续显示语法高亮 @07akioni</li>
+<li>会话流中的提问历史显示为可读的问答卡片，并标明取消或中断后的未提交状态 @LegGasai</li>
+<li>图片发送后立即显示，压缩和上传在后台继续 @CreatixChu</li>
+<li>上下文压缩会计入图片占用 @CreatixChu</li>
+<li>轨迹视图支持展示用户、助手和工具结果中的图片 @CreatixChu</li>
+<li>在本地文件系统模式下，模型可定位上传图片，并通过 <code>read_image</code> 读取没有扩展名的附件路径 @CreatixChu</li>
+<li>调整图片压缩策略，压缩更快、上传体积更小，并改善超长截图的清晰度 @CreatixChu</li>
+<li>会话日志截断尾部自动修复时输出警告并注明受影响会话 @turtle1999</li>
+<li>插件列表按会话插件和全局插件分组，可切换 Agent Preset 查看组合、搜索其他预设 @LegGasai</li>
+<li>改善会话与输入界面的菜单显示、滚动条、工具文件链接与 diff 统计 @Yifffan</li>
+<li>减少 macOS 和 Linux 加载会话时不必要的文件系统检查 @LegGasai</li>
+<li>提升长会话和密集实时消息的处理效率，降低内存占用以及流式回复、代码高亮、布局和导航预览的渲染开销 @Dudu-0223, @imccyu, @07akioni</li>
+<li><code>web_search</code> 失败时报告实际端点和错误明细 @CreatixChu</li>
+<li>调整首页标志的动画效果 @Yifffan</li>
+<li>自定义模型发现复用 Profile 请求头；模型目录支持搜索和筛选 @LegGasai</li>
+</ul>
+<h3>问题修复</h3>
+
+<ul>
+<li>修复 macOS 和 Linux 上持久 PowerShell 启动过早、输出不完整的问题 @tianyicui</li>
+<li>修复 Linux 持久 Bash 在管道内部读取时提前返回空输出的问题 @LegGasai</li>
+<li>修复 Bash 命令派生大量子进程时 macOS 宿主卡顿的问题 @LegGasai</li>
+<li>修复 Windows 目录选择器截断含「开」等特定编码字符路径的问题 @tianyicui</li>
+<li>修复会话视图中持久 Bash 与 PowerShell 结果无法展开的问题 @LegGasai</li>
+<li>修复 Profile 配置的 Agent Preset 目录在启动时丢失的问题 @LegGasai</li>
+<li>无法加载的 Agent Preset 会提前标记，并在切换失败时说明原因 @LegGasai</li>
+<li>Minimal preset 不再显示不适用的 <code>/goal</code> 命令 @Magolor</li>
+<li>文件编辑工具接受当前操作未使用字段的 <code>null</code> 占位值 @lsdsjy</li>
+<li>PTC Mode 的 SDK 功能只能通过 <code>run_code</code> 调用，不再被模型当作普通工具直接调用 @CreatixChu</li>
+<li>网关定期发送 WebSocket 心跳，避免空闲连接中断 @lsdsjy</li>
+<li>修复新建空会话挤掉 Workspace 折叠列表已有会话的问题 @lsdsjy</li>
+<li>修复系统提示词 workflow 分区顺序 @LegGasai</li>
+<li>优化 NPM 包中的 peer dependency 依赖以改善包管理解析成本 @imccyu</li>
+<li>修复 Node.js 24.0–24.11.1 上启动可能失败且 HMR 失效的问题 @imccyu</li>
+<li>关闭设置窗口后，键盘焦点会返回设置入口 @LegGasai</li>
+<li>会话运行中追加或排队发送的图片可正确回显并可靠投递；持续子代理的后续消息也支持图片 @CreatixChu</li>
+<li>命令菜单打开时，<code>Tab</code> 可补全当前高亮的斜杠命令 @mektpoy</li>
+</ul>
+<h3>其他变更</h3>
+
+<ul>
+<li>更新 <a href="SAFETY.zh.md">安全说明</a>：DeepSeek Harness 尚未接受安全审计，沙箱、审批与权限控制不能保证隔离 @turtle1999</li>
+<li>调整模型提示词顺序，使 Shell 使用指南稳定出现在其他工具指南之前 @LegGasai</li>
+<li>Remote 网关统一远程调用 API 与异常分发，旧版 APIProxy 已迁移并移除 @imccyu</li>
+<li>会话视图工程大幅拆分，请面向诉求分层导入合适模块 @imccyu</li>
+<li>网络访问 Web 界面时启用链接中的一次性 token 认证鉴权 @tianyicui</li>
+<li>应用统一通过 <code>dsh</code> Profile 启动，包括 Python SDK、ACP 模式等 @tianyicui</li>
+<li>pi-ai 模型支持更新，并增加 vLLM 思考预算等配置 @tianyicui</li>
+<li>Headless 运行期间向 stderr 流式输出进度，stdout 只输出最终结果 @lsdsjy</li>
+<li>Code Mode 统一更名为 PTC mode，现有会话记录仍可读取 @tianyicui</li>
+<li>默认启用公网 WebFetch（内置 SSRF 防护，公网请求不再逐次审批） @Dudu-0223</li>
+<li>移除可选的 SQLite Session 持久化后端；已有内容不会删除，请使用旧版本导出 @tianyicui</li>
+<li>Python SDK、Headless、ACP 与自定义 Profile 默认提供 <code>web_fetch</code> @koalazf99</li>
+<li>Web PTC Mode 默认不再向模型提供通用 <code>workflow</code> 工具 @koalazf99</li>
+<li><code>Session.events</code> 被按需读取 API <code>seq</code>、<code>eventAt()</code> 和 <code>snapshotEvents()</code> 取代 @kermanx</li>
+<li><code>SessionSeq</code> 与 <code>SessionLogOffset</code> 使用强类型区分，本改造保持向前兼容 @tianyicui, @imccyu</li>
+</ul>
+<hr>
+<p>This first release candidate for v0.1.2 summarizes the major user- and developer-facing changes since v0.1.1-rc.2.</p>
+<blockquote>
+<p>The oh-my-dsh open-source community has launched a skill to help plugin authors upgrade their plugin code alongside DSH version updates: <a href="https://github.com/oh-my-dsh/dsh-plugin-upgrade-skill">https://github.com/oh-my-dsh/dsh-plugin-upgrade-skill</a>. DSH plugin authors are welcome to try it out and participate in open-source contribution. The oh-my-dsh org is not affiliated with DeepSeek AI, and their projects are not official DeepSeek products.</p>
+</blockquote>
+<h3 id="en-v0.1.2-rc.1">New Features</h3>
+
+<ul>
+<li>By default, fold process details and the System prompt before each completed answer in the conversation stream by @07akioni, @lsdsjy</li>
+<li>Make conversation-stream content width adaptive and drag-resizable by @yixiangihsiang</li>
+<li>Show token usage and elapsed time at the end of each answer, with expandable exact usage and detailed statistics by @hypatiamay, @ZiyaZhang, @Yifffan</li>
+<li>Provide full-history turn navigation in the conversation view, including previews and jumps to unloaded turns by @LegGasai</li>
+<li>Align secondary text styling, add conversation font sizing, and scale Markdown tables with body text by @yixiangihsiang</li>
+<li>Let plugins add provider sign-in controls to Models settings by @LegGasai</li>
+<li>Support third-party interface languages and consistent localized permission categories and labels by @tianyicui, @LegGasai, @imccyu, @ZiyaZhang</li>
+<li>Support subagent model selection through agent-authorized choices, caller-specified provider, model, reasoning effort, and maximum output length, and configured models for Claude Code and Codex by @Dudu-0223, @pku-xht</li>
+<li>Publish the Python SDK runtime for Windows x64 by @tianyicui</li>
+<li>Complete ACP support for standard session controls, model settings, MCP, permissions, and cancellation by @tianyicui, @pku-xht</li>
+<li>Include enabled plugin package names and versions in official DeepSeek requests; deployments can turn this off by @tianyicui</li>
+<li>Add opt-in incremental Session-log uploads to official DeepSeek requests by @tianyicui</li>
+<li>Add an experimental Inspector tool by @imccyu</li>
+<li>Add an experimental Web Preview by @imccyu</li>
+<li>Show connection status, tolerate temporary host stalls, and support automatic retries or immediate reconnection after a disconnect by @imccyu</li>
+<li>Show active schedules in the conversation header across viewport sizes by @pku-xht</li>
+<li>Let parent Agents and continuable child Agents exchange follow-up messages through <code>send_message</code>, replacing the one-way <code>report</code> tool by @Dudu-0223</li>
+</ul>
+<h3>Improvements</h3>
+
+<ul>
+<li>Reduce code loading, data transfer, and parsing during page startup and conversation initialization by @lsdsjy, @imccyu, @Kingwl, @kermanx</li>
+<li>Reduce the disk space used by conversation records by @Magolor</li>
+<li>Improve icons, directory loading, and file search in the <code>/</code> and <code>@</code> menus, with pointer-based directory navigation by @Yifffan, @LegGasai</li>
+<li>Switch the primary action to Send and queue the message when a draft is entered during a running turn by @lsdsjy</li>
+<li>Keep file and conversation references valid when adjacent composer text is edited by @LegGasai</li>
+<li>Preserve unfinished question-card drafts when switching conversations by @LegGasai</li>
+<li>Keep code blocks syntax-highlighted while responses stream in the conversation view by @07akioni</li>
+<li>Render question history as readable question-and-answer cards with clear cancelled and interrupted states by @LegGasai</li>
+<li>Show images immediately while compression and upload continue in the background by @CreatixChu</li>
+<li>Count image usage during context compaction by @CreatixChu</li>
+<li>Show images from users, assistants, and tool results in Trajectory by @CreatixChu</li>
+<li>In local-filesystem mode, let the model locate uploaded images and read extensionless attachment paths through <code>read_image</code> by @CreatixChu</li>
+<li>Improve image compression speed, reduce upload size, and preserve more detail in very tall or wide images by @CreatixChu</li>
+<li>Warn when automatically repairing a truncated conversation-log tail and identify the affected conversation by @turtle1999</li>
+<li>Group plugins by conversation and global scope, with Agent Preset switching and cross-preset search by @LegGasai</li>
+<li>Improve menus, scrolling, tool file links, and diff statistics in the conversation and composer UI by @Yifffan</li>
+<li>Reduce unnecessary filesystem checks when loading conversations on macOS and Linux by @LegGasai</li>
+<li>Improve processing efficiency for long conversations and dense live messages while reducing memory use and rendering overhead from streaming responses, syntax highlighting, layout, and navigation previews by @Dudu-0223, @imccyu, @07akioni</li>
+<li>Report the effective endpoint and error details when <code>web_search</code> fails by @CreatixChu</li>
+<li>Refine the home-page logo animation by @Yifffan</li>
+<li>Reuse Profile request headers for custom model discovery; add search and filtering to the model catalog by @LegGasai</li>
+</ul>
+<h3>Bug Fixes</h3>
+
+<ul>
+<li>Fix persistent PowerShell starting too early and returning incomplete output on macOS and Linux by @tianyicui</li>
+<li>Fix persistent Bash returning empty output early during pipeline reads on Linux by @LegGasai</li>
+<li>Fix host stalls on macOS when Bash commands spawn many subprocesses by @LegGasai</li>
+<li>Fix the Windows directory picker truncating paths that contain characters such as 「开」 by @tianyicui</li>
+<li>Fix persistent Bash and PowerShell results not expanding in the conversation view by @LegGasai</li>
+<li>Fix Profile-configured Agent Preset directories being lost at startup by @LegGasai</li>
+<li>Flag Agent Presets that cannot load and explain why switching failed by @LegGasai</li>
+<li>Remove the unsupported <code>/goal</code> command from the Minimal preset by @Magolor</li>
+<li>Accept <code>null</code> placeholders for file-edit fields unused by the selected operation by @lsdsjy</li>
+<li>Keep PTC Mode SDK features inside <code>run_code</code> instead of exposing them as directly callable tools by @CreatixChu</li>
+<li>Send periodic WebSocket heartbeats to keep idle connections alive by @lsdsjy</li>
+<li>Keep a new blank conversation from displacing existing conversations in the collapsed Workspace list by @lsdsjy</li>
+<li>Fix the workflow section order in the system prompt by @LegGasai</li>
+<li>Reduce npm package-resolution cost by trimming unnecessary peer dependencies by @imccyu</li>
+<li>Fix startup failures and broken HMR on Node.js 24.0–24.11.1 by @imccyu</li>
+<li>Return keyboard focus to the Settings trigger after the dialog closes by @LegGasai</li>
+<li>Correctly echo and reliably deliver images added or queued while a conversation is running; follow-up messages to continuable subagents also support images by @CreatixChu</li>
+<li>Complete highlighted slash commands with <code>Tab</code> while the command menu is open by @mektpoy</li>
+</ul>
+<h3>Chores</h3>
+
+<ul>
+<li>Update the <a href="SAFETY.md">Safety Notice</a>: DeepSeek Harness has not been security-audited, and sandboxing, approvals, and permissions do not guarantee isolation by @turtle1999</li>
+<li>Keep Shell guidance ahead of other tool instructions in the model prompt by @LegGasai</li>
+<li>Use the Remote gateway as the unified remote-call API and error-dispatch mechanism, with the legacy APIProxy removed by @imccyu</li>
+<li>Split the conversation UI into focused modules so developers can import the layer that owns each capability by @imccyu</li>
+<li>Require the one-time token in the launch URL when accessing the Web interface over a network by @tianyicui</li>
+<li>Launch applications through <code>dsh</code> Profiles, including Python SDK and ACP modes by @tianyicui</li>
+<li>Update pi-ai model support and add controls such as the vLLM thinking budget by @tianyicui</li>
+<li>Stream progress to stderr during headless runs while keeping stdout limited to the final result by @lsdsjy</li>
+<li>Rename Code Mode to PTC mode while keeping existing conversation records readable by @tianyicui</li>
+<li>Enable public WebFetch by default with SSRF protection and no per-request approval for public network access by @Dudu-0223</li>
+<li>Remove the optional SQLite Session persistence backend; existing content is not deleted, so use an older version to export it by @tianyicui</li>
+<li>Enable <code>web_fetch</code> by default for the Python SDK, Headless, ACP, and custom Profiles by @koalazf99</li>
+<li>Stop exposing the general-purpose <code>workflow</code> tool by default in Web PTC Mode by @koalazf99</li>
+<li>Replace <code>Session.events</code> with on-demand read APIs: <code>seq</code>, <code>eventAt()</code>, and <code>snapshotEvents()</code> by @kermanx</li>
+<li>Distinguish <code>SessionSeq</code> from <code>SessionLogOffset</code> with strong types while preserving forward compatibility by @tianyicui, @imccyu</li>
+</ul>
+<hr>
+<p>Full Changelog: <a href="https://github.com/deepseek-ai/deepseek-harness/compare/dsh-v0.1.1-rc.2...dsh-v0.1.2-rc.1">https://github.com/deepseek-ai/deepseek-harness/compare/dsh-v0.1.1-rc.2...dsh-v0.1.2-rc.1</a></p>
+]]></description>
+            <content:encoded><![CDATA[<p><a href="#cn-v0.1.2-rc.1">中文</a> | <a href="#en-v0.1.2-rc.1">English</a></p>
+<p>作为 0.1.2 系列的首个候选版本，本版本汇总了自 v0.1.1-rc.2 以来的主要用户和开发者相关变更。</p>
+<blockquote>
+<p>oh-my-dsh 开源社区推出了帮助插件作者随着 DSH 版本升级插件代码的 skill： <a href="https://github.com/oh-my-dsh/dsh-plugin-upgrade-skill">https://github.com/oh-my-dsh/dsh-plugin-upgrade-skill</a>. 欢迎 DSH 插件作者试用并参与开源共建。oh-my-dsh 与 DeepSeek AI 没有隶属关系，相关项目非 DeepSeek 官方出品。</p>
+</blockquote>
+<h3 id="cn-v0.1.2-rc.1">新增功能</h3>
+
+<ul>
+<li>会话流默认在每个已完成回答前折叠过程内容，并默认折叠的「System prompt」 @07akioni, @lsdsjy</li>
+<li>会话流正文宽度可自适应或拖拽调整 @yixiangihsiang</li>
+<li>回答末尾显示 token 用量和耗时，可展开查看精确用量与详细统计 @hypatiamay, @ZiyaZhang, @Yifffan</li>
+<li>会话视图提供覆盖完整历史的回合导航，可预览并跳转尚未载入的轮次 @LegGasai</li>
+<li>统一界面次级文字层级，会话流支持字号调节，Markdown 表格随正文字号缩放 @yixiangihsiang</li>
+<li>插件支持在模型设置页添加提供方登录配置 @LegGasai</li>
+<li>界面支持第三方语言，并统一权限分类和标签的本地化表达 @tianyicui, @LegGasai, @imccyu, @ZiyaZhang</li>
+<li>子代理模型选择支持 Agent 在授权范围内自主选择，也支持调用方指定提供方、模型、推理力度和最大输出长度，以及为 Claude Code、Codex 配置模型 @Dudu-0223, @pku-xht</li>
+<li>Python SDK runtime 新增 Windows x64 发行包 @tianyicui</li>
+<li>ACP 补齐标准会话控制、模型设置、MCP、权限和取消能力 @tianyicui, @pku-xht</li>
+<li>DeepSeek 官方适配器默认随请求提供已启用插件的包名和版本，可在配置中关闭 @tianyicui</li>
+<li>DeepSeek 官方适配器新增可选的 Session 日志增量上传，默认关闭 @tianyicui</li>
+<li>新增实验性 Inspector 工具 @imccyu</li>
+<li>新增实验性 Web Preview @imccyu</li>
+<li>界面显示连接状态，容忍短暂服务端卡顿，并支持连接中断后的自动重试或立即重连 @imccyu</li>
+<li>会话标题区域支持在不同视口宽度下查看活动的定时计划 @pku-xht</li>
+<li>父 Agent 与可持续子 Agent 可通过 <code>send_message</code> 双向传递后续消息，取代单向 <code>report</code> 工具 @Dudu-0223</li>
+</ul>
+<h3>体验优化</h3>
+
+<ul>
+<li>减少页面启动和会话初始化中的代码加载、数据传输与解析开销 @lsdsjy, @imccyu, @Kingwl, @kermanx</li>
+<li>改善会话记录占用的磁盘空间 @Magolor</li>
+<li>优化 <code>/</code> 与 <code>@</code> 菜单的图标、目录加载和文件搜索，支持通过鼠标在目录层级间导航 @Yifffan, @LegGasai</li>
+<li>会话运行中存在草稿时主按钮切换为「发送」，消息排队发送 @lsdsjy</li>
+<li>输入框中的文件和会话引用在相邻文字编辑后仍保持有效 @LegGasai</li>
+<li>切换会话后仍保留未提交的提问卡片草稿 @LegGasai</li>
+<li>会话流中的流式回复代码块在生成期间持续显示语法高亮 @07akioni</li>
+<li>会话流中的提问历史显示为可读的问答卡片，并标明取消或中断后的未提交状态 @LegGasai</li>
+<li>图片发送后立即显示，压缩和上传在后台继续 @CreatixChu</li>
+<li>上下文压缩会计入图片占用 @CreatixChu</li>
+<li>轨迹视图支持展示用户、助手和工具结果中的图片 @CreatixChu</li>
+<li>在本地文件系统模式下，模型可定位上传图片，并通过 <code>read_image</code> 读取没有扩展名的附件路径 @CreatixChu</li>
+<li>调整图片压缩策略，压缩更快、上传体积更小，并改善超长截图的清晰度 @CreatixChu</li>
+<li>会话日志截断尾部自动修复时输出警告并注明受影响会话 @turtle1999</li>
+<li>插件列表按会话插件和全局插件分组，可切换 Agent Preset 查看组合、搜索其他预设 @LegGasai</li>
+<li>改善会话与输入界面的菜单显示、滚动条、工具文件链接与 diff 统计 @Yifffan</li>
+<li>减少 macOS 和 Linux 加载会话时不必要的文件系统检查 @LegGasai</li>
+<li>提升长会话和密集实时消息的处理效率，降低内存占用以及流式回复、代码高亮、布局和导航预览的渲染开销 @Dudu-0223, @imccyu, @07akioni</li>
+<li><code>web_search</code> 失败时报告实际端点和错误明细 @CreatixChu</li>
+<li>调整首页标志的动画效果 @Yifffan</li>
+<li>自定义模型发现复用 Profile 请求头；模型目录支持搜索和筛选 @LegGasai</li>
+</ul>
+<h3>问题修复</h3>
+
+<ul>
+<li>修复 macOS 和 Linux 上持久 PowerShell 启动过早、输出不完整的问题 @tianyicui</li>
+<li>修复 Linux 持久 Bash 在管道内部读取时提前返回空输出的问题 @LegGasai</li>
+<li>修复 Bash 命令派生大量子进程时 macOS 宿主卡顿的问题 @LegGasai</li>
+<li>修复 Windows 目录选择器截断含「开」等特定编码字符路径的问题 @tianyicui</li>
+<li>修复会话视图中持久 Bash 与 PowerShell 结果无法展开的问题 @LegGasai</li>
+<li>修复 Profile 配置的 Agent Preset 目录在启动时丢失的问题 @LegGasai</li>
+<li>无法加载的 Agent Preset 会提前标记，并在切换失败时说明原因 @LegGasai</li>
+<li>Minimal preset 不再显示不适用的 <code>/goal</code> 命令 @Magolor</li>
+<li>文件编辑工具接受当前操作未使用字段的 <code>null</code> 占位值 @lsdsjy</li>
+<li>PTC Mode 的 SDK 功能只能通过 <code>run_code</code> 调用，不再被模型当作普通工具直接调用 @CreatixChu</li>
+<li>网关定期发送 WebSocket 心跳，避免空闲连接中断 @lsdsjy</li>
+<li>修复新建空会话挤掉 Workspace 折叠列表已有会话的问题 @lsdsjy</li>
+<li>修复系统提示词 workflow 分区顺序 @LegGasai</li>
+<li>优化 NPM 包中的 peer dependency 依赖以改善包管理解析成本 @imccyu</li>
+<li>修复 Node.js 24.0–24.11.1 上启动可能失败且 HMR 失效的问题 @imccyu</li>
+<li>关闭设置窗口后，键盘焦点会返回设置入口 @LegGasai</li>
+<li>会话运行中追加或排队发送的图片可正确回显并可靠投递；持续子代理的后续消息也支持图片 @CreatixChu</li>
+<li>命令菜单打开时，<code>Tab</code> 可补全当前高亮的斜杠命令 @mektpoy</li>
+</ul>
+<h3>其他变更</h3>
+
+<ul>
+<li>更新 <a href="SAFETY.zh.md">安全说明</a>：DeepSeek Harness 尚未接受安全审计，沙箱、审批与权限控制不能保证隔离 @turtle1999</li>
+<li>调整模型提示词顺序，使 Shell 使用指南稳定出现在其他工具指南之前 @LegGasai</li>
+<li>Remote 网关统一远程调用 API 与异常分发，旧版 APIProxy 已迁移并移除 @imccyu</li>
+<li>会话视图工程大幅拆分，请面向诉求分层导入合适模块 @imccyu</li>
+<li>网络访问 Web 界面时启用链接中的一次性 token 认证鉴权 @tianyicui</li>
+<li>应用统一通过 <code>dsh</code> Profile 启动，包括 Python SDK、ACP 模式等 @tianyicui</li>
+<li>pi-ai 模型支持更新，并增加 vLLM 思考预算等配置 @tianyicui</li>
+<li>Headless 运行期间向 stderr 流式输出进度，stdout 只输出最终结果 @lsdsjy</li>
+<li>Code Mode 统一更名为 PTC mode，现有会话记录仍可读取 @tianyicui</li>
+<li>默认启用公网 WebFetch（内置 SSRF 防护，公网请求不再逐次审批） @Dudu-0223</li>
+<li>移除可选的 SQLite Session 持久化后端；已有内容不会删除，请使用旧版本导出 @tianyicui</li>
+<li>Python SDK、Headless、ACP 与自定义 Profile 默认提供 <code>web_fetch</code> @koalazf99</li>
+<li>Web PTC Mode 默认不再向模型提供通用 <code>workflow</code> 工具 @koalazf99</li>
+<li><code>Session.events</code> 被按需读取 API <code>seq</code>、<code>eventAt()</code> 和 <code>snapshotEvents()</code> 取代 @kermanx</li>
+<li><code>SessionSeq</code> 与 <code>SessionLogOffset</code> 使用强类型区分，本改造保持向前兼容 @tianyicui, @imccyu</li>
+</ul>
+<hr>
+<p>This first release candidate for v0.1.2 summarizes the major user- and developer-facing changes since v0.1.1-rc.2.</p>
+<blockquote>
+<p>The oh-my-dsh open-source community has launched a skill to help plugin authors upgrade their plugin code alongside DSH version updates: <a href="https://github.com/oh-my-dsh/dsh-plugin-upgrade-skill">https://github.com/oh-my-dsh/dsh-plugin-upgrade-skill</a>. DSH plugin authors are welcome to try it out and participate in open-source contribution. The oh-my-dsh org is not affiliated with DeepSeek AI, and their projects are not official DeepSeek products.</p>
+</blockquote>
+<h3 id="en-v0.1.2-rc.1">New Features</h3>
+
+<ul>
+<li>By default, fold process details and the System prompt before each completed answer in the conversation stream by @07akioni, @lsdsjy</li>
+<li>Make conversation-stream content width adaptive and drag-resizable by @yixiangihsiang</li>
+<li>Show token usage and elapsed time at the end of each answer, with expandable exact usage and detailed statistics by @hypatiamay, @ZiyaZhang, @Yifffan</li>
+<li>Provide full-history turn navigation in the conversation view, including previews and jumps to unloaded turns by @LegGasai</li>
+<li>Align secondary text styling, add conversation font sizing, and scale Markdown tables with body text by @yixiangihsiang</li>
+<li>Let plugins add provider sign-in controls to Models settings by @LegGasai</li>
+<li>Support third-party interface languages and consistent localized permission categories and labels by @tianyicui, @LegGasai, @imccyu, @ZiyaZhang</li>
+<li>Support subagent model selection through agent-authorized choices, caller-specified provider, model, reasoning effort, and maximum output length, and configured models for Claude Code and Codex by @Dudu-0223, @pku-xht</li>
+<li>Publish the Python SDK runtime for Windows x64 by @tianyicui</li>
+<li>Complete ACP support for standard session controls, model settings, MCP, permissions, and cancellation by @tianyicui, @pku-xht</li>
+<li>Include enabled plugin package names and versions in official DeepSeek requests; deployments can turn this off by @tianyicui</li>
+<li>Add opt-in incremental Session-log uploads to official DeepSeek requests by @tianyicui</li>
+<li>Add an experimental Inspector tool by @imccyu</li>
+<li>Add an experimental Web Preview by @imccyu</li>
+<li>Show connection status, tolerate temporary host stalls, and support automatic retries or immediate reconnection after a disconnect by @imccyu</li>
+<li>Show active schedules in the conversation header across viewport sizes by @pku-xht</li>
+<li>Let parent Agents and continuable child Agents exchange follow-up messages through <code>send_message</code>, replacing the one-way <code>report</code> tool by @Dudu-0223</li>
+</ul>
+<h3>Improvements</h3>
+
+<ul>
+<li>Reduce code loading, data transfer, and parsing during page startup and conversation initialization by @lsdsjy, @imccyu, @Kingwl, @kermanx</li>
+<li>Reduce the disk space used by conversation records by @Magolor</li>
+<li>Improve icons, directory loading, and file search in the <code>/</code> and <code>@</code> menus, with pointer-based directory navigation by @Yifffan, @LegGasai</li>
+<li>Switch the primary action to Send and queue the message when a draft is entered during a running turn by @lsdsjy</li>
+<li>Keep file and conversation references valid when adjacent composer text is edited by @LegGasai</li>
+<li>Preserve unfinished question-card drafts when switching conversations by @LegGasai</li>
+<li>Keep code blocks syntax-highlighted while responses stream in the conversation view by @07akioni</li>
+<li>Render question history as readable question-and-answer cards with clear cancelled and interrupted states by @LegGasai</li>
+<li>Show images immediately while compression and upload continue in the background by @CreatixChu</li>
+<li>Count image usage during context compaction by @CreatixChu</li>
+<li>Show images from users, assistants, and tool results in Trajectory by @CreatixChu</li>
+<li>In local-filesystem mode, let the model locate uploaded images and read extensionless attachment paths through <code>read_image</code> by @CreatixChu</li>
+<li>Improve image compression speed, reduce upload size, and preserve more detail in very tall or wide images by @CreatixChu</li>
+<li>Warn when automatically repairing a truncated conversation-log tail and identify the affected conversation by @turtle1999</li>
+<li>Group plugins by conversation and global scope, with Agent Preset switching and cross-preset search by @LegGasai</li>
+<li>Improve menus, scrolling, tool file links, and diff statistics in the conversation and composer UI by @Yifffan</li>
+<li>Reduce unnecessary filesystem checks when loading conversations on macOS and Linux by @LegGasai</li>
+<li>Improve processing efficiency for long conversations and dense live messages while reducing memory use and rendering overhead from streaming responses, syntax highlighting, layout, and navigation previews by @Dudu-0223, @imccyu, @07akioni</li>
+<li>Report the effective endpoint and error details when <code>web_search</code> fails by @CreatixChu</li>
+<li>Refine the home-page logo animation by @Yifffan</li>
+<li>Reuse Profile request headers for custom model discovery; add search and filtering to the model catalog by @LegGasai</li>
+</ul>
+<h3>Bug Fixes</h3>
+
+<ul>
+<li>Fix persistent PowerShell starting too early and returning incomplete output on macOS and Linux by @tianyicui</li>
+<li>Fix persistent Bash returning empty output early during pipeline reads on Linux by @LegGasai</li>
+<li>Fix host stalls on macOS when Bash commands spawn many subprocesses by @LegGasai</li>
+<li>Fix the Windows directory picker truncating paths that contain characters such as 「开」 by @tianyicui</li>
+<li>Fix persistent Bash and PowerShell results not expanding in the conversation view by @LegGasai</li>
+<li>Fix Profile-configured Agent Preset directories being lost at startup by @LegGasai</li>
+<li>Flag Agent Presets that cannot load and explain why switching failed by @LegGasai</li>
+<li>Remove the unsupported <code>/goal</code> command from the Minimal preset by @Magolor</li>
+<li>Accept <code>null</code> placeholders for file-edit fields unused by the selected operation by @lsdsjy</li>
+<li>Keep PTC Mode SDK features inside <code>run_code</code> instead of exposing them as directly callable tools by @CreatixChu</li>
+<li>Send periodic WebSocket heartbeats to keep idle connections alive by @lsdsjy</li>
+<li>Keep a new blank conversation from displacing existing conversations in the collapsed Workspace list by @lsdsjy</li>
+<li>Fix the workflow section order in the system prompt by @LegGasai</li>
+<li>Reduce npm package-resolution cost by trimming unnecessary peer dependencies by @imccyu</li>
+<li>Fix startup failures and broken HMR on Node.js 24.0–24.11.1 by @imccyu</li>
+<li>Return keyboard focus to the Settings trigger after the dialog closes by @LegGasai</li>
+<li>Correctly echo and reliably deliver images added or queued while a conversation is running; follow-up messages to continuable subagents also support images by @CreatixChu</li>
+<li>Complete highlighted slash commands with <code>Tab</code> while the command menu is open by @mektpoy</li>
+</ul>
+<h3>Chores</h3>
+
+<ul>
+<li>Update the <a href="SAFETY.md">Safety Notice</a>: DeepSeek Harness has not been security-audited, and sandboxing, approvals, and permissions do not guarantee isolation by @turtle1999</li>
+<li>Keep Shell guidance ahead of other tool instructions in the model prompt by @LegGasai</li>
+<li>Use the Remote gateway as the unified remote-call API and error-dispatch mechanism, with the legacy APIProxy removed by @imccyu</li>
+<li>Split the conversation UI into focused modules so developers can import the layer that owns each capability by @imccyu</li>
+<li>Require the one-time token in the launch URL when accessing the Web interface over a network by @tianyicui</li>
+<li>Launch applications through <code>dsh</code> Profiles, including Python SDK and ACP modes by @tianyicui</li>
+<li>Update pi-ai model support and add controls such as the vLLM thinking budget by @tianyicui</li>
+<li>Stream progress to stderr during headless runs while keeping stdout limited to the final result by @lsdsjy</li>
+<li>Rename Code Mode to PTC mode while keeping existing conversation records readable by @tianyicui</li>
+<li>Enable public WebFetch by default with SSRF protection and no per-request approval for public network access by @Dudu-0223</li>
+<li>Remove the optional SQLite Session persistence backend; existing content is not deleted, so use an older version to export it by @tianyicui</li>
+<li>Enable <code>web_fetch</code> by default for the Python SDK, Headless, ACP, and custom Profiles by @koalazf99</li>
+<li>Stop exposing the general-purpose <code>workflow</code> tool by default in Web PTC Mode by @koalazf99</li>
+<li>Replace <code>Session.events</code> with on-demand read APIs: <code>seq</code>, <code>eventAt()</code>, and <code>snapshotEvents()</code> by @kermanx</li>
+<li>Distinguish <code>SessionSeq</code> from <code>SessionLogOffset</code> with strong types while preserving forward compatibility by @tianyicui, @imccyu</li>
+</ul>
+<hr>
+<p>Full Changelog: <a href="https://github.com/deepseek-ai/deepseek-harness/compare/dsh-v0.1.1-rc.2...dsh-v0.1.2-rc.1">https://github.com/deepseek-ai/deepseek-harness/compare/dsh-v0.1.1-rc.2...dsh-v0.1.2-rc.1</a></p>
+]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[v0.1.2-alpha.5]]></title>
+            <link>https://github.com/deepseek-ai/deepseek-harness/releases/tag/dsh-v0.1.2-alpha.5</link>
+            <guid>https://github.com/deepseek-ai/deepseek-harness/releases/tag/dsh-v0.1.2-alpha.5</guid>
+            <pubDate>Wed, 02 Sep 2026 10:02:56 GMT</pubDate>
+            <description><![CDATA[<p><a href="#cn-v0.1.2-alpha.5">中文</a> | <a href="#en-v0.1.2-alpha.5">English</a></p>
+<h3 id="cn-v0.1.2-alpha.5">问题修复</h3>
+
+<ul>
+<li>修复从 <code>0.1.1-rc.2</code> 或 <code>0.1.2-alpha.3</code> 升级时，应用可能启动失败或者会话列表标题丢失的问题 @imccyu</li>
+</ul>
+<hr>
+<h3 id="en-v0.1.2-alpha.5">Bug Fixes</h3>
+
+<ul>
+<li>Fix an issue where upgrading from <code>0.1.1-rc.2</code> or <code>0.1.2-alpha.3</code> could prevent the app from starting or make session titles disappear from the list by @imccyu</li>
+</ul>
+<hr>
+<p>Full Changelog: <a href="https://github.com/deepseek-ai/deepseek-harness/compare/dsh-v0.1.2-alpha.4...dsh-v0.1.2-alpha.5">https://github.com/deepseek-ai/deepseek-harness/compare/dsh-v0.1.2-alpha.4...dsh-v0.1.2-alpha.5</a></p>
+]]></description>
+            <content:encoded><![CDATA[<p><a href="#cn-v0.1.2-alpha.5">中文</a> | <a href="#en-v0.1.2-alpha.5">English</a></p>
+<h3 id="cn-v0.1.2-alpha.5">问题修复</h3>
+
+<ul>
+<li>修复从 <code>0.1.1-rc.2</code> 或 <code>0.1.2-alpha.3</code> 升级时，应用可能启动失败或者会话列表标题丢失的问题 @imccyu</li>
+</ul>
+<hr>
+<h3 id="en-v0.1.2-alpha.5">Bug Fixes</h3>
+
+<ul>
+<li>Fix an issue where upgrading from <code>0.1.1-rc.2</code> or <code>0.1.2-alpha.3</code> could prevent the app from starting or make session titles disappear from the list by @imccyu</li>
+</ul>
+<hr>
+<p>Full Changelog: <a href="https://github.com/deepseek-ai/deepseek-harness/compare/dsh-v0.1.2-alpha.4...dsh-v0.1.2-alpha.5">https://github.com/deepseek-ai/deepseek-harness/compare/dsh-v0.1.2-alpha.4...dsh-v0.1.2-alpha.5</a></p>
+]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[v0.1.2-alpha.4]]></title>
             <link>https://github.com/deepseek-ai/deepseek-harness/releases/tag/dsh-v0.1.2-alpha.4</link>
