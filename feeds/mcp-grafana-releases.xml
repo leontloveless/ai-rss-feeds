@@ -1,0 +1,1807 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>mcp-grafana Releases</title>
+        <link>https://github.com/grafana/mcp-grafana/releases</link>
+        <description>GitHub releases for grafana/mcp-grafana</description>
+        <lastBuildDate>Fri, 28 Aug 2026 15:59:24 GMT</lastBuildDate>
+        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+        <generator>ai-rss-feeds (https://github.com/leontloveless/ai-rss-feeds)</generator>
+        <language>en</language>
+        <atom:link href="https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/mcp-grafana-releases.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[v1.3.0]]></title>
+            <link>https://github.com/grafana/mcp-grafana/releases/tag/v1.3.0</link>
+            <guid>https://github.com/grafana/mcp-grafana/releases/tag/v1.3.0</guid>
+            <pubDate>Fri, 28 Aug 2026 15:59:24 GMT</pubDate>
+            <description><![CDATA[<h3>Added</h3>
+<ul>
+<li>Optional per-call <code>orgId</code> argument, where applicable, to target a Grafana organization, opt-in via the <code>--dynamic-multi-org</code> flag; also discovers proxied datasource tools across every org the credential can access. Tools that address no organization — documentation lookups, local config generation, static query examples — do not advertise it, since selecting one could not change their answer (<a href="https://github.com/grafana/mcp-grafana/pull/943">#943</a>)</li>
+<li><code>user_info</code> tool reporting the current identity, whether it is a Grafana admin, and the organizations the credential can access (with roles) (<a href="https://github.com/grafana/mcp-grafana/pull/943">#943</a>)</li>
+<li>Incident custom fields support for creating and updating incidents with user-defined fields (<a href="https://github.com/grafana/mcp-grafana/pull/1131">#1131</a>)</li>
+<li>Grafana documentation tools backed by <code>mcp-doc-server</code> for querying Grafana product documentation (<a href="https://github.com/grafana/mcp-grafana/pull/1116">#1116</a>)</li>
+<li><code>--disable-query</code> flag to disable all query tools, and raw-SQL query tools (ClickHouse, Snowflake, Athena, MSSQL, PostgreSQL) are now gated behind <code>--disable-write</code> by default (<a href="https://github.com/grafana/mcp-grafana/pull/1085">#1085</a>)</li>
+<li><code>grafana_api_request</code> now supports POST to <code>/api/ds/query</code> when query tools are enabled, allowing datasource queries through the generic API tool (<a href="https://github.com/grafana/mcp-grafana/pull/1125">#1125</a>)</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
+<li><code>run_panel_query</code> now resolves <code>sqlstring</code>-type dashboard variables correctly (<a href="https://github.com/grafana/mcp-grafana/pull/1132">#1132</a>)</li>
+<li>Dashboard tool now describes structured panel targets (e.g. CloudWatch, Elasticsearch) instead of silently dropping them (<a href="https://github.com/grafana/mcp-grafana/pull/1130">#1130</a>)</li>
+<li>Proxied tools close non-published MCP clients before signaling readiness, preventing resource leaks during tool discovery (<a href="https://github.com/grafana/mcp-grafana/pull/1128">#1128</a>)</li>
+</ul>
+<h3>Changed</h3>
+<ul>
+<li><code>get_panel_image</code> no longer declares its own <code>orgId</code> argument, using the per-call <code>orgId</code> injected into the native tools where an organization applies instead. The argument is therefore only advertised with <code>--dynamic-multi-org</code>, and without that flag a call passing <code>orgId</code> is rejected as an unknown argument. Renders still scope the organization with <code>targetOrgId</code> rather than <code>orgId</code>, so they do not change the user&#39;s active organization, and an organization fixed by <code>GRAFANA_ORG_ID</code> or the <code>X-Grafana-Org-Id</code> header now sets <code>targetOrgId</code> too.</li>
+<li><code>get_panel_image</code> returns the dashboard deeplink only when it would open in the organization the image was rendered from, which now also accounts for an organization fixed on the connection rather than passed per call. A link cannot carry an organization safely — <code>?orgId=N</code> is intercepted by Grafana&#39;s <code>OrgRedirect</code> middleware, which persists the switch onto the viewer&#39;s user record — so for any other organization the image is returned without a deeplink (and without the MCP Apps panel-viewer fallback) rather than with one that can resolve to a different dashboard of the same UID.</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h3>Added</h3>
+<ul>
+<li>Optional per-call <code>orgId</code> argument, where applicable, to target a Grafana organization, opt-in via the <code>--dynamic-multi-org</code> flag; also discovers proxied datasource tools across every org the credential can access. Tools that address no organization — documentation lookups, local config generation, static query examples — do not advertise it, since selecting one could not change their answer (<a href="https://github.com/grafana/mcp-grafana/pull/943">#943</a>)</li>
+<li><code>user_info</code> tool reporting the current identity, whether it is a Grafana admin, and the organizations the credential can access (with roles) (<a href="https://github.com/grafana/mcp-grafana/pull/943">#943</a>)</li>
+<li>Incident custom fields support for creating and updating incidents with user-defined fields (<a href="https://github.com/grafana/mcp-grafana/pull/1131">#1131</a>)</li>
+<li>Grafana documentation tools backed by <code>mcp-doc-server</code> for querying Grafana product documentation (<a href="https://github.com/grafana/mcp-grafana/pull/1116">#1116</a>)</li>
+<li><code>--disable-query</code> flag to disable all query tools, and raw-SQL query tools (ClickHouse, Snowflake, Athena, MSSQL, PostgreSQL) are now gated behind <code>--disable-write</code> by default (<a href="https://github.com/grafana/mcp-grafana/pull/1085">#1085</a>)</li>
+<li><code>grafana_api_request</code> now supports POST to <code>/api/ds/query</code> when query tools are enabled, allowing datasource queries through the generic API tool (<a href="https://github.com/grafana/mcp-grafana/pull/1125">#1125</a>)</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
+<li><code>run_panel_query</code> now resolves <code>sqlstring</code>-type dashboard variables correctly (<a href="https://github.com/grafana/mcp-grafana/pull/1132">#1132</a>)</li>
+<li>Dashboard tool now describes structured panel targets (e.g. CloudWatch, Elasticsearch) instead of silently dropping them (<a href="https://github.com/grafana/mcp-grafana/pull/1130">#1130</a>)</li>
+<li>Proxied tools close non-published MCP clients before signaling readiness, preventing resource leaks during tool discovery (<a href="https://github.com/grafana/mcp-grafana/pull/1128">#1128</a>)</li>
+</ul>
+<h3>Changed</h3>
+<ul>
+<li><code>get_panel_image</code> no longer declares its own <code>orgId</code> argument, using the per-call <code>orgId</code> injected into the native tools where an organization applies instead. The argument is therefore only advertised with <code>--dynamic-multi-org</code>, and without that flag a call passing <code>orgId</code> is rejected as an unknown argument. Renders still scope the organization with <code>targetOrgId</code> rather than <code>orgId</code>, so they do not change the user&#39;s active organization, and an organization fixed by <code>GRAFANA_ORG_ID</code> or the <code>X-Grafana-Org-Id</code> header now sets <code>targetOrgId</code> too.</li>
+<li><code>get_panel_image</code> returns the dashboard deeplink only when it would open in the organization the image was rendered from, which now also accounts for an organization fixed on the connection rather than passed per call. A link cannot carry an organization safely — <code>?orgId=N</code> is intercepted by Grafana&#39;s <code>OrgRedirect</code> middleware, which persists the switch onto the viewer&#39;s user record — so for any other organization the image is returned without a deeplink (and without the MCP Apps panel-viewer fallback) rather than with one that can resolve to a different dashboard of the same UID.</li>
+</ul>
+]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[v1.2.0]]></title>
+            <link>https://github.com/grafana/mcp-grafana/releases/tag/v1.2.0</link>
+            <guid>https://github.com/grafana/mcp-grafana/releases/tag/v1.2.0</guid>
+            <pubDate>Tue, 25 Aug 2026 14:26:33 GMT</pubDate>
+            <description><![CDATA[<h3>Added</h3>
+<ul>
+<li><code>alerting_manage_silences</code> tool (opt-in, read/write-gated) to list, create, and expire Grafana alert silences (<a href="https://github.com/grafana/mcp-grafana/pull/991">#991</a>)</li>
+<li><code>update_incident</code> tool to update fields on an existing incident (<a href="https://github.com/grafana/mcp-grafana/pull/1080">#1080</a>)</li>
+<li><code>update_alert_group</code> tool to acknowledge and resolve Grafana OnCall alert groups (<a href="https://github.com/grafana/mcp-grafana/pull/1083">#1083</a>)</li>
+<li><code>get_alert_group</code> now returns the last alert payload for the group, so callers can inspect the triggering alert without a second lookup (<a href="https://github.com/grafana/mcp-grafana/pull/1081">#1081</a>)</li>
+<li>Agent Observability <code>agento11y_manage_experiments</code> and <code>agento11y_manage_test_suites</code> tools, in the opt-in <code>agento11y</code> category (<a href="https://github.com/grafana/mcp-grafana/pull/1062">#1062</a>)</li>
+<li>Compact output format for <code>query_loki_logs</code>, reducing token usage for large log result sets (<a href="https://github.com/grafana/mcp-grafana/pull/990">#990</a>)</li>
+<li>Opt-in Loki query cost guardrail for <code>query_loki_logs</code> (<code>--loki-guardrail-mode</code> / <code>GRAFANA_LOKI_GUARDRAIL_MODE</code>, <code>off</code> by default, with <code>shadow</code> and <code>enforce</code> modes). Because Loki query cost is bytes <em>scanned</em> — determined only by the stream selector and time range, not line filters — the guardrail requires a selective stream selector, caps the time range (<code>--loki-guardrail-max-range</code>, default 24h), and pre-checks Loki&#39;s <code>index/stats</code> byte estimate against a budget (<code>--loki-guardrail-max-bytes</code>, default 100GiB). Blocked queries return an MCP tool error with rewrite guidance; unparseable queries fail open (<a href="https://github.com/grafana/mcp-grafana/pull/1031">#1031</a>)</li>
+<li>OpenTelemetry counters recording Loki cost-guardrail decisions (allowed, blocked, failed-open), so operators can observe the guardrail&#39;s impact (<a href="https://github.com/grafana/mcp-grafana/pull/1095">#1095</a>)</li>
+<li><code>run_panel_query</code> now supports PostgreSQL (<a href="https://github.com/grafana/mcp-grafana/pull/1112">#1112</a>) and MSSQL (<a href="https://github.com/grafana/mcp-grafana/pull/1042">#1042</a>) datasources</li>
+<li>Datasource resolution falls back to <code>/api/frontend/settings</code> when the datasource metadata API is forbidden, so tools keep working on instances that restrict it (<a href="https://github.com/grafana/mcp-grafana/pull/1015">#1015</a>)</li>
+<li><code>GrafanaVersion(ctx)</code> exposes the targeted Grafana version to tools, so they can gate behaviour on it instead of inferring capability from API versions (<a href="https://github.com/grafana/mcp-grafana/pull/1091">#1091</a>)</li>
+<li>Optional <code>orgId</code> parameter on <code>get_panel_image</code> to render a panel for a specific organisation (<a href="https://github.com/grafana/mcp-grafana/pull/903">#903</a>)</li>
+<li><code>list_datasources</code> now supports filtering by name (<a href="https://github.com/grafana/mcp-grafana/pull/973">#973</a>)</li>
+<li><code>--server-name</code> flag (and <code>GRAFANA_MCP_SERVER_NAME</code> env var) to set a custom MCP server name in the handshake and OTel <code>service.name</code>, so operators can distinguish multiple instances (<a href="https://github.com/grafana/mcp-grafana/pull/1011">#1011</a>)</li>
+<li>Scoped SOCKS5 egress proxy via <code>GRAFANA_SOCKS5_PROXY</code>, routing outbound Grafana traffic through a SOCKS5 proxy (<a href="https://github.com/grafana/mcp-grafana/pull/1119">#1119</a>)</li>
+<li>An MCP Bundle (<code>.mcpb</code>) for Claude Desktop is now built and attached on release (<a href="https://github.com/grafana/mcp-grafana/pull/1077">#1077</a>)</li>
+</ul>
+<h3>Changed</h3>
+<ul>
+<li>Bumped <code>mcp-go</code> from v0.55.0 to v0.58.0, picking up fixes for tool-filter scans on the <code>tools/call</code> hot path, raw JSON preservation for tool arguments and <code>structuredContent</code>, schema tags on nested fields, multi-line SSE <code>data</code> fields, and HEAD requests returning 200. This also inherits mcp-go&#39;s new default-on DNS rebinding protection, which returns 403 when a request arrives over a loopback connection with a non-loopback <code>Host</code> header — a second check underneath <code>DNSRebindingProtectionMiddleware</code> that <code>--allowed-hosts</code> cannot loosen. Default deployments are unaffected, since <code>DefaultAllowedHosts</code> already restricts <code>Host</code> to loopback variants; operators who widen <code>--allowed-hosts</code> while a same-host reverse proxy forwards over loopback preserving a non-localhost <code>Host</code> should configure the proxy to rewrite <code>Host</code> to localhost (<a href="https://github.com/grafana/mcp-grafana/pull/1097">#1097</a>)</li>
+<li><code>tools.Stats.Bytes</code> is now <code>int64</code> (was <code>int</code>) so index/stats byte counts cannot overflow on 32-bit platforms; Go API consumers of the exported struct may need a cast (<a href="https://github.com/grafana/mcp-grafana/pull/1031">#1031</a>)</li>
+<li><code>/api/frontend/settings</code> is now fetched once per Grafana instance instead of up to three times. The public URL, the Grafana version and the dashboard namespace previously each fetched that endpoint behind a cache of their own, even though a single response carries all three fields. <code>mcpgrafana.GrafanaClient</code> gains a <code>Version</code> field populated by the same request that populates <code>PublicURL</code>, and <code>mcpgrafana.GrafanaVersion</code> prefers it, so a tool holding a client reads the version with no HTTP request at all — previously it cost a blocking round trip on a detached context the caller could not cancel. The namespace keeps a separate org-keyed cache, because Grafana computes it for the requesting org and a URL-keyed entry would serve one org another org&#39;s namespace. Failed fetches are still retried rather than cached, but a <em>successful</em> fetch that simply omits <code>buildInfo</code> is now cached instead of being refetched on every call (<a href="https://github.com/grafana/mcp-grafana/pull/1115">#1115</a>)</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
+<li>Closed two gaps in the <code>GRAFANA_SOCKS5_PROXY</code> egress guarantee. The <code>install_plugin</code> and <code>search_plugin_information</code> tools reached the grafana.com plugin catalog via <code>http.DefaultClient</code>, bypassing the configured SOCKS5 proxy entirely; these requests now route through the proxy (carrying no Grafana credentials or forwarded headers) and fail closed when it is misconfigured. <code>NewGrafanaClient</code> now installs a fail-closed transport instead of panicking when the proxy cannot be applied, matching the OnCall and incident paths, and the per-call fail-closed logic is centralised in one helper (<a href="https://github.com/grafana/mcp-grafana/pull/1121">#1121</a>)</li>
+<li><code>observability.ToolMetricDimensions</code> now bounds the <code>mcp.tool.phase</code> metric label against the <code>toolMetricDims</code> allowlist, like <code>mcp.tool.operation</code> and <code>mcp.tool.resource_type</code>. Phase is read from a tool result&#39;s <code>_meta</code>, and results proxied from an MCP-enabled datasource come from a remote server rather than from this repo, so the label was unbounded-cardinality in the general case. A tool that does not opt into <code>phases</code> now contributes no phase, and an opted-in tool reporting an unexpected value reports <code>other</code>. Behaviour is unchanged for every in-tree tool: <code>create_datasource</code> is the only producer, with <code>schema</code> and <code>created</code> (<a href="https://github.com/grafana/mcp-grafana/issues/1094">#1094</a>)</li>
+<li>Distributed traces are no longer broken over the HTTP transports: the server now installs a global OTel <code>TextMapPropagator</code> (via <code>autoprop</code>, honouring <code>OTEL_PROPAGATORS</code>, default <code>tracecontext,baggage</code>), so an inbound <code>traceparent</code> continues the caller&#39;s trace and outbound Grafana API requests carry one of their own. Previously every hop started a disconnected trace. Trace context forwarded via <code>GRAFANA_FORWARD_HEADERS</code> no longer overrides the propagated value, which would have cut mcp-grafana out of the middle of the trace (<a href="https://github.com/grafana/mcp-grafana/issues/1084">#1084</a>)</li>
+<li>Grafana-managed alert rule UIDs are recovered from the internal <code>__alert_rule_uid__</code> / <code>__alert_rule_namespace_uid__</code> labels when older Grafana responses omit the top-level UID fields; those internal labels are stripped from the returned summary so they don&#39;t surface as user labels (<a href="https://github.com/grafana/mcp-grafana/pull/968">#968</a>)</li>
+<li>Alert rule matchers are now encoded in the JSON shape Grafana expects, fixing rule create/update requests that Grafana previously rejected (<a href="https://github.com/grafana/mcp-grafana/pull/1111">#1111</a>)</li>
+<li><code>run_panel_query</code> now resolves constant and textbox dashboard variables from their query field, so panels using them return correct results (<a href="https://github.com/grafana/mcp-grafana/pull/1041">#1041</a>)</li>
+<li>Datasource queries fall back to the legacy proxy on a <code>401</code>, restoring queries against datasources the metadata proxy rejects (<a href="https://github.com/grafana/mcp-grafana/pull/1022">#1022</a>)</li>
+<li>URL shortening for navigation deeplinks now sends a relative path, fixing link generation on some deployments (<a href="https://github.com/grafana/mcp-grafana/pull/974">#974</a>)</li>
+<li><code>GRAFANA_URL</code> is normalized where it enters the process (trailing slash trimmed, missing scheme supplied), so the config, API client, and client-cache key all agree on the target. Previously a schemeless value such as <code>127.0.0.1:3000</code> could panic at startup or produce hostless requests (<a href="https://github.com/grafana/mcp-grafana/pull/1034">#1034</a>)</li>
+<li>Proxied tools auto-wire <code>SetToolManager</code> and report a clearer error when the tool manager is nil (<a href="https://github.com/grafana/mcp-grafana/pull/1102">#1102</a>)</li>
+<li>The session wait when building a proxied tool set is now bounded, so a slow or unavailable datasource can no longer hang tool discovery (<a href="https://github.com/grafana/mcp-grafana/pull/1087">#1087</a>)</li>
+<li>Transient proxied-tool discovery/connect failures are retried and connections are established in parallel, making proxied tool startup faster and more resilient (<a href="https://github.com/grafana/mcp-grafana/pull/1071">#1071</a>)</li>
+<li>The client cache and session OTel meters are now injectable, so embedders can supply their own instrumentation (<a href="https://github.com/grafana/mcp-grafana/pull/1073">#1073</a>)</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h3>Added</h3>
+<ul>
+<li><code>alerting_manage_silences</code> tool (opt-in, read/write-gated) to list, create, and expire Grafana alert silences (<a href="https://github.com/grafana/mcp-grafana/pull/991">#991</a>)</li>
+<li><code>update_incident</code> tool to update fields on an existing incident (<a href="https://github.com/grafana/mcp-grafana/pull/1080">#1080</a>)</li>
+<li><code>update_alert_group</code> tool to acknowledge and resolve Grafana OnCall alert groups (<a href="https://github.com/grafana/mcp-grafana/pull/1083">#1083</a>)</li>
+<li><code>get_alert_group</code> now returns the last alert payload for the group, so callers can inspect the triggering alert without a second lookup (<a href="https://github.com/grafana/mcp-grafana/pull/1081">#1081</a>)</li>
+<li>Agent Observability <code>agento11y_manage_experiments</code> and <code>agento11y_manage_test_suites</code> tools, in the opt-in <code>agento11y</code> category (<a href="https://github.com/grafana/mcp-grafana/pull/1062">#1062</a>)</li>
+<li>Compact output format for <code>query_loki_logs</code>, reducing token usage for large log result sets (<a href="https://github.com/grafana/mcp-grafana/pull/990">#990</a>)</li>
+<li>Opt-in Loki query cost guardrail for <code>query_loki_logs</code> (<code>--loki-guardrail-mode</code> / <code>GRAFANA_LOKI_GUARDRAIL_MODE</code>, <code>off</code> by default, with <code>shadow</code> and <code>enforce</code> modes). Because Loki query cost is bytes <em>scanned</em> — determined only by the stream selector and time range, not line filters — the guardrail requires a selective stream selector, caps the time range (<code>--loki-guardrail-max-range</code>, default 24h), and pre-checks Loki&#39;s <code>index/stats</code> byte estimate against a budget (<code>--loki-guardrail-max-bytes</code>, default 100GiB). Blocked queries return an MCP tool error with rewrite guidance; unparseable queries fail open (<a href="https://github.com/grafana/mcp-grafana/pull/1031">#1031</a>)</li>
+<li>OpenTelemetry counters recording Loki cost-guardrail decisions (allowed, blocked, failed-open), so operators can observe the guardrail&#39;s impact (<a href="https://github.com/grafana/mcp-grafana/pull/1095">#1095</a>)</li>
+<li><code>run_panel_query</code> now supports PostgreSQL (<a href="https://github.com/grafana/mcp-grafana/pull/1112">#1112</a>) and MSSQL (<a href="https://github.com/grafana/mcp-grafana/pull/1042">#1042</a>) datasources</li>
+<li>Datasource resolution falls back to <code>/api/frontend/settings</code> when the datasource metadata API is forbidden, so tools keep working on instances that restrict it (<a href="https://github.com/grafana/mcp-grafana/pull/1015">#1015</a>)</li>
+<li><code>GrafanaVersion(ctx)</code> exposes the targeted Grafana version to tools, so they can gate behaviour on it instead of inferring capability from API versions (<a href="https://github.com/grafana/mcp-grafana/pull/1091">#1091</a>)</li>
+<li>Optional <code>orgId</code> parameter on <code>get_panel_image</code> to render a panel for a specific organisation (<a href="https://github.com/grafana/mcp-grafana/pull/903">#903</a>)</li>
+<li><code>list_datasources</code> now supports filtering by name (<a href="https://github.com/grafana/mcp-grafana/pull/973">#973</a>)</li>
+<li><code>--server-name</code> flag (and <code>GRAFANA_MCP_SERVER_NAME</code> env var) to set a custom MCP server name in the handshake and OTel <code>service.name</code>, so operators can distinguish multiple instances (<a href="https://github.com/grafana/mcp-grafana/pull/1011">#1011</a>)</li>
+<li>Scoped SOCKS5 egress proxy via <code>GRAFANA_SOCKS5_PROXY</code>, routing outbound Grafana traffic through a SOCKS5 proxy (<a href="https://github.com/grafana/mcp-grafana/pull/1119">#1119</a>)</li>
+<li>An MCP Bundle (<code>.mcpb</code>) for Claude Desktop is now built and attached on release (<a href="https://github.com/grafana/mcp-grafana/pull/1077">#1077</a>)</li>
+</ul>
+<h3>Changed</h3>
+<ul>
+<li>Bumped <code>mcp-go</code> from v0.55.0 to v0.58.0, picking up fixes for tool-filter scans on the <code>tools/call</code> hot path, raw JSON preservation for tool arguments and <code>structuredContent</code>, schema tags on nested fields, multi-line SSE <code>data</code> fields, and HEAD requests returning 200. This also inherits mcp-go&#39;s new default-on DNS rebinding protection, which returns 403 when a request arrives over a loopback connection with a non-loopback <code>Host</code> header — a second check underneath <code>DNSRebindingProtectionMiddleware</code> that <code>--allowed-hosts</code> cannot loosen. Default deployments are unaffected, since <code>DefaultAllowedHosts</code> already restricts <code>Host</code> to loopback variants; operators who widen <code>--allowed-hosts</code> while a same-host reverse proxy forwards over loopback preserving a non-localhost <code>Host</code> should configure the proxy to rewrite <code>Host</code> to localhost (<a href="https://github.com/grafana/mcp-grafana/pull/1097">#1097</a>)</li>
+<li><code>tools.Stats.Bytes</code> is now <code>int64</code> (was <code>int</code>) so index/stats byte counts cannot overflow on 32-bit platforms; Go API consumers of the exported struct may need a cast (<a href="https://github.com/grafana/mcp-grafana/pull/1031">#1031</a>)</li>
+<li><code>/api/frontend/settings</code> is now fetched once per Grafana instance instead of up to three times. The public URL, the Grafana version and the dashboard namespace previously each fetched that endpoint behind a cache of their own, even though a single response carries all three fields. <code>mcpgrafana.GrafanaClient</code> gains a <code>Version</code> field populated by the same request that populates <code>PublicURL</code>, and <code>mcpgrafana.GrafanaVersion</code> prefers it, so a tool holding a client reads the version with no HTTP request at all — previously it cost a blocking round trip on a detached context the caller could not cancel. The namespace keeps a separate org-keyed cache, because Grafana computes it for the requesting org and a URL-keyed entry would serve one org another org&#39;s namespace. Failed fetches are still retried rather than cached, but a <em>successful</em> fetch that simply omits <code>buildInfo</code> is now cached instead of being refetched on every call (<a href="https://github.com/grafana/mcp-grafana/pull/1115">#1115</a>)</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
+<li>Closed two gaps in the <code>GRAFANA_SOCKS5_PROXY</code> egress guarantee. The <code>install_plugin</code> and <code>search_plugin_information</code> tools reached the grafana.com plugin catalog via <code>http.DefaultClient</code>, bypassing the configured SOCKS5 proxy entirely; these requests now route through the proxy (carrying no Grafana credentials or forwarded headers) and fail closed when it is misconfigured. <code>NewGrafanaClient</code> now installs a fail-closed transport instead of panicking when the proxy cannot be applied, matching the OnCall and incident paths, and the per-call fail-closed logic is centralised in one helper (<a href="https://github.com/grafana/mcp-grafana/pull/1121">#1121</a>)</li>
+<li><code>observability.ToolMetricDimensions</code> now bounds the <code>mcp.tool.phase</code> metric label against the <code>toolMetricDims</code> allowlist, like <code>mcp.tool.operation</code> and <code>mcp.tool.resource_type</code>. Phase is read from a tool result&#39;s <code>_meta</code>, and results proxied from an MCP-enabled datasource come from a remote server rather than from this repo, so the label was unbounded-cardinality in the general case. A tool that does not opt into <code>phases</code> now contributes no phase, and an opted-in tool reporting an unexpected value reports <code>other</code>. Behaviour is unchanged for every in-tree tool: <code>create_datasource</code> is the only producer, with <code>schema</code> and <code>created</code> (<a href="https://github.com/grafana/mcp-grafana/issues/1094">#1094</a>)</li>
+<li>Distributed traces are no longer broken over the HTTP transports: the server now installs a global OTel <code>TextMapPropagator</code> (via <code>autoprop</code>, honouring <code>OTEL_PROPAGATORS</code>, default <code>tracecontext,baggage</code>), so an inbound <code>traceparent</code> continues the caller&#39;s trace and outbound Grafana API requests carry one of their own. Previously every hop started a disconnected trace. Trace context forwarded via <code>GRAFANA_FORWARD_HEADERS</code> no longer overrides the propagated value, which would have cut mcp-grafana out of the middle of the trace (<a href="https://github.com/grafana/mcp-grafana/issues/1084">#1084</a>)</li>
+<li>Grafana-managed alert rule UIDs are recovered from the internal <code>__alert_rule_uid__</code> / <code>__alert_rule_namespace_uid__</code> labels when older Grafana responses omit the top-level UID fields; those internal labels are stripped from the returned summary so they don&#39;t surface as user labels (<a href="https://github.com/grafana/mcp-grafana/pull/968">#968</a>)</li>
+<li>Alert rule matchers are now encoded in the JSON shape Grafana expects, fixing rule create/update requests that Grafana previously rejected (<a href="https://github.com/grafana/mcp-grafana/pull/1111">#1111</a>)</li>
+<li><code>run_panel_query</code> now resolves constant and textbox dashboard variables from their query field, so panels using them return correct results (<a href="https://github.com/grafana/mcp-grafana/pull/1041">#1041</a>)</li>
+<li>Datasource queries fall back to the legacy proxy on a <code>401</code>, restoring queries against datasources the metadata proxy rejects (<a href="https://github.com/grafana/mcp-grafana/pull/1022">#1022</a>)</li>
+<li>URL shortening for navigation deeplinks now sends a relative path, fixing link generation on some deployments (<a href="https://github.com/grafana/mcp-grafana/pull/974">#974</a>)</li>
+<li><code>GRAFANA_URL</code> is normalized where it enters the process (trailing slash trimmed, missing scheme supplied), so the config, API client, and client-cache key all agree on the target. Previously a schemeless value such as <code>127.0.0.1:3000</code> could panic at startup or produce hostless requests (<a href="https://github.com/grafana/mcp-grafana/pull/1034">#1034</a>)</li>
+<li>Proxied tools auto-wire <code>SetToolManager</code> and report a clearer error when the tool manager is nil (<a href="https://github.com/grafana/mcp-grafana/pull/1102">#1102</a>)</li>
+<li>The session wait when building a proxied tool set is now bounded, so a slow or unavailable datasource can no longer hang tool discovery (<a href="https://github.com/grafana/mcp-grafana/pull/1087">#1087</a>)</li>
+<li>Transient proxied-tool discovery/connect failures are retried and connections are established in parallel, making proxied tool startup faster and more resilient (<a href="https://github.com/grafana/mcp-grafana/pull/1071">#1071</a>)</li>
+<li>The client cache and session OTel meters are now injectable, so embedders can supply their own instrumentation (<a href="https://github.com/grafana/mcp-grafana/pull/1073">#1073</a>)</li>
+</ul>
+]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[v1.1.0]]></title>
+            <link>https://github.com/grafana/mcp-grafana/releases/tag/v1.1.0</link>
+            <guid>https://github.com/grafana/mcp-grafana/releases/tag/v1.1.0</guid>
+            <pubDate>Mon, 10 Aug 2026 09:45:22 GMT</pubDate>
+            <description><![CDATA[<h3>Added</h3>
+<ul>
+<li>Optional bearer-token caller authentication for the SSE and streamable-http transports via <code>--server-auth-token</code> / <code>MCP_GRAFANA_SERVER_TOKEN</code>. When set, callers must present <code>Authorization: Bearer &lt;token&gt;</code> and unauthenticated requests are rejected with <code>401</code> before any tool runs. Caller authentication is enforced only when a token is configured; when it isn&#39;t, a non-loopback bind still starts but logs a security error at startup (<a href="https://github.com/grafana/mcp-grafana/pull/1059">#1059</a>, <a href="https://github.com/grafana/mcp-grafana/pull/1060">#1060</a>)</li>
+<li><code>ask_assistant</code> tool (opt-in, write-gated) for asking Grafana Assistant open-ended questions and getting a full text reply (<a href="https://github.com/grafana/mcp-grafana/pull/1026">#1026</a>)</li>
+<li>Agent Observability tool <code>agento11y_manage_agents</code>, in the opt-in <code>agento11y</code> category. Read-only: <code>list</code> for the agent catalog, <code>get</code> for one agent version in full (system prompt, tools, models), <code>list_versions</code> for an agent&#39;s version history, and <code>list_version_scores</code> for evaluation score aggregates per version. Needs <code>grafana-agento11y-app.data:read</code> and is registered whether or not write tools are enabled (<a href="https://github.com/grafana/mcp-grafana/pull/1036">#1036</a>)</li>
+<li>Agent Observability tool <code>agento11y_manage_eval_collections</code>, in the opt-in <code>agento11y</code> category. Reads cover saved conversations, the collections that group them, and the membership in both directions. The write operations (bookmark and delete a saved conversation; create, update, and delete a collection; add and remove collection members) need <code>grafana-agento11y-app.eval:write</code> and are registered only when write tools are enabled (<a href="https://github.com/grafana/mcp-grafana/pull/1035">#1035</a>)</li>
+<li>Agent Observability eval control-plane tools <code>agento11y_manage_evaluators</code> and <code>agento11y_manage_eval_rules</code>, in the opt-in <code>agento11y</code> category. Reads cover evaluators, evaluator templates, template versions, the judge provider and model catalog, eval rules, and guards. The write operations (evaluator upsert, fork, test, and delete; rule and guard create, update, preview, and delete) need <code>grafana-agento11y-app.eval:write</code> and are registered only when write tools are enabled (<a href="https://github.com/grafana/mcp-grafana/pull/1028">#1028</a>)</li>
+<li>CLI flags to include tool arguments in OpenTelemetry spans and to configure the Grafana client request timeout (<a href="https://github.com/grafana/mcp-grafana/pull/1023">#1023</a>)</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
+<li>Declare <code>readOnly</code>/<code>destructive</code>/<code>openWorld</code> hints on every tool (<a href="https://github.com/grafana/mcp-grafana/pull/1051">#1051</a>)</li>
+<li>Proxied-tools memory scaling with session count and unbounded per-session tool-store growth (<a href="https://github.com/grafana/mcp-grafana/pull/1001">#1001</a>)</li>
+<li>Restrict the Prometheus backend to known Prometheus-compatible datasource types (<a href="https://github.com/grafana/mcp-grafana/pull/1006">#1006</a>)</li>
+<li>Respect <code>OTEL_LOGS_EXPORTER=none</code> to disable OTLP log export (<a href="https://github.com/grafana/mcp-grafana/pull/1012">#1012</a>)</li>
+</ul>
+<h3>Changed</h3>
+<ul>
+<li>Enrich telemetry to include more tool dimensions (<a href="https://github.com/grafana/mcp-grafana/pull/1016">#1016</a>)</li>
+<li><code>query_pyroscope</code> now returns a per-function table (<code>pprof -top</code> style: flat/cum per fully-qualified function name) by default instead of a line-level DOT call graph. The DOT call graph remains available via <code>format=&quot;dot&quot;</code> and no longer deletes the <code>other</code> truncation node (<a href="https://github.com/grafana/mcp-grafana/pull/1025">#1025</a>)</li>
+</ul>
+<h3>Removed</h3>
+<ul>
+<li>Support for the undocumented <code>X-Grafana-URL</code> header (<a href="https://github.com/grafana/mcp-grafana/pull/1052">#1052</a>)</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h3>Added</h3>
+<ul>
+<li>Optional bearer-token caller authentication for the SSE and streamable-http transports via <code>--server-auth-token</code> / <code>MCP_GRAFANA_SERVER_TOKEN</code>. When set, callers must present <code>Authorization: Bearer &lt;token&gt;</code> and unauthenticated requests are rejected with <code>401</code> before any tool runs. Caller authentication is enforced only when a token is configured; when it isn&#39;t, a non-loopback bind still starts but logs a security error at startup (<a href="https://github.com/grafana/mcp-grafana/pull/1059">#1059</a>, <a href="https://github.com/grafana/mcp-grafana/pull/1060">#1060</a>)</li>
+<li><code>ask_assistant</code> tool (opt-in, write-gated) for asking Grafana Assistant open-ended questions and getting a full text reply (<a href="https://github.com/grafana/mcp-grafana/pull/1026">#1026</a>)</li>
+<li>Agent Observability tool <code>agento11y_manage_agents</code>, in the opt-in <code>agento11y</code> category. Read-only: <code>list</code> for the agent catalog, <code>get</code> for one agent version in full (system prompt, tools, models), <code>list_versions</code> for an agent&#39;s version history, and <code>list_version_scores</code> for evaluation score aggregates per version. Needs <code>grafana-agento11y-app.data:read</code> and is registered whether or not write tools are enabled (<a href="https://github.com/grafana/mcp-grafana/pull/1036">#1036</a>)</li>
+<li>Agent Observability tool <code>agento11y_manage_eval_collections</code>, in the opt-in <code>agento11y</code> category. Reads cover saved conversations, the collections that group them, and the membership in both directions. The write operations (bookmark and delete a saved conversation; create, update, and delete a collection; add and remove collection members) need <code>grafana-agento11y-app.eval:write</code> and are registered only when write tools are enabled (<a href="https://github.com/grafana/mcp-grafana/pull/1035">#1035</a>)</li>
+<li>Agent Observability eval control-plane tools <code>agento11y_manage_evaluators</code> and <code>agento11y_manage_eval_rules</code>, in the opt-in <code>agento11y</code> category. Reads cover evaluators, evaluator templates, template versions, the judge provider and model catalog, eval rules, and guards. The write operations (evaluator upsert, fork, test, and delete; rule and guard create, update, preview, and delete) need <code>grafana-agento11y-app.eval:write</code> and are registered only when write tools are enabled (<a href="https://github.com/grafana/mcp-grafana/pull/1028">#1028</a>)</li>
+<li>CLI flags to include tool arguments in OpenTelemetry spans and to configure the Grafana client request timeout (<a href="https://github.com/grafana/mcp-grafana/pull/1023">#1023</a>)</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
+<li>Declare <code>readOnly</code>/<code>destructive</code>/<code>openWorld</code> hints on every tool (<a href="https://github.com/grafana/mcp-grafana/pull/1051">#1051</a>)</li>
+<li>Proxied-tools memory scaling with session count and unbounded per-session tool-store growth (<a href="https://github.com/grafana/mcp-grafana/pull/1001">#1001</a>)</li>
+<li>Restrict the Prometheus backend to known Prometheus-compatible datasource types (<a href="https://github.com/grafana/mcp-grafana/pull/1006">#1006</a>)</li>
+<li>Respect <code>OTEL_LOGS_EXPORTER=none</code> to disable OTLP log export (<a href="https://github.com/grafana/mcp-grafana/pull/1012">#1012</a>)</li>
+</ul>
+<h3>Changed</h3>
+<ul>
+<li>Enrich telemetry to include more tool dimensions (<a href="https://github.com/grafana/mcp-grafana/pull/1016">#1016</a>)</li>
+<li><code>query_pyroscope</code> now returns a per-function table (<code>pprof -top</code> style: flat/cum per fully-qualified function name) by default instead of a line-level DOT call graph. The DOT call graph remains available via <code>format=&quot;dot&quot;</code> and no longer deletes the <code>other</code> truncation node (<a href="https://github.com/grafana/mcp-grafana/pull/1025">#1025</a>)</li>
+</ul>
+<h3>Removed</h3>
+<ul>
+<li>Support for the undocumented <code>X-Grafana-URL</code> header (<a href="https://github.com/grafana/mcp-grafana/pull/1052">#1052</a>)</li>
+</ul>
+]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[v1.0.0]]></title>
+            <link>https://github.com/grafana/mcp-grafana/releases/tag/v1.0.0</link>
+            <guid>https://github.com/grafana/mcp-grafana/releases/tag/v1.0.0</guid>
+            <pubDate>Tue, 28 Jul 2026 15:36:26 GMT</pubDate>
+            <description><![CDATA[<h3>Added</h3>
+<ul>
+<li>Agent Observability tools: <code>agento11y_manage_conversations</code> and <code>agento11y_manage_generations</code> in a new <code>agento11y</code> category, excluded from the default tool set (<a href="https://github.com/grafana/mcp-grafana/pull/944">#944</a>)</li>
+<li>Inline panel viewer for <code>get_panel_image</code> on <a href="https://modelcontextprotocol.io/">MCP Apps</a>-aware hosts, with a dashboard deeplink fallback for other hosts. The deeplink text content is tagged with <code>_meta.ui.kind = &quot;deeplink&quot;</code> so viewers can locate it structurally instead of by string matching (<a href="https://github.com/grafana/mcp-grafana/pull/882">#882</a>)</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
+<li>Enable OTLP trace export with the signal-specific <code>OTEL_EXPORTER_OTLP_TRACES_ENDPOINT</code> environment variable, so operators can ship traces without also exporting logs; the generic <code>OTEL_EXPORTER_OTLP_ENDPOINT</code> still enables both signals (<a href="https://github.com/grafana/mcp-grafana/pull/1004">#1004</a>)</li>
+</ul>
+<h3>Changed</h3>
+<ul>
+<li>Tool calls with unknown argument keys are now rejected with an error naming the unknown keys and listing the valid ones, instead of silently ignoring them and answering from default values (<a href="https://github.com/grafana/mcp-grafana/pull/997">#997</a>)</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h3>Added</h3>
+<ul>
+<li>Agent Observability tools: <code>agento11y_manage_conversations</code> and <code>agento11y_manage_generations</code> in a new <code>agento11y</code> category, excluded from the default tool set (<a href="https://github.com/grafana/mcp-grafana/pull/944">#944</a>)</li>
+<li>Inline panel viewer for <code>get_panel_image</code> on <a href="https://modelcontextprotocol.io/">MCP Apps</a>-aware hosts, with a dashboard deeplink fallback for other hosts. The deeplink text content is tagged with <code>_meta.ui.kind = &quot;deeplink&quot;</code> so viewers can locate it structurally instead of by string matching (<a href="https://github.com/grafana/mcp-grafana/pull/882">#882</a>)</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
+<li>Enable OTLP trace export with the signal-specific <code>OTEL_EXPORTER_OTLP_TRACES_ENDPOINT</code> environment variable, so operators can ship traces without also exporting logs; the generic <code>OTEL_EXPORTER_OTLP_ENDPOINT</code> still enables both signals (<a href="https://github.com/grafana/mcp-grafana/pull/1004">#1004</a>)</li>
+</ul>
+<h3>Changed</h3>
+<ul>
+<li>Tool calls with unknown argument keys are now rejected with an error naming the unknown keys and listing the valid ones, instead of silently ignoring them and answering from default values (<a href="https://github.com/grafana/mcp-grafana/pull/997">#997</a>)</li>
+</ul>
+]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[v0.17.2]]></title>
+            <link>https://github.com/grafana/mcp-grafana/releases/tag/v0.17.2</link>
+            <guid>https://github.com/grafana/mcp-grafana/releases/tag/v0.17.2</guid>
+            <pubDate>Mon, 13 Jul 2026 14:06:31 GMT</pubDate>
+            <description><![CDATA[<h3>Security</h3>
+<ul>
+<li>Bind environment-configured credentials to the configured Grafana URL. A URL supplied in the <code>X-Grafana-URL</code> request header no longer causes the environment service-account token, deprecated API key, basic auth, or extra headers to be sent to a caller-specified host (<a href="https://github.com/grafana/mcp-grafana/pull/XXX">#XXX</a>)</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h3>Security</h3>
+<ul>
+<li>Bind environment-configured credentials to the configured Grafana URL. A URL supplied in the <code>X-Grafana-URL</code> request header no longer causes the environment service-account token, deprecated API key, basic auth, or extra headers to be sent to a caller-specified host (<a href="https://github.com/grafana/mcp-grafana/pull/XXX">#XXX</a>)</li>
+</ul>
+]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[v0.17.1]]></title>
+            <link>https://github.com/grafana/mcp-grafana/releases/tag/v0.17.1</link>
+            <guid>https://github.com/grafana/mcp-grafana/releases/tag/v0.17.1</guid>
+            <pubDate>Tue, 07 Jul 2026 09:31:26 GMT</pubDate>
+            <description><![CDATA[<h3>Fixed</h3>
+<ul>
+<li>Send the relative path (rather than an absolute URL) to the short-urls API when generating navigation deeplinks (<a href="https://github.com/grafana/mcp-grafana/pull/976">#976</a>)</li>
+</ul>
+<h3>Security</h3>
+<ul>
+<li>Block DNS rebinding attacks on the HTTP and SSE transports (<a href="https://github.com/grafana/mcp-grafana/pull/957">#957</a>)</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h3>Fixed</h3>
+<ul>
+<li>Send the relative path (rather than an absolute URL) to the short-urls API when generating navigation deeplinks (<a href="https://github.com/grafana/mcp-grafana/pull/976">#976</a>)</li>
+</ul>
+<h3>Security</h3>
+<ul>
+<li>Block DNS rebinding attacks on the HTTP and SSE transports (<a href="https://github.com/grafana/mcp-grafana/pull/957">#957</a>)</li>
+</ul>
+]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[v0.17.0]]></title>
+            <link>https://github.com/grafana/mcp-grafana/releases/tag/v0.17.0</link>
+            <guid>https://github.com/grafana/mcp-grafana/releases/tag/v0.17.0</guid>
+            <pubDate>Tue, 23 Jun 2026 09:01:08 GMT</pubDate>
+            <description><![CDATA[<h3>Added</h3>
+<ul>
+<li>Datasource management tools for creating and updating datasources via the MCP server, gated behind write tools, with schema-guided configuration that follows each datasource type&#39;s JSON schema and excludes sensitive credential fields (<a href="https://github.com/grafana/mcp-grafana/pull/939">#939</a>)</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
+<li>Recognize the Athena plugin&#39;s <code>rawSQL</code> query field when extracting dashboard panel queries (<a href="https://github.com/grafana/mcp-grafana/pull/956">#956</a>)</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h3>Added</h3>
+<ul>
+<li>Datasource management tools for creating and updating datasources via the MCP server, gated behind write tools, with schema-guided configuration that follows each datasource type&#39;s JSON schema and excludes sensitive credential fields (<a href="https://github.com/grafana/mcp-grafana/pull/939">#939</a>)</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
+<li>Recognize the Athena plugin&#39;s <code>rawSQL</code> query field when extracting dashboard panel queries (<a href="https://github.com/grafana/mcp-grafana/pull/956">#956</a>)</li>
+</ul>
+]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[v0.16.0]]></title>
+            <link>https://github.com/grafana/mcp-grafana/releases/tag/v0.16.0</link>
+            <guid>https://github.com/grafana/mcp-grafana/releases/tag/v0.16.0</guid>
+            <pubDate>Tue, 16 Jun 2026 15:37:20 GMT</pubDate>
+            <description><![CDATA[<h3>Added</h3>
+<ul>
+<li>Snapshot tools (<code>list_snapshots</code>, <code>get_snapshot</code>, <code>create_snapshot</code>, <code>delete_snapshot</code>) for managing Grafana dashboard snapshots (<a href="https://github.com/grafana/mcp-grafana/pull/949">#949</a>)</li>
+<li>Native dashboard schema v2 support in the dashboard tools (<a href="https://github.com/grafana/mcp-grafana/pull/937">#937</a>)</li>
+<li>Quickwit datasource support (<a href="https://github.com/grafana/mcp-grafana/pull/941">#941</a>)</li>
+<li>BigQuery datasource support in <code>run_panel_query</code> (<a href="https://github.com/grafana/mcp-grafana/pull/930">#930</a>)</li>
+<li>Elasticsearch and OpenSearch tools now honor the datasource-configured <code>timeField</code> (<a href="https://github.com/grafana/mcp-grafana/pull/909">#909</a>)</li>
+<li>Relative time syntax (e.g. <code>now-1h</code>) for time range parameters across tools (<a href="https://github.com/grafana/mcp-grafana/pull/942">#942</a>)</li>
+<li><code>GRAFANA_SERVICE_ACCOUNT_TOKEN_FILE</code> environment variable to read the service account token from a file, supporting rotated tokens (<a href="https://github.com/grafana/mcp-grafana/pull/935">#935</a>)</li>
+<li>Optional <code>startRfc3339</code>/<code>endRfc3339</code> time range parameters for <code>list_prometheus_metric_names</code> to restrict results to metrics active within a window (<a href="https://github.com/grafana/mcp-grafana/pull/927">#927</a>)</li>
+<li><code>query_prometheus</code> now surfaces datasource <code>warnings</code> (e.g. partial responses from Thanos) in its result (<a href="https://github.com/grafana/mcp-grafana/pull/946">#946</a>)</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
+<li>Elasticsearch client now refuses HTTP redirects that would drop the request body, preventing malformed queries against redirecting endpoints (<a href="https://github.com/grafana/mcp-grafana/pull/951">#951</a>)</li>
+<li>Propagate forwarded headers to downstream Loki calls by using the configured HTTP transport (<a href="https://github.com/grafana/mcp-grafana/pull/945">#945</a>)</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h3>Added</h3>
+<ul>
+<li>Snapshot tools (<code>list_snapshots</code>, <code>get_snapshot</code>, <code>create_snapshot</code>, <code>delete_snapshot</code>) for managing Grafana dashboard snapshots (<a href="https://github.com/grafana/mcp-grafana/pull/949">#949</a>)</li>
+<li>Native dashboard schema v2 support in the dashboard tools (<a href="https://github.com/grafana/mcp-grafana/pull/937">#937</a>)</li>
+<li>Quickwit datasource support (<a href="https://github.com/grafana/mcp-grafana/pull/941">#941</a>)</li>
+<li>BigQuery datasource support in <code>run_panel_query</code> (<a href="https://github.com/grafana/mcp-grafana/pull/930">#930</a>)</li>
+<li>Elasticsearch and OpenSearch tools now honor the datasource-configured <code>timeField</code> (<a href="https://github.com/grafana/mcp-grafana/pull/909">#909</a>)</li>
+<li>Relative time syntax (e.g. <code>now-1h</code>) for time range parameters across tools (<a href="https://github.com/grafana/mcp-grafana/pull/942">#942</a>)</li>
+<li><code>GRAFANA_SERVICE_ACCOUNT_TOKEN_FILE</code> environment variable to read the service account token from a file, supporting rotated tokens (<a href="https://github.com/grafana/mcp-grafana/pull/935">#935</a>)</li>
+<li>Optional <code>startRfc3339</code>/<code>endRfc3339</code> time range parameters for <code>list_prometheus_metric_names</code> to restrict results to metrics active within a window (<a href="https://github.com/grafana/mcp-grafana/pull/927">#927</a>)</li>
+<li><code>query_prometheus</code> now surfaces datasource <code>warnings</code> (e.g. partial responses from Thanos) in its result (<a href="https://github.com/grafana/mcp-grafana/pull/946">#946</a>)</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
+<li>Elasticsearch client now refuses HTTP redirects that would drop the request body, preventing malformed queries against redirecting endpoints (<a href="https://github.com/grafana/mcp-grafana/pull/951">#951</a>)</li>
+<li>Propagate forwarded headers to downstream Loki calls by using the configured HTTP transport (<a href="https://github.com/grafana/mcp-grafana/pull/945">#945</a>)</li>
+</ul>
+]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[v0.15.2]]></title>
+            <link>https://github.com/grafana/mcp-grafana/releases/tag/v0.15.2</link>
+            <guid>https://github.com/grafana/mcp-grafana/releases/tag/v0.15.2</guid>
+            <pubDate>Thu, 04 Jun 2026 14:01:05 GMT</pubDate>
+            <description><![CDATA[<h3>Fixed</h3>
+<ul>
+<li>Docker images are again published to <code>docker.io/grafana/mcp-grafana</code>. v0.15.0 and v0.15.1 Docker images were never published because the shared Docker Hub credential was restricted to read-only. The release workflow now publishes via Grafana&#39;s GAR-based Docker Hub mirror pipeline (<a href="https://github.com/grafana/mcp-grafana/pull/925">#925</a>)</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h3>Fixed</h3>
+<ul>
+<li>Docker images are again published to <code>docker.io/grafana/mcp-grafana</code>. v0.15.0 and v0.15.1 Docker images were never published because the shared Docker Hub credential was restricted to read-only. The release workflow now publishes via Grafana&#39;s GAR-based Docker Hub mirror pipeline (<a href="https://github.com/grafana/mcp-grafana/pull/925">#925</a>)</li>
+</ul>
+]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[v0.15.1]]></title>
+            <link>https://github.com/grafana/mcp-grafana/releases/tag/v0.15.1</link>
+            <guid>https://github.com/grafana/mcp-grafana/releases/tag/v0.15.1</guid>
+            <pubDate>Wed, 03 Jun 2026 16:57:12 GMT</pubDate>
+            <description><![CDATA[<h3>Added</h3>
+<ul>
+<li><code>shorten_url</code> tool for creating Grafana short links from long dashboard or explore URLs (<a href="https://github.com/grafana/mcp-grafana/pull/899">#899</a>)</li>
+<li>Provisioning workflow tools: <code>list_provisioning_repositories</code> for discovering connected repositories, <code>validate_provisioning_file</code> for dry-run validation of provisioning files, and provisioning preview support in <code>get_panel_image</code> and <code>generate_deeplink</code> for rendering dashboards from PR branches before merge (<a href="https://github.com/grafana/mcp-grafana/pull/900">#900</a>)</li>
+</ul>
+<h3>Changed</h3>
+<ul>
+<li>Rendering tools now use a shared transport chain with <code>BaseTransport</code> support for consistent HTTP middleware (<a href="https://github.com/grafana/mcp-grafana/pull/918">#918</a>)</li>
+</ul>
+<h3>Security</h3>
+<ul>
+<li>Redact credentials from debug transport logs to prevent accidental exposure (<a href="https://github.com/grafana/mcp-grafana/pull/920">#920</a>)</li>
+<li>Update Go to 1.26.3 to fix CVE-2026-33810 and bump litellm dependency (<a href="https://github.com/grafana/mcp-grafana/pull/916">#916</a>)</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h3>Added</h3>
+<ul>
+<li><code>shorten_url</code> tool for creating Grafana short links from long dashboard or explore URLs (<a href="https://github.com/grafana/mcp-grafana/pull/899">#899</a>)</li>
+<li>Provisioning workflow tools: <code>list_provisioning_repositories</code> for discovering connected repositories, <code>validate_provisioning_file</code> for dry-run validation of provisioning files, and provisioning preview support in <code>get_panel_image</code> and <code>generate_deeplink</code> for rendering dashboards from PR branches before merge (<a href="https://github.com/grafana/mcp-grafana/pull/900">#900</a>)</li>
+</ul>
+<h3>Changed</h3>
+<ul>
+<li>Rendering tools now use a shared transport chain with <code>BaseTransport</code> support for consistent HTTP middleware (<a href="https://github.com/grafana/mcp-grafana/pull/918">#918</a>)</li>
+</ul>
+<h3>Security</h3>
+<ul>
+<li>Redact credentials from debug transport logs to prevent accidental exposure (<a href="https://github.com/grafana/mcp-grafana/pull/920">#920</a>)</li>
+<li>Update Go to 1.26.3 to fix CVE-2026-33810 and bump litellm dependency (<a href="https://github.com/grafana/mcp-grafana/pull/916">#916</a>)</li>
+</ul>
+]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[v0.15.0]]></title>
+            <link>https://github.com/grafana/mcp-grafana/releases/tag/v0.15.0</link>
+            <guid>https://github.com/grafana/mcp-grafana/releases/tag/v0.15.0</guid>
+            <pubDate>Mon, 01 Jun 2026 12:39:48 GMT</pubDate>
+            <description><![CDATA[<h3>Added</h3>
+<ul>
+<li>Snowflake datasource tools for querying Snowflake through Grafana&#39;s <code>/api/ds/query</code> endpoint with macro substitution and template variables (<a href="https://github.com/grafana/mcp-grafana/pull/845">#845</a>)</li>
+<li>Amazon Athena datasource support with schema discovery tools and SQL query execution, including macro substitution and result reuse (<a href="https://github.com/grafana/mcp-grafana/pull/799">#799</a>)</li>
+<li>VictoriaLogs support through existing Loki tools, routing LogsQL queries via the VictoriaLogs HTTP API without adding new tools (<a href="https://github.com/grafana/mcp-grafana/pull/850">#850</a>)</li>
+<li>Loki label-strategy analyzer tools for evaluating label cardinality and optimization opportunities (<a href="https://github.com/grafana/mcp-grafana/pull/885">#885</a>)</li>
+<li>Plugin install and search tools for discovering, inspecting, and installing Grafana plugins (<a href="https://github.com/grafana/mcp-grafana/pull/835">#835</a>)</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
+<li>Scope datasource fallback cache by request path to prevent incorrect cache hits across different API endpoints (<a href="https://github.com/grafana/mcp-grafana/pull/897">#897</a>)</li>
+<li>Release builds now report the correct version via ldflags injection (<a href="https://github.com/grafana/mcp-grafana/pull/895">#895</a>)</li>
+<li>Improved Loki and dashboard tool descriptions for better agent accuracy (<a href="https://github.com/grafana/mcp-grafana/pull/880">#880</a>)</li>
+<li>Add readResponseBody helper to limit and detect oversized responses, preventing excessive memory use (<a href="https://github.com/grafana/mcp-grafana/pull/884">#884</a>)</li>
+<li>Improved timeout error messages for proxied tools with context-aware logging (<a href="https://github.com/grafana/mcp-grafana/pull/881">#881</a>)</li>
+<li>Cap error response body reads to 1KB across all HTTP clients to prevent excessive memory allocation from misbehaving servers (<a href="https://github.com/grafana/mcp-grafana/pull/876">#876</a>)</li>
+</ul>
+<h3>Changed</h3>
+<ul>
+<li>Consolidated duplicated <code>/api/ds/query</code> implementations into a shared helper (<a href="https://github.com/grafana/mcp-grafana/pull/877">#877</a>)</li>
+</ul>
+<h3>Security</h3>
+<ul>
+<li>Update <code>golang.org/x/net</code> to v0.55.0 to address security vulnerability (<a href="https://github.com/grafana/mcp-grafana/pull/901">#901</a>)</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h3>Added</h3>
+<ul>
+<li>Snowflake datasource tools for querying Snowflake through Grafana&#39;s <code>/api/ds/query</code> endpoint with macro substitution and template variables (<a href="https://github.com/grafana/mcp-grafana/pull/845">#845</a>)</li>
+<li>Amazon Athena datasource support with schema discovery tools and SQL query execution, including macro substitution and result reuse (<a href="https://github.com/grafana/mcp-grafana/pull/799">#799</a>)</li>
+<li>VictoriaLogs support through existing Loki tools, routing LogsQL queries via the VictoriaLogs HTTP API without adding new tools (<a href="https://github.com/grafana/mcp-grafana/pull/850">#850</a>)</li>
+<li>Loki label-strategy analyzer tools for evaluating label cardinality and optimization opportunities (<a href="https://github.com/grafana/mcp-grafana/pull/885">#885</a>)</li>
+<li>Plugin install and search tools for discovering, inspecting, and installing Grafana plugins (<a href="https://github.com/grafana/mcp-grafana/pull/835">#835</a>)</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
+<li>Scope datasource fallback cache by request path to prevent incorrect cache hits across different API endpoints (<a href="https://github.com/grafana/mcp-grafana/pull/897">#897</a>)</li>
+<li>Release builds now report the correct version via ldflags injection (<a href="https://github.com/grafana/mcp-grafana/pull/895">#895</a>)</li>
+<li>Improved Loki and dashboard tool descriptions for better agent accuracy (<a href="https://github.com/grafana/mcp-grafana/pull/880">#880</a>)</li>
+<li>Add readResponseBody helper to limit and detect oversized responses, preventing excessive memory use (<a href="https://github.com/grafana/mcp-grafana/pull/884">#884</a>)</li>
+<li>Improved timeout error messages for proxied tools with context-aware logging (<a href="https://github.com/grafana/mcp-grafana/pull/881">#881</a>)</li>
+<li>Cap error response body reads to 1KB across all HTTP clients to prevent excessive memory allocation from misbehaving servers (<a href="https://github.com/grafana/mcp-grafana/pull/876">#876</a>)</li>
+</ul>
+<h3>Changed</h3>
+<ul>
+<li>Consolidated duplicated <code>/api/ds/query</code> implementations into a shared helper (<a href="https://github.com/grafana/mcp-grafana/pull/877">#877</a>)</li>
+</ul>
+<h3>Security</h3>
+<ul>
+<li>Update <code>golang.org/x/net</code> to v0.55.0 to address security vulnerability (<a href="https://github.com/grafana/mcp-grafana/pull/901">#901</a>)</li>
+</ul>
+]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[v0.14.0]]></title>
+            <link>https://github.com/grafana/mcp-grafana/releases/tag/v0.14.0</link>
+            <guid>https://github.com/grafana/mcp-grafana/releases/tag/v0.14.0</guid>
+            <pubDate>Fri, 08 May 2026 11:14:21 GMT</pubDate>
+            <description><![CDATA[<h3>Added</h3>
+<ul>
+<li>Generic API request tool for making arbitrary HTTP requests to the Grafana API (<a href="https://github.com/grafana/mcp-grafana/pull/841">#841</a>)</li>
+<li>OpenSearch datasource support (<a href="https://github.com/grafana/mcp-grafana/pull/669">#669</a>)</li>
+<li>Tool to retrieve Grafana plugin information (<a href="https://github.com/grafana/mcp-grafana/pull/826">#826</a>)</li>
+<li>Export logs via OTLP when <code>OTEL_EXPORTER_OTLP_ENDPOINT</code> or <code>OTEL_EXPORTER_OTLP_LOGS_ENDPOINT</code> is set, consistent with existing OTLP trace export (<a href="https://github.com/grafana/mcp-grafana/pull/839">#839</a>)</li>
+<li>Configurable slow-request-threshold logging for identifying long-running tool calls (<a href="https://github.com/grafana/mcp-grafana/pull/756">#756</a>)</li>
+<li>Server instructions now dynamically reflect only the enabled tool categories, preventing agents from attempting to use disabled tools (<a href="https://github.com/grafana/mcp-grafana/pull/829">#829</a>)</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
+<li>Route OnCall tools through IRM plugin proxy for correct on-behalf-of authentication (<a href="https://github.com/grafana/mcp-grafana/pull/842">#842</a>)</li>
+<li>Propagate context to jq operations and return clear errors on non-JSON input (<a href="https://github.com/grafana/mcp-grafana/pull/847">#847</a>)</li>
+<li>Prevent panic in Sift tool when pattern type assertion fails (<a href="https://github.com/grafana/mcp-grafana/pull/834">#834</a>)</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h3>Added</h3>
+<ul>
+<li>Generic API request tool for making arbitrary HTTP requests to the Grafana API (<a href="https://github.com/grafana/mcp-grafana/pull/841">#841</a>)</li>
+<li>OpenSearch datasource support (<a href="https://github.com/grafana/mcp-grafana/pull/669">#669</a>)</li>
+<li>Tool to retrieve Grafana plugin information (<a href="https://github.com/grafana/mcp-grafana/pull/826">#826</a>)</li>
+<li>Export logs via OTLP when <code>OTEL_EXPORTER_OTLP_ENDPOINT</code> or <code>OTEL_EXPORTER_OTLP_LOGS_ENDPOINT</code> is set, consistent with existing OTLP trace export (<a href="https://github.com/grafana/mcp-grafana/pull/839">#839</a>)</li>
+<li>Configurable slow-request-threshold logging for identifying long-running tool calls (<a href="https://github.com/grafana/mcp-grafana/pull/756">#756</a>)</li>
+<li>Server instructions now dynamically reflect only the enabled tool categories, preventing agents from attempting to use disabled tools (<a href="https://github.com/grafana/mcp-grafana/pull/829">#829</a>)</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
+<li>Route OnCall tools through IRM plugin proxy for correct on-behalf-of authentication (<a href="https://github.com/grafana/mcp-grafana/pull/842">#842</a>)</li>
+<li>Propagate context to jq operations and return clear errors on non-JSON input (<a href="https://github.com/grafana/mcp-grafana/pull/847">#847</a>)</li>
+<li>Prevent panic in Sift tool when pattern type assertion fails (<a href="https://github.com/grafana/mcp-grafana/pull/834">#834</a>)</li>
+</ul>
+]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[v0.13.1]]></title>
+            <link>https://github.com/grafana/mcp-grafana/releases/tag/v0.13.1</link>
+            <guid>https://github.com/grafana/mcp-grafana/releases/tag/v0.13.1</guid>
+            <pubDate>Thu, 30 Apr 2026 13:38:42 GMT</pubDate>
+            <description><![CDATA[<h3>Added</h3>
+<ul>
+<li>Support PromQL queries against VictoriaMetrics datasources (<a href="https://github.com/grafana/mcp-grafana/pull/767">#767</a>)</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
+<li>Include recording rules in datasource ruler listings for complete alerting rule visibility (<a href="https://github.com/grafana/mcp-grafana/pull/819">#819</a>)</li>
+<li>Propagate request context through OpenAPI convenience calls to ensure proper tracing and cancellation (<a href="https://github.com/grafana/mcp-grafana/pull/822">#822</a>)</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h3>Added</h3>
+<ul>
+<li>Support PromQL queries against VictoriaMetrics datasources (<a href="https://github.com/grafana/mcp-grafana/pull/767">#767</a>)</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
+<li>Include recording rules in datasource ruler listings for complete alerting rule visibility (<a href="https://github.com/grafana/mcp-grafana/pull/819">#819</a>)</li>
+<li>Propagate request context through OpenAPI convenience calls to ensure proper tracing and cancellation (<a href="https://github.com/grafana/mcp-grafana/pull/822">#822</a>)</li>
+</ul>
+]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[v0.13.0]]></title>
+            <link>https://github.com/grafana/mcp-grafana/releases/tag/v0.13.0</link>
+            <guid>https://github.com/grafana/mcp-grafana/releases/tag/v0.13.0</guid>
+            <pubDate>Wed, 29 Apr 2026 15:48:47 GMT</pubDate>
+            <description><![CDATA[<h3>Fixed</h3>
+<ul>
+<li>Handle common LLM type mismatches (e.g. string vs number) in <code>alerting_manage_rules</code> to prevent tool call failures (<a href="https://github.com/grafana/mcp-grafana/pull/816">#816</a>)</li>
+<li>Convert ISO 8601 timestamps to epoch milliseconds in deeplink time ranges for correct Grafana URL generation (<a href="https://github.com/grafana/mcp-grafana/pull/808">#808</a>)</li>
+<li>Remove broken <code>search_logs</code> tool that was returning errors (<a href="https://github.com/grafana/mcp-grafana/pull/815">#815</a>)</li>
+<li>Normalize trailing slash in Grafana URL within <code>WithGrafanaConfig</code> to prevent malformed API requests (<a href="https://github.com/grafana/mcp-grafana/pull/809">#809</a>)</li>
+<li>Include on-behalf-of tokens in <code>fetchPublicURL</code> config so delegated identity works for public URL resolution (<a href="https://github.com/grafana/mcp-grafana/pull/810">#810</a>)</li>
+<li>Walk legacy dashboard rows (schemaVersion &lt;= 14) in panel walkers so older dashboards are fully traversed (<a href="https://github.com/grafana/mcp-grafana/pull/817">#817</a>)</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h3>Fixed</h3>
+<ul>
+<li>Handle common LLM type mismatches (e.g. string vs number) in <code>alerting_manage_rules</code> to prevent tool call failures (<a href="https://github.com/grafana/mcp-grafana/pull/816">#816</a>)</li>
+<li>Convert ISO 8601 timestamps to epoch milliseconds in deeplink time ranges for correct Grafana URL generation (<a href="https://github.com/grafana/mcp-grafana/pull/808">#808</a>)</li>
+<li>Remove broken <code>search_logs</code> tool that was returning errors (<a href="https://github.com/grafana/mcp-grafana/pull/815">#815</a>)</li>
+<li>Normalize trailing slash in Grafana URL within <code>WithGrafanaConfig</code> to prevent malformed API requests (<a href="https://github.com/grafana/mcp-grafana/pull/809">#809</a>)</li>
+<li>Include on-behalf-of tokens in <code>fetchPublicURL</code> config so delegated identity works for public URL resolution (<a href="https://github.com/grafana/mcp-grafana/pull/810">#810</a>)</li>
+<li>Walk legacy dashboard rows (schemaVersion &lt;= 14) in panel walkers so older dashboards are fully traversed (<a href="https://github.com/grafana/mcp-grafana/pull/817">#817</a>)</li>
+</ul>
+]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[v0.12.1]]></title>
+            <link>https://github.com/grafana/mcp-grafana/releases/tag/v0.12.1</link>
+            <guid>https://github.com/grafana/mcp-grafana/releases/tag/v0.12.1</guid>
+            <pubDate>Tue, 28 Apr 2026 11:06:42 GMT</pubDate>
+            <description><![CDATA[<h3>Added</h3>
+<ul>
+<li>Support per-request Grafana configuration via context in HTTP RoundTrippers (<a href="https://github.com/grafana/mcp-grafana/pull/805">#805</a>)</li>
+<li>Optional <code>Logger</code> field on <code>GrafanaConfig</code> for structured logging (<a href="https://github.com/grafana/mcp-grafana/pull/787">#787</a>)</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
+<li>Validate assertion timestamps as strings instead of <code>time.Time</code> to prevent type errors (<a href="https://github.com/grafana/mcp-grafana/pull/793">#793</a>)</li>
+<li>Trim trailing slash from Grafana URL during proxied tool discovery to avoid malformed requests (<a href="https://github.com/grafana/mcp-grafana/pull/788">#788</a>)</li>
+</ul>
+<h3>Changed</h3>
+<ul>
+<li>Use shared <code>BuildTransport</code> constructor in <code>fetchPublicURL</code> for consistent HTTP middleware (<a href="https://github.com/grafana/mcp-grafana/pull/789">#789</a>)</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h3>Added</h3>
+<ul>
+<li>Support per-request Grafana configuration via context in HTTP RoundTrippers (<a href="https://github.com/grafana/mcp-grafana/pull/805">#805</a>)</li>
+<li>Optional <code>Logger</code> field on <code>GrafanaConfig</code> for structured logging (<a href="https://github.com/grafana/mcp-grafana/pull/787">#787</a>)</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
+<li>Validate assertion timestamps as strings instead of <code>time.Time</code> to prevent type errors (<a href="https://github.com/grafana/mcp-grafana/pull/793">#793</a>)</li>
+<li>Trim trailing slash from Grafana URL during proxied tool discovery to avoid malformed requests (<a href="https://github.com/grafana/mcp-grafana/pull/788">#788</a>)</li>
+</ul>
+<h3>Changed</h3>
+<ul>
+<li>Use shared <code>BuildTransport</code> constructor in <code>fetchPublicURL</code> for consistent HTTP middleware (<a href="https://github.com/grafana/mcp-grafana/pull/789">#789</a>)</li>
+</ul>
+]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[v0.12.0]]></title>
+            <link>https://github.com/grafana/mcp-grafana/releases/tag/v0.12.0</link>
+            <guid>https://github.com/grafana/mcp-grafana/releases/tag/v0.12.0</guid>
+            <pubDate>Thu, 23 Apr 2026 15:32:22 GMT</pubDate>
+            <description><![CDATA[<h3>Added</h3>
+<ul>
+<li>InfluxDB datasource support with both Flux and InfluxQL query languages (<a href="https://github.com/grafana/mcp-grafana/pull/775">#775</a>)</li>
+<li>Graphite datasource support with metric finding, query execution, and function discovery tools (<a href="https://github.com/grafana/mcp-grafana/pull/741">#741</a>)</li>
+<li>Support legacy <code>d-solo</code> render mode for panel image rendering (<a href="https://github.com/grafana/mcp-grafana/pull/751">#751</a>)</li>
+<li>Forward <code>Accept</code> header through API proxy for rendering requests (<a href="https://github.com/grafana/mcp-grafana/pull/747">#747</a>)</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
+<li>Include full query data in alert rule get response, preserving datasource-specific fields (<a href="https://github.com/grafana/mcp-grafana/pull/777">#777</a>)</li>
+<li>Propagate trace context through OnCall, ClickHouse, and CloudWatch tools for end-to-end distributed tracing (<a href="https://github.com/grafana/mcp-grafana/pull/769">#769</a>)</li>
+<li>Register ephemeral sessions to fix horizontal scaling of proxied tools (<a href="https://github.com/grafana/mcp-grafana/pull/754">#754</a>)</li>
+<li>Encode Basic Auth credentials per RFC 7617 in proxied client (<a href="https://github.com/grafana/mcp-grafana/pull/758">#758</a>)</li>
+<li>Preserve datasource-specific model fields (e.g. Graphite <code>target</code>, classic conditions) during alert rule JSON round-tripping (<a href="https://github.com/grafana/mcp-grafana/pull/730">#730</a>)</li>
+<li>Include forwarded headers in client cache key to prevent cross-user cache collisions (<a href="https://github.com/grafana/mcp-grafana/pull/768">#768</a>)</li>
+</ul>
+<h3>Changed</h3>
+<ul>
+<li>Reduce tool schema token cost and response payload sizes for lower LLM token usage (<a href="https://github.com/grafana/mcp-grafana/pull/734">#734</a>)</li>
+<li>Standardize HTTP transport middleware via shared <code>BuildTransport()</code> constructor (<a href="https://github.com/grafana/mcp-grafana/pull/771">#771</a>)</li>
+</ul>
+<h3>Security</h3>
+<ul>
+<li>Reject embedded credentials in <code>X-Grafana-URL</code> header to prevent credential leakage (<a href="https://github.com/grafana/mcp-grafana/pull/782">#782</a>)</li>
+<li>Reject malformed <code>X-Grafana-URL</code> header instead of panicking (<a href="https://github.com/grafana/mcp-grafana/pull/762">#762</a>)</li>
+<li>Update Prometheus dependency to v0.311.2 to address security vulnerability (<a href="https://github.com/grafana/mcp-grafana/pull/742">#742</a>)</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h3>Added</h3>
+<ul>
+<li>InfluxDB datasource support with both Flux and InfluxQL query languages (<a href="https://github.com/grafana/mcp-grafana/pull/775">#775</a>)</li>
+<li>Graphite datasource support with metric finding, query execution, and function discovery tools (<a href="https://github.com/grafana/mcp-grafana/pull/741">#741</a>)</li>
+<li>Support legacy <code>d-solo</code> render mode for panel image rendering (<a href="https://github.com/grafana/mcp-grafana/pull/751">#751</a>)</li>
+<li>Forward <code>Accept</code> header through API proxy for rendering requests (<a href="https://github.com/grafana/mcp-grafana/pull/747">#747</a>)</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
+<li>Include full query data in alert rule get response, preserving datasource-specific fields (<a href="https://github.com/grafana/mcp-grafana/pull/777">#777</a>)</li>
+<li>Propagate trace context through OnCall, ClickHouse, and CloudWatch tools for end-to-end distributed tracing (<a href="https://github.com/grafana/mcp-grafana/pull/769">#769</a>)</li>
+<li>Register ephemeral sessions to fix horizontal scaling of proxied tools (<a href="https://github.com/grafana/mcp-grafana/pull/754">#754</a>)</li>
+<li>Encode Basic Auth credentials per RFC 7617 in proxied client (<a href="https://github.com/grafana/mcp-grafana/pull/758">#758</a>)</li>
+<li>Preserve datasource-specific model fields (e.g. Graphite <code>target</code>, classic conditions) during alert rule JSON round-tripping (<a href="https://github.com/grafana/mcp-grafana/pull/730">#730</a>)</li>
+<li>Include forwarded headers in client cache key to prevent cross-user cache collisions (<a href="https://github.com/grafana/mcp-grafana/pull/768">#768</a>)</li>
+</ul>
+<h3>Changed</h3>
+<ul>
+<li>Reduce tool schema token cost and response payload sizes for lower LLM token usage (<a href="https://github.com/grafana/mcp-grafana/pull/734">#734</a>)</li>
+<li>Standardize HTTP transport middleware via shared <code>BuildTransport()</code> constructor (<a href="https://github.com/grafana/mcp-grafana/pull/771">#771</a>)</li>
+</ul>
+<h3>Security</h3>
+<ul>
+<li>Reject embedded credentials in <code>X-Grafana-URL</code> header to prevent credential leakage (<a href="https://github.com/grafana/mcp-grafana/pull/782">#782</a>)</li>
+<li>Reject malformed <code>X-Grafana-URL</code> header instead of panicking (<a href="https://github.com/grafana/mcp-grafana/pull/762">#762</a>)</li>
+<li>Update Prometheus dependency to v0.311.2 to address security vulnerability (<a href="https://github.com/grafana/mcp-grafana/pull/742">#742</a>)</li>
+</ul>
+]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[v0.11.6]]></title>
+            <link>https://github.com/grafana/mcp-grafana/releases/tag/v0.11.6</link>
+            <guid>https://github.com/grafana/mcp-grafana/releases/tag/v0.11.6</guid>
+            <pubDate>Thu, 09 Apr 2026 15:33:44 GMT</pubDate>
+            <description><![CDATA[<h3>Added</h3>
+<ul>
+<li>Apply on-behalf-of authentication headers in the Grafana client transport chain, enabling delegated identity for API requests (<a href="https://github.com/grafana/mcp-grafana/pull/728">#728</a>)</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
+<li>Preserve dashboard identity fields (<code>id</code>, <code>uid</code>, <code>version</code>) in patch mode to prevent accidental dashboard duplication (<a href="https://github.com/grafana/mcp-grafana/pull/722">#722</a>)</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h3>Added</h3>
+<ul>
+<li>Apply on-behalf-of authentication headers in the Grafana client transport chain, enabling delegated identity for API requests (<a href="https://github.com/grafana/mcp-grafana/pull/728">#728</a>)</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
+<li>Preserve dashboard identity fields (<code>id</code>, <code>uid</code>, <code>version</code>) in patch mode to prevent accidental dashboard duplication (<a href="https://github.com/grafana/mcp-grafana/pull/722">#722</a>)</li>
+</ul>
+]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[v0.11.5]]></title>
+            <link>https://github.com/grafana/mcp-grafana/releases/tag/v0.11.5</link>
+            <guid>https://github.com/grafana/mcp-grafana/releases/tag/v0.11.5</guid>
+            <pubDate>Thu, 09 Apr 2026 14:29:42 GMT</pubDate>
+            <description><![CDATA[<h3>Added</h3>
+<ul>
+<li>Forward selected request headers (e.g. <code>Cookie</code>, <code>Authorization</code>) to Grafana in SSE and streamable-http modes, enabling SSO and ALB session cookie authentication (<a href="https://github.com/grafana/mcp-grafana/pull/659">#659</a>)</li>
+<li>Support optional <code>projectName</code> parameter for Cloud Monitoring datasources to query specific GCP projects (<a href="https://github.com/grafana/mcp-grafana/pull/710">#710</a>)</li>
+<li>Add <code>BaseTransport</code> field to <code>GrafanaConfig</code> for custom HTTP transport composition (<a href="https://github.com/grafana/mcp-grafana/pull/726">#726</a>)</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
+<li>Extract Elasticsearch query field in alert rule summaries for accurate rule descriptions (<a href="https://github.com/grafana/mcp-grafana/pull/714">#714</a>)</li>
+<li>Clarify dashboard authoring guidance in tool descriptions to reduce LLM confusion (<a href="https://github.com/grafana/mcp-grafana/pull/713">#713</a>)</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h3>Added</h3>
+<ul>
+<li>Forward selected request headers (e.g. <code>Cookie</code>, <code>Authorization</code>) to Grafana in SSE and streamable-http modes, enabling SSO and ALB session cookie authentication (<a href="https://github.com/grafana/mcp-grafana/pull/659">#659</a>)</li>
+<li>Support optional <code>projectName</code> parameter for Cloud Monitoring datasources to query specific GCP projects (<a href="https://github.com/grafana/mcp-grafana/pull/710">#710</a>)</li>
+<li>Add <code>BaseTransport</code> field to <code>GrafanaConfig</code> for custom HTTP transport composition (<a href="https://github.com/grafana/mcp-grafana/pull/726">#726</a>)</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
+<li>Extract Elasticsearch query field in alert rule summaries for accurate rule descriptions (<a href="https://github.com/grafana/mcp-grafana/pull/714">#714</a>)</li>
+<li>Clarify dashboard authoring guidance in tool descriptions to reduce LLM confusion (<a href="https://github.com/grafana/mcp-grafana/pull/713">#713</a>)</li>
+</ul>
+]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[v0.11.4]]></title>
+            <link>https://github.com/grafana/mcp-grafana/releases/tag/v0.11.4</link>
+            <guid>https://github.com/grafana/mcp-grafana/releases/tag/v0.11.4</guid>
+            <pubDate>Thu, 02 Apr 2026 07:53:13 GMT</pubDate>
+            <description><![CDATA[<h3>Added</h3>
+<ul>
+<li>Pyroscope series query and unified query tool for profiling data exploration (<a href="https://github.com/grafana/mcp-grafana/pull/672">#672</a>)</li>
+<li>Generic Kubernetes-style API client for interacting with Grafana app platform resources (<a href="https://github.com/grafana/mcp-grafana/pull/690">#690</a>)</li>
+<li><code>--session-idle-timeout-minutes</code> CLI flag to automatically close idle sessions (<a href="https://github.com/grafana/mcp-grafana/pull/691">#691</a>)</li>
+<li>Accept <code>X-Grafana-Service-Account-Token</code> header as an alternative authentication method (<a href="https://github.com/grafana/mcp-grafana/pull/280">#280</a>)</li>
+<li>Server-side filtering for <code>alerting_manage_rules</code> list operation to reduce response size (<a href="https://github.com/grafana/mcp-grafana/pull/629">#629</a>)</li>
+<li>Support categorized labels from Loki &gt;= 3.0 for better label discovery (<a href="https://github.com/grafana/mcp-grafana/pull/671">#671</a>)</li>
+<li>Gemini CLI extension configuration for Grafana URL, token, and org ID settings (<a href="https://github.com/grafana/mcp-grafana/pull/665">#665</a>)</li>
+<li>Automatically fetch public URL from Grafana frontend settings for more accurate deep links (<a href="https://github.com/grafana/mcp-grafana/pull/664">#664</a>)</li>
+<li>Support PromQL queries against Google Cloud Monitoring datasources (<a href="https://github.com/grafana/mcp-grafana/pull/647">#647</a>)</li>
+<li>Query metadata and configurable result limit for <code>query_loki_logs</code> (<a href="https://github.com/grafana/mcp-grafana/pull/654">#654</a>)</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
+<li>Missing parameters in create/update alert rule tools now correctly exposed (<a href="https://github.com/grafana/mcp-grafana/pull/663">#663</a>)</li>
+<li>Handle <code>text/*</code> content-type responses from Grafana API instead of failing on non-JSON responses (<a href="https://github.com/grafana/mcp-grafana/pull/694">#694</a>)</li>
+<li>Prevent memory leaks in streamable-http mode by properly cleaning up resources (<a href="https://github.com/grafana/mcp-grafana/pull/685">#685</a>)</li>
+<li>Fallback between <code>/resources</code> and <code>/proxy</code> datasource endpoints for broader datasource compatibility (<a href="https://github.com/grafana/mcp-grafana/pull/562">#562</a>)</li>
+<li>Warn when org ID is missing instead of silently discarding the parameter (<a href="https://github.com/grafana/mcp-grafana/pull/678">#678</a>)</li>
+<li>Support multi-value dashboard variables in <code>get_panel_image</code> (<a href="https://github.com/grafana/mcp-grafana/pull/677">#677</a>)</li>
+<li>Return actionable errors for unsupported JSONPath syntax in dashboard patch operations (<a href="https://github.com/grafana/mcp-grafana/pull/675">#675</a>)</li>
+<li>Convert Prometheus POST requests to GET for compatibility with datasources that don&#39;t support POST (<a href="https://github.com/grafana/mcp-grafana/pull/633">#633</a>)</li>
+<li>Fix <code>generate_deeplink</code> for explore resource type (<a href="https://github.com/grafana/mcp-grafana/pull/644">#644</a>)</li>
+<li>Prevent bare boolean JSON Schema values that caused errors with some LLM providers (<a href="https://github.com/grafana/mcp-grafana/pull/597">#597</a>)</li>
+<li>Prevent nil pointer crash in <code>get_dashboard_panel_queries</code> (<a href="https://github.com/grafana/mcp-grafana/pull/661">#661</a>)</li>
+</ul>
+<h3>Changed</h3>
+<ul>
+<li>Enhance <code>ConvertTool</code> with flexible integer conversion for more robust type handling (<a href="https://github.com/grafana/mcp-grafana/pull/631">#631</a>)</li>
+<li>Use end time for Prometheus instant queries instead of defaulting to current time (<a href="https://github.com/grafana/mcp-grafana/pull/683">#683</a>)</li>
+</ul>
+<h3>Security</h3>
+<ul>
+<li>Validate ClickHouse identifiers to prevent SQL injection (<a href="https://github.com/grafana/mcp-grafana/pull/693">#693</a>)</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h3>Added</h3>
+<ul>
+<li>Pyroscope series query and unified query tool for profiling data exploration (<a href="https://github.com/grafana/mcp-grafana/pull/672">#672</a>)</li>
+<li>Generic Kubernetes-style API client for interacting with Grafana app platform resources (<a href="https://github.com/grafana/mcp-grafana/pull/690">#690</a>)</li>
+<li><code>--session-idle-timeout-minutes</code> CLI flag to automatically close idle sessions (<a href="https://github.com/grafana/mcp-grafana/pull/691">#691</a>)</li>
+<li>Accept <code>X-Grafana-Service-Account-Token</code> header as an alternative authentication method (<a href="https://github.com/grafana/mcp-grafana/pull/280">#280</a>)</li>
+<li>Server-side filtering for <code>alerting_manage_rules</code> list operation to reduce response size (<a href="https://github.com/grafana/mcp-grafana/pull/629">#629</a>)</li>
+<li>Support categorized labels from Loki &gt;= 3.0 for better label discovery (<a href="https://github.com/grafana/mcp-grafana/pull/671">#671</a>)</li>
+<li>Gemini CLI extension configuration for Grafana URL, token, and org ID settings (<a href="https://github.com/grafana/mcp-grafana/pull/665">#665</a>)</li>
+<li>Automatically fetch public URL from Grafana frontend settings for more accurate deep links (<a href="https://github.com/grafana/mcp-grafana/pull/664">#664</a>)</li>
+<li>Support PromQL queries against Google Cloud Monitoring datasources (<a href="https://github.com/grafana/mcp-grafana/pull/647">#647</a>)</li>
+<li>Query metadata and configurable result limit for <code>query_loki_logs</code> (<a href="https://github.com/grafana/mcp-grafana/pull/654">#654</a>)</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
+<li>Missing parameters in create/update alert rule tools now correctly exposed (<a href="https://github.com/grafana/mcp-grafana/pull/663">#663</a>)</li>
+<li>Handle <code>text/*</code> content-type responses from Grafana API instead of failing on non-JSON responses (<a href="https://github.com/grafana/mcp-grafana/pull/694">#694</a>)</li>
+<li>Prevent memory leaks in streamable-http mode by properly cleaning up resources (<a href="https://github.com/grafana/mcp-grafana/pull/685">#685</a>)</li>
+<li>Fallback between <code>/resources</code> and <code>/proxy</code> datasource endpoints for broader datasource compatibility (<a href="https://github.com/grafana/mcp-grafana/pull/562">#562</a>)</li>
+<li>Warn when org ID is missing instead of silently discarding the parameter (<a href="https://github.com/grafana/mcp-grafana/pull/678">#678</a>)</li>
+<li>Support multi-value dashboard variables in <code>get_panel_image</code> (<a href="https://github.com/grafana/mcp-grafana/pull/677">#677</a>)</li>
+<li>Return actionable errors for unsupported JSONPath syntax in dashboard patch operations (<a href="https://github.com/grafana/mcp-grafana/pull/675">#675</a>)</li>
+<li>Convert Prometheus POST requests to GET for compatibility with datasources that don&#39;t support POST (<a href="https://github.com/grafana/mcp-grafana/pull/633">#633</a>)</li>
+<li>Fix <code>generate_deeplink</code> for explore resource type (<a href="https://github.com/grafana/mcp-grafana/pull/644">#644</a>)</li>
+<li>Prevent bare boolean JSON Schema values that caused errors with some LLM providers (<a href="https://github.com/grafana/mcp-grafana/pull/597">#597</a>)</li>
+<li>Prevent nil pointer crash in <code>get_dashboard_panel_queries</code> (<a href="https://github.com/grafana/mcp-grafana/pull/661">#661</a>)</li>
+</ul>
+<h3>Changed</h3>
+<ul>
+<li>Enhance <code>ConvertTool</code> with flexible integer conversion for more robust type handling (<a href="https://github.com/grafana/mcp-grafana/pull/631">#631</a>)</li>
+<li>Use end time for Prometheus instant queries instead of defaulting to current time (<a href="https://github.com/grafana/mcp-grafana/pull/683">#683</a>)</li>
+</ul>
+<h3>Security</h3>
+<ul>
+<li>Validate ClickHouse identifiers to prevent SQL injection (<a href="https://github.com/grafana/mcp-grafana/pull/693">#693</a>)</li>
+</ul>
+]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[v0.11.3]]></title>
+            <link>https://github.com/grafana/mcp-grafana/releases/tag/v0.11.3</link>
+            <guid>https://github.com/grafana/mcp-grafana/releases/tag/v0.11.3</guid>
+            <pubDate>Thu, 12 Mar 2026 21:25:13 GMT</pubDate>
+            <description><![CDATA[<h3>Added</h3>
+<ul>
+<li>Support panel filtering and template variable substitution in <code>get_dashboard_panel_queries</code> for more targeted query extraction (<a href="https://github.com/grafana/mcp-grafana/pull/539">#539</a>)</li>
+<li>New <code>alerting_manage_routing</code> tool for managing notification policies, contact points, and time intervals in a single unified tool (<a href="https://github.com/grafana/mcp-grafana/pull/618">#618</a>)</li>
+<li>Add <code>accountId</code> parameter to CloudWatch tools for cross-account monitoring support (<a href="https://github.com/grafana/mcp-grafana/pull/616">#616</a>)</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
+<li>Add <code>OrgIDRoundTripper</code> to the Grafana client transport chain so organization ID is correctly sent on all requests (<a href="https://github.com/grafana/mcp-grafana/pull/649">#649</a>)</li>
+</ul>
+<h3>Changed</h3>
+<ul>
+<li>Consolidate alerting rule tools into a single <code>alerting_manage_rules</code> tool for simpler discovery (<a href="https://github.com/grafana/mcp-grafana/pull/619">#619</a>)</li>
+<li>Use typed struct for alert query parameters instead of untyped <code>models.AlertQuery</code> (<a href="https://github.com/grafana/mcp-grafana/pull/630">#630</a>)</li>
+<li>Add server-side filtering support to alerting client for more efficient rule queries (Grafana 10.0+) (<a href="https://github.com/grafana/mcp-grafana/pull/612">#612</a>)</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h3>Added</h3>
+<ul>
+<li>Support panel filtering and template variable substitution in <code>get_dashboard_panel_queries</code> for more targeted query extraction (<a href="https://github.com/grafana/mcp-grafana/pull/539">#539</a>)</li>
+<li>New <code>alerting_manage_routing</code> tool for managing notification policies, contact points, and time intervals in a single unified tool (<a href="https://github.com/grafana/mcp-grafana/pull/618">#618</a>)</li>
+<li>Add <code>accountId</code> parameter to CloudWatch tools for cross-account monitoring support (<a href="https://github.com/grafana/mcp-grafana/pull/616">#616</a>)</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
+<li>Add <code>OrgIDRoundTripper</code> to the Grafana client transport chain so organization ID is correctly sent on all requests (<a href="https://github.com/grafana/mcp-grafana/pull/649">#649</a>)</li>
+</ul>
+<h3>Changed</h3>
+<ul>
+<li>Consolidate alerting rule tools into a single <code>alerting_manage_rules</code> tool for simpler discovery (<a href="https://github.com/grafana/mcp-grafana/pull/619">#619</a>)</li>
+<li>Use typed struct for alert query parameters instead of untyped <code>models.AlertQuery</code> (<a href="https://github.com/grafana/mcp-grafana/pull/630">#630</a>)</li>
+<li>Add server-side filtering support to alerting client for more efficient rule queries (Grafana 10.0+) (<a href="https://github.com/grafana/mcp-grafana/pull/612">#612</a>)</li>
+</ul>
+]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[v0.11.2]]></title>
+            <link>https://github.com/grafana/mcp-grafana/releases/tag/v0.11.2</link>
+            <guid>https://github.com/grafana/mcp-grafana/releases/tag/v0.11.2</guid>
+            <pubDate>Wed, 25 Feb 2026 09:11:41 GMT</pubDate>
+            <description><![CDATA[<h3>Changed</h3>
+<ul>
+<li>Optimize Docker builds with Go cross-compilation for faster multi-platform image builds (<a href="https://github.com/grafana/mcp-grafana/pull/600">#600</a>)</li>
+<li>Fix Python wheel subpackage build to use correct <code>--package-path</code> flag (<a href="https://github.com/grafana/mcp-grafana/pull/601">#601</a>)</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h3>Changed</h3>
+<ul>
+<li>Optimize Docker builds with Go cross-compilation for faster multi-platform image builds (<a href="https://github.com/grafana/mcp-grafana/pull/600">#600</a>)</li>
+<li>Fix Python wheel subpackage build to use correct <code>--package-path</code> flag (<a href="https://github.com/grafana/mcp-grafana/pull/601">#601</a>)</li>
+</ul>
+]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[v0.11.1]]></title>
+            <link>https://github.com/grafana/mcp-grafana/releases/tag/v0.11.1</link>
+            <guid>https://github.com/grafana/mcp-grafana/releases/tag/v0.11.1</guid>
+            <pubDate>Tue, 24 Feb 2026 13:41:57 GMT</pubDate>
+            <description><![CDATA[<h3>Added</h3>
+<ul>
+<li>New <code>run_panel_query</code> tool that executes dashboard panel queries directly, with support for Prometheus, Loki, ClickHouse, and CloudWatch datasources, template variable substitution, Grafana macro expansion, and batch multi-panel queries (<a href="https://github.com/grafana/mcp-grafana/pull/542">#542</a>)</li>
+</ul>
+<h3>Changed</h3>
+<ul>
+<li>Merge near-duplicate MCP tools to reduce overall tool count, making it easier for LLMs to select the right tool (<a href="https://github.com/grafana/mcp-grafana/pull/596">#596</a>)</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h3>Added</h3>
+<ul>
+<li>New <code>run_panel_query</code> tool that executes dashboard panel queries directly, with support for Prometheus, Loki, ClickHouse, and CloudWatch datasources, template variable substitution, Grafana macro expansion, and batch multi-panel queries (<a href="https://github.com/grafana/mcp-grafana/pull/542">#542</a>)</li>
+</ul>
+<h3>Changed</h3>
+<ul>
+<li>Merge near-duplicate MCP tools to reduce overall tool count, making it easier for LLMs to select the right tool (<a href="https://github.com/grafana/mcp-grafana/pull/596">#596</a>)</li>
+</ul>
+]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[v0.11.0]]></title>
+            <link>https://github.com/grafana/mcp-grafana/releases/tag/v0.11.0</link>
+            <guid>https://github.com/grafana/mcp-grafana/releases/tag/v0.11.0</guid>
+            <pubDate>Thu, 19 Feb 2026 12:15:39 GMT</pubDate>
+            <description><![CDATA[<h3>Added</h3>
+<ul>
+<li>Elasticsearch datasource support with Lucene and Query DSL syntax, time range filtering, and configurable result limits (<a href="https://github.com/grafana/mcp-grafana/pull/424">#424</a>)</li>
+<li>CloudWatch datasource support with namespace, metric, and dimension discovery tools plus a guided query workflow (<a href="https://github.com/grafana/mcp-grafana/pull/536">#536</a>)</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
+<li>Support standard HTTP proxy environment variables (<code>HTTP_PROXY</code>, <code>HTTPS_PROXY</code>, <code>NO_PROXY</code>) for connecting through corporate proxies (<a href="https://github.com/grafana/mcp-grafana/pull/578">#578</a>)</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h3>Added</h3>
+<ul>
+<li>Elasticsearch datasource support with Lucene and Query DSL syntax, time range filtering, and configurable result limits (<a href="https://github.com/grafana/mcp-grafana/pull/424">#424</a>)</li>
+<li>CloudWatch datasource support with namespace, metric, and dimension discovery tools plus a guided query workflow (<a href="https://github.com/grafana/mcp-grafana/pull/536">#536</a>)</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
+<li>Support standard HTTP proxy environment variables (<code>HTTP_PROXY</code>, <code>HTTPS_PROXY</code>, <code>NO_PROXY</code>) for connecting through corporate proxies (<a href="https://github.com/grafana/mcp-grafana/pull/578">#578</a>)</li>
+</ul>
+]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[v0.10.0]]></title>
+            <link>https://github.com/grafana/mcp-grafana/releases/tag/v0.10.0</link>
+            <guid>https://github.com/grafana/mcp-grafana/releases/tag/v0.10.0</guid>
+            <pubDate>Thu, 12 Feb 2026 16:12:55 GMT</pubDate>
+            <description><![CDATA[<h3>Added</h3>
+<ul>
+<li>ClickHouse datasource support (<a href="https://github.com/grafana/mcp-grafana/pull/535">#535</a>)</li>
+<li><code>get_query_examples</code> tool for retrieving query examples from datasources (<a href="https://github.com/grafana/mcp-grafana/pull/538">#538</a>)</li>
+<li><code>query_prometheus_histogram</code> tool for histogram percentile queries with automatic <code>histogram_quantile</code> PromQL generation (<a href="https://github.com/grafana/mcp-grafana/pull/537">#537</a>)</li>
+<li>Pagination support for <code>list_datasources</code> and <code>search_dashboards</code> tools with configurable limit/offset (<a href="https://github.com/grafana/mcp-grafana/pull/543">#543</a>)</li>
+<li>Custom HTTP headers support via <code>GRAFANA_EXTRA_HEADERS</code> environment variable for custom auth schemes and reverse proxy integration (<a href="https://github.com/grafana/mcp-grafana/pull/522">#522</a>)</li>
+<li>Prometheus metrics and OpenTelemetry instrumentation (<a href="https://github.com/grafana/mcp-grafana/pull/506">#506</a>)</li>
+<li>Alpine-based Docker image variants (<code>:alpine</code> and <code>:x.y.z-alpine</code> tags) for smaller image size (~74MB vs ~147MB) (<a href="https://github.com/grafana/mcp-grafana/pull/568">#568</a>)</li>
+<li>Support for <code>remove</code> operation on dashboard array elements by index (<a href="https://github.com/grafana/mcp-grafana/pull/564">#564</a>)</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
+<li><code>update_dashboard</code> tool descriptions and error messages improved to reduce LLM misuse (<a href="https://github.com/grafana/mcp-grafana/pull/570">#570</a>)</li>
+<li>Trim whitespace from dashboard patch operation paths (<a href="https://github.com/grafana/mcp-grafana/pull/565">#565</a>)</li>
+<li>DeepEval MCP evaluation for e2e tests (<a href="https://github.com/grafana/mcp-grafana/pull/516">#516</a>)</li>
+</ul>
+<h3>Security</h3>
+<ul>
+<li>Upgrade Docker base image packages to resolve critical OpenSSL CVE-2025-15467 (CVSS 9.8) (<a href="https://github.com/grafana/mcp-grafana/pull/551">#551</a>)</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h3>Added</h3>
+<ul>
+<li>ClickHouse datasource support (<a href="https://github.com/grafana/mcp-grafana/pull/535">#535</a>)</li>
+<li><code>get_query_examples</code> tool for retrieving query examples from datasources (<a href="https://github.com/grafana/mcp-grafana/pull/538">#538</a>)</li>
+<li><code>query_prometheus_histogram</code> tool for histogram percentile queries with automatic <code>histogram_quantile</code> PromQL generation (<a href="https://github.com/grafana/mcp-grafana/pull/537">#537</a>)</li>
+<li>Pagination support for <code>list_datasources</code> and <code>search_dashboards</code> tools with configurable limit/offset (<a href="https://github.com/grafana/mcp-grafana/pull/543">#543</a>)</li>
+<li>Custom HTTP headers support via <code>GRAFANA_EXTRA_HEADERS</code> environment variable for custom auth schemes and reverse proxy integration (<a href="https://github.com/grafana/mcp-grafana/pull/522">#522</a>)</li>
+<li>Prometheus metrics and OpenTelemetry instrumentation (<a href="https://github.com/grafana/mcp-grafana/pull/506">#506</a>)</li>
+<li>Alpine-based Docker image variants (<code>:alpine</code> and <code>:x.y.z-alpine</code> tags) for smaller image size (~74MB vs ~147MB) (<a href="https://github.com/grafana/mcp-grafana/pull/568">#568</a>)</li>
+<li>Support for <code>remove</code> operation on dashboard array elements by index (<a href="https://github.com/grafana/mcp-grafana/pull/564">#564</a>)</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
+<li><code>update_dashboard</code> tool descriptions and error messages improved to reduce LLM misuse (<a href="https://github.com/grafana/mcp-grafana/pull/570">#570</a>)</li>
+<li>Trim whitespace from dashboard patch operation paths (<a href="https://github.com/grafana/mcp-grafana/pull/565">#565</a>)</li>
+<li>DeepEval MCP evaluation for e2e tests (<a href="https://github.com/grafana/mcp-grafana/pull/516">#516</a>)</li>
+</ul>
+<h3>Security</h3>
+<ul>
+<li>Upgrade Docker base image packages to resolve critical OpenSSL CVE-2025-15467 (CVSS 9.8) (<a href="https://github.com/grafana/mcp-grafana/pull/551">#551</a>)</li>
+</ul>
+]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[v0.9.0]]></title>
+            <link>https://github.com/grafana/mcp-grafana/releases/tag/v0.9.0</link>
+            <guid>https://github.com/grafana/mcp-grafana/releases/tag/v0.9.0</guid>
+            <pubDate>Wed, 28 Jan 2026 14:15:59 GMT</pubDate>
+            <description><![CDATA[<h2>Changelog</h2>
+<ul>
+<li>671c7a23bb29f8c5d5199dab5560ce2251f96b17 Fix Prometheus datasource proxy URL to use resources endpoint (#483)</li>
+<li>c5fb3090a14cf5ea8e6c4d8175cd6119ce2131a2 chore(deps): bump pyasn1 from 0.6.1 to 0.6.2 in /tests (#495)</li>
+<li>ead16b21060c57ce7e9134fb998b819338129281 chore(deps): update golang:1.24-bookworm docker digest to 1c64c58 (#486)</li>
+<li>4cb32dd134c4a4f1972f8082c075f49d5025a6a6 chore(deps): update grafana/shared-workflows/ action to (#474)</li>
+<li>599e2ac547eacc830ef62c48398fdc5d59f034f8 chore(deps): update grafana/shared-workflows/ action to (#490)</li>
+<li>7009f18fd60334ea4b383c4946223ba65d05d571 chore(deps): update sd2k/mcp-tokens-action digest to 54ab17c (#500)</li>
+<li>cd790d7f43785c9e0e2a69e4b85671bfa2f32232 chore(deps-dev): bump mcp from 1.12.4 to 1.23.0 in /tests (#514)</li>
+<li>9c3817e5f2086f1e189b25478ceb4a3b99fe2ec9 chore: always comment on token check (#480)</li>
+<li>975e081c5d9dd9f4f0b8fa1d9264c4950d9dd183 chore: bump schema version in server.json (#482)</li>
+<li>e6e0e661ef04de72c6b4b85c7dfe8e5e168b0722 feat: add Loki patterns query_loki_patterns tool (#499)</li>
+<li>c22b5f6d0b067dd08927de0a15091f3b121e037f fix(loki): support metric queries with proper label parsing (#510)</li>
+<li>ec7c906e1e9b94ed2b92fc480e8e23b6d7169170 fix(tests): update Claude model, switch from langevals to deepeval (#373)</li>
+<li>3c42e137d30db185d167b12258314572adddc87d fix: centralize tool error handling (#505)</li>
+</ul>
+<hr>
+<p>Released by <a href="https://github.com/goreleaser/goreleaser">GoReleaser</a>.</p>
+]]></description>
+            <content:encoded><![CDATA[<h2>Changelog</h2>
+<ul>
+<li>671c7a23bb29f8c5d5199dab5560ce2251f96b17 Fix Prometheus datasource proxy URL to use resources endpoint (#483)</li>
+<li>c5fb3090a14cf5ea8e6c4d8175cd6119ce2131a2 chore(deps): bump pyasn1 from 0.6.1 to 0.6.2 in /tests (#495)</li>
+<li>ead16b21060c57ce7e9134fb998b819338129281 chore(deps): update golang:1.24-bookworm docker digest to 1c64c58 (#486)</li>
+<li>4cb32dd134c4a4f1972f8082c075f49d5025a6a6 chore(deps): update grafana/shared-workflows/ action to (#474)</li>
+<li>599e2ac547eacc830ef62c48398fdc5d59f034f8 chore(deps): update grafana/shared-workflows/ action to (#490)</li>
+<li>7009f18fd60334ea4b383c4946223ba65d05d571 chore(deps): update sd2k/mcp-tokens-action digest to 54ab17c (#500)</li>
+<li>cd790d7f43785c9e0e2a69e4b85671bfa2f32232 chore(deps-dev): bump mcp from 1.12.4 to 1.23.0 in /tests (#514)</li>
+<li>9c3817e5f2086f1e189b25478ceb4a3b99fe2ec9 chore: always comment on token check (#480)</li>
+<li>975e081c5d9dd9f4f0b8fa1d9264c4950d9dd183 chore: bump schema version in server.json (#482)</li>
+<li>e6e0e661ef04de72c6b4b85c7dfe8e5e168b0722 feat: add Loki patterns query_loki_patterns tool (#499)</li>
+<li>c22b5f6d0b067dd08927de0a15091f3b121e037f fix(loki): support metric queries with proper label parsing (#510)</li>
+<li>ec7c906e1e9b94ed2b92fc480e8e23b6d7169170 fix(tests): update Claude model, switch from langevals to deepeval (#373)</li>
+<li>3c42e137d30db185d167b12258314572adddc87d fix: centralize tool error handling (#505)</li>
+</ul>
+<hr>
+<p>Released by <a href="https://github.com/goreleaser/goreleaser">GoReleaser</a>.</p>
+]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[v0.8.2]]></title>
+            <link>https://github.com/grafana/mcp-grafana/releases/tag/v0.8.2</link>
+            <guid>https://github.com/grafana/mcp-grafana/releases/tag/v0.8.2</guid>
+            <pubDate>Wed, 14 Jan 2026 18:06:41 GMT</pubDate>
+            <description><![CDATA[<h2>Changelog</h2>
+<ul>
+<li>f31ee69c8164a949f2c1992d920e9f59e38e956d chore: use bookworm for final stage (#479)</li>
+</ul>
+<hr>
+<p>Released by <a href="https://github.com/goreleaser/goreleaser">GoReleaser</a>.</p>
+]]></description>
+            <content:encoded><![CDATA[<h2>Changelog</h2>
+<ul>
+<li>f31ee69c8164a949f2c1992d920e9f59e38e956d chore: use bookworm for final stage (#479)</li>
+</ul>
+<hr>
+<p>Released by <a href="https://github.com/goreleaser/goreleaser">GoReleaser</a>.</p>
+]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[v0.8.1]]></title>
+            <link>https://github.com/grafana/mcp-grafana/releases/tag/v0.8.1</link>
+            <guid>https://github.com/grafana/mcp-grafana/releases/tag/v0.8.1</guid>
+            <pubDate>Wed, 14 Jan 2026 14:54:51 GMT</pubDate>
+            <description><![CDATA[<h2>Changelog</h2>
+<ul>
+<li>8e07aac1c97385bfbfc1a4154090075de1abb8d6 chore: bump build Docker image from bullseye to bookworm (#475)</li>
+<li>c6f5ea0846f3f174122a272d431eb48fe9f1a5b2 ci: build Docker image on every commit, push only on tags (#476)</li>
+</ul>
+<hr>
+<p>Released by <a href="https://github.com/goreleaser/goreleaser">GoReleaser</a>.</p>
+]]></description>
+            <content:encoded><![CDATA[<h2>Changelog</h2>
+<ul>
+<li>8e07aac1c97385bfbfc1a4154090075de1abb8d6 chore: bump build Docker image from bullseye to bookworm (#475)</li>
+<li>c6f5ea0846f3f174122a272d431eb48fe9f1a5b2 ci: build Docker image on every commit, push only on tags (#476)</li>
+</ul>
+<hr>
+<p>Released by <a href="https://github.com/goreleaser/goreleaser">GoReleaser</a>.</p>
+]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[v0.8.0]]></title>
+            <link>https://github.com/grafana/mcp-grafana/releases/tag/v0.8.0</link>
+            <guid>https://github.com/grafana/mcp-grafana/releases/tag/v0.8.0</guid>
+            <pubDate>Wed, 14 Jan 2026 13:37:15 GMT</pubDate>
+            <description><![CDATA[<h2>Changelog</h2>
+<ul>
+<li>07a85ccd7de0e7ec1881552b4cb898376708b003 chore(ci): add token comparison CI jobs using sd2k/mcp-token (#416)</li>
+<li>03ef87691d6c593d924b86d9508e82991a668232 chore(deps): bump actions/setup-go (#469)</li>
+<li>64fdbcb3bce63f8b29f479bd490d983cbcb8b3c3 chore(deps): bump dawidd6/action-download-artifact (#453)</li>
+<li>3167706c2b9f74938578274a6815b00273944e5c chore(deps): bump github.com/prometheus/common (#452)</li>
+<li>6e0850cc7109e130b1aea11559e5119ff188fca2 chore(deps): bump github.com/prometheus/prometheus (#463)</li>
+<li>a34ca3a8056bbf81638a34e307cba6e3bb55ab75 chore(deps): bump the github-actions group across 1 directory with 7 updates (#420)</li>
+<li>a602423d723a8c92d9b65582824d258a3fc12f23 chore(deps): bump the github-actions group with 2 updates (#464)</li>
+<li>40f38596a7b7fc94f255af7d3015dcf87ba45d98 chore(deps): bump the go-dependencies group across 1 directory with 7 updates (#413)</li>
+<li>6d1d4f61969958e82b1d315164caa687255cd0ec chore(deps): bump the go-dependencies group with 2 updates (#419)</li>
+<li>420c63a21534922f93555569b1ffca422fd238c3 chore(deps): update actions/checkout action to v5.0.1 (#434)</li>
+<li>61d44a5c0703823f403ac15183c884de119e511f chore(deps): update actions/checkout action to v6 (#438)</li>
+<li>777919ca40d8ce3d3e67dbe8ac1a0dfb0156cc2f chore(deps): update actions/checkout digest (#392)</li>
+<li>26dde3053c7354aa21a0216f14eecf2d07864fe0 chore(deps): update actions/checkout digest to 0c366fd (#470)</li>
+<li>0fae3310825244b8237e276efdc7b86f4e7145f8 chore(deps): update dawidd6/action-download-artifact digest to 9e12ab9 (#449)</li>
+<li>a5d5e1538a716bac25ba7e9fd96944c3765cb0bd chore(deps): update debian:bullseye-slim docker digest to 5fc1d68 (#393)</li>
+<li>772b9748c899df61b745b3f639e7003a2111d00a chore(deps): update debian:bullseye-slim docker digest to b32674f (#471)</li>
+<li>8c926fabb154d262d0eb68dca9039478139c210e chore(deps): update debian:bullseye-slim docker digest to c5f48c9 (#450)</li>
+<li>fb3b423cfbbff81c884aa3009348ba992e6a862a chore(deps): update grafana/grafana docker digest to 2175aaa (#443)</li>
+<li>c1ecc83847592414f2de0d032bbb49b98717d252 chore(deps): update grafana/grafana docker digest to adaf2d6 (#402)</li>
+<li>a24efea848f8e82d97e052da4fce62d550688401 chore(deps): update grafana/loki docker tag to v3 (#367)</li>
+<li>f48433b013a18ac518922210e8e19a4bb8a1832f chore(deps): update grafana/loki docker tag to v3.6.3 (#451)</li>
+<li>c60ee4e303fe36bd1ee2a6051f8d7973a64a1b2a chore(deps): update grafana/promtail docker tag to v2.9.17 (#435)</li>
+<li>73961a964225b5501c42017a710d8a4a37552770 chore(deps): update grafana/promtail docker tag to v3 (#440)</li>
+<li>fe8bb28e93755d6335c412e6384b68f01d019273 chore(deps): update grafana/pyroscope docker tag to v1.16.0 (#436)</li>
+<li>b4bff301b8095dc5db822f704aa46212771865b8 chore(deps): update grafana/pyroscope docker tag to v1.17.0 (#454)</li>
+<li>ed654d0e52e8abb10dc6696659382ad7af4fc34b chore(deps): update grafana/shared-workflows/ action to (#421)</li>
+<li>b2c6a61757f09a37bedf4059eb6239fa54c8f4e3 chore(deps): update grafana/shared-workflows/ action to (#425)</li>
+<li>5020d0f2ec164c35dc9e453ebb5dade0fc596fb9 chore(deps): update grafana/shared-workflows/ action to (#439)</li>
+<li>42e7884c55e4b847a592b55efab761bb889ca638 chore(deps): update grafana/shared-workflows/ action to (#472)</li>
+<li>243bdfc897d7f808886db90783f2b8c8a1261fcf chore(deps): update hoverkraft-tech/compose-action digest to 05da55b (#444)</li>
+<li>8f6430543a202fdb702a8638a93cbd104868f765 chore(deps): update hoverkraft-tech/compose-action digest to 78862a9 (#473)</li>
+<li>04a3cb2a662ac0887f91a09c5157906a52aca249 chore(deps): update prom/alertmanager docker tag to v0.29.0 (#437)</li>
+<li>6ca2138801515faa5f9fec9fda372fe5eb1763ef chore(deps): update prom/alertmanager docker tag to v0.30.0 (#460)</li>
+<li>232983eec919fd5e42eae3fe5e4101ef3df81f9c chore(deps): update prom/prometheus docker digest to 1f0f50f (#458)</li>
+<li>0b4263ac1ba81b745ef4e595228a1f4e16b0c317 chore(deps): update prom/prometheus docker digest to 2b6f734 (#433)</li>
+<li>a01929a80aaad3db0437d75d7134d4132ae34fa5 chore(deps): update prom/prometheus docker digest to d936808 (#422)</li>
+<li>e883662b0c7b8ef186336bdac722a3f3f8139328 chore(deps): update sd2k/mcp-tokens-action digest to 2c121e1 (#426)</li>
+<li>205fb1d11a1302cdcdee8a463237eb8113a4b8d6 chore: add icon and add to server.json (#428)</li>
+<li>1a8f2211db7b8618cbaaf2942d65dc71512d0c8f chore: refresh and update deps in uv.lock (#432)</li>
+<li>d781f3c889913cf3d5e186a6047a124e36ee054c chore: update Go dependencies (#429)</li>
+<li>b545a64744299fba3644da325285248896b5f09a chore: use latest mcp-publisher in CI (#412)</li>
+<li>95669e837b6b617125e2bc67d7e3efee66fe6f2c ci: update mcp-tokens action, use new args (#427)</li>
+<li>7185a896e31468284f339d78257f2248cb80d00c feat: Complete tool annotations by adding missing destructiveHint (#446)</li>
+<li>b2d19fa5ad07e4661a215949fd011a148433ce6c feat: add disableProvenance parameter for alert rule UI editability (#462)</li>
+<li>7b9a9d03070e20b5cc5bc1922ded3c515461cf43 feat: add extra admin tools, update unit test and readme (#411)</li>
+<li>1196d76a9329246feb139978563a8e1d309c02a1 feat: add panel image rendering tool (#448)</li>
+<li>b4223400d72dfe7bfcf2444d6e3a92e8edda6245 fix: parallelize and timeout datasource discovery process (#417)</li>
+<li>edc3a2dea6c1dac14c7f5db4dd9b722108f03cc1 fix: update mcp-tokens-action to valid version (#455)</li>
+<li>eb7f4a7b281e6ccd19f4cb0628f7dcf35b4572f3 fix: use typed AlertQuery for alert rule data parameter (#466)</li>
+</ul>
+<hr>
+<p>Released by <a href="https://github.com/goreleaser/goreleaser">GoReleaser</a>.</p>
+]]></description>
+            <content:encoded><![CDATA[<h2>Changelog</h2>
+<ul>
+<li>07a85ccd7de0e7ec1881552b4cb898376708b003 chore(ci): add token comparison CI jobs using sd2k/mcp-token (#416)</li>
+<li>03ef87691d6c593d924b86d9508e82991a668232 chore(deps): bump actions/setup-go (#469)</li>
+<li>64fdbcb3bce63f8b29f479bd490d983cbcb8b3c3 chore(deps): bump dawidd6/action-download-artifact (#453)</li>
+<li>3167706c2b9f74938578274a6815b00273944e5c chore(deps): bump github.com/prometheus/common (#452)</li>
+<li>6e0850cc7109e130b1aea11559e5119ff188fca2 chore(deps): bump github.com/prometheus/prometheus (#463)</li>
+<li>a34ca3a8056bbf81638a34e307cba6e3bb55ab75 chore(deps): bump the github-actions group across 1 directory with 7 updates (#420)</li>
+<li>a602423d723a8c92d9b65582824d258a3fc12f23 chore(deps): bump the github-actions group with 2 updates (#464)</li>
+<li>40f38596a7b7fc94f255af7d3015dcf87ba45d98 chore(deps): bump the go-dependencies group across 1 directory with 7 updates (#413)</li>
+<li>6d1d4f61969958e82b1d315164caa687255cd0ec chore(deps): bump the go-dependencies group with 2 updates (#419)</li>
+<li>420c63a21534922f93555569b1ffca422fd238c3 chore(deps): update actions/checkout action to v5.0.1 (#434)</li>
+<li>61d44a5c0703823f403ac15183c884de119e511f chore(deps): update actions/checkout action to v6 (#438)</li>
+<li>777919ca40d8ce3d3e67dbe8ac1a0dfb0156cc2f chore(deps): update actions/checkout digest (#392)</li>
+<li>26dde3053c7354aa21a0216f14eecf2d07864fe0 chore(deps): update actions/checkout digest to 0c366fd (#470)</li>
+<li>0fae3310825244b8237e276efdc7b86f4e7145f8 chore(deps): update dawidd6/action-download-artifact digest to 9e12ab9 (#449)</li>
+<li>a5d5e1538a716bac25ba7e9fd96944c3765cb0bd chore(deps): update debian:bullseye-slim docker digest to 5fc1d68 (#393)</li>
+<li>772b9748c899df61b745b3f639e7003a2111d00a chore(deps): update debian:bullseye-slim docker digest to b32674f (#471)</li>
+<li>8c926fabb154d262d0eb68dca9039478139c210e chore(deps): update debian:bullseye-slim docker digest to c5f48c9 (#450)</li>
+<li>fb3b423cfbbff81c884aa3009348ba992e6a862a chore(deps): update grafana/grafana docker digest to 2175aaa (#443)</li>
+<li>c1ecc83847592414f2de0d032bbb49b98717d252 chore(deps): update grafana/grafana docker digest to adaf2d6 (#402)</li>
+<li>a24efea848f8e82d97e052da4fce62d550688401 chore(deps): update grafana/loki docker tag to v3 (#367)</li>
+<li>f48433b013a18ac518922210e8e19a4bb8a1832f chore(deps): update grafana/loki docker tag to v3.6.3 (#451)</li>
+<li>c60ee4e303fe36bd1ee2a6051f8d7973a64a1b2a chore(deps): update grafana/promtail docker tag to v2.9.17 (#435)</li>
+<li>73961a964225b5501c42017a710d8a4a37552770 chore(deps): update grafana/promtail docker tag to v3 (#440)</li>
+<li>fe8bb28e93755d6335c412e6384b68f01d019273 chore(deps): update grafana/pyroscope docker tag to v1.16.0 (#436)</li>
+<li>b4bff301b8095dc5db822f704aa46212771865b8 chore(deps): update grafana/pyroscope docker tag to v1.17.0 (#454)</li>
+<li>ed654d0e52e8abb10dc6696659382ad7af4fc34b chore(deps): update grafana/shared-workflows/ action to (#421)</li>
+<li>b2c6a61757f09a37bedf4059eb6239fa54c8f4e3 chore(deps): update grafana/shared-workflows/ action to (#425)</li>
+<li>5020d0f2ec164c35dc9e453ebb5dade0fc596fb9 chore(deps): update grafana/shared-workflows/ action to (#439)</li>
+<li>42e7884c55e4b847a592b55efab761bb889ca638 chore(deps): update grafana/shared-workflows/ action to (#472)</li>
+<li>243bdfc897d7f808886db90783f2b8c8a1261fcf chore(deps): update hoverkraft-tech/compose-action digest to 05da55b (#444)</li>
+<li>8f6430543a202fdb702a8638a93cbd104868f765 chore(deps): update hoverkraft-tech/compose-action digest to 78862a9 (#473)</li>
+<li>04a3cb2a662ac0887f91a09c5157906a52aca249 chore(deps): update prom/alertmanager docker tag to v0.29.0 (#437)</li>
+<li>6ca2138801515faa5f9fec9fda372fe5eb1763ef chore(deps): update prom/alertmanager docker tag to v0.30.0 (#460)</li>
+<li>232983eec919fd5e42eae3fe5e4101ef3df81f9c chore(deps): update prom/prometheus docker digest to 1f0f50f (#458)</li>
+<li>0b4263ac1ba81b745ef4e595228a1f4e16b0c317 chore(deps): update prom/prometheus docker digest to 2b6f734 (#433)</li>
+<li>a01929a80aaad3db0437d75d7134d4132ae34fa5 chore(deps): update prom/prometheus docker digest to d936808 (#422)</li>
+<li>e883662b0c7b8ef186336bdac722a3f3f8139328 chore(deps): update sd2k/mcp-tokens-action digest to 2c121e1 (#426)</li>
+<li>205fb1d11a1302cdcdee8a463237eb8113a4b8d6 chore: add icon and add to server.json (#428)</li>
+<li>1a8f2211db7b8618cbaaf2942d65dc71512d0c8f chore: refresh and update deps in uv.lock (#432)</li>
+<li>d781f3c889913cf3d5e186a6047a124e36ee054c chore: update Go dependencies (#429)</li>
+<li>b545a64744299fba3644da325285248896b5f09a chore: use latest mcp-publisher in CI (#412)</li>
+<li>95669e837b6b617125e2bc67d7e3efee66fe6f2c ci: update mcp-tokens action, use new args (#427)</li>
+<li>7185a896e31468284f339d78257f2248cb80d00c feat: Complete tool annotations by adding missing destructiveHint (#446)</li>
+<li>b2d19fa5ad07e4661a215949fd011a148433ce6c feat: add disableProvenance parameter for alert rule UI editability (#462)</li>
+<li>7b9a9d03070e20b5cc5bc1922ded3c515461cf43 feat: add extra admin tools, update unit test and readme (#411)</li>
+<li>1196d76a9329246feb139978563a8e1d309c02a1 feat: add panel image rendering tool (#448)</li>
+<li>b4223400d72dfe7bfcf2444d6e3a92e8edda6245 fix: parallelize and timeout datasource discovery process (#417)</li>
+<li>edc3a2dea6c1dac14c7f5db4dd9b722108f03cc1 fix: update mcp-tokens-action to valid version (#455)</li>
+<li>eb7f4a7b281e6ccd19f4cb0628f7dcf35b4572f3 fix: use typed AlertQuery for alert rule data parameter (#466)</li>
+</ul>
+<hr>
+<p>Released by <a href="https://github.com/goreleaser/goreleaser">GoReleaser</a>.</p>
+]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[v0.7.10]]></title>
+            <link>https://github.com/grafana/mcp-grafana/releases/tag/v0.7.10</link>
+            <guid>https://github.com/grafana/mcp-grafana/releases/tag/v0.7.10</guid>
+            <pubDate>Wed, 03 Dec 2025 09:01:21 GMT</pubDate>
+            <description><![CDATA[<h2>Changelog</h2>
+<ul>
+<li>a893328f0d78c52286d9abab8825aa901ad0f409 chore(deps): update grafana/shared-workflows/ action to (#394)</li>
+<li>5ff432c30928e5cf93d419f194be73058e3a83c3 feat: add support for datasource-managed alerts (#362)</li>
+<li>b05b370800fe460c4388ed54a3360a8918c3f992 fix: include default values in jsonschema (#399)</li>
+<li>ed4a600af50a4cbbbdb976d7fe7425f40a81ad43 forward X-Grafana-OrgID for proxies mcps (#407)</li>
+</ul>
+<hr>
+<p>Released by <a href="https://github.com/goreleaser/goreleaser">GoReleaser</a>.</p>
+]]></description>
+            <content:encoded><![CDATA[<h2>Changelog</h2>
+<ul>
+<li>a893328f0d78c52286d9abab8825aa901ad0f409 chore(deps): update grafana/shared-workflows/ action to (#394)</li>
+<li>5ff432c30928e5cf93d419f194be73058e3a83c3 feat: add support for datasource-managed alerts (#362)</li>
+<li>b05b370800fe460c4388ed54a3360a8918c3f992 fix: include default values in jsonschema (#399)</li>
+<li>ed4a600af50a4cbbbdb976d7fe7425f40a81ad43 forward X-Grafana-OrgID for proxies mcps (#407)</li>
+</ul>
+<hr>
+<p>Released by <a href="https://github.com/goreleaser/goreleaser">GoReleaser</a>.</p>
+]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[v0.7.9]]></title>
+            <link>https://github.com/grafana/mcp-grafana/releases/tag/v0.7.9</link>
+            <guid>https://github.com/grafana/mcp-grafana/releases/tag/v0.7.9</guid>
+            <pubDate>Fri, 14 Nov 2025 13:34:44 GMT</pubDate>
+            <description><![CDATA[<h2>Changelog</h2>
+<ul>
+<li>48a597950ca1ad10244126fa8249a58c56344e34 Add --disable-write flag to control write operations (#385)</li>
+<li>22ae2eaf7b11ec95bf8305e140a2164e24439ffa add renovate json (#370)</li>
+<li>935d308c1f658c92212531f05b607238b39f365c chore(deps): bump the github-actions group across 1 directory with 4 updates (#386)</li>
+<li>8f1bbdcaf31349cdfa2f19bc31c3cf62f8dc1907 chore(deps): bump the github-actions group with 2 updates (#359)</li>
+<li>922788291bc51554ee7b0f88ba288d9a4273a38c chore(deps): bump the go-dependencies group across 1 directory with 6 updates (#387)</li>
+<li>688a94cba1347d80d75888104372f26cd608be83 chore(deps): bump the go-dependencies group with 3 updates (#358)</li>
+<li>f8c639adff6f3a507838345f4d2f36531dede8fc chore(deps): update dependency mcp to v1.10.0 [security] (#352)</li>
+<li>75fded98e9fba0eb684617e9ff9b14df8a62b9e4 chore(deps): update grafana/grafana docker digest to 35c41e0 (#353)</li>
+<li>65bc858bb257430cb7d2832b3f732b4bd011cf0a chore(deps): update grafana/loki docker tag to v2.9.15 (#349)</li>
+<li>d7ebde09951351009b57f340035139272b7977a6 chore(deps): update grafana/promtail docker tag to v2.9.15 (#350)</li>
+<li>28da7ba07e62d80f2e4972fa83ea6f85c00605da chore(deps): update grafana/pyroscope docker tag to v1.15.0 (#364)</li>
+<li>17a1107d9d6e69b134d93010bf3f54caafc2b547 chore(deps): update grafana/shared-workflows/ action to (#346)</li>
+<li>d8ca62185565f69a4585d5e918f617db033eaa72 chore(deps): update grafana/shared-workflows/ action to (#356)</li>
+<li>4b0939de376f132d287b354c22555590a9c7be99 chore(deps): update grafana/shared-workflows/ action to (#365)</li>
+<li>2612eb35ff54d48f684943f085faf7d519696c53 chore(deps): update grafana/shared-workflows/get-vault-secrets action to v1.3.0 (#366)</li>
+<li>e6b52c5f4ddc97bcdf783e84ed657f06ab1f201a chore(deps): update hoverkraft-tech/compose-action digest to 2c655a3 (#371)</li>
+<li>a43aab0f63f42ddc93a1f8046eefa82a60a1c348 chore(deps): update prom/prometheus docker digest to 4921475 (#363)</li>
+<li>019dba6822773c39711e2de8e6018e9a281c11ad chore: add Claude Code plugin configuration (#333)</li>
+<li>67f6a910ba484caaf5a4bfe780258fbc33c5f6d4 chore: use new schema version for MCP registry server (#351)</li>
+<li>0dcc16cabe5acb923c0ba46cdba60985fc215638 ci(docker): add multi-platform build support (#369)</li>
+<li>903f1fff8e0adabd5acd097b0baf461e8fd848f0 feat: add annotation tools with unit tests and docs updates (#312) (#374)</li>
+<li>5b281813c7719b94d2bf83db4fcd1d64bb121c4c fix: generate correct JSON schemas for empty structs (#396)</li>
+</ul>
+<hr>
+<p>Released by <a href="https://github.com/goreleaser/goreleaser">GoReleaser</a>.</p>
+]]></description>
+            <content:encoded><![CDATA[<h2>Changelog</h2>
+<ul>
+<li>48a597950ca1ad10244126fa8249a58c56344e34 Add --disable-write flag to control write operations (#385)</li>
+<li>22ae2eaf7b11ec95bf8305e140a2164e24439ffa add renovate json (#370)</li>
+<li>935d308c1f658c92212531f05b607238b39f365c chore(deps): bump the github-actions group across 1 directory with 4 updates (#386)</li>
+<li>8f1bbdcaf31349cdfa2f19bc31c3cf62f8dc1907 chore(deps): bump the github-actions group with 2 updates (#359)</li>
+<li>922788291bc51554ee7b0f88ba288d9a4273a38c chore(deps): bump the go-dependencies group across 1 directory with 6 updates (#387)</li>
+<li>688a94cba1347d80d75888104372f26cd608be83 chore(deps): bump the go-dependencies group with 3 updates (#358)</li>
+<li>f8c639adff6f3a507838345f4d2f36531dede8fc chore(deps): update dependency mcp to v1.10.0 [security] (#352)</li>
+<li>75fded98e9fba0eb684617e9ff9b14df8a62b9e4 chore(deps): update grafana/grafana docker digest to 35c41e0 (#353)</li>
+<li>65bc858bb257430cb7d2832b3f732b4bd011cf0a chore(deps): update grafana/loki docker tag to v2.9.15 (#349)</li>
+<li>d7ebde09951351009b57f340035139272b7977a6 chore(deps): update grafana/promtail docker tag to v2.9.15 (#350)</li>
+<li>28da7ba07e62d80f2e4972fa83ea6f85c00605da chore(deps): update grafana/pyroscope docker tag to v1.15.0 (#364)</li>
+<li>17a1107d9d6e69b134d93010bf3f54caafc2b547 chore(deps): update grafana/shared-workflows/ action to (#346)</li>
+<li>d8ca62185565f69a4585d5e918f617db033eaa72 chore(deps): update grafana/shared-workflows/ action to (#356)</li>
+<li>4b0939de376f132d287b354c22555590a9c7be99 chore(deps): update grafana/shared-workflows/ action to (#365)</li>
+<li>2612eb35ff54d48f684943f085faf7d519696c53 chore(deps): update grafana/shared-workflows/get-vault-secrets action to v1.3.0 (#366)</li>
+<li>e6b52c5f4ddc97bcdf783e84ed657f06ab1f201a chore(deps): update hoverkraft-tech/compose-action digest to 2c655a3 (#371)</li>
+<li>a43aab0f63f42ddc93a1f8046eefa82a60a1c348 chore(deps): update prom/prometheus docker digest to 4921475 (#363)</li>
+<li>019dba6822773c39711e2de8e6018e9a281c11ad chore: add Claude Code plugin configuration (#333)</li>
+<li>67f6a910ba484caaf5a4bfe780258fbc33c5f6d4 chore: use new schema version for MCP registry server (#351)</li>
+<li>0dcc16cabe5acb923c0ba46cdba60985fc215638 ci(docker): add multi-platform build support (#369)</li>
+<li>903f1fff8e0adabd5acd097b0baf461e8fd848f0 feat: add annotation tools with unit tests and docs updates (#312) (#374)</li>
+<li>5b281813c7719b94d2bf83db4fcd1d64bb121c4c fix: generate correct JSON schemas for empty structs (#396)</li>
+</ul>
+<hr>
+<p>Released by <a href="https://github.com/goreleaser/goreleaser">GoReleaser</a>.</p>
+]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[v0.7.8]]></title>
+            <link>https://github.com/grafana/mcp-grafana/releases/tag/v0.7.8</link>
+            <guid>https://github.com/grafana/mcp-grafana/releases/tag/v0.7.8</guid>
+            <pubDate>Tue, 21 Oct 2025 09:38:59 GMT</pubDate>
+            <description><![CDATA[<h2>Changelog</h2>
+<ul>
+<li>8bec2db659cc2ee433095e0aac3a170d8d527956 chore(deps): bump github.com/prometheus/prometheus (#343)</li>
+<li>68f33c1423ca4accdf5e0175881842dce892389b chore(deps): bump the github-actions group with 2 updates (#344)</li>
+<li>5539c61d92cc51d67f984dde3458887680318833 chore(deps): pin dependencies (#337)</li>
+<li>adc0fd1d18ec7abd3304acfe4378c096ad631678 chore(deps): update actions/checkout digest to ff7abcd (#338)</li>
+<li>22188baa581c4bc8e705e4190440d033e5af6834 chore(deps): update goreleaser/goreleaser-action digest to a08664b (#339)</li>
+<li>7103b9d0e3c4607dbc10f69df4e46f80d7a40690 chore(deps): update grafana/shared-workflows/ action to (#340)</li>
+<li>4507428f30ca361e64dbfa6d3ea8b4c6b40d2903 chore(deps): update hoverkraft-tech/compose-action digest to ccd64b0 (#341)</li>
+<li>013b86998656775d720e8ce3e6ce9e6762910971 feat: add support for org id header (#336)</li>
+<li>3a32dd00de820761e88f8c9034a7480a4661250b feat: add support for proxying to Tempo datasources&#39; MCP servers (#314)</li>
+<li>73451db2473d58eb539b5ef245b94c3140122189 fix: add org ID param to cloud testing util function (#345)</li>
+<li>e7371495bf83e8af8cae6dc3c391d6d9b3c14835 fix: specify prerelease_suffix for goreleaser git config (#332)</li>
+</ul>
+<hr>
+<p>Released by <a href="https://github.com/goreleaser/goreleaser">GoReleaser</a>.</p>
+]]></description>
+            <content:encoded><![CDATA[<h2>Changelog</h2>
+<ul>
+<li>8bec2db659cc2ee433095e0aac3a170d8d527956 chore(deps): bump github.com/prometheus/prometheus (#343)</li>
+<li>68f33c1423ca4accdf5e0175881842dce892389b chore(deps): bump the github-actions group with 2 updates (#344)</li>
+<li>5539c61d92cc51d67f984dde3458887680318833 chore(deps): pin dependencies (#337)</li>
+<li>adc0fd1d18ec7abd3304acfe4378c096ad631678 chore(deps): update actions/checkout digest to ff7abcd (#338)</li>
+<li>22188baa581c4bc8e705e4190440d033e5af6834 chore(deps): update goreleaser/goreleaser-action digest to a08664b (#339)</li>
+<li>7103b9d0e3c4607dbc10f69df4e46f80d7a40690 chore(deps): update grafana/shared-workflows/ action to (#340)</li>
+<li>4507428f30ca361e64dbfa6d3ea8b4c6b40d2903 chore(deps): update hoverkraft-tech/compose-action digest to ccd64b0 (#341)</li>
+<li>013b86998656775d720e8ce3e6ce9e6762910971 feat: add support for org id header (#336)</li>
+<li>3a32dd00de820761e88f8c9034a7480a4661250b feat: add support for proxying to Tempo datasources&#39; MCP servers (#314)</li>
+<li>73451db2473d58eb539b5ef245b94c3140122189 fix: add org ID param to cloud testing util function (#345)</li>
+<li>e7371495bf83e8af8cae6dc3c391d6d9b3c14835 fix: specify prerelease_suffix for goreleaser git config (#332)</li>
+</ul>
+<hr>
+<p>Released by <a href="https://github.com/goreleaser/goreleaser">GoReleaser</a>.</p>
+]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[v0.7.7-rc.3]]></title>
+            <link>https://github.com/grafana/mcp-grafana/releases/tag/v0.7.7-rc.3</link>
+            <guid>https://github.com/grafana/mcp-grafana/releases/tag/v0.7.7-rc.3</guid>
+            <pubDate>Wed, 15 Oct 2025 12:59:24 GMT</pubDate>
+            <description><![CDATA[<h2>Changelog</h2>
+<ul>
+<li>51d3d65674bc792bebdd7acb4dd6569cf6ced818 chore: don&#39;t push &#39;latest&#39; tag if it&#39;s rc/dev etc (#329)</li>
+<li>b05b8a0589fe5f95c3f8caee1b6d44f822972641 fix: correctly pipe filters in jq invocation (#330)</li>
+</ul>
+<hr>
+<p>Released by <a href="https://github.com/goreleaser/goreleaser">GoReleaser</a>.</p>
+]]></description>
+            <content:encoded><![CDATA[<h2>Changelog</h2>
+<ul>
+<li>51d3d65674bc792bebdd7acb4dd6569cf6ced818 chore: don&#39;t push &#39;latest&#39; tag if it&#39;s rc/dev etc (#329)</li>
+<li>b05b8a0589fe5f95c3f8caee1b6d44f822972641 fix: correctly pipe filters in jq invocation (#330)</li>
+</ul>
+<hr>
+<p>Released by <a href="https://github.com/goreleaser/goreleaser">GoReleaser</a>.</p>
+]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[v0.7.7-rc.2]]></title>
+            <link>https://github.com/grafana/mcp-grafana/releases/tag/v0.7.7-rc.2</link>
+            <guid>https://github.com/grafana/mcp-grafana/releases/tag/v0.7.7-rc.2</guid>
+            <pubDate>Wed, 15 Oct 2025 12:31:45 GMT</pubDate>
+            <description><![CDATA[<h2>Changelog</h2>
+<ul>
+<li>0e312bfc098940b2b7ff88770852916bad377166 fix: use correct label in Docker image (#328)</li>
+</ul>
+<hr>
+<p>Released by <a href="https://github.com/goreleaser/goreleaser">GoReleaser</a>.</p>
+]]></description>
+            <content:encoded><![CDATA[<h2>Changelog</h2>
+<ul>
+<li>0e312bfc098940b2b7ff88770852916bad377166 fix: use correct label in Docker image (#328)</li>
+</ul>
+<hr>
+<p>Released by <a href="https://github.com/goreleaser/goreleaser">GoReleaser</a>.</p>
+]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[v0.7.7-rc.1]]></title>
+            <link>https://github.com/grafana/mcp-grafana/releases/tag/v0.7.7-rc.1</link>
+            <guid>https://github.com/grafana/mcp-grafana/releases/tag/v0.7.7-rc.1</guid>
+            <pubDate>Wed, 15 Oct 2025 12:22:28 GMT</pubDate>
+            <description><![CDATA[<h2>Changelog</h2>
+<ul>
+<li>c23dfac206bea109b9f0596d6f8b4aba0fa22a07 fix: add version to package identifier and version field (#327)</li>
+</ul>
+<hr>
+<p>Released by <a href="https://github.com/goreleaser/goreleaser">GoReleaser</a>.</p>
+]]></description>
+            <content:encoded><![CDATA[<h2>Changelog</h2>
+<ul>
+<li>c23dfac206bea109b9f0596d6f8b4aba0fa22a07 fix: add version to package identifier and version field (#327)</li>
+</ul>
+<hr>
+<p>Released by <a href="https://github.com/goreleaser/goreleaser">GoReleaser</a>.</p>
+]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[v0.7.6]]></title>
+            <link>https://github.com/grafana/mcp-grafana/releases/tag/v0.7.6</link>
+            <guid>https://github.com/grafana/mcp-grafana/releases/tag/v0.7.6</guid>
+            <pubDate>Wed, 15 Oct 2025 08:57:40 GMT</pubDate>
+            <description><![CDATA[<h2>Changelog</h2>
+<ul>
+<li>82003f4b50f1243e4ced3cae7905ec738a68bb30 fix version (#326)</li>
+</ul>
+<hr>
+<p>Released by <a href="https://github.com/goreleaser/goreleaser">GoReleaser</a>.</p>
+]]></description>
+            <content:encoded><![CDATA[<h2>Changelog</h2>
+<ul>
+<li>82003f4b50f1243e4ced3cae7905ec738a68bb30 fix version (#326)</li>
+</ul>
+<hr>
+<p>Released by <a href="https://github.com/goreleaser/goreleaser">GoReleaser</a>.</p>
+]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[v0.7.5]]></title>
+            <link>https://github.com/grafana/mcp-grafana/releases/tag/v0.7.5</link>
+            <guid>https://github.com/grafana/mcp-grafana/releases/tag/v0.7.5</guid>
+            <pubDate>Wed, 15 Oct 2025 08:29:05 GMT</pubDate>
+            <description><![CDATA[<h2>Changelog</h2>
+<ul>
+<li>0e246a9ffacdb75e8c50328e032266420c6baa79 fix: don&#39;t use registryBaseUrl in server.json (#325)</li>
+</ul>
+<hr>
+<p>Released by <a href="https://github.com/goreleaser/goreleaser">GoReleaser</a>.</p>
+]]></description>
+            <content:encoded><![CDATA[<h2>Changelog</h2>
+<ul>
+<li>0e246a9ffacdb75e8c50328e032266420c6baa79 fix: don&#39;t use registryBaseUrl in server.json (#325)</li>
+</ul>
+<hr>
+<p>Released by <a href="https://github.com/goreleaser/goreleaser">GoReleaser</a>.</p>
+]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[v0.7.4]]></title>
+            <link>https://github.com/grafana/mcp-grafana/releases/tag/v0.7.4</link>
+            <guid>https://github.com/grafana/mcp-grafana/releases/tag/v0.7.4</guid>
+            <pubDate>Wed, 15 Oct 2025 07:10:48 GMT</pubDate>
+            <description><![CDATA[<h2>Changelog</h2>
+<ul>
+<li>2c3bde3977f4bd2357505c17e0530e36469b342f chore(deps): bump github.com/prometheus/common (#317)</li>
+<li>192b26e7b1327cc147b41fdcc97a587489e853b2 chore(deps): bump the github-actions group across 1 directory with 3 updates (#321)</li>
+<li>43bc281fe4f6ad29cd6cf2ee60f7e1797eaaa7e9 chore: add server.json for MCP registry (#323)</li>
+<li>aca244bb4d09ffcc51ea31780685b559c6f18f66 chore: strip &#39;v&#39; prefix off Docker image tag (#319)</li>
+<li>3c57f7710065d8acf0a313c4887b6bcd62a21c04 feat: add health check endpoint on /healthz (#322)</li>
+<li>48e982b811eed1d649543f138ba0e5369186728e fix: update connectrpc/connect-go to resolve the compile error (#316)</li>
+<li>5ed6922b19e95df849c25cd653305668a23be62f fix: use separate step to extract image tag (#324)</li>
+</ul>
+<hr>
+<p>Released by <a href="https://github.com/goreleaser/goreleaser">GoReleaser</a>.</p>
+]]></description>
+            <content:encoded><![CDATA[<h2>Changelog</h2>
+<ul>
+<li>2c3bde3977f4bd2357505c17e0530e36469b342f chore(deps): bump github.com/prometheus/common (#317)</li>
+<li>192b26e7b1327cc147b41fdcc97a587489e853b2 chore(deps): bump the github-actions group across 1 directory with 3 updates (#321)</li>
+<li>43bc281fe4f6ad29cd6cf2ee60f7e1797eaaa7e9 chore: add server.json for MCP registry (#323)</li>
+<li>aca244bb4d09ffcc51ea31780685b559c6f18f66 chore: strip &#39;v&#39; prefix off Docker image tag (#319)</li>
+<li>3c57f7710065d8acf0a313c4887b6bcd62a21c04 feat: add health check endpoint on /healthz (#322)</li>
+<li>48e982b811eed1d649543f138ba0e5369186728e fix: update connectrpc/connect-go to resolve the compile error (#316)</li>
+<li>5ed6922b19e95df849c25cd653305668a23be62f fix: use separate step to extract image tag (#324)</li>
+</ul>
+<hr>
+<p>Released by <a href="https://github.com/goreleaser/goreleaser">GoReleaser</a>.</p>
+]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[v0.7.3]]></title>
+            <link>https://github.com/grafana/mcp-grafana/releases/tag/v0.7.3</link>
+            <guid>https://github.com/grafana/mcp-grafana/releases/tag/v0.7.3</guid>
+            <pubDate>Fri, 10 Oct 2025 14:01:04 GMT</pubDate>
+            <description><![CDATA[<h2>What&#39;s Changed</h2>
+<ul>
+<li>[MINOR]Add tools to create and search folders by @failedanswer in <a href="https://github.com/grafana/mcp-grafana/pull/303">https://github.com/grafana/mcp-grafana/pull/303</a></li>
+<li>chore(deps): bump the go-dependencies group with 4 updates by @dependabot[bot] in <a href="https://github.com/grafana/mcp-grafana/pull/304">https://github.com/grafana/mcp-grafana/pull/304</a></li>
+<li>chore(deps): bump the go-dependencies group with 2 updates by @dependabot[bot] in <a href="https://github.com/grafana/mcp-grafana/pull/311">https://github.com/grafana/mcp-grafana/pull/311</a></li>
+<li>chore(deps): bump the github-actions group with 2 updates by @dependabot[bot] in <a href="https://github.com/grafana/mcp-grafana/pull/310">https://github.com/grafana/mcp-grafana/pull/310</a></li>
+<li>feat: add more alerting tools by @sd2k in <a href="https://github.com/grafana/mcp-grafana/pull/292">https://github.com/grafana/mcp-grafana/pull/292</a></li>
+<li>Build and push image to docker hub by @ioanarm in <a href="https://github.com/grafana/mcp-grafana/pull/313">https://github.com/grafana/mcp-grafana/pull/313</a></li>
+</ul>
+<p><strong>Full Changelog</strong>: <a href="https://github.com/grafana/mcp-grafana/compare/v0.7.2...v0.7.3">https://github.com/grafana/mcp-grafana/compare/v0.7.2...v0.7.3</a></p>
+]]></description>
+            <content:encoded><![CDATA[<h2>What&#39;s Changed</h2>
+<ul>
+<li>[MINOR]Add tools to create and search folders by @failedanswer in <a href="https://github.com/grafana/mcp-grafana/pull/303">https://github.com/grafana/mcp-grafana/pull/303</a></li>
+<li>chore(deps): bump the go-dependencies group with 4 updates by @dependabot[bot] in <a href="https://github.com/grafana/mcp-grafana/pull/304">https://github.com/grafana/mcp-grafana/pull/304</a></li>
+<li>chore(deps): bump the go-dependencies group with 2 updates by @dependabot[bot] in <a href="https://github.com/grafana/mcp-grafana/pull/311">https://github.com/grafana/mcp-grafana/pull/311</a></li>
+<li>chore(deps): bump the github-actions group with 2 updates by @dependabot[bot] in <a href="https://github.com/grafana/mcp-grafana/pull/310">https://github.com/grafana/mcp-grafana/pull/310</a></li>
+<li>feat: add more alerting tools by @sd2k in <a href="https://github.com/grafana/mcp-grafana/pull/292">https://github.com/grafana/mcp-grafana/pull/292</a></li>
+<li>Build and push image to docker hub by @ioanarm in <a href="https://github.com/grafana/mcp-grafana/pull/313">https://github.com/grafana/mcp-grafana/pull/313</a></li>
+</ul>
+<p><strong>Full Changelog</strong>: <a href="https://github.com/grafana/mcp-grafana/compare/v0.7.2...v0.7.3">https://github.com/grafana/mcp-grafana/compare/v0.7.2...v0.7.3</a></p>
+]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[v0.7.2]]></title>
+            <link>https://github.com/grafana/mcp-grafana/releases/tag/v0.7.2</link>
+            <guid>https://github.com/grafana/mcp-grafana/releases/tag/v0.7.2</guid>
+            <pubDate>Wed, 01 Oct 2025 09:02:13 GMT</pubDate>
+            <description><![CDATA[<h2>Changelog</h2>
+<ul>
+<li>404fe5b776d3dd0222d33748749f5178fe49a369 chore: add Gemini extension config (#307)</li>
+</ul>
+<hr>
+<p>Released by <a href="https://github.com/goreleaser/goreleaser">GoReleaser</a>.</p>
+]]></description>
+            <content:encoded><![CDATA[<h2>Changelog</h2>
+<ul>
+<li>404fe5b776d3dd0222d33748749f5178fe49a369 chore: add Gemini extension config (#307)</li>
+</ul>
+<hr>
+<p>Released by <a href="https://github.com/goreleaser/goreleaser">GoReleaser</a>.</p>
+]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[v0.7.1]]></title>
+            <link>https://github.com/grafana/mcp-grafana/releases/tag/v0.7.1</link>
+            <guid>https://github.com/grafana/mcp-grafana/releases/tag/v0.7.1</guid>
+            <pubDate>Wed, 01 Oct 2025 08:28:53 GMT</pubDate>
+            <description><![CDATA[<h2>Changelog</h2>
+<ul>
+<li>ebe46bf72d783bc488733e9c69ed41186f6e21f4 chore(deps): bump actions/setup-go in the github-actions group (#281)</li>
+<li>f252e1e6cf0da565c52fbfc7d20e6a1daad430af chore(deps): bump astral-sh/setup-uv in the github-actions group (#288)</li>
+<li>9f6c620553c9a1590791554726c2af476bffe71b chore(deps): bump the go-dependencies group across 1 directory with 2 updates (#301)</li>
+<li>ca4f88a4fdc5661556432fe71c6fdb7f44b74558 chore(deps): bump the go-dependencies group with 2 updates (#282)</li>
+<li>c4bffa7c41c5b3d335316dbda5d8009f63872f36 feat(tools): Add alert groups support (#294)</li>
+<li>6f5054d5a3867171d7487e67455bb3a4603b18b8 readme: Add new irm tools (#302)</li>
+</ul>
+<hr>
+<p>Released by <a href="https://github.com/goreleaser/goreleaser">GoReleaser</a>.</p>
+]]></description>
+            <content:encoded><![CDATA[<h2>Changelog</h2>
+<ul>
+<li>ebe46bf72d783bc488733e9c69ed41186f6e21f4 chore(deps): bump actions/setup-go in the github-actions group (#281)</li>
+<li>f252e1e6cf0da565c52fbfc7d20e6a1daad430af chore(deps): bump astral-sh/setup-uv in the github-actions group (#288)</li>
+<li>9f6c620553c9a1590791554726c2af476bffe71b chore(deps): bump the go-dependencies group across 1 directory with 2 updates (#301)</li>
+<li>ca4f88a4fdc5661556432fe71c6fdb7f44b74558 chore(deps): bump the go-dependencies group with 2 updates (#282)</li>
+<li>c4bffa7c41c5b3d335316dbda5d8009f63872f36 feat(tools): Add alert groups support (#294)</li>
+<li>6f5054d5a3867171d7487e67455bb3a4603b18b8 readme: Add new irm tools (#302)</li>
+</ul>
+<hr>
+<p>Released by <a href="https://github.com/goreleaser/goreleaser">GoReleaser</a>.</p>
+]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[v0.7.0]]></title>
+            <link>https://github.com/grafana/mcp-grafana/releases/tag/v0.7.0</link>
+            <guid>https://github.com/grafana/mcp-grafana/releases/tag/v0.7.0</guid>
+            <pubDate>Thu, 25 Sep 2025 13:58:54 GMT</pubDate>
+            <description><![CDATA[<h2>What&#39;s Changed</h2>
+<ul>
+<li>chore(deps): bump the go-dependencies group with 2 updates by @dependabot[bot] in <a href="https://github.com/grafana/mcp-grafana/pull/282">https://github.com/grafana/mcp-grafana/pull/282</a></li>
+<li>chore(deps): bump actions/setup-go from 5.5.0 to 6.0.0 in the github-actions group by @dependabot[bot] in <a href="https://github.com/grafana/mcp-grafana/pull/281">https://github.com/grafana/mcp-grafana/pull/281</a></li>
+<li>feat(tools): Add alert groups support by @ioanarm in <a href="https://github.com/grafana/mcp-grafana/pull/294">https://github.com/grafana/mcp-grafana/pull/294</a></li>
+<li>chore(deps): bump the go-dependencies group across 1 directory with 2 updates by @dependabot[bot] in <a href="https://github.com/grafana/mcp-grafana/pull/301">https://github.com/grafana/mcp-grafana/pull/301</a></li>
+<li>chore(deps): bump astral-sh/setup-uv from 6.6.1 to 6.7.0 in the github-actions group by @dependabot[bot] in <a href="https://github.com/grafana/mcp-grafana/pull/288">https://github.com/grafana/mcp-grafana/pull/288</a></li>
+<li>docs: add info about alert group tools to README by @ioanarm in <a href="https://github.com/grafana/mcp-grafana/pull/302">https://github.com/grafana/mcp-grafana/pull/302</a></li>
+</ul>
+<p><strong>Full Changelog</strong>: <a href="https://github.com/grafana/mcp-grafana/compare/v0.6.5...v0.7.0">https://github.com/grafana/mcp-grafana/compare/v0.6.5...v0.7.0</a></p>
+]]></description>
+            <content:encoded><![CDATA[<h2>What&#39;s Changed</h2>
+<ul>
+<li>chore(deps): bump the go-dependencies group with 2 updates by @dependabot[bot] in <a href="https://github.com/grafana/mcp-grafana/pull/282">https://github.com/grafana/mcp-grafana/pull/282</a></li>
+<li>chore(deps): bump actions/setup-go from 5.5.0 to 6.0.0 in the github-actions group by @dependabot[bot] in <a href="https://github.com/grafana/mcp-grafana/pull/281">https://github.com/grafana/mcp-grafana/pull/281</a></li>
+<li>feat(tools): Add alert groups support by @ioanarm in <a href="https://github.com/grafana/mcp-grafana/pull/294">https://github.com/grafana/mcp-grafana/pull/294</a></li>
+<li>chore(deps): bump the go-dependencies group across 1 directory with 2 updates by @dependabot[bot] in <a href="https://github.com/grafana/mcp-grafana/pull/301">https://github.com/grafana/mcp-grafana/pull/301</a></li>
+<li>chore(deps): bump astral-sh/setup-uv from 6.6.1 to 6.7.0 in the github-actions group by @dependabot[bot] in <a href="https://github.com/grafana/mcp-grafana/pull/288">https://github.com/grafana/mcp-grafana/pull/288</a></li>
+<li>docs: add info about alert group tools to README by @ioanarm in <a href="https://github.com/grafana/mcp-grafana/pull/302">https://github.com/grafana/mcp-grafana/pull/302</a></li>
+</ul>
+<p><strong>Full Changelog</strong>: <a href="https://github.com/grafana/mcp-grafana/compare/v0.6.5...v0.7.0">https://github.com/grafana/mcp-grafana/compare/v0.6.5...v0.7.0</a></p>
+]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[v0.6.5]]></title>
+            <link>https://github.com/grafana/mcp-grafana/releases/tag/v0.6.5</link>
+            <guid>https://github.com/grafana/mcp-grafana/releases/tag/v0.6.5</guid>
+            <pubDate>Fri, 05 Sep 2025 14:58:13 GMT</pubDate>
+            <description><![CDATA[<h2>Changelog</h2>
+<ul>
+<li>2a0d070f21bcc06b3a876331773160f58cd3b900 fix: correctly get auth header from new env var (#279)</li>
+</ul>
+<hr>
+<p>Released by <a href="https://github.com/goreleaser/goreleaser">GoReleaser</a>.</p>
+]]></description>
+            <content:encoded><![CDATA[<h2>Changelog</h2>
+<ul>
+<li>2a0d070f21bcc06b3a876331773160f58cd3b900 fix: correctly get auth header from new env var (#279)</li>
+</ul>
+<hr>
+<p>Released by <a href="https://github.com/goreleaser/goreleaser">GoReleaser</a>.</p>
+]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[v0.6.4]]></title>
+            <link>https://github.com/grafana/mcp-grafana/releases/tag/v0.6.4</link>
+            <guid>https://github.com/grafana/mcp-grafana/releases/tag/v0.6.4</guid>
+            <pubDate>Thu, 04 Sep 2025 14:17:56 GMT</pubDate>
+            <description><![CDATA[<h2>Changelog</h2>
+<ul>
+<li>d0cbad8410ca852030af3430fa94c5e3b58260da Support username/password authentication (#259)</li>
+<li>b8da81a7f3ed040477e1d97c863b07659d338ba5 chore(deps): bump astral-sh/setup-uv in the github-actions group (#263)</li>
+<li>3d2a2f5f849731537d31fec848937c2e76055b27 chore(deps): bump astral-sh/setup-uv in the github-actions group (#268)</li>
+<li>019425c9dd3167ef69cef4205870c2bb41ae368b chore(deps): bump github.com/mark3labs/mcp-go to v0.39.1 (#272)</li>
+<li>2e4577bfcd39a28efcb05427def9e3883da24852 chore(deps): bump the go-dependencies group with 3 updates (#262)</li>
+<li>c293cd9e58f870eebc613fd840245f2e0a3e9d4d chore(deps): bump the go-dependencies group with 5 updates (#269)</li>
+<li>af50a4716d693f04e6c328154e78ce8e953e9d9b feat(tool): Add append functionality to dashboard panels (#260)</li>
+<li>e1a86765e7798f6aecdf4a7c643fa218408fa1c3 feat: add support for GRAFANA_SERVICE_ACCOUNT_TOKEN env var (#274)</li>
+<li>319b552be0ed607a290f039b18f4c9ddf11fdc0c feat: add support for https when using streamable-http transport (#270)</li>
+<li>cc35912c7ca636dd00ffe34000fd41aa9d49e3b4 feat: add title/annotations to admin tools (#273)</li>
+<li>923fa3a5a640fc0b1071fd151989650b1291e176 fix: improve graceful shutdown handling for all transport modes (#271)</li>
+</ul>
+<hr>
+<p>Released by <a href="https://github.com/goreleaser/goreleaser">GoReleaser</a>.</p>
+]]></description>
+            <content:encoded><![CDATA[<h2>Changelog</h2>
+<ul>
+<li>d0cbad8410ca852030af3430fa94c5e3b58260da Support username/password authentication (#259)</li>
+<li>b8da81a7f3ed040477e1d97c863b07659d338ba5 chore(deps): bump astral-sh/setup-uv in the github-actions group (#263)</li>
+<li>3d2a2f5f849731537d31fec848937c2e76055b27 chore(deps): bump astral-sh/setup-uv in the github-actions group (#268)</li>
+<li>019425c9dd3167ef69cef4205870c2bb41ae368b chore(deps): bump github.com/mark3labs/mcp-go to v0.39.1 (#272)</li>
+<li>2e4577bfcd39a28efcb05427def9e3883da24852 chore(deps): bump the go-dependencies group with 3 updates (#262)</li>
+<li>c293cd9e58f870eebc613fd840245f2e0a3e9d4d chore(deps): bump the go-dependencies group with 5 updates (#269)</li>
+<li>af50a4716d693f04e6c328154e78ce8e953e9d9b feat(tool): Add append functionality to dashboard panels (#260)</li>
+<li>e1a86765e7798f6aecdf4a7c643fa218408fa1c3 feat: add support for GRAFANA_SERVICE_ACCOUNT_TOKEN env var (#274)</li>
+<li>319b552be0ed607a290f039b18f4c9ddf11fdc0c feat: add support for https when using streamable-http transport (#270)</li>
+<li>cc35912c7ca636dd00ffe34000fd41aa9d49e3b4 feat: add title/annotations to admin tools (#273)</li>
+<li>923fa3a5a640fc0b1071fd151989650b1291e176 fix: improve graceful shutdown handling for all transport modes (#271)</li>
+</ul>
+<hr>
+<p>Released by <a href="https://github.com/goreleaser/goreleaser">GoReleaser</a>.</p>
+]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[v0.6.3]]></title>
+            <link>https://github.com/grafana/mcp-grafana/releases/tag/v0.6.3</link>
+            <guid>https://github.com/grafana/mcp-grafana/releases/tag/v0.6.3</guid>
+            <pubDate>Tue, 19 Aug 2025 09:04:39 GMT</pubDate>
+            <description><![CDATA[<h2>Changelog</h2>
+<ul>
+<li>a4a3d5aa8a0b15571e2449f18a61a0c191764561 Add MCP Catalog badge (#230)</li>
+<li>52164c5f8b8d3d296b7d9a951135db0546b65e80 Add ci and go reference badges, entirely cosmetic/organization changes to ci code and docstrings (#235)</li>
+<li>8807c380a75a80409e4b6a3bde74f698416e8b56 Add mentions of Grafana Cloud intances in setup (#238)</li>
+<li>32f5442f3597dcf10b5f8652dc87b99789d6866a Add user agent tracking for minimal usage tracking (#229)</li>
+<li>e2f0406cafeab05175436b3d543b15c5c541f119 Make prompt more explicit for navigation test (#242)</li>
+<li>b16ef0d1a298ca4f47f7d94177d69c1ea8b1c3eb add helm chart deployment option to the readme (#221)</li>
+<li>5ce9de11609645d048561ea988e29149f131823b chore(deps): bump actions/checkout in the github-actions group (#248)</li>
+<li>dce1c79d80cc8b0d1b8c33c69fe9bdbe82b040c4 chore(deps): bump astral-sh/setup-uv in the github-actions group (#224)</li>
+<li>730e2acb1ca0a6258a5cf5a04319c061c2d543c1 chore(deps): bump github.com/mark3labs/mcp-go (#247)</li>
+<li>980f83652742de4f4a2a1676098a3568a8c4b9c9 chore(deps): bump grafana-openapi-client to v0.0.0-20250617151817-c0f8cbb88d5c (#246)</li>
+<li>cea09ee1d40ad809e306f791ccc43ef6374a5e70 chore(deps): bump the github-actions group with 2 updates (#253)</li>
+<li>f29b72a4ab989afa0017ed4f1fa76fb7d63a42d8 chore(deps): bump the go-dependencies group with 2 updates (#231)</li>
+<li>562ae28105b3aeec4483129c81c4339bf3f0e1c5 chore(deps): bump the go-dependencies group with 4 updates (#225)</li>
+<li>dc237c3858196bab1c90e7dd02c1ff0d8bab4946 chore: remove unnecessary useless comments (#219)</li>
+<li>1302f59a2c392a1d153d84f8c8c86bae2d5cd139 chore: split out golangci-lint in CI (#217)</li>
+<li>255b81475e27d0951184c20e9f4bd608279f20a7 ci(e2e): Fix navigation e2e test - make it more flexible (#237)</li>
+<li>4371d047b1f589d71d11b9ac750ad2f8c2b442c0 feat(tools): Update dashboards with jsonpath (#241)</li>
+<li>8c3f20f7fbc800737a0935d73ff618ecaa223a4e feat: Add generate deeplink tool for dashboards, panels, and explore queries (#218)</li>
+<li>a3ae12bad224cb0db02c5a4b3bbb93ed0b657160 feat: Add otel spans to tool calls (#206)</li>
+</ul>
+<hr>
+<p>Released by <a href="https://github.com/goreleaser/goreleaser">GoReleaser</a>.</p>
+]]></description>
+            <content:encoded><![CDATA[<h2>Changelog</h2>
+<ul>
+<li>a4a3d5aa8a0b15571e2449f18a61a0c191764561 Add MCP Catalog badge (#230)</li>
+<li>52164c5f8b8d3d296b7d9a951135db0546b65e80 Add ci and go reference badges, entirely cosmetic/organization changes to ci code and docstrings (#235)</li>
+<li>8807c380a75a80409e4b6a3bde74f698416e8b56 Add mentions of Grafana Cloud intances in setup (#238)</li>
+<li>32f5442f3597dcf10b5f8652dc87b99789d6866a Add user agent tracking for minimal usage tracking (#229)</li>
+<li>e2f0406cafeab05175436b3d543b15c5c541f119 Make prompt more explicit for navigation test (#242)</li>
+<li>b16ef0d1a298ca4f47f7d94177d69c1ea8b1c3eb add helm chart deployment option to the readme (#221)</li>
+<li>5ce9de11609645d048561ea988e29149f131823b chore(deps): bump actions/checkout in the github-actions group (#248)</li>
+<li>dce1c79d80cc8b0d1b8c33c69fe9bdbe82b040c4 chore(deps): bump astral-sh/setup-uv in the github-actions group (#224)</li>
+<li>730e2acb1ca0a6258a5cf5a04319c061c2d543c1 chore(deps): bump github.com/mark3labs/mcp-go (#247)</li>
+<li>980f83652742de4f4a2a1676098a3568a8c4b9c9 chore(deps): bump grafana-openapi-client to v0.0.0-20250617151817-c0f8cbb88d5c (#246)</li>
+<li>cea09ee1d40ad809e306f791ccc43ef6374a5e70 chore(deps): bump the github-actions group with 2 updates (#253)</li>
+<li>f29b72a4ab989afa0017ed4f1fa76fb7d63a42d8 chore(deps): bump the go-dependencies group with 2 updates (#231)</li>
+<li>562ae28105b3aeec4483129c81c4339bf3f0e1c5 chore(deps): bump the go-dependencies group with 4 updates (#225)</li>
+<li>dc237c3858196bab1c90e7dd02c1ff0d8bab4946 chore: remove unnecessary useless comments (#219)</li>
+<li>1302f59a2c392a1d153d84f8c8c86bae2d5cd139 chore: split out golangci-lint in CI (#217)</li>
+<li>255b81475e27d0951184c20e9f4bd608279f20a7 ci(e2e): Fix navigation e2e test - make it more flexible (#237)</li>
+<li>4371d047b1f589d71d11b9ac750ad2f8c2b442c0 feat(tools): Update dashboards with jsonpath (#241)</li>
+<li>8c3f20f7fbc800737a0935d73ff618ecaa223a4e feat: Add generate deeplink tool for dashboards, panels, and explore queries (#218)</li>
+<li>a3ae12bad224cb0db02c5a4b3bbb93ed0b657160 feat: Add otel spans to tool calls (#206)</li>
+</ul>
+<hr>
+<p>Released by <a href="https://github.com/goreleaser/goreleaser">GoReleaser</a>.</p>
+]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[v0.6.2]]></title>
+            <link>https://github.com/grafana/mcp-grafana/releases/tag/v0.6.2</link>
+            <guid>https://github.com/grafana/mcp-grafana/releases/tag/v0.6.2</guid>
+            <pubDate>Wed, 23 Jul 2025 13:20:05 GMT</pubDate>
+            <description><![CDATA[<h2>Changelog</h2>
+<ul>
+<li>46506c48a552256e9fb1e5a53ed32bce57bab4cc Update available tools in readme (#209)</li>
+<li>f039212de14469625ae34518feebeca75cb14406 chore(deps): bump the github-actions group across 1 directory with 2 updates (#214)</li>
+<li>91e5561fe4b6eb008e3853d71d4bfb7c661823fa chore(deps): bump the go-dependencies group across 1 directory with 3 updates (#205)</li>
+</ul>
+<hr>
+<p>Released by <a href="https://github.com/goreleaser/goreleaser">GoReleaser</a>.</p>
+]]></description>
+            <content:encoded><![CDATA[<h2>Changelog</h2>
+<ul>
+<li>46506c48a552256e9fb1e5a53ed32bce57bab4cc Update available tools in readme (#209)</li>
+<li>f039212de14469625ae34518feebeca75cb14406 chore(deps): bump the github-actions group across 1 directory with 2 updates (#214)</li>
+<li>91e5561fe4b6eb008e3853d71d4bfb7c661823fa chore(deps): bump the go-dependencies group across 1 directory with 3 updates (#205)</li>
+</ul>
+<hr>
+<p>Released by <a href="https://github.com/goreleaser/goreleaser">GoReleaser</a>.</p>
+]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[v0.6.1]]></title>
+            <link>https://github.com/grafana/mcp-grafana/releases/tag/v0.6.1</link>
+            <guid>https://github.com/grafana/mcp-grafana/releases/tag/v0.6.1</guid>
+            <pubDate>Fri, 18 Jul 2025 16:15:17 GMT</pubDate>
+            <description><![CDATA[<h2>Changelog</h2>
+<ul>
+<li>9215b605a8c300a8d89d57ee233ce67f5342c2a1 fix: remove main.version from goreleaser ldflags (#207)</li>
+</ul>
+<hr>
+<p>Released by <a href="https://github.com/goreleaser/goreleaser">GoReleaser</a>.</p>
+]]></description>
+            <content:encoded><![CDATA[<h2>Changelog</h2>
+<ul>
+<li>9215b605a8c300a8d89d57ee233ce67f5342c2a1 fix: remove main.version from goreleaser ldflags (#207)</li>
+</ul>
+<hr>
+<p>Released by <a href="https://github.com/goreleaser/goreleaser">GoReleaser</a>.</p>
+]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[v0.5.0]]></title>
+            <link>https://github.com/grafana/mcp-grafana/releases/tag/v0.5.0</link>
+            <guid>https://github.com/grafana/mcp-grafana/releases/tag/v0.5.0</guid>
+            <pubDate>Sat, 14 Jun 2025 10:18:22 GMT</pubDate>
+            <description><![CDATA[<h2>Changelog</h2>
+<ul>
+<li>c03ca3c387b2cd9b3d8d2fbd56d2a9e6b7b603fb Add better error behavior for sift (#161)</li>
+<li>d4f71c565085595eb5ad994789da2f7a2766cb63 added streamable-http support (#171)</li>
+<li>2a8b07ec896b7e463c1dd33a30badc4ca9748186 chore(deps): bump github.com/mark3labs/mcp-go (#174)</li>
+<li>9c6767b0981cd3aeea43cbb5ce4163376280b283 chore(deps): bump the go-dependencies group across 1 directory with 4 updates (#155)</li>
+<li>841e392cbd5704ba86f6b6c0efa728bc9f246c1a chore: run dependabot for Github Actions, too (#173)</li>
+<li>60a7390fa66629ad97ead95cf35617d236e09eba feat: Add Pyroscope tools (#170)</li>
+<li>de6926be0073a86f7a45f7ac1892ecef557eed76 fix: always fixup schemes of Grafana client based on final Grafana URL (#163)</li>
+<li>1a7f9c74bb074ea27506b7f86fff296a42ec85fe refactor: consolidate Grafana configuration into GrafanaConfig struct (#168)</li>
+<li>966a98185a96072ca6a91c6e9f8a4b185ba7e35a tests: run e2e tests using all three transports (#172)</li>
+</ul>
+<hr>
+<p>Released by <a href="https://github.com/goreleaser/goreleaser">GoReleaser</a>.</p>
+]]></description>
+            <content:encoded><![CDATA[<h2>Changelog</h2>
+<ul>
+<li>c03ca3c387b2cd9b3d8d2fbd56d2a9e6b7b603fb Add better error behavior for sift (#161)</li>
+<li>d4f71c565085595eb5ad994789da2f7a2766cb63 added streamable-http support (#171)</li>
+<li>2a8b07ec896b7e463c1dd33a30badc4ca9748186 chore(deps): bump github.com/mark3labs/mcp-go (#174)</li>
+<li>9c6767b0981cd3aeea43cbb5ce4163376280b283 chore(deps): bump the go-dependencies group across 1 directory with 4 updates (#155)</li>
+<li>841e392cbd5704ba86f6b6c0efa728bc9f246c1a chore: run dependabot for Github Actions, too (#173)</li>
+<li>60a7390fa66629ad97ead95cf35617d236e09eba feat: Add Pyroscope tools (#170)</li>
+<li>de6926be0073a86f7a45f7ac1892ecef557eed76 fix: always fixup schemes of Grafana client based on final Grafana URL (#163)</li>
+<li>1a7f9c74bb074ea27506b7f86fff296a42ec85fe refactor: consolidate Grafana configuration into GrafanaConfig struct (#168)</li>
+<li>966a98185a96072ca6a91c6e9f8a4b185ba7e35a tests: run e2e tests using all three transports (#172)</li>
+</ul>
+<hr>
+<p>Released by <a href="https://github.com/goreleaser/goreleaser">GoReleaser</a>.</p>
+]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[v0.4.2]]></title>
+            <link>https://github.com/grafana/mcp-grafana/releases/tag/v0.4.2</link>
+            <guid>https://github.com/grafana/mcp-grafana/releases/tag/v0.4.2</guid>
+            <pubDate>Tue, 03 Jun 2025 21:13:35 GMT</pubDate>
+            <description><![CDATA[<h2>Changelog</h2>
+<ul>
+<li>e90f133805a995b62ab9888ef4f771af48d48c95 Add support for relative time specifications in Prometheus queries (#142)</li>
+<li>dd2811a9cbe955835a9f6cb116ac220ab2852388 Added seed data to prometheus (#148)</li>
+<li>d0d8d9401785dfbc4d67125e6b878b9cf320cd86 Skip cloud e2e tests in forks (#145)</li>
+<li>d659dcb76ff1c52555e267f9685ea37993f5fb01 ci(e2e): build/run MCP server separately, and print logs on failure (#154)</li>
+<li>7a2ef5285dec5a2e71f89a532d3b8af13356b667 clean up non complete items from README (#156)</li>
+<li>7f3f0c2683a72eaa241e23251d2bcf3ee8fdf2aa fix: fix test for relative time calculations (#153)</li>
+</ul>
+<hr>
+<p>Released by <a href="https://github.com/goreleaser/goreleaser">GoReleaser</a>.</p>
+]]></description>
+            <content:encoded><![CDATA[<h2>Changelog</h2>
+<ul>
+<li>e90f133805a995b62ab9888ef4f771af48d48c95 Add support for relative time specifications in Prometheus queries (#142)</li>
+<li>dd2811a9cbe955835a9f6cb116ac220ab2852388 Added seed data to prometheus (#148)</li>
+<li>d0d8d9401785dfbc4d67125e6b878b9cf320cd86 Skip cloud e2e tests in forks (#145)</li>
+<li>d659dcb76ff1c52555e267f9685ea37993f5fb01 ci(e2e): build/run MCP server separately, and print logs on failure (#154)</li>
+<li>7a2ef5285dec5a2e71f89a532d3b8af13356b667 clean up non complete items from README (#156)</li>
+<li>7f3f0c2683a72eaa241e23251d2bcf3ee8fdf2aa fix: fix test for relative time calculations (#153)</li>
+</ul>
+<hr>
+<p>Released by <a href="https://github.com/goreleaser/goreleaser">GoReleaser</a>.</p>
+]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[v0.4.1]]></title>
+            <link>https://github.com/grafana/mcp-grafana/releases/tag/v0.4.1</link>
+            <guid>https://github.com/grafana/mcp-grafana/releases/tag/v0.4.1</guid>
+            <pubDate>Wed, 21 May 2025 22:26:19 GMT</pubDate>
+            <description><![CDATA[<h2>Changelog</h2>
+<ul>
+<li>5fe4a9ab57023c14c845ba3a34a49062b78a260f add base-path flag for sse server (#137)</li>
+<li>0ebcbb504b0eef568ef88f2450dd777df85f00e0 ci: don&#39;t run cloud or e2e tests on fork PRs (#141)</li>
+<li>281ee09fa8c90e55a11bf7cb7960e0266af53250 ci: use Vault for secrets, not GitHub CI (#139)</li>
+</ul>
+<hr>
+<p>Released by <a href="https://github.com/goreleaser/goreleaser">GoReleaser</a>.</p>
+]]></description>
+            <content:encoded><![CDATA[<h2>Changelog</h2>
+<ul>
+<li>5fe4a9ab57023c14c845ba3a34a49062b78a260f add base-path flag for sse server (#137)</li>
+<li>0ebcbb504b0eef568ef88f2450dd777df85f00e0 ci: don&#39;t run cloud or e2e tests on fork PRs (#141)</li>
+<li>281ee09fa8c90e55a11bf7cb7960e0266af53250 ci: use Vault for secrets, not GitHub CI (#139)</li>
+</ul>
+<hr>
+<p>Released by <a href="https://github.com/goreleaser/goreleaser">GoReleaser</a>.</p>
+]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[v0.4.0]]></title>
+            <link>https://github.com/grafana/mcp-grafana/releases/tag/v0.4.0</link>
+            <guid>https://github.com/grafana/mcp-grafana/releases/tag/v0.4.0</guid>
+            <pubDate>Mon, 19 May 2025 17:23:24 GMT</pubDate>
+            <description><![CDATA[<h2>What&#39;s Changed</h2>
+<ul>
+<li>Dashboards: Fetch panel queries by @ioanarm in <a href="https://github.com/grafana/mcp-grafana/pull/115">https://github.com/grafana/mcp-grafana/pull/115</a></li>
+<li>Add GitHub action for e2e tests by @ioanarm in <a href="https://github.com/grafana/mcp-grafana/pull/117">https://github.com/grafana/mcp-grafana/pull/117</a></li>
+<li>Bump golang.org/x/net from 0.36.0 to 0.38.0 by @dependabot in <a href="https://github.com/grafana/mcp-grafana/pull/118">https://github.com/grafana/mcp-grafana/pull/118</a></li>
+<li>chore: create dependabot.yml by @sd2k in <a href="https://github.com/grafana/mcp-grafana/pull/119">https://github.com/grafana/mcp-grafana/pull/119</a></li>
+<li>Bump the go-dependencies group with 5 updates by @dependabot in <a href="https://github.com/grafana/mcp-grafana/pull/120">https://github.com/grafana/mcp-grafana/pull/120</a></li>
+<li>Prevent panic if didn&#39;t find patterns. by @gitdoluquita in <a href="https://github.com/grafana/mcp-grafana/pull/122">https://github.com/grafana/mcp-grafana/pull/122</a></li>
+<li>feat: add build target to Makefile by @sd2k in <a href="https://github.com/grafana/mcp-grafana/pull/131">https://github.com/grafana/mcp-grafana/pull/131</a></li>
+<li>feat: add title annotations to all tools by @sd2k in <a href="https://github.com/grafana/mcp-grafana/pull/130">https://github.com/grafana/mcp-grafana/pull/130</a></li>
+<li>refactor: extract Grafana Client creation from context functions by @sd2k in <a href="https://github.com/grafana/mcp-grafana/pull/127">https://github.com/grafana/mcp-grafana/pull/127</a></li>
+<li>feat: adds admin category for listing teams by @eleijonmarck in <a href="https://github.com/grafana/mcp-grafana/pull/124">https://github.com/grafana/mcp-grafana/pull/124</a></li>
+<li>feat: add more annotations to tools by @sd2k in <a href="https://github.com/grafana/mcp-grafana/pull/132">https://github.com/grafana/mcp-grafana/pull/132</a></li>
+<li>fix: pass OBO auth to asserts client, if available by @sd2k in <a href="https://github.com/grafana/mcp-grafana/pull/135">https://github.com/grafana/mcp-grafana/pull/135</a></li>
+</ul>
+<h2>New Contributors</h2>
+<ul>
+<li>@eleijonmarck made their first contribution in <a href="https://github.com/grafana/mcp-grafana/pull/124">https://github.com/grafana/mcp-grafana/pull/124</a></li>
+</ul>
+<p><strong>Full Changelog</strong>: <a href="https://github.com/grafana/mcp-grafana/compare/v0.3.0...v0.4.0">https://github.com/grafana/mcp-grafana/compare/v0.3.0...v0.4.0</a></p>
+]]></description>
+            <content:encoded><![CDATA[<h2>What&#39;s Changed</h2>
+<ul>
+<li>Dashboards: Fetch panel queries by @ioanarm in <a href="https://github.com/grafana/mcp-grafana/pull/115">https://github.com/grafana/mcp-grafana/pull/115</a></li>
+<li>Add GitHub action for e2e tests by @ioanarm in <a href="https://github.com/grafana/mcp-grafana/pull/117">https://github.com/grafana/mcp-grafana/pull/117</a></li>
+<li>Bump golang.org/x/net from 0.36.0 to 0.38.0 by @dependabot in <a href="https://github.com/grafana/mcp-grafana/pull/118">https://github.com/grafana/mcp-grafana/pull/118</a></li>
+<li>chore: create dependabot.yml by @sd2k in <a href="https://github.com/grafana/mcp-grafana/pull/119">https://github.com/grafana/mcp-grafana/pull/119</a></li>
+<li>Bump the go-dependencies group with 5 updates by @dependabot in <a href="https://github.com/grafana/mcp-grafana/pull/120">https://github.com/grafana/mcp-grafana/pull/120</a></li>
+<li>Prevent panic if didn&#39;t find patterns. by @gitdoluquita in <a href="https://github.com/grafana/mcp-grafana/pull/122">https://github.com/grafana/mcp-grafana/pull/122</a></li>
+<li>feat: add build target to Makefile by @sd2k in <a href="https://github.com/grafana/mcp-grafana/pull/131">https://github.com/grafana/mcp-grafana/pull/131</a></li>
+<li>feat: add title annotations to all tools by @sd2k in <a href="https://github.com/grafana/mcp-grafana/pull/130">https://github.com/grafana/mcp-grafana/pull/130</a></li>
+<li>refactor: extract Grafana Client creation from context functions by @sd2k in <a href="https://github.com/grafana/mcp-grafana/pull/127">https://github.com/grafana/mcp-grafana/pull/127</a></li>
+<li>feat: adds admin category for listing teams by @eleijonmarck in <a href="https://github.com/grafana/mcp-grafana/pull/124">https://github.com/grafana/mcp-grafana/pull/124</a></li>
+<li>feat: add more annotations to tools by @sd2k in <a href="https://github.com/grafana/mcp-grafana/pull/132">https://github.com/grafana/mcp-grafana/pull/132</a></li>
+<li>fix: pass OBO auth to asserts client, if available by @sd2k in <a href="https://github.com/grafana/mcp-grafana/pull/135">https://github.com/grafana/mcp-grafana/pull/135</a></li>
+</ul>
+<h2>New Contributors</h2>
+<ul>
+<li>@eleijonmarck made their first contribution in <a href="https://github.com/grafana/mcp-grafana/pull/124">https://github.com/grafana/mcp-grafana/pull/124</a></li>
+</ul>
+<p><strong>Full Changelog</strong>: <a href="https://github.com/grafana/mcp-grafana/compare/v0.3.0...v0.4.0">https://github.com/grafana/mcp-grafana/compare/v0.3.0...v0.4.0</a></p>
+]]></content:encoded>
+        </item>
+    </channel>
+</rss>
