@@ -10,6 +10,7 @@ on:
 permissions:
   contents: write
   issues: write
+  models: read
 
 jobs:
   heal:
@@ -23,6 +24,10 @@ jobs:
         run: bun run src/heal-feed.ts "$FEED_NAME"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Optional repository configuration; empty values use GitHub Models.
+          AI_API_KEY: ${{ secrets.AI_API_KEY }}
+          AI_BASE_URL: ${{ vars.AI_BASE_URL }}
+          AI_MODEL: ${{ vars.AI_MODEL }}
           FEED_NAME: ${{ inputs.feed_name }}
       - id: commit
         if: steps.heal.outcome == 'success'

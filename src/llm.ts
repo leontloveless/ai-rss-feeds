@@ -1,14 +1,12 @@
 /**
- * LLM integration: HTML → FeedConfig via GitHub Models API.
+ * LLM integration: HTML → FeedConfig via any OpenAI-compatible API.
  */
 
 import type { FeedConfig } from "./types.js";
+import { createLlmProvider, type LlmProvider } from "./llm-provider.js";
 
-const GITHUB_MODELS_URL =
-  "https://models.github.ai/inference/chat/completions";
-const MODEL = "openai/gpt-4o-mini";
 const MAX_RETRIES = 3;
-const MAX_HTML_CHARS = 12_000; // Truncate HTML to fit GitHub Models 8K token limit
+const MAX_HTML_CHARS = 12_000; // Keep prompts small enough for inexpensive/free models
 
 const SYSTEM_PROMPT = `You are an expert at analyzing HTML structure to extract blog article listings.
 
@@ -57,7 +55,10 @@ Rules:
 9. Avoid Tailwind utility classes and generated/hash-like classes when stable tags or attributes are available.`;
 
 /**
- * Generate a FeedConfig from a blog URL's HTML using LLM.
+ * Generate a FeedConfig from a blog URL's HTML using the configured provider.
+ *
+ * Provider selection and HTTP transport live in llm-provider.ts. Alternate
+ * implementations can be injected without changing feed generation logic.
  *
  * @param feedback Optional message describing why the previous config failed
  *                 at the parse step (e.g. selectors matched 0 articles). When
@@ -67,15 +68,9 @@ Rules:
 export async function generateConfig(
   url: string,
   html: string,
-  feedback?: string
+  feedback?: string,
+  provider: LlmProvider = createLlmProvider()
 ): Promise<FeedConfig> {
-  const token = process.env.GITHUB_TOKEN;
-  if (!token) {
-    throw new Error(
-      "GITHUB_TOKEN not set. Required for GitHub Models API access."
-    );
-  }
-
   // Strip scripts, styles, comments, and other noise to reduce token count
   let cleaned = html
     .replace(/<script[\s\S]*?<\/script>/gi, "")
@@ -87,7 +82,7 @@ export async function generateConfig(
     .replace(/\s{2,}/g, " ")
     .trim();
 
-  // Truncate to fit in context
+  // Truncate to keep prompt size predictable across providers/models
   const truncated =
     cleaned.length > MAX_HTML_CHARS
       ? cleaned.slice(0, MAX_HTML_CHARS) + "\n<!-- truncated -->"
@@ -105,34 +100,10 @@ export async function generateConfig(
     const userPrompt = `${preamble}\n\nURL: ${url}\n\nHTML:\n${truncated}`;
 
     try {
-      const res = await fetch(GITHUB_MODELS_URL, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          model: MODEL,
-          messages: [
-            { role: "system", content: SYSTEM_PROMPT },
-            { role: "user", content: userPrompt },
-          ],
-          response_format: { type: "json_object" },
-          temperature: 0.1,
-          max_tokens: 2000,
-        }),
-      });
-
-      if (!res.ok) {
-        const text = await res.text().catch(() => "");
-        throw new Error(`API error ${res.status}: ${text.slice(0, 200)}`);
-      }
-
-      const data = (await res.json()) as {
-        choices: { message: { content: string } }[];
-      };
-      const content = data.choices?.[0]?.message?.content;
-      if (!content) throw new Error("Empty response from API");
+      const content = await provider.complete([
+        { role: "system", content: SYSTEM_PROMPT },
+        { role: "user", content: userPrompt },
+      ]);
 
       const config = JSON.parse(content) as FeedConfig;
 
