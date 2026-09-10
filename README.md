@@ -48,7 +48,7 @@ GitHub release feeds and native RSS/Atom feeds are added without a model call. S
 | Project | Feed | Status |
 |---------|------|--------|
 | [anthropics/claude-code](https://github.com/anthropics/claude-code) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/claude-code-releases.xml) | ✅ 50 releases |
-| [deepseek-ai/deepseek-harness](https://github.com/deepseek-ai/deepseek-harness) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/deepseek-harness-releases.xml) | ✅ 14 releases |
+| [deepseek-ai/deepseek-harness](https://github.com/deepseek-ai/deepseek-harness) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/deepseek-harness-releases.xml) | ✅ 15 releases |
 | [NousResearch/hermes-agent](https://github.com/NousResearch/hermes-agent) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/hermes-agent-releases.xml) | ✅ 32 releases |
 | [kubernetes/kubernetes](https://github.com/kubernetes/kubernetes) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/kubernetes-releases.xml) | ✅ 36 releases |
 | [grafana/mcp-grafana](https://github.com/grafana/mcp-grafana) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/mcp-grafana-releases.xml) | ✅ 50 releases |

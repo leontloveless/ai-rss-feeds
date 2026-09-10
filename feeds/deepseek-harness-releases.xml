@@ -4,11 +4,287 @@
         <title>deepseek-harness Releases</title>
         <link>https://github.com/deepseek-ai/deepseek-harness/releases</link>
         <description>GitHub releases for deepseek-ai/deepseek-harness</description>
-        <lastBuildDate>Wed, 09 Sep 2026 14:23:10 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 10 Sep 2026 03:09:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>ai-rss-feeds (https://github.com/leontloveless/ai-rss-feeds)</generator>
         <language>en</language>
         <atom:link href="https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/deepseek-harness-releases.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[v0.1.5-rc.1]]></title>
+            <link>https://github.com/deepseek-ai/deepseek-harness/releases/tag/dsh-v0.1.5-rc.1</link>
+            <guid>https://github.com/deepseek-ai/deepseek-harness/releases/tag/dsh-v0.1.5-rc.1</guid>
+            <pubDate>Thu, 10 Sep 2026 03:09:00 GMT</pubDate>
+            <description><![CDATA[<p><a href="#cn-v0.1.5-rc.1">中文</a> | <a href="#en-v0.1.5-rc.1">English</a></p>
+<p>作为 <code>0.1.5</code> 系列的首个候选版本，本版本汇总了自 <code>v0.1.2-rc.1</code> 以来的主要用户和开发者相关变更。</p>
+<h3 id="cn-v0.1.5-rc.1">新增功能</h3>
+
+<ul>
+<li>DeepSeek 模型适配器新增 <code>DeepSeek-V41-Flash</code>（<code>deepseek-flash</code>）支持文本、图片及会话历史中的系统提示词更新。新会话默认使用该模型，配置文件显式指定模型时以配置值为准。 @LegGasai</li>
+<li>Web 支持上传任意类型的通用文件：文件与图片可在同一预览区混排，后台上传支持进度、取消与会话切换续显，模型可通过已保存路径使用现有文件工具按需读取。 @CreatixChu</li>
+<li>可继续对话的子代理支持消息排队、编辑、删除、单条或全部 Steer 与停止操作；排队消息发送期间显示“发送中”，并暂不可编辑、删除或 Steer。 @Dudu-0223, @LegGasai</li>
+<li>支持动态修改系统提示词且不破坏 KV Cache，模型需显式声明支持。 @tianyicui</li>
+<li>Web 右侧 Sidebar 支持多标签、分栏、全屏以及 Markdown、代码、HTML、PDF 和图片预览，包括子代理和未激活会话的文件；模型可显式交付文件，并可在 Sidebar 中预览、用默认应用打开或在文件管理器中定位。原 Detail 面板已移除。 @imccyu, @Yifffan, @yixiangihsiang, @CreatixChu, @yudshj</li>
+<li>模型探测新增对自定义模型提供商 <code>models</code> 对象和 Anthropic 原生模型列表的支持，并支持回填模型名称、上下文窗口及最大输出 token 的回填。 @LegGasai</li>
+<li>所有出站网络请求都会遵循启动环境中的 <code>HTTP_PROXY</code>、<code>HTTPS_PROXY</code>、<code>ALL_PROXY</code> 与 <code>NO_PROXY</code> 配置。 @LegGasai</li>
+<li>Web 顶栏新增“在应用中打开”，可用已安装的编辑器、IDE、终端或文件管理器等打开 Workspace。 @yixiangihsiang</li>
+<li>反馈可独立提交，无需继续对话；<code>/feedback</code> 命令支持提交明细反馈内容，提交时附带相关会话内容。 @tianyicui, @Chinesezjc, @CreatixChu</li>
+</ul>
+<h3>体验优化</h3>
+<ul>
+<li>Web 可直接显示顶层及 PTC 嵌套 <code>read_image</code> 的图片结果，以及模型回复中引用的 POSIX 绝对路径本地图片，包括工作区外截图；加载失败时显示替代文字或原路径。 @Chinesezjc, @kermanx</li>
+<li>Skill 选择器支持模糊搜索；优化聊天气泡中的的 Skill 和命令引用。 @LegGasai</li>
+<li>调整会话内可点击链接的颜色、hover/focus 样式和分类图标，优化 Markdown 链接、文件引用、网页来源、产物链接与 Workflow 成员链接的辨识度。 @yixiangihsiang</li>
+<li>Windows 上的本地非终端子进程不再弹出控制台窗口。 @turtle1999</li>
+<li>Agent Team 的 <code>send_message</code> 统一采用 steer 语义，并在跨 Agent 和冷恢复投递中保留发送者归属与顺序。 @Dudu-0223</li>
+<li>改善长会话打开、恢复和持续对话时的卡顿，降低内存占用。 @imccyu, @tianyicui, @Dudu-0223</li>
+<li>引用较长会话时，模型可按需读取预览中未展示的内容。 @tianyicui</li>
+<li>改善设置面板的标签、开关状态样式，改善浅色和深色主题下的显示效果，改善本地化与可访问性 @LegGasai, @turtle2099</li>
+<li>PTC 模式下支持展开查看命令及其输出。 @tianyicui</li>
+<li>改善 Web 输入框的菜单层级、提示文字和间距；会话统计改为两个可展开的摘要，分别查看轮次与速度、精确 Token 用量与缓存命中。 @Yifffan</li>
+<li>内置斜杠命令说明支持中文，并随界面语言即时更新；切换语言时保留已打开菜单和查询内容。 @Kaige-Gao</li>
+</ul>
+<h3>问题修复</h3>
+<ul>
+<li>用户在 Web 中暂停目标会立即终止当前模型轮次，且模型不能自行恢复；恢复必须由用户触发，尚未激活的目标也显示恢复入口。 @mektpoy</li>
+<li>修复 DeepSeek 流式工具调用的续传分片用空值覆盖调用 ID 或名称的问题，避免工具以空名称失败并写入无法重新打开的会话记录。 @LegGasai</li>
+<li>修复 Python SDK 单文件 runtime 将 Bash 中以 <code>node</code> 开头的命令错误重写为 dsh runtime 的问题。 @imccyu</li>
+<li>修复从会话搜索结果进入会话后仍停留在搜索界面的问题；目标会话会在所属 Workspace 中展开并滚动到可见位置。 @Dudu-0223</li>
+<li>修复 Windows 盘符根目录 Workspace 的路径分隔符、标题与绝对路径校验，确保盘符根目录可以正常使用。 @turtle1999</li>
+<li>修复 Web 断线后无法自动恢复的问题。 @LegGasai</li>
+<li>修复发送消息或调整窗口后，聊天不再自动滚动到底部的问题。 @tianyicui</li>
+<li>修复 Windows 上 Python SDK 运行时可能出现的启动崩溃。 @tianyicui</li>
+<li>修复会话运行中发送按钮与 Enter 的行为不一致：两者均遵循“繁忙时的发送行为”设置，并明确提示排队或插话发送。 @lsdsjy</li>
+<li>拒绝不含正文或附件的空消息及空白队列编辑，保留仅发送图片或文件的能力。 @turtle1999</li>
+<li>修复查找项目根目录遇到权限或 I/O 错误时误用上级项目指令的问题，相关错误会直接报告。 @turtle1999</li>
+<li>修复折叠的思考摘要直接显示 Markdown 加粗标记的问题，展开内容保持完整。 @turtle1999</li>
+<li>修复模型目录变化后失效的 pi-ai 配置导致整个模型设置入口消失的问题；错误项保留诊断和修复入口 @LegGasai</li>
+<li>在发现模型或创建自定义 provider 前校验并规范化 Base URL，并直接提示无效地址。 @turtle2099</li>
+<li>修复 Windows Web 界面的原生文件夹选择器可能在其他窗口后方打开的问题。 @Elevator14B</li>
+<li>修复在 Composer 中输入空白字符后占位提示仍然显示的问题。 @CreatixChu</li>
+<li>修复工具筛选后的子代理仍收到不可用文件和 Web 工具指导的问题。 @koalazf99</li>
+<li>拒绝 MCP 工具发现中的重复分页游标，避免启动或同步持续等待，并保留上一组可用工具。 @grllll</li>
+</ul>
+<h3>其他变更</h3>
+<ul>
+<li><strong>会话数据格式升级至 V3：</strong> 受支持的旧日志通过版本迁移生成新版日志并保留原文件，升级后的会话不支持降级读取。自定义日志读取器需适配 V3，跨版本迁移细节见 <a href="https://github.com/deepseek-ai/deepseek-harness/blob/dsh-v0.1.5-rc.1/packages/session/session-format-v2-to-v3/README.zh.md">session-format-v2-to-v3/README.md</a>。 @tianyicui, @Magolor, @imccyu</li>
+<li><strong>Session 生命周期变更：</strong> Session persistence API 改为由生命周期持有的 <code>SessionHandle</code>；<code>agentLoop.create()</code> 改为异步，新增session锁，同一session至多被一个进程持有。 @turtle1999, @imccyu</li>
+<li><strong>默认工具调整：</strong> SDK、Headless 和 ACP 默认使用 read、write、edit 编辑文件；Web <code>minimal</code> 与 Python <code>sdk-minimal</code> 默认仅提供持久 shell，<code>str_replace_editor</code> 需显式启用，持久 Bash 输出统一报告退出或超时状态。 @koalazf99</li>
+<li>改善 Windows 和部分 Linux 环境下普通子进程的清理，减少任务停止后的后台进程残留；普通 subprocess handle 不再暴露 pid，终端 handle 不受影响。 @pku-xht</li>
+<li>统一未观察文件写入与编辑失败的 <code>FS_NOT_OBSERVED</code> 诊断，保留文件路径、结构化错误码和原始原因。 @turtle1999</li>
+<li>Python SDK 新增 macOS x64 runtime wheel，可在 Intel 架构的 Mac 上安装并运行随包 runtime。 @koalazf99</li>
+<li>升级 pi-ai 版本至 0.85.1 @tianyicui</li>
+<li>可选子代理插件的内置运行时升级至 Codex 0.153.4 和 Claude Code 2.1.263；显式模型配置保持不变，未配置模型时 Codex 使用上游默认值。 @koalazf99</li>
+<li>自定义 persona 配置拆分为前缀和后缀，旧配置及相关常量需要适配。 @tianyicui</li>
+<li><strong>插件 Agent API 调整：</strong> 移除 <code>ctx.agent</code>，调用方需显式传递 Agent；同时修正可继续对话的子代理归属，避免它们被当作根会话参与定时调度。 @kermanx</li>
+<li><strong>Inbox API 调整：</strong> <code>Inbox</code> 改为类型接口，不再导出可构造的运行时类；插件通过 <code>agent.inbox</code> 读写待处理消息，<code>hasPending</code> 与 <code>claim</code> 不再属于公共接口。 @kermanx</li>
+<li><strong>Web 插件面板 API 调整：</strong> 插件可通过 <code>sidebar.panellist</code> 与 <code>main</code> 注册全局面板；原 <code>conversation</code> Slot 迁移为 <code>main</code> 的 <code>conversation</code> key @imccyu</li>
+<li>实验性 Agent Teams 包现可从 npm 安装；用户需显式添加 profile，不默认启用 @imccyu</li>
+</ul>
+<p>Full Changelog: <a href="https://github.com/deepseek-ai/deepseek-harness/compare/dsh-v0.1.2-rc.1...dsh-v0.1.5-rc.1">https://github.com/deepseek-ai/deepseek-harness/compare/dsh-v0.1.2-rc.1...dsh-v0.1.5-rc.1</a></p>
+<hr>
+<p>This first release candidate for <code>0.1.5</code> summarizes the major user- and developer-facing changes since <code>v0.1.2-rc.1</code>.</p>
+<h3 id="en-v0.1.5-rc.1">New Features</h3>
+
+<ul>
+<li>The DeepSeek model adapter adds <code>DeepSeek-V41-Flash</code> (<code>deepseek-flash</code>) with text, image, and in-history system prompt update support. New Sessions use it by default; when the configuration file explicitly specifies a model, that configured value takes precedence. by @LegGasai</li>
+<li>Web now supports uploads of arbitrary file types: files and images share a preview area, background uploads expose progress and cancellation and remain visible across conversation switches, and models can use existing file tools to read saved paths on demand. by @CreatixChu</li>
+<li>Continuable subagents support message queuing, editing, deletion, Steer for individual or all queued messages, and Stop. Queued submissions show a Sending state and cannot be edited, deleted, or steered until delivery completes. by @Dudu-0223, @LegGasai</li>
+<li>Support dynamic system prompt updates without invalidating KV Cache when the configured model explicitly declares support. by @tianyicui</li>
+<li>The Web right Sidebar supports tabs, split panes, fullscreen, and previews for Markdown, code, HTML, PDF, and images, including files from subagent and inactive sessions. Models can explicitly deliver files for Sidebar preview, default-app opening, or file-manager reveal. The former Detail panel is removed. by @imccyu, @Yifffan, @yixiangihsiang, @CreatixChu, @yudshj</li>
+<li>Model discovery now supports <code>models</code> objects from custom model providers and native Anthropic model lists, and fills in model names, context windows, and maximum output tokens when needed. by @LegGasai</li>
+<li>All outbound network requests honor the <code>HTTP_PROXY</code>, <code>HTTPS_PROXY</code>, <code>ALL_PROXY</code>, and <code>NO_PROXY</code> settings from the startup environment. by @LegGasai</li>
+<li>Add “Open in” to the Web header to open the Workspace in an installed editor, IDE, terminal, file manager, or other supported application. by @yixiangihsiang</li>
+<li>Feedback can be submitted without continuing the conversation. The <code>/feedback</code> command accepts detailed feedback, and submissions include the relevant conversation content. by @tianyicui, @Chinesezjc, @CreatixChu</li>
+</ul>
+<h3>Improvements</h3>
+<ul>
+<li>Web renders image results from top-level and PTC-nested <code>read_image</code> calls, and displays local images referenced by absolute POSIX paths in assistant messages, including screenshots outside the workspace. Failed loads show alt text or the original path. by @Chinesezjc, @kermanx</li>
+<li>The Skill picker supports fuzzy search, with improved Skill and command references in chat bubbles. by @LegGasai</li>
+<li>Adjust colors, hover and focus states, and category icons for clickable conversation links to improve the distinction between Markdown links, file references, web sources, artifact links, and Workflow member links. by @yixiangihsiang</li>
+<li>Prevent local non-terminal subprocesses from opening console windows on Windows. by @turtle1999</li>
+<li>Agent Team <code>send_message</code> consistently uses steer semantics and preserves sender attribution and ordering across agents and cold recovery. by @Dudu-0223</li>
+<li>Reduce lag when opening, resuming, and continuing long conversations, and lower memory usage. by @imccyu, @tianyicui, @Dudu-0223</li>
+<li>When a long conversation is referenced, the model can read content omitted from the preview as needed. by @tianyicui</li>
+<li>Improve Settings panel label and toggle-state styling across light and dark themes, localization, and accessibility. by @LegGasai, @turtle2099</li>
+<li>Allow commands and their output to be expanded in PTC mode. by @tianyicui</li>
+<li>Improve Web composer menu layering, placeholder text, and spacing. Present session statistics in two compact summaries for turn counts and speed, and detailed token usage and cache hits. by @Yifffan</li>
+<li>Localize built-in slash command descriptions into Chinese and update them when the interface language changes, preserving open menus and queries. by @Kaige-Gao</li>
+</ul>
+<h3>Bug Fixes</h3>
+<ul>
+<li>Pausing a goal in Web immediately aborts the active model turn, and the model cannot resume it. Only the user can resume the goal, and inactive goals also show a resume action. by @mektpoy</li>
+<li>Preserve tool-call IDs and names across DeepSeek streaming continuation chunks, preventing empty tool names and conversation records that cannot be reopened. by @LegGasai</li>
+<li>Prevent the Python SDK single-file runtime from rewriting Bash commands that begin with <code>node</code> as dsh runtime invocations. by @imccyu</li>
+<li>Open a conversation selected from search in its Workspace, expand it, and scroll it into view instead of leaving the search interface open. by @Dudu-0223</li>
+<li>Fix path separators, titles, and absolute-path validation for Windows drive-root Workspaces so drive roots work correctly. by @turtle1999</li>
+<li>Fix Web connections failing to recover automatically after a disconnection. by @LegGasai</li>
+<li>Fix chat no longer scrolling to the bottom automatically after sending a message or resizing the window. by @tianyicui</li>
+<li>Fix a possible Python SDK runtime crash on startup on Windows. by @tianyicui</li>
+<li>Make the Send button follow the same busy-session setting as Enter, with labels that identify queue or steer delivery. by @lsdsjy</li>
+<li>Reject messages with neither non-whitespace text nor an attachment, and reject blank queue edits. Image-only and file-only messages remain supported. by @turtle1999</li>
+<li>Report permission and I/O errors during project-root discovery instead of loading instructions from an ancestor project. by @turtle1999</li>
+<li>Remove literal Markdown bold markers from collapsed thinking summaries while preserving the full expanded content. by @turtle1999</li>
+<li>Keep pi-ai model settings available when catalog changes invalidate an existing configuration, preserving diagnostics and repair controls. by @LegGasai</li>
+<li>Validate and normalize custom-provider Base URLs before model discovery or provider creation, with inline feedback for invalid addresses. by @turtle2099</li>
+<li>Fix the Windows native folder picker opening behind other windows in the Web app. by @Elevator14B</li>
+<li>Fix the Composer placeholder remaining visible after whitespace is entered. by @CreatixChu</li>
+<li>Keep filesystem and Web guidance aligned with each agent&#39;s visible tools, so filtered subagents are not instructed to use unavailable tools. by @koalazf99</li>
+<li>Reject repeated MCP tool-list pagination cursors instead of hanging startup or synchronization, while keeping the last valid tool set available. by @grllll</li>
+</ul>
+<h3>Chores</h3>
+<ul>
+<li><strong>Session format V3:</strong> Version migrations generate new log files for supported old logs while preserving the originals, and upgraded Sessions do not support downgrade reads. Custom log readers must adapt to V3; see <a href="https://github.com/deepseek-ai/deepseek-harness/blob/dsh-v0.1.5-rc.1/packages/session/session-format-v2-to-v3/README.md">session-format-v2-to-v3/README.md</a> for cross-version migration details. by @tianyicui, @Magolor, @imccyu</li>
+<li><strong>Session lifecycle change:</strong> The Session persistence API is now owned by lifecycle-scoped <code>SessionHandle</code>s; <code>agentLoop.create()</code> is asynchronous, and a new Session lock ensures that each Session is held by at most one process. by @turtle1999, @imccyu</li>
+<li><strong>Default tool changes:</strong> SDK, Headless, and ACP use read, write, and edit for file editing by default. Web <code>minimal</code> and Python <code>sdk-minimal</code> provide only a persistent shell by default; <code>str_replace_editor</code> requires explicit opt-in, and persistent Bash consistently reports completion or timeout status. by @koalazf99</li>
+<li>Improve ordinary subprocess cleanup on Windows and supported Linux environments to reduce leftover processes after tasks stop. Ordinary subprocess handles no longer expose pid; terminal handles are unchanged. by @pku-xht</li>
+<li>Standardize <code>FS_NOT_OBSERVED</code> diagnostics for unobserved file writes and failed edits while preserving the file path, structured error code, and original cause. by @turtle1999</li>
+<li>The Python SDK adds a macOS x64 runtime wheel, allowing Intel-based Macs to install and run the bundled runtime. by @koalazf99</li>
+<li>Upgrade pi-ai to version 0.85.1. by @tianyicui</li>
+<li>Update the optional subagent plugins to Codex 0.153.4 and Claude Code 2.1.263. Explicit model settings remain unchanged; Codex uses its upstream default when no model is configured. by @koalazf99</li>
+<li>Custom persona configuration is split into a prefix and a suffix; existing configurations and related constants need to be updated. by @tianyicui</li>
+<li><strong>Agent plugin API changes:</strong> Remove <code>ctx.agent</code> and require callers to pass the Agent explicitly. Correct ownership of continuable subagents so root-only scheduling excludes them. by @kermanx</li>
+<li><strong>Inbox API changes:</strong> Make <code>Inbox</code> a type-only interface instead of an exported runtime class. Plugins access pending messages through <code>agent.inbox</code>; <code>hasPending</code> and <code>claim</code> are no longer public API. by @kermanx</li>
+<li><strong>Web plugin panel API changes:</strong> Plugins can register global panels through <code>sidebar.panellist</code> and <code>main</code>; the former <code>conversation</code> slot moves to the <code>conversation</code> key under <code>main</code>. by @imccyu</li>
+<li>Publish installable experimental Agent Teams packages; users must explicitly add the profile, which is not enabled by default. by @imccyu</li>
+</ul>
+<p>Full Changelog: <a href="https://github.com/deepseek-ai/deepseek-harness/compare/dsh-v0.1.2-rc.1...dsh-v0.1.5-rc.1">https://github.com/deepseek-ai/deepseek-harness/compare/dsh-v0.1.2-rc.1...dsh-v0.1.5-rc.1</a></p>
+]]></description>
+            <content:encoded><![CDATA[<p><a href="#cn-v0.1.5-rc.1">中文</a> | <a href="#en-v0.1.5-rc.1">English</a></p>
+<p>作为 <code>0.1.5</code> 系列的首个候选版本，本版本汇总了自 <code>v0.1.2-rc.1</code> 以来的主要用户和开发者相关变更。</p>
+<h3 id="cn-v0.1.5-rc.1">新增功能</h3>
+
+<ul>
+<li>DeepSeek 模型适配器新增 <code>DeepSeek-V41-Flash</code>（<code>deepseek-flash</code>）支持文本、图片及会话历史中的系统提示词更新。新会话默认使用该模型，配置文件显式指定模型时以配置值为准。 @LegGasai</li>
+<li>Web 支持上传任意类型的通用文件：文件与图片可在同一预览区混排，后台上传支持进度、取消与会话切换续显，模型可通过已保存路径使用现有文件工具按需读取。 @CreatixChu</li>
+<li>可继续对话的子代理支持消息排队、编辑、删除、单条或全部 Steer 与停止操作；排队消息发送期间显示“发送中”，并暂不可编辑、删除或 Steer。 @Dudu-0223, @LegGasai</li>
+<li>支持动态修改系统提示词且不破坏 KV Cache，模型需显式声明支持。 @tianyicui</li>
+<li>Web 右侧 Sidebar 支持多标签、分栏、全屏以及 Markdown、代码、HTML、PDF 和图片预览，包括子代理和未激活会话的文件；模型可显式交付文件，并可在 Sidebar 中预览、用默认应用打开或在文件管理器中定位。原 Detail 面板已移除。 @imccyu, @Yifffan, @yixiangihsiang, @CreatixChu, @yudshj</li>
+<li>模型探测新增对自定义模型提供商 <code>models</code> 对象和 Anthropic 原生模型列表的支持，并支持回填模型名称、上下文窗口及最大输出 token 的回填。 @LegGasai</li>
+<li>所有出站网络请求都会遵循启动环境中的 <code>HTTP_PROXY</code>、<code>HTTPS_PROXY</code>、<code>ALL_PROXY</code> 与 <code>NO_PROXY</code> 配置。 @LegGasai</li>
+<li>Web 顶栏新增“在应用中打开”，可用已安装的编辑器、IDE、终端或文件管理器等打开 Workspace。 @yixiangihsiang</li>
+<li>反馈可独立提交，无需继续对话；<code>/feedback</code> 命令支持提交明细反馈内容，提交时附带相关会话内容。 @tianyicui, @Chinesezjc, @CreatixChu</li>
+</ul>
+<h3>体验优化</h3>
+<ul>
+<li>Web 可直接显示顶层及 PTC 嵌套 <code>read_image</code> 的图片结果，以及模型回复中引用的 POSIX 绝对路径本地图片，包括工作区外截图；加载失败时显示替代文字或原路径。 @Chinesezjc, @kermanx</li>
+<li>Skill 选择器支持模糊搜索；优化聊天气泡中的的 Skill 和命令引用。 @LegGasai</li>
+<li>调整会话内可点击链接的颜色、hover/focus 样式和分类图标，优化 Markdown 链接、文件引用、网页来源、产物链接与 Workflow 成员链接的辨识度。 @yixiangihsiang</li>
+<li>Windows 上的本地非终端子进程不再弹出控制台窗口。 @turtle1999</li>
+<li>Agent Team 的 <code>send_message</code> 统一采用 steer 语义，并在跨 Agent 和冷恢复投递中保留发送者归属与顺序。 @Dudu-0223</li>
+<li>改善长会话打开、恢复和持续对话时的卡顿，降低内存占用。 @imccyu, @tianyicui, @Dudu-0223</li>
+<li>引用较长会话时，模型可按需读取预览中未展示的内容。 @tianyicui</li>
+<li>改善设置面板的标签、开关状态样式，改善浅色和深色主题下的显示效果，改善本地化与可访问性 @LegGasai, @turtle2099</li>
+<li>PTC 模式下支持展开查看命令及其输出。 @tianyicui</li>
+<li>改善 Web 输入框的菜单层级、提示文字和间距；会话统计改为两个可展开的摘要，分别查看轮次与速度、精确 Token 用量与缓存命中。 @Yifffan</li>
+<li>内置斜杠命令说明支持中文，并随界面语言即时更新；切换语言时保留已打开菜单和查询内容。 @Kaige-Gao</li>
+</ul>
+<h3>问题修复</h3>
+<ul>
+<li>用户在 Web 中暂停目标会立即终止当前模型轮次，且模型不能自行恢复；恢复必须由用户触发，尚未激活的目标也显示恢复入口。 @mektpoy</li>
+<li>修复 DeepSeek 流式工具调用的续传分片用空值覆盖调用 ID 或名称的问题，避免工具以空名称失败并写入无法重新打开的会话记录。 @LegGasai</li>
+<li>修复 Python SDK 单文件 runtime 将 Bash 中以 <code>node</code> 开头的命令错误重写为 dsh runtime 的问题。 @imccyu</li>
+<li>修复从会话搜索结果进入会话后仍停留在搜索界面的问题；目标会话会在所属 Workspace 中展开并滚动到可见位置。 @Dudu-0223</li>
+<li>修复 Windows 盘符根目录 Workspace 的路径分隔符、标题与绝对路径校验，确保盘符根目录可以正常使用。 @turtle1999</li>
+<li>修复 Web 断线后无法自动恢复的问题。 @LegGasai</li>
+<li>修复发送消息或调整窗口后，聊天不再自动滚动到底部的问题。 @tianyicui</li>
+<li>修复 Windows 上 Python SDK 运行时可能出现的启动崩溃。 @tianyicui</li>
+<li>修复会话运行中发送按钮与 Enter 的行为不一致：两者均遵循“繁忙时的发送行为”设置，并明确提示排队或插话发送。 @lsdsjy</li>
+<li>拒绝不含正文或附件的空消息及空白队列编辑，保留仅发送图片或文件的能力。 @turtle1999</li>
+<li>修复查找项目根目录遇到权限或 I/O 错误时误用上级项目指令的问题，相关错误会直接报告。 @turtle1999</li>
+<li>修复折叠的思考摘要直接显示 Markdown 加粗标记的问题，展开内容保持完整。 @turtle1999</li>
+<li>修复模型目录变化后失效的 pi-ai 配置导致整个模型设置入口消失的问题；错误项保留诊断和修复入口 @LegGasai</li>
+<li>在发现模型或创建自定义 provider 前校验并规范化 Base URL，并直接提示无效地址。 @turtle2099</li>
+<li>修复 Windows Web 界面的原生文件夹选择器可能在其他窗口后方打开的问题。 @Elevator14B</li>
+<li>修复在 Composer 中输入空白字符后占位提示仍然显示的问题。 @CreatixChu</li>
+<li>修复工具筛选后的子代理仍收到不可用文件和 Web 工具指导的问题。 @koalazf99</li>
+<li>拒绝 MCP 工具发现中的重复分页游标，避免启动或同步持续等待，并保留上一组可用工具。 @grllll</li>
+</ul>
+<h3>其他变更</h3>
+<ul>
+<li><strong>会话数据格式升级至 V3：</strong> 受支持的旧日志通过版本迁移生成新版日志并保留原文件，升级后的会话不支持降级读取。自定义日志读取器需适配 V3，跨版本迁移细节见 <a href="https://github.com/deepseek-ai/deepseek-harness/blob/dsh-v0.1.5-rc.1/packages/session/session-format-v2-to-v3/README.zh.md">session-format-v2-to-v3/README.md</a>。 @tianyicui, @Magolor, @imccyu</li>
+<li><strong>Session 生命周期变更：</strong> Session persistence API 改为由生命周期持有的 <code>SessionHandle</code>；<code>agentLoop.create()</code> 改为异步，新增session锁，同一session至多被一个进程持有。 @turtle1999, @imccyu</li>
+<li><strong>默认工具调整：</strong> SDK、Headless 和 ACP 默认使用 read、write、edit 编辑文件；Web <code>minimal</code> 与 Python <code>sdk-minimal</code> 默认仅提供持久 shell，<code>str_replace_editor</code> 需显式启用，持久 Bash 输出统一报告退出或超时状态。 @koalazf99</li>
+<li>改善 Windows 和部分 Linux 环境下普通子进程的清理，减少任务停止后的后台进程残留；普通 subprocess handle 不再暴露 pid，终端 handle 不受影响。 @pku-xht</li>
+<li>统一未观察文件写入与编辑失败的 <code>FS_NOT_OBSERVED</code> 诊断，保留文件路径、结构化错误码和原始原因。 @turtle1999</li>
+<li>Python SDK 新增 macOS x64 runtime wheel，可在 Intel 架构的 Mac 上安装并运行随包 runtime。 @koalazf99</li>
+<li>升级 pi-ai 版本至 0.85.1 @tianyicui</li>
+<li>可选子代理插件的内置运行时升级至 Codex 0.153.4 和 Claude Code 2.1.263；显式模型配置保持不变，未配置模型时 Codex 使用上游默认值。 @koalazf99</li>
+<li>自定义 persona 配置拆分为前缀和后缀，旧配置及相关常量需要适配。 @tianyicui</li>
+<li><strong>插件 Agent API 调整：</strong> 移除 <code>ctx.agent</code>，调用方需显式传递 Agent；同时修正可继续对话的子代理归属，避免它们被当作根会话参与定时调度。 @kermanx</li>
+<li><strong>Inbox API 调整：</strong> <code>Inbox</code> 改为类型接口，不再导出可构造的运行时类；插件通过 <code>agent.inbox</code> 读写待处理消息，<code>hasPending</code> 与 <code>claim</code> 不再属于公共接口。 @kermanx</li>
+<li><strong>Web 插件面板 API 调整：</strong> 插件可通过 <code>sidebar.panellist</code> 与 <code>main</code> 注册全局面板；原 <code>conversation</code> Slot 迁移为 <code>main</code> 的 <code>conversation</code> key @imccyu</li>
+<li>实验性 Agent Teams 包现可从 npm 安装；用户需显式添加 profile，不默认启用 @imccyu</li>
+</ul>
+<p>Full Changelog: <a href="https://github.com/deepseek-ai/deepseek-harness/compare/dsh-v0.1.2-rc.1...dsh-v0.1.5-rc.1">https://github.com/deepseek-ai/deepseek-harness/compare/dsh-v0.1.2-rc.1...dsh-v0.1.5-rc.1</a></p>
+<hr>
+<p>This first release candidate for <code>0.1.5</code> summarizes the major user- and developer-facing changes since <code>v0.1.2-rc.1</code>.</p>
+<h3 id="en-v0.1.5-rc.1">New Features</h3>
+
+<ul>
+<li>The DeepSeek model adapter adds <code>DeepSeek-V41-Flash</code> (<code>deepseek-flash</code>) with text, image, and in-history system prompt update support. New Sessions use it by default; when the configuration file explicitly specifies a model, that configured value takes precedence. by @LegGasai</li>
+<li>Web now supports uploads of arbitrary file types: files and images share a preview area, background uploads expose progress and cancellation and remain visible across conversation switches, and models can use existing file tools to read saved paths on demand. by @CreatixChu</li>
+<li>Continuable subagents support message queuing, editing, deletion, Steer for individual or all queued messages, and Stop. Queued submissions show a Sending state and cannot be edited, deleted, or steered until delivery completes. by @Dudu-0223, @LegGasai</li>
+<li>Support dynamic system prompt updates without invalidating KV Cache when the configured model explicitly declares support. by @tianyicui</li>
+<li>The Web right Sidebar supports tabs, split panes, fullscreen, and previews for Markdown, code, HTML, PDF, and images, including files from subagent and inactive sessions. Models can explicitly deliver files for Sidebar preview, default-app opening, or file-manager reveal. The former Detail panel is removed. by @imccyu, @Yifffan, @yixiangihsiang, @CreatixChu, @yudshj</li>
+<li>Model discovery now supports <code>models</code> objects from custom model providers and native Anthropic model lists, and fills in model names, context windows, and maximum output tokens when needed. by @LegGasai</li>
+<li>All outbound network requests honor the <code>HTTP_PROXY</code>, <code>HTTPS_PROXY</code>, <code>ALL_PROXY</code>, and <code>NO_PROXY</code> settings from the startup environment. by @LegGasai</li>
+<li>Add “Open in” to the Web header to open the Workspace in an installed editor, IDE, terminal, file manager, or other supported application. by @yixiangihsiang</li>
+<li>Feedback can be submitted without continuing the conversation. The <code>/feedback</code> command accepts detailed feedback, and submissions include the relevant conversation content. by @tianyicui, @Chinesezjc, @CreatixChu</li>
+</ul>
+<h3>Improvements</h3>
+<ul>
+<li>Web renders image results from top-level and PTC-nested <code>read_image</code> calls, and displays local images referenced by absolute POSIX paths in assistant messages, including screenshots outside the workspace. Failed loads show alt text or the original path. by @Chinesezjc, @kermanx</li>
+<li>The Skill picker supports fuzzy search, with improved Skill and command references in chat bubbles. by @LegGasai</li>
+<li>Adjust colors, hover and focus states, and category icons for clickable conversation links to improve the distinction between Markdown links, file references, web sources, artifact links, and Workflow member links. by @yixiangihsiang</li>
+<li>Prevent local non-terminal subprocesses from opening console windows on Windows. by @turtle1999</li>
+<li>Agent Team <code>send_message</code> consistently uses steer semantics and preserves sender attribution and ordering across agents and cold recovery. by @Dudu-0223</li>
+<li>Reduce lag when opening, resuming, and continuing long conversations, and lower memory usage. by @imccyu, @tianyicui, @Dudu-0223</li>
+<li>When a long conversation is referenced, the model can read content omitted from the preview as needed. by @tianyicui</li>
+<li>Improve Settings panel label and toggle-state styling across light and dark themes, localization, and accessibility. by @LegGasai, @turtle2099</li>
+<li>Allow commands and their output to be expanded in PTC mode. by @tianyicui</li>
+<li>Improve Web composer menu layering, placeholder text, and spacing. Present session statistics in two compact summaries for turn counts and speed, and detailed token usage and cache hits. by @Yifffan</li>
+<li>Localize built-in slash command descriptions into Chinese and update them when the interface language changes, preserving open menus and queries. by @Kaige-Gao</li>
+</ul>
+<h3>Bug Fixes</h3>
+<ul>
+<li>Pausing a goal in Web immediately aborts the active model turn, and the model cannot resume it. Only the user can resume the goal, and inactive goals also show a resume action. by @mektpoy</li>
+<li>Preserve tool-call IDs and names across DeepSeek streaming continuation chunks, preventing empty tool names and conversation records that cannot be reopened. by @LegGasai</li>
+<li>Prevent the Python SDK single-file runtime from rewriting Bash commands that begin with <code>node</code> as dsh runtime invocations. by @imccyu</li>
+<li>Open a conversation selected from search in its Workspace, expand it, and scroll it into view instead of leaving the search interface open. by @Dudu-0223</li>
+<li>Fix path separators, titles, and absolute-path validation for Windows drive-root Workspaces so drive roots work correctly. by @turtle1999</li>
+<li>Fix Web connections failing to recover automatically after a disconnection. by @LegGasai</li>
+<li>Fix chat no longer scrolling to the bottom automatically after sending a message or resizing the window. by @tianyicui</li>
+<li>Fix a possible Python SDK runtime crash on startup on Windows. by @tianyicui</li>
+<li>Make the Send button follow the same busy-session setting as Enter, with labels that identify queue or steer delivery. by @lsdsjy</li>
+<li>Reject messages with neither non-whitespace text nor an attachment, and reject blank queue edits. Image-only and file-only messages remain supported. by @turtle1999</li>
+<li>Report permission and I/O errors during project-root discovery instead of loading instructions from an ancestor project. by @turtle1999</li>
+<li>Remove literal Markdown bold markers from collapsed thinking summaries while preserving the full expanded content. by @turtle1999</li>
+<li>Keep pi-ai model settings available when catalog changes invalidate an existing configuration, preserving diagnostics and repair controls. by @LegGasai</li>
+<li>Validate and normalize custom-provider Base URLs before model discovery or provider creation, with inline feedback for invalid addresses. by @turtle2099</li>
+<li>Fix the Windows native folder picker opening behind other windows in the Web app. by @Elevator14B</li>
+<li>Fix the Composer placeholder remaining visible after whitespace is entered. by @CreatixChu</li>
+<li>Keep filesystem and Web guidance aligned with each agent&#39;s visible tools, so filtered subagents are not instructed to use unavailable tools. by @koalazf99</li>
+<li>Reject repeated MCP tool-list pagination cursors instead of hanging startup or synchronization, while keeping the last valid tool set available. by @grllll</li>
+</ul>
+<h3>Chores</h3>
+<ul>
+<li><strong>Session format V3:</strong> Version migrations generate new log files for supported old logs while preserving the originals, and upgraded Sessions do not support downgrade reads. Custom log readers must adapt to V3; see <a href="https://github.com/deepseek-ai/deepseek-harness/blob/dsh-v0.1.5-rc.1/packages/session/session-format-v2-to-v3/README.md">session-format-v2-to-v3/README.md</a> for cross-version migration details. by @tianyicui, @Magolor, @imccyu</li>
+<li><strong>Session lifecycle change:</strong> The Session persistence API is now owned by lifecycle-scoped <code>SessionHandle</code>s; <code>agentLoop.create()</code> is asynchronous, and a new Session lock ensures that each Session is held by at most one process. by @turtle1999, @imccyu</li>
+<li><strong>Default tool changes:</strong> SDK, Headless, and ACP use read, write, and edit for file editing by default. Web <code>minimal</code> and Python <code>sdk-minimal</code> provide only a persistent shell by default; <code>str_replace_editor</code> requires explicit opt-in, and persistent Bash consistently reports completion or timeout status. by @koalazf99</li>
+<li>Improve ordinary subprocess cleanup on Windows and supported Linux environments to reduce leftover processes after tasks stop. Ordinary subprocess handles no longer expose pid; terminal handles are unchanged. by @pku-xht</li>
+<li>Standardize <code>FS_NOT_OBSERVED</code> diagnostics for unobserved file writes and failed edits while preserving the file path, structured error code, and original cause. by @turtle1999</li>
+<li>The Python SDK adds a macOS x64 runtime wheel, allowing Intel-based Macs to install and run the bundled runtime. by @koalazf99</li>
+<li>Upgrade pi-ai to version 0.85.1. by @tianyicui</li>
+<li>Update the optional subagent plugins to Codex 0.153.4 and Claude Code 2.1.263. Explicit model settings remain unchanged; Codex uses its upstream default when no model is configured. by @koalazf99</li>
+<li>Custom persona configuration is split into a prefix and a suffix; existing configurations and related constants need to be updated. by @tianyicui</li>
+<li><strong>Agent plugin API changes:</strong> Remove <code>ctx.agent</code> and require callers to pass the Agent explicitly. Correct ownership of continuable subagents so root-only scheduling excludes them. by @kermanx</li>
+<li><strong>Inbox API changes:</strong> Make <code>Inbox</code> a type-only interface instead of an exported runtime class. Plugins access pending messages through <code>agent.inbox</code>; <code>hasPending</code> and <code>claim</code> are no longer public API. by @kermanx</li>
+<li><strong>Web plugin panel API changes:</strong> Plugins can register global panels through <code>sidebar.panellist</code> and <code>main</code>; the former <code>conversation</code> slot moves to the <code>conversation</code> key under <code>main</code>. by @imccyu</li>
+<li>Publish installable experimental Agent Teams packages; users must explicitly add the profile, which is not enabled by default. by @imccyu</li>
+</ul>
+<p>Full Changelog: <a href="https://github.com/deepseek-ai/deepseek-harness/compare/dsh-v0.1.2-rc.1...dsh-v0.1.5-rc.1">https://github.com/deepseek-ai/deepseek-harness/compare/dsh-v0.1.2-rc.1...dsh-v0.1.5-rc.1</a></p>
+]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[v0.1.5-alpha.2]]></title>
             <link>https://github.com/deepseek-ai/deepseek-harness/releases/tag/dsh-v0.1.5-alpha.2</link>
