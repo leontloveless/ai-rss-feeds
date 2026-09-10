@@ -4,11 +4,65 @@
         <title>mcp-grafana Releases</title>
         <link>https://github.com/grafana/mcp-grafana/releases</link>
         <description>GitHub releases for grafana/mcp-grafana</description>
-        <lastBuildDate>Fri, 28 Aug 2026 15:59:24 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 10 Sep 2026 15:39:40 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>ai-rss-feeds (https://github.com/leontloveless/ai-rss-feeds)</generator>
         <language>en</language>
         <atom:link href="https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/mcp-grafana-releases.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[v1.4.0]]></title>
+            <link>https://github.com/grafana/mcp-grafana/releases/tag/v1.4.0</link>
+            <guid>https://github.com/grafana/mcp-grafana/releases/tag/v1.4.0</guid>
+            <pubDate>Thu, 10 Sep 2026 15:39:40 GMT</pubDate>
+            <description><![CDATA[<h3>Added</h3>
+<ul>
+<li>Unified SQL datasource tools (<code>query_athena</code>, <code>query_clickhouse</code>, <code>query_snowflake</code>, <code>query_mssql</code>, <code>query_postgresql</code>) into a shared dialect system, reducing duplication and making it easier to add new SQL datasources (<a href="https://github.com/grafana/mcp-grafana/pull/1126">#1126</a>)</li>
+<li><code>--enable-write-tools</code> flag to selectively re-enable specific tools under <code>--disable-write</code>, so operators can allow individual write tools (e.g. Sift investigation tools) without enabling all writes. <code>--enable-query</code> is now shorthand for naming the raw-SQL query tools in this list (<a href="https://github.com/grafana/mcp-grafana/pull/1157">#1157</a>)</li>
+<li>Optional <code>folderUid</code>, <code>tag</code>, and <code>starred</code> filters on <code>search_dashboards</code>, forwarded to Grafana <code>/api/search</code>. Empty-query searches now always restrict results to dashboards (<code>type=dash-db</code>) (<a href="https://github.com/grafana/mcp-grafana/pull/1154">#1154</a>)</li>
+<li>Optional <code>matcher</code> parameter on <code>list_loki_label_names</code> and <code>list_loki_label_values</code> to narrow label discovery to a subset of streams (a LogQL stream selector on Loki, LogsQL on VictoriaLogs) (<a href="https://github.com/grafana/mcp-grafana/pull/1135">#1135</a>)</li>
+<li><code>delete_annotation</code> tool (write-gated) to permanently delete a Grafana annotation by ID, completing the annotation CRUD surface (<a href="https://github.com/grafana/mcp-grafana/pull/1134">#1134</a>)</li>
+<li><code>list_cloudwatch_dimension_values</code> tool to list the values available for a CloudWatch dimension key, rather than requiring an LLM to guess them (<a href="https://github.com/grafana/mcp-grafana/pull/1141">#1141</a>)</li>
+<li><code>--loki-enforced-matchers</code>: operator-configured LogQL label matchers AND-ed into every native-Loki query (logs, stats, patterns, and label enumeration) to restrict which streams the server can read. Fails closed on unparseable queries and refuses VictoriaLogs datasources while set. Pair with <code>--disable-api</code> so the raw datasource proxy cannot bypass it. A companion <code>--loki-label-enumeration-fallback</code> controls label-enumeration behaviour under purely-negative matchers (<a href="https://github.com/grafana/mcp-grafana/pull/978">#978</a>)</li>
+<li><code>--instructions-append</code> flag to append operator-supplied text to the server instructions returned to MCP clients on initialize, so every connecting agent sees it (<a href="https://github.com/grafana/mcp-grafana/pull/978">#978</a>)</li>
+<li>Separate <code>/healthz</code> listener with its own port, so health checks and Prometheus metrics are served independently of the MCP transport (<a href="https://github.com/grafana/mcp-grafana/pull/1137">#1137</a>)</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
+<li><code>alerting_manage_rules</code> list operation now applies <code>search_rule_name</code> filtering client-side when listing datasource-provisioned rules, which the Grafana ruler API does not filter server-side (<a href="https://github.com/grafana/mcp-grafana/pull/1161">#1161</a>)</li>
+<li><code>tools/list</code> response now includes <code>resultType</code>, <code>cacheScope</code>, and <code>ttlMs</code> fields for all protocol versions, fixing a <code>ValidationError</code> that silently dropped all tools when mcp-grafana was used behind a Python MCP proxy (mcp &gt;= 2.0.0, fastmcp &gt;= 4.0.0) (<a href="https://github.com/grafana/mcp-grafana/pull/1151">#1151</a>)</li>
+<li><code>get_current_oncall_users</code> now handles user objects (not just ID strings) in the IRM proxy API&#39;s <code>on_call_now</code> response, fixing empty results on instances using the IRM proxy (<a href="https://github.com/grafana/mcp-grafana/pull/1150">#1150</a>)</li>
+<li><code>--allowed-hosts</code> is now honored when the request arrives via a loopback reverse proxy, so non-loopback hostnames work behind nginx/Caddy on the same machine (<a href="https://github.com/grafana/mcp-grafana/pull/1142">#1142</a>)</li>
+<li><code>check_datasources_health</code> no longer reports a frontend-only datasource plugin (e.g. the built-in Alertmanager datasource) as unhealthy; such datasources now report <code>&quot;status&quot;: &quot;UNKNOWN&quot;</code> and are counted separately in a new <code>unknown</code> field (<a href="https://github.com/grafana/mcp-grafana/pull/1139">#1139</a>)</li>
+<li>Tool calls with a type mismatch (e.g. string where number is expected) now return a structured MCP tool error instead of an opaque internal error (<a href="https://github.com/grafana/mcp-grafana/pull/1138">#1138</a>)</li>
+<li>Explore deeplinks now use the <code>panes</code> format introduced in Grafana 10.2, fixing broken Cloud Monitoring and Loki links caused by lossy migration of the legacy <code>left</code> parameter. Falls back to the legacy format for Grafana &lt; 10.2 (<a href="https://github.com/grafana/mcp-grafana/pull/1088">#1088</a>)</li>
+<li><code>query_loki_logs</code> no longer double-encodes timestamps in stream results (<a href="https://github.com/grafana/mcp-grafana/pull/982">#982</a>)</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h3>Added</h3>
+<ul>
+<li>Unified SQL datasource tools (<code>query_athena</code>, <code>query_clickhouse</code>, <code>query_snowflake</code>, <code>query_mssql</code>, <code>query_postgresql</code>) into a shared dialect system, reducing duplication and making it easier to add new SQL datasources (<a href="https://github.com/grafana/mcp-grafana/pull/1126">#1126</a>)</li>
+<li><code>--enable-write-tools</code> flag to selectively re-enable specific tools under <code>--disable-write</code>, so operators can allow individual write tools (e.g. Sift investigation tools) without enabling all writes. <code>--enable-query</code> is now shorthand for naming the raw-SQL query tools in this list (<a href="https://github.com/grafana/mcp-grafana/pull/1157">#1157</a>)</li>
+<li>Optional <code>folderUid</code>, <code>tag</code>, and <code>starred</code> filters on <code>search_dashboards</code>, forwarded to Grafana <code>/api/search</code>. Empty-query searches now always restrict results to dashboards (<code>type=dash-db</code>) (<a href="https://github.com/grafana/mcp-grafana/pull/1154">#1154</a>)</li>
+<li>Optional <code>matcher</code> parameter on <code>list_loki_label_names</code> and <code>list_loki_label_values</code> to narrow label discovery to a subset of streams (a LogQL stream selector on Loki, LogsQL on VictoriaLogs) (<a href="https://github.com/grafana/mcp-grafana/pull/1135">#1135</a>)</li>
+<li><code>delete_annotation</code> tool (write-gated) to permanently delete a Grafana annotation by ID, completing the annotation CRUD surface (<a href="https://github.com/grafana/mcp-grafana/pull/1134">#1134</a>)</li>
+<li><code>list_cloudwatch_dimension_values</code> tool to list the values available for a CloudWatch dimension key, rather than requiring an LLM to guess them (<a href="https://github.com/grafana/mcp-grafana/pull/1141">#1141</a>)</li>
+<li><code>--loki-enforced-matchers</code>: operator-configured LogQL label matchers AND-ed into every native-Loki query (logs, stats, patterns, and label enumeration) to restrict which streams the server can read. Fails closed on unparseable queries and refuses VictoriaLogs datasources while set. Pair with <code>--disable-api</code> so the raw datasource proxy cannot bypass it. A companion <code>--loki-label-enumeration-fallback</code> controls label-enumeration behaviour under purely-negative matchers (<a href="https://github.com/grafana/mcp-grafana/pull/978">#978</a>)</li>
+<li><code>--instructions-append</code> flag to append operator-supplied text to the server instructions returned to MCP clients on initialize, so every connecting agent sees it (<a href="https://github.com/grafana/mcp-grafana/pull/978">#978</a>)</li>
+<li>Separate <code>/healthz</code> listener with its own port, so health checks and Prometheus metrics are served independently of the MCP transport (<a href="https://github.com/grafana/mcp-grafana/pull/1137">#1137</a>)</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
+<li><code>alerting_manage_rules</code> list operation now applies <code>search_rule_name</code> filtering client-side when listing datasource-provisioned rules, which the Grafana ruler API does not filter server-side (<a href="https://github.com/grafana/mcp-grafana/pull/1161">#1161</a>)</li>
+<li><code>tools/list</code> response now includes <code>resultType</code>, <code>cacheScope</code>, and <code>ttlMs</code> fields for all protocol versions, fixing a <code>ValidationError</code> that silently dropped all tools when mcp-grafana was used behind a Python MCP proxy (mcp &gt;= 2.0.0, fastmcp &gt;= 4.0.0) (<a href="https://github.com/grafana/mcp-grafana/pull/1151">#1151</a>)</li>
+<li><code>get_current_oncall_users</code> now handles user objects (not just ID strings) in the IRM proxy API&#39;s <code>on_call_now</code> response, fixing empty results on instances using the IRM proxy (<a href="https://github.com/grafana/mcp-grafana/pull/1150">#1150</a>)</li>
+<li><code>--allowed-hosts</code> is now honored when the request arrives via a loopback reverse proxy, so non-loopback hostnames work behind nginx/Caddy on the same machine (<a href="https://github.com/grafana/mcp-grafana/pull/1142">#1142</a>)</li>
+<li><code>check_datasources_health</code> no longer reports a frontend-only datasource plugin (e.g. the built-in Alertmanager datasource) as unhealthy; such datasources now report <code>&quot;status&quot;: &quot;UNKNOWN&quot;</code> and are counted separately in a new <code>unknown</code> field (<a href="https://github.com/grafana/mcp-grafana/pull/1139">#1139</a>)</li>
+<li>Tool calls with a type mismatch (e.g. string where number is expected) now return a structured MCP tool error instead of an opaque internal error (<a href="https://github.com/grafana/mcp-grafana/pull/1138">#1138</a>)</li>
+<li>Explore deeplinks now use the <code>panes</code> format introduced in Grafana 10.2, fixing broken Cloud Monitoring and Loki links caused by lossy migration of the legacy <code>left</code> parameter. Falls back to the legacy format for Grafana &lt; 10.2 (<a href="https://github.com/grafana/mcp-grafana/pull/1088">#1088</a>)</li>
+<li><code>query_loki_logs</code> no longer double-encodes timestamps in stream results (<a href="https://github.com/grafana/mcp-grafana/pull/982">#982</a>)</li>
+</ul>
+]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[v1.3.0]]></title>
             <link>https://github.com/grafana/mcp-grafana/releases/tag/v1.3.0</link>
@@ -1753,54 +1807,6 @@
 </ul>
 <hr>
 <p>Released by <a href="https://github.com/goreleaser/goreleaser">GoReleaser</a>.</p>
-]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[v0.4.0]]></title>
-            <link>https://github.com/grafana/mcp-grafana/releases/tag/v0.4.0</link>
-            <guid>https://github.com/grafana/mcp-grafana/releases/tag/v0.4.0</guid>
-            <pubDate>Mon, 19 May 2025 17:23:24 GMT</pubDate>
-            <description><![CDATA[<h2>What&#39;s Changed</h2>
-<ul>
-<li>Dashboards: Fetch panel queries by @ioanarm in <a href="https://github.com/grafana/mcp-grafana/pull/115">https://github.com/grafana/mcp-grafana/pull/115</a></li>
-<li>Add GitHub action for e2e tests by @ioanarm in <a href="https://github.com/grafana/mcp-grafana/pull/117">https://github.com/grafana/mcp-grafana/pull/117</a></li>
-<li>Bump golang.org/x/net from 0.36.0 to 0.38.0 by @dependabot in <a href="https://github.com/grafana/mcp-grafana/pull/118">https://github.com/grafana/mcp-grafana/pull/118</a></li>
-<li>chore: create dependabot.yml by @sd2k in <a href="https://github.com/grafana/mcp-grafana/pull/119">https://github.com/grafana/mcp-grafana/pull/119</a></li>
-<li>Bump the go-dependencies group with 5 updates by @dependabot in <a href="https://github.com/grafana/mcp-grafana/pull/120">https://github.com/grafana/mcp-grafana/pull/120</a></li>
-<li>Prevent panic if didn&#39;t find patterns. by @gitdoluquita in <a href="https://github.com/grafana/mcp-grafana/pull/122">https://github.com/grafana/mcp-grafana/pull/122</a></li>
-<li>feat: add build target to Makefile by @sd2k in <a href="https://github.com/grafana/mcp-grafana/pull/131">https://github.com/grafana/mcp-grafana/pull/131</a></li>
-<li>feat: add title annotations to all tools by @sd2k in <a href="https://github.com/grafana/mcp-grafana/pull/130">https://github.com/grafana/mcp-grafana/pull/130</a></li>
-<li>refactor: extract Grafana Client creation from context functions by @sd2k in <a href="https://github.com/grafana/mcp-grafana/pull/127">https://github.com/grafana/mcp-grafana/pull/127</a></li>
-<li>feat: adds admin category for listing teams by @eleijonmarck in <a href="https://github.com/grafana/mcp-grafana/pull/124">https://github.com/grafana/mcp-grafana/pull/124</a></li>
-<li>feat: add more annotations to tools by @sd2k in <a href="https://github.com/grafana/mcp-grafana/pull/132">https://github.com/grafana/mcp-grafana/pull/132</a></li>
-<li>fix: pass OBO auth to asserts client, if available by @sd2k in <a href="https://github.com/grafana/mcp-grafana/pull/135">https://github.com/grafana/mcp-grafana/pull/135</a></li>
-</ul>
-<h2>New Contributors</h2>
-<ul>
-<li>@eleijonmarck made their first contribution in <a href="https://github.com/grafana/mcp-grafana/pull/124">https://github.com/grafana/mcp-grafana/pull/124</a></li>
-</ul>
-<p><strong>Full Changelog</strong>: <a href="https://github.com/grafana/mcp-grafana/compare/v0.3.0...v0.4.0">https://github.com/grafana/mcp-grafana/compare/v0.3.0...v0.4.0</a></p>
-]]></description>
-            <content:encoded><![CDATA[<h2>What&#39;s Changed</h2>
-<ul>
-<li>Dashboards: Fetch panel queries by @ioanarm in <a href="https://github.com/grafana/mcp-grafana/pull/115">https://github.com/grafana/mcp-grafana/pull/115</a></li>
-<li>Add GitHub action for e2e tests by @ioanarm in <a href="https://github.com/grafana/mcp-grafana/pull/117">https://github.com/grafana/mcp-grafana/pull/117</a></li>
-<li>Bump golang.org/x/net from 0.36.0 to 0.38.0 by @dependabot in <a href="https://github.com/grafana/mcp-grafana/pull/118">https://github.com/grafana/mcp-grafana/pull/118</a></li>
-<li>chore: create dependabot.yml by @sd2k in <a href="https://github.com/grafana/mcp-grafana/pull/119">https://github.com/grafana/mcp-grafana/pull/119</a></li>
-<li>Bump the go-dependencies group with 5 updates by @dependabot in <a href="https://github.com/grafana/mcp-grafana/pull/120">https://github.com/grafana/mcp-grafana/pull/120</a></li>
-<li>Prevent panic if didn&#39;t find patterns. by @gitdoluquita in <a href="https://github.com/grafana/mcp-grafana/pull/122">https://github.com/grafana/mcp-grafana/pull/122</a></li>
-<li>feat: add build target to Makefile by @sd2k in <a href="https://github.com/grafana/mcp-grafana/pull/131">https://github.com/grafana/mcp-grafana/pull/131</a></li>
-<li>feat: add title annotations to all tools by @sd2k in <a href="https://github.com/grafana/mcp-grafana/pull/130">https://github.com/grafana/mcp-grafana/pull/130</a></li>
-<li>refactor: extract Grafana Client creation from context functions by @sd2k in <a href="https://github.com/grafana/mcp-grafana/pull/127">https://github.com/grafana/mcp-grafana/pull/127</a></li>
-<li>feat: adds admin category for listing teams by @eleijonmarck in <a href="https://github.com/grafana/mcp-grafana/pull/124">https://github.com/grafana/mcp-grafana/pull/124</a></li>
-<li>feat: add more annotations to tools by @sd2k in <a href="https://github.com/grafana/mcp-grafana/pull/132">https://github.com/grafana/mcp-grafana/pull/132</a></li>
-<li>fix: pass OBO auth to asserts client, if available by @sd2k in <a href="https://github.com/grafana/mcp-grafana/pull/135">https://github.com/grafana/mcp-grafana/pull/135</a></li>
-</ul>
-<h2>New Contributors</h2>
-<ul>
-<li>@eleijonmarck made their first contribution in <a href="https://github.com/grafana/mcp-grafana/pull/124">https://github.com/grafana/mcp-grafana/pull/124</a></li>
-</ul>
-<p><strong>Full Changelog</strong>: <a href="https://github.com/grafana/mcp-grafana/compare/v0.3.0...v0.4.0">https://github.com/grafana/mcp-grafana/compare/v0.3.0...v0.4.0</a></p>
 ]]></content:encoded>
         </item>
     </channel>
