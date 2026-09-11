@@ -92,9 +92,13 @@ files, change source code, install extra packages, or call `src/add-smart.ts`.
 2. Check for an existing config or feed before creating anything. If the source
    is already covered, make no changes and use `add_comment` to explain that on
    issue #${{ inputs.issue_number }}.
-3. Inspect the validated URL with the `web-fetch` tool. Do not try to run a
-   nonexistent `bun run web-fetch` script. For GitHub repositories, prefer the
-   GitHub tool for release metadata. Select the least fragile supported mode:
+3. Inspect the validated URL by calling the `web_fetch` tool directly. It is a
+   tool, not a shell command or Bun script. Do not run `bun run web-fetch`,
+   `curl`, or `wget`. If `web_fetch` fails or is unavailable, do not infer that
+   the site lacks a native feed. Stop without repository changes and use
+   `add_comment` to report that inspection could not be completed, including
+   the concrete tool error. For GitHub repositories, prefer the GitHub tool for
+   release metadata. Select the least fragile supported mode:
    - Use `external` when the site already exposes a usable RSS or Atom feed.
    - Use `github-releases` for a GitHub repository with releases. Check whether
      the project publishes only prereleases and set `includePrerelease`

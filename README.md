@@ -34,12 +34,13 @@ GitHub release feeds and native RSS/Atom feeds are added without a model call. S
 | [文匯香港](https://www.wenweipo.com/hongkong) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/wenweipo-hongkong.xml) | ✅ 15 articles |
 | [Windsurf Blog](https://windsurf.com/blog) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/windsurf.xml) | ✅ 50 articles |
 
-### External RSS (4)
+### External RSS (5)
 
 | Blog | Feed | Status |
 |------|------|--------|
 | [booking.ai](https://booking.ai/) | [Subscribe](https://booking.ai/feed) | ✅ native RSS |
 | [Hugging Face - Blog](https://huggingface.co/blog) | [Subscribe](https://huggingface.co/blog/feed.xml) | ✅ native RSS |
+| [OpenAI News](https://openai.com/news/) | [Subscribe](https://openai.com/news/rss.xml) | ✅ native RSS |
 | [Engineering Blog](https://engineering.roku.com/) | [Subscribe](https://engineering.roku.com/feed) | ✅ native RSS |
 | [Monzo – It's time for a new kind of bank](https://share.google/DVO0e53D9NBLGntfT) | [Subscribe](https://monzo.com/feed.xml) | ✅ native RSS |
 

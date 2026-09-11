@@ -18,7 +18,7 @@ import RSSParser from "rss-parser";
 import * as cheerio from "cheerio";
 import { writeFileSync, mkdirSync, readdirSync, readFileSync, existsSync } from "fs";
 import { join } from "path";
-import { fetchGitHubAPI, tolerantFetch, isReachable } from "./fetcher.js";
+import { fetchGitHubAPI, tolerantFetch } from "./fetcher.js";
 import { parseArticles } from "./parser.js";
 import { validateQuick } from "./validator.js";
 import { generateRSS } from "./generator.js";
@@ -187,7 +187,7 @@ function siteDomain(hostname: string): string {
   return parts.slice(-2).join(".");
 }
 
-async function validateFeedCandidate(feedUrl: string): Promise<DiscoveredFeed | null> {
+export async function validateFeedCandidate(feedUrl: string): Promise<DiscoveredFeed | null> {
   try {
     const res = await tolerantFetch(feedUrl, {
       headers: DISCOVERY_HEADERS,
@@ -211,12 +211,6 @@ async function validateFeedCandidate(feedUrl: string): Promise<DiscoveredFeed | 
       .map((item) => item.link?.trim())
       .filter((link): link is string => !!link && link.startsWith("http"));
     if (links.length === 0) return null;
-
-    let unreachable = 0;
-    for (const link of links) {
-      if (!(await isReachable(link))) unreachable++;
-    }
-    if (unreachable > 1) return null;
 
     return {
       url: res.url || feedUrl,
