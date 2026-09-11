@@ -4,11 +4,173 @@
         <title>hermes-agent Releases</title>
         <link>https://github.com/NousResearch/hermes-agent/releases</link>
         <description>GitHub releases for NousResearch/hermes-agent</description>
-        <lastBuildDate>Mon, 07 Sep 2026 22:17:01 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 11 Sep 2026 19:20:31 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>ai-rss-feeds (https://github.com/leontloveless/ai-rss-feeds)</generator>
         <language>en</language>
         <atom:link href="https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/hermes-agent-releases.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[Hermes Agent v0.21.2 (v2026.9.11)]]></title>
+            <link>https://github.com/NousResearch/hermes-agent/releases/tag/v2026.9.11</link>
+            <guid>https://github.com/NousResearch/hermes-agent/releases/tag/v2026.9.11</guid>
+            <pubDate>Fri, 11 Sep 2026 19:20:31 GMT</pubDate>
+            <description><![CDATA[<h1>Hermes Agent v0.21.2 (v2026.9.11) — The state.db Patch Release</h1>
+<p><strong>Release Date:</strong> September 11, 2026</p>
+<blockquote>
+<p>Patch release. v0.21.0 shipped a large rewrite of the session store&#39;s connection handling, and for some installs it made <code>state.db</code> fragile: second writers cancelling each other&#39;s locks, healthy databases reported as corrupt, one bad row killing <code>sessions list</code>. This release closes that class and rolls up everything else that landed on <code>main</code> in the four days since v0.21.1.</p>
+</blockquote>
+<h2>About this release</h2>
+<p>Measured at commit <code>04dd80a977f40b05e5b2054111747af07a61886a</code>, the window since v0.21.1 contains <strong>947 non-merge commits</strong> across <strong>1,869 changed files</strong> (+182,504 / −15,564) and <strong>312 merged PRs</strong>. <strong>140 contributors</strong> appear in commits, co-author trailers, or salvage credits.</p>
+<h2>✨ Highlights</h2>
+<h3>state.db reliability campaign (six PRs, 44 issues closed)</h3>
+<p>If your <code>state.db</code> broke after 0.21.0, this is the release for you. Six PRs fix the root causes rather than the symptoms:</p>
+<ul>
+<li><strong>No more second writers.</strong> Profile gateways wrote hosted-room state into the <em>root</em> <code>state.db</code> every 5 seconds; the dashboard opened a writable handle on startup; cron&#39;s lifecycle guard did a raw <code>open()</code> on a live database (which cancels the gateway&#39;s POSIX locks — the classic &quot;how to corrupt SQLite&quot; recipe); <code>doctor --fix</code> would checkpoint under a live holder. All four are gone: hosted rooms live in <code>shared-state.db</code>, the dashboard opens read-only first, the guard goes through the tracked connection registry, and <code>doctor --fix</code> refuses a checkpoint it can&#39;t prove is safe. (#108076 — salvage #103489 @RikETS, #102682 @JoaoMarcos44, #108012 @Halldrix, #105428 @TaoMasterCoder)</li>
+<li><strong>Healthy WAL databases stop wedging.</strong> OpenZFS <code>(deleted)</code> dentries and a <code>close()</code> racing an <code>append_message</code> both produced a sticky <code>DeletedWalGenerationError</code> on a perfectly good store; the read pool was handed out under an unconfirmed journal mode; a transient <code>disk I/O error</code> on WSL2 killed <code>get_session</code> on the first attempt; and a &quot;state.db locked&quot; banner was broadcast after the lock had already cleared. (#108082 — salvage #107411 @chelsealong, #105578 @ca-shrimp, #105711 @gaoanze888, #106958 @nikkoxgonzales; co-authored @QDung210, @fangliquanflq, @Sahilvishnaliya)</li>
+<li><strong>FTS damage no longer kills your turn.</strong> An error scoped to the full-text-search index was classified as whole-file corruption and fail-closed the conversation. It&#39;s now <code>fts_index</code>: search degrades, the index rebuilds later, the transcript store is untouched. Same PR: doctor names structural damage honestly instead of &quot;FTS write corruption&quot;, the FTS write probe catches the stale-index shape that passed every check while every write failed, <code>.recover</code> output no longer fails startup on orphan FTS5 shadow tables, header-zeroed databases recover instead of being refused, and the dashboard analytics poller returns a 503 instead of 520K tracebacks a day. (#108130 — salvage #97843 @SulthanZahran1 + #97841 @Finn763, #88604 #56824 #103657 @liuhao1024, #106890 @nftpoetrist, #103321 @jangomango76, #91413 @leegunwoo98, #102808 @TaoMasterCoder)</li>
+<li><strong>One corrupt row no longer kills <code>sessions list</code>, export, or insights.</strong> A TEXT timestamp or a <code>1e30</code> epoch used to crash the whole listing; malformed marker JSON crashed <code>json_extract</code>; more than 999 ids crashed bulk delete/prune. One <code>coerce_epoch()</code> helper on every reader (bad rows render <code>?</code> with a WARNING naming the session), a <code>json_valid</code> guard, IN-list chunking, and batched export hydration. (#108086 — salvage #106071 @Xipong, #101726 @efe-arv, #94701 @liuhao1024, #102679 @mssteuer, #100658 @Mi55ed)</li>
+<li><strong>Sessions never bind to or read another profile&#39;s database.</strong> The Desktop launch backend could pin itself to the wrong profile&#39;s <code>state.db</code> under a HERMES_HOME override race; <code>session_search</code> by bare ID silently scanned every profile and returned someone else&#39;s transcript; recovery guidance pointed at the wrong file; profile delete kept a handle open (WinError 32). (#108074 — salvage #102534 @HexLab98, #106975 @Sora-bluesky)</li>
+<li><strong>Opening state.db no longer takes the write lock when nothing needs writing.</strong> A one-shot <code>hermes</code> process opening the store behind a busy gateway stalled 4–20 s and then failed with &quot;database is locked&quot;. Now 0.01 s. (#108067 — salvage #106751 @kshitijk4poor, #101881 @jonpol01)</li>
+</ul>
+<p>Also in the window from the same subsystem: a fresh <code>state.db</code> no longer publishes FTS tables before owning the rebuild lock (#106311), a handle that lost its WAL generation no longer checkpoints stale frames at shutdown (#106315, #106840), a clobbered first page is quarantined with its WAL instead of opened destructively (#106587), WAL setup leaves an unverifiable database untouched (#106568), and quarantined handles refuse VACUUM/FTS optimize (#106343, #106349). Most of these salvaged community diagnoses by @kshitijk4poor.</p>
+<h3>Multi-profile isolation hardening</h3>
+<p>A cluster of fixes for installs running several profiles under one gateway (multiplex): secondary-profile bots no longer inherit the default profile&#39;s allow-lists (#107616), adapters no longer send credentials to the default profile&#39;s host (#107617), stdio MCP servers no longer receive the default profile&#39;s vault secrets (#107630), <code>MEDIA:</code> delivery can no longer attach another profile&#39;s <code>.env</code> / <code>auth.json</code> / <code>state.db</code> (#107609), Feishu drive callbacks and <code>/p/&lt;profile&gt;/</code> webhook replies stay on the routed profile (#107620, #107626), and secondary profiles no longer get a sibling&#39;s Nous bearer from per-process memos (#107611).</p>
+<h3>Desktop backend spawn storms are over</h3>
+<p>Bot Mode used to spawn or dial one backend per profile on launch and on every roster tick, hovering the Bots roster spawned a backend per row, and profile switches could spawn a duplicate primary. (#108069, #108107, #108118, #108134, #107969, #108112 — salvage #102512, #103634, #103399, #107997 and others by @kshitijk4poor)</p>
+<h3>Password-blind credential vault</h3>
+<p>The agent can now sign in, pay, and fill addresses from 1Password, Bitwarden, or the local Hermes vault without ever seeing a secret; two-factor codes come from a saved authenticator key or are asked for in the user&#39;s UI (#106480, #107585). Private git plugins install with the user&#39;s stored credentials (#106981).</p>
+<h3>Plugin catalog and one Plugins page</h3>
+<p>A curated, SHA-pinned plugin index with CLI, admission CI, docs and dashboard (#69446); Desktop gets one Plugins page owning agent + desktop plugins, install, catalog and per-commit pinning (#107212, #107314, #107321); Radio ships as an opt-in SDK plugin (#107072).</p>
+<h3>Nous free tier and guided first launch</h3>
+<p>Free inference and connectors out of the box with one command to sign in (#105258, #105260), <code>/login</code> from a chat (#105261), connector tools (Gmail, Linear, Notion, ...) searchable through <code>tool_search</code> (#106842), and a guided first launch behind <code>HERMES_GUEST_ONBOARDING=1</code> (#107697, #107958, #107985, #108211).</p>
+<h2>🐛 Notable Bug Fixes</h2>
+<p><strong>Gateway &amp; platforms</strong></p>
+<ul>
+<li>A bare <code>display:</code> key in config.yaml no longer crashes every gateway turn (#106305); a queued-lane final refused by the platform is recorded and redelivered (#106316); a stalled WebSocket send no longer blocks every later event (#106581); the first turn no longer waits on the Python toolchain probe (#106556).</li>
+<li>Telegram bots must @mention when <code>bots_require_mention</code> is on, breaking bot-to-bot loops (#106534); Matrix renders LaTeX (#106515); Signal renders markdown tables (#106538); WhatsApp replies to view-once messages keep their quote (#106541); media-only replies report SUCCESS everywhere (#106557).</li>
+</ul>
+<p><strong>Providers &amp; routing</strong></p>
+<ul>
+<li><code>/model</code> and auxiliary auto never bill a provider you didn&#39;t select (#107366); never auto-switch to a provider you have no credentials for (#107281); Bedrock Claude/Converse/Mantle models survive <code>/model</code>, fallback and restore (#107621, #107658); Bedrock Guardrails enforced (#107815).</li>
+<li>Codex: patch-budget image 400 shrinks and retries (#106525); unentitled primary + fallback no longer oscillate (#106549); Azure Foundry replayed-reasoning rejection classified and pruned (#106718 @erosika). MCP OAuth refresh no longer erases the refresh token (#106185). Anthropic clients send exactly one credential (#107978).</li>
+<li>DeepSeek V4.1 Flash on Nous Portal and OpenRouter pickers (#107489); GPT Image 2.5 via OpenAI and FAL (#105988); Opus 5 / Fable 5.1 on the native Anthropic picker (#106636 @xxxigm).</li>
+</ul>
+<p><strong>Agent loop &amp; compression</strong></p>
+<ul>
+<li>One blocked periodic callback no longer stalls lease refresh (#106308); a mid-turn <code>/steer</code> is persisted as its own user row (#106317, #106344); local-inference memory-ceiling rejections back off instead of compressing history (#106307); context-overflow after partial streaming ends the turn (#106567); length continuation stops when the prompt filled the window (#106571); compression no longer times out silently on aux retries (#106866); <code>model_thresholds</code> keys can be provider-scoped (#108061).</li>
+<li>Surface switch (Desktop↔TUI) no longer rebuilds the system prompt and busts the prompt cache (#105844); CLI keeps the <code>api_content</code> sidecar so the cache survives an early persist (#105842).</li>
+</ul>
+<p><strong>CLI, TUI &amp; Desktop</strong></p>
+<ul>
+<li><code>hermes -z --resume</code> continues the session (#106313); Shift+letter and Cmd+Shift+Z work on extended-key terminals (#90674 @francip, #105493); <code>browser_exec</code> timeout kills the whole process tree (#106589); update checks poll the GitHub API once a day instead of git-fetching every 30 min (#107648); <code>hermes update</code> names the real cause and can&#39;t hang on a stalled fetch (#108053).</li>
+<li>Desktop: UI language survives the update relaunch (#106476), expired OAuth grants get a one-click re-sign-in (#106965), HUD mode shows the transcript again and always gives the window back (#107491, #107423), the backend exits when its Desktop parent dies (#107977), Windows updates stop reporting false failures (#106175, #107183), WSLg renders on the Windows GPU (#106528), Telegram quick setup with QR ported from the dashboard (#107242), and ~60 more Desktop fixes largely from @OutThisLife and @kshitijk4poor.</li>
+</ul>
+<p><strong>Cron &amp; Kanban</strong></p>
+<ul>
+<li>An off-tick &quot;run now&quot; no longer cancels the next scheduled run (#106306); a killed manual run no longer blocks the next one for 5 minutes (#106733); a one-shot changed to recurring keeps firing (#106532); unpinned jobs run on their creation-snapshot model (#106499); <code>--clone-all</code> no longer copies cron jobs (#106478); <code>kanban promote</code> refuses undone parents (#106550); <code>kanban_request_review</code> rejects unknown reviewer profiles (#106547).</li>
+</ul>
+<p><strong>Tools &amp; memory</strong></p>
+<ul>
+<li>A stdio MCP server dying mid-call no longer replays the tool call (#106546); a skills-only background review can no longer delete memory entries (#106310); mem0 memory no longer drops long turns (#106542); <code>tool_search</code> returns nothing rather than five tools sharing one word (#106676); remote NOPASSWD sudo no longer prompts (#107939); RSS and Reddit reading no longer activate by default (#105873).</li>
+</ul>
+<p><strong>Housekeeping</strong></p>
+<ul>
+<li><code>config.yaml</code> backups live in one bounded <code>backups/config/</code> dir (#106388); <code>hermes backup</code> keeps the newest 3 zips (#106455); <code>hermes setup --reset</code> backs up the real config (#106453); <code>debug share</code> retention shrunk to 1 day on the dpaste fallback (#106531).</li>
+</ul>
+<h2>👥 Contributors</h2>
+<p>Thank you to the <strong>140 contributors</strong> whose commits, co-author trailers, and salvaged PRs landed in this window.</p>
+<p><strong>state.db campaign — salvaged PR authors:</strong> @RikETS, @JoaoMarcos44, @Halldrix, @TaoMasterCoder, @chelsealong, @ca-shrimp, @gaoanze888, @nikkoxgonzales, @QDung210, @fangliquanflq, @Sahilvishnaliya, @kshitijk4poor, @jonpol01, @HexLab98, @Sora-bluesky, @Xipong, @efe-arv, @liuhao1024, @mssteuer, @Mi55ed, @SulthanZahran1, @Finn763, @nftpoetrist, @jangomango76, @leegunwoo98, @ggoldani.</p>
+<p><strong>state.db campaign — issue reporters</strong> (the forensics in these threads were often better than the fixes): @thedigitalcarpenterdad, @Rroven, @aoeman84, @StephanRosin, @rubensandrade-sketch, @wanliqin, @chenzheshushi-commits, @CarlosReyesPena, @revazone, @reservassai-art, @Cuttingwater, @soroush5, @e-shizz, @shobhit-87labs, @shivanathd, @hoelzl, @i8ei, @Ace-Kelly, @YinsenWANG, @zbabiarz, @Sravanjangam, @0gl20shk0sbt36, @RChina, @bronder, @ccwssy, @bottenbenny, and @Hitman117890 whose Discord report kicked the campaign off.</p>
+<p><strong>Everyone in the window (alphabetical):</strong> @0genlab, @0xalydev, @100yenadmin, @1052326311, @686f6c61, @69k4xmdfm2-blip, @abundantbeing, @Adolanium, @Ahmett101, @albert748, @AlexxRussell, @alt-glitch, @auroracapital, @austinpickett, @babatorik, @Bartok9, @benbarclay, @bennybuoy, @brian717, @briandevans, @buihongduc132, @ca-shrimp, @cervantesh, @Cesar-Azeredo, @ChanPark03, @chelsealong, @ckomma, @ClintonEmok, @crazyief, @ctaylor86, @dalzio, @DavidMetcalfe, @Drexuxux, @edosulai, @efe-arv, @emozilla, @ericmaddox, @erosika, @ethernet8023, @everm1nd, @FalconOrtiz, @fangliquanflq, @Finn763, @FirmamentalSpring, @francip, @g3org3yo, @gaoanze888, @ggoldani, @Halldrix, @haydster7, @hbizi, @helix4u, @HexLab98, @huklaa, @IAvecilla, @infinitycrew39, @jahfaliabdulrahman-dev, @jangomango76, @JoaoMarcos44, @jonpol01, @jwilson411, @KeyArgo, @kokhlo, @KoNit-K, @kshitijk4poor, @kyssta-exe, @leegunwoo98, @lesterlxt, @liuhao1024, @Mabolla, @manuelschipper, @MaxFreedomPollard, @mearls0501, @mengyuyuan, @Mi55ed, @MiseHinoha, @mjshorty, @mkrb84, @moisesvalero, @moken627-hub, @mssteuer, @nateEc, @nftpoetrist, @nickseelert, @nikkoxgonzales, @notwitcheer, @onuraycicek, @outdog-hwh, @OutThisLife, @philmossman, @phuongvm, @pierrenode, @portavales, @PRATHAMESH75, @QDung210, @rewbs, @RikETS, @romanovzky, @ryantuc, @Sahilvishnaliya, @salch-cred, @sgarrand, @shannonsands, @simpolism, @Solitud1nem, @somewheresy, @Sora-bluesky, @sprmn24, @squevo, @StellarisW, @Stoltemberg, @SulthanZahran1, @Svector-anu, @szicely, @TaoMasterCoder, @teknium1, @ten82e, @thedavidweng, @tkaufmann, @Totoro-qaq, @Tranquil-Flow, @tuancookiez-hub, @TurgutKural, @ugoenyioha, @unsupportedpastels, @victor-kyriazakos, @webtecnica, @wliu-dev, @wukangcheng1994, @Xipong, @Xixiartemis, @xkam7ar, @xxxigm, @yavarb, @yoniebans, @Youssef, @yoyodine-industries, @yuanchenglu, @YuhGuan, @Zeus-Deus.</p>
+<p>Also: Youssef.</p>
+<h2>Updating</h2>
+<ul>
+<li>Existing install: <code>hermes update</code></li>
+<li>Fresh install: <code>curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.sh | bash</code></li>
+<li>Managed deployments should update through their deployment tooling using the new tag.</li>
+<li>If your <code>state.db</code> was already damaged by 0.21.0/0.21.1: run <code>hermes doctor</code> first; it now names structural vs index damage correctly and points at <code>hermes sessions recover --inspect-only</code> (profile-pinned) when a rebuild isn&#39;t enough.</li>
+</ul>
+<p><strong>Full Changelog:</strong> <a href="https://github.com/NousResearch/hermes-agent/compare/v2026.9.7...v2026.9.11">v2026.9.7...v2026.9.11</a></p>
+]]></description>
+            <content:encoded><![CDATA[<h1>Hermes Agent v0.21.2 (v2026.9.11) — The state.db Patch Release</h1>
+<p><strong>Release Date:</strong> September 11, 2026</p>
+<blockquote>
+<p>Patch release. v0.21.0 shipped a large rewrite of the session store&#39;s connection handling, and for some installs it made <code>state.db</code> fragile: second writers cancelling each other&#39;s locks, healthy databases reported as corrupt, one bad row killing <code>sessions list</code>. This release closes that class and rolls up everything else that landed on <code>main</code> in the four days since v0.21.1.</p>
+</blockquote>
+<h2>About this release</h2>
+<p>Measured at commit <code>04dd80a977f40b05e5b2054111747af07a61886a</code>, the window since v0.21.1 contains <strong>947 non-merge commits</strong> across <strong>1,869 changed files</strong> (+182,504 / −15,564) and <strong>312 merged PRs</strong>. <strong>140 contributors</strong> appear in commits, co-author trailers, or salvage credits.</p>
+<h2>✨ Highlights</h2>
+<h3>state.db reliability campaign (six PRs, 44 issues closed)</h3>
+<p>If your <code>state.db</code> broke after 0.21.0, this is the release for you. Six PRs fix the root causes rather than the symptoms:</p>
+<ul>
+<li><strong>No more second writers.</strong> Profile gateways wrote hosted-room state into the <em>root</em> <code>state.db</code> every 5 seconds; the dashboard opened a writable handle on startup; cron&#39;s lifecycle guard did a raw <code>open()</code> on a live database (which cancels the gateway&#39;s POSIX locks — the classic &quot;how to corrupt SQLite&quot; recipe); <code>doctor --fix</code> would checkpoint under a live holder. All four are gone: hosted rooms live in <code>shared-state.db</code>, the dashboard opens read-only first, the guard goes through the tracked connection registry, and <code>doctor --fix</code> refuses a checkpoint it can&#39;t prove is safe. (#108076 — salvage #103489 @RikETS, #102682 @JoaoMarcos44, #108012 @Halldrix, #105428 @TaoMasterCoder)</li>
+<li><strong>Healthy WAL databases stop wedging.</strong> OpenZFS <code>(deleted)</code> dentries and a <code>close()</code> racing an <code>append_message</code> both produced a sticky <code>DeletedWalGenerationError</code> on a perfectly good store; the read pool was handed out under an unconfirmed journal mode; a transient <code>disk I/O error</code> on WSL2 killed <code>get_session</code> on the first attempt; and a &quot;state.db locked&quot; banner was broadcast after the lock had already cleared. (#108082 — salvage #107411 @chelsealong, #105578 @ca-shrimp, #105711 @gaoanze888, #106958 @nikkoxgonzales; co-authored @QDung210, @fangliquanflq, @Sahilvishnaliya)</li>
+<li><strong>FTS damage no longer kills your turn.</strong> An error scoped to the full-text-search index was classified as whole-file corruption and fail-closed the conversation. It&#39;s now <code>fts_index</code>: search degrades, the index rebuilds later, the transcript store is untouched. Same PR: doctor names structural damage honestly instead of &quot;FTS write corruption&quot;, the FTS write probe catches the stale-index shape that passed every check while every write failed, <code>.recover</code> output no longer fails startup on orphan FTS5 shadow tables, header-zeroed databases recover instead of being refused, and the dashboard analytics poller returns a 503 instead of 520K tracebacks a day. (#108130 — salvage #97843 @SulthanZahran1 + #97841 @Finn763, #88604 #56824 #103657 @liuhao1024, #106890 @nftpoetrist, #103321 @jangomango76, #91413 @leegunwoo98, #102808 @TaoMasterCoder)</li>
+<li><strong>One corrupt row no longer kills <code>sessions list</code>, export, or insights.</strong> A TEXT timestamp or a <code>1e30</code> epoch used to crash the whole listing; malformed marker JSON crashed <code>json_extract</code>; more than 999 ids crashed bulk delete/prune. One <code>coerce_epoch()</code> helper on every reader (bad rows render <code>?</code> with a WARNING naming the session), a <code>json_valid</code> guard, IN-list chunking, and batched export hydration. (#108086 — salvage #106071 @Xipong, #101726 @efe-arv, #94701 @liuhao1024, #102679 @mssteuer, #100658 @Mi55ed)</li>
+<li><strong>Sessions never bind to or read another profile&#39;s database.</strong> The Desktop launch backend could pin itself to the wrong profile&#39;s <code>state.db</code> under a HERMES_HOME override race; <code>session_search</code> by bare ID silently scanned every profile and returned someone else&#39;s transcript; recovery guidance pointed at the wrong file; profile delete kept a handle open (WinError 32). (#108074 — salvage #102534 @HexLab98, #106975 @Sora-bluesky)</li>
+<li><strong>Opening state.db no longer takes the write lock when nothing needs writing.</strong> A one-shot <code>hermes</code> process opening the store behind a busy gateway stalled 4–20 s and then failed with &quot;database is locked&quot;. Now 0.01 s. (#108067 — salvage #106751 @kshitijk4poor, #101881 @jonpol01)</li>
+</ul>
+<p>Also in the window from the same subsystem: a fresh <code>state.db</code> no longer publishes FTS tables before owning the rebuild lock (#106311), a handle that lost its WAL generation no longer checkpoints stale frames at shutdown (#106315, #106840), a clobbered first page is quarantined with its WAL instead of opened destructively (#106587), WAL setup leaves an unverifiable database untouched (#106568), and quarantined handles refuse VACUUM/FTS optimize (#106343, #106349). Most of these salvaged community diagnoses by @kshitijk4poor.</p>
+<h3>Multi-profile isolation hardening</h3>
+<p>A cluster of fixes for installs running several profiles under one gateway (multiplex): secondary-profile bots no longer inherit the default profile&#39;s allow-lists (#107616), adapters no longer send credentials to the default profile&#39;s host (#107617), stdio MCP servers no longer receive the default profile&#39;s vault secrets (#107630), <code>MEDIA:</code> delivery can no longer attach another profile&#39;s <code>.env</code> / <code>auth.json</code> / <code>state.db</code> (#107609), Feishu drive callbacks and <code>/p/&lt;profile&gt;/</code> webhook replies stay on the routed profile (#107620, #107626), and secondary profiles no longer get a sibling&#39;s Nous bearer from per-process memos (#107611).</p>
+<h3>Desktop backend spawn storms are over</h3>
+<p>Bot Mode used to spawn or dial one backend per profile on launch and on every roster tick, hovering the Bots roster spawned a backend per row, and profile switches could spawn a duplicate primary. (#108069, #108107, #108118, #108134, #107969, #108112 — salvage #102512, #103634, #103399, #107997 and others by @kshitijk4poor)</p>
+<h3>Password-blind credential vault</h3>
+<p>The agent can now sign in, pay, and fill addresses from 1Password, Bitwarden, or the local Hermes vault without ever seeing a secret; two-factor codes come from a saved authenticator key or are asked for in the user&#39;s UI (#106480, #107585). Private git plugins install with the user&#39;s stored credentials (#106981).</p>
+<h3>Plugin catalog and one Plugins page</h3>
+<p>A curated, SHA-pinned plugin index with CLI, admission CI, docs and dashboard (#69446); Desktop gets one Plugins page owning agent + desktop plugins, install, catalog and per-commit pinning (#107212, #107314, #107321); Radio ships as an opt-in SDK plugin (#107072).</p>
+<h3>Nous free tier and guided first launch</h3>
+<p>Free inference and connectors out of the box with one command to sign in (#105258, #105260), <code>/login</code> from a chat (#105261), connector tools (Gmail, Linear, Notion, ...) searchable through <code>tool_search</code> (#106842), and a guided first launch behind <code>HERMES_GUEST_ONBOARDING=1</code> (#107697, #107958, #107985, #108211).</p>
+<h2>🐛 Notable Bug Fixes</h2>
+<p><strong>Gateway &amp; platforms</strong></p>
+<ul>
+<li>A bare <code>display:</code> key in config.yaml no longer crashes every gateway turn (#106305); a queued-lane final refused by the platform is recorded and redelivered (#106316); a stalled WebSocket send no longer blocks every later event (#106581); the first turn no longer waits on the Python toolchain probe (#106556).</li>
+<li>Telegram bots must @mention when <code>bots_require_mention</code> is on, breaking bot-to-bot loops (#106534); Matrix renders LaTeX (#106515); Signal renders markdown tables (#106538); WhatsApp replies to view-once messages keep their quote (#106541); media-only replies report SUCCESS everywhere (#106557).</li>
+</ul>
+<p><strong>Providers &amp; routing</strong></p>
+<ul>
+<li><code>/model</code> and auxiliary auto never bill a provider you didn&#39;t select (#107366); never auto-switch to a provider you have no credentials for (#107281); Bedrock Claude/Converse/Mantle models survive <code>/model</code>, fallback and restore (#107621, #107658); Bedrock Guardrails enforced (#107815).</li>
+<li>Codex: patch-budget image 400 shrinks and retries (#106525); unentitled primary + fallback no longer oscillate (#106549); Azure Foundry replayed-reasoning rejection classified and pruned (#106718 @erosika). MCP OAuth refresh no longer erases the refresh token (#106185). Anthropic clients send exactly one credential (#107978).</li>
+<li>DeepSeek V4.1 Flash on Nous Portal and OpenRouter pickers (#107489); GPT Image 2.5 via OpenAI and FAL (#105988); Opus 5 / Fable 5.1 on the native Anthropic picker (#106636 @xxxigm).</li>
+</ul>
+<p><strong>Agent loop &amp; compression</strong></p>
+<ul>
+<li>One blocked periodic callback no longer stalls lease refresh (#106308); a mid-turn <code>/steer</code> is persisted as its own user row (#106317, #106344); local-inference memory-ceiling rejections back off instead of compressing history (#106307); context-overflow after partial streaming ends the turn (#106567); length continuation stops when the prompt filled the window (#106571); compression no longer times out silently on aux retries (#106866); <code>model_thresholds</code> keys can be provider-scoped (#108061).</li>
+<li>Surface switch (Desktop↔TUI) no longer rebuilds the system prompt and busts the prompt cache (#105844); CLI keeps the <code>api_content</code> sidecar so the cache survives an early persist (#105842).</li>
+</ul>
+<p><strong>CLI, TUI &amp; Desktop</strong></p>
+<ul>
+<li><code>hermes -z --resume</code> continues the session (#106313); Shift+letter and Cmd+Shift+Z work on extended-key terminals (#90674 @francip, #105493); <code>browser_exec</code> timeout kills the whole process tree (#106589); update checks poll the GitHub API once a day instead of git-fetching every 30 min (#107648); <code>hermes update</code> names the real cause and can&#39;t hang on a stalled fetch (#108053).</li>
+<li>Desktop: UI language survives the update relaunch (#106476), expired OAuth grants get a one-click re-sign-in (#106965), HUD mode shows the transcript again and always gives the window back (#107491, #107423), the backend exits when its Desktop parent dies (#107977), Windows updates stop reporting false failures (#106175, #107183), WSLg renders on the Windows GPU (#106528), Telegram quick setup with QR ported from the dashboard (#107242), and ~60 more Desktop fixes largely from @OutThisLife and @kshitijk4poor.</li>
+</ul>
+<p><strong>Cron &amp; Kanban</strong></p>
+<ul>
+<li>An off-tick &quot;run now&quot; no longer cancels the next scheduled run (#106306); a killed manual run no longer blocks the next one for 5 minutes (#106733); a one-shot changed to recurring keeps firing (#106532); unpinned jobs run on their creation-snapshot model (#106499); <code>--clone-all</code> no longer copies cron jobs (#106478); <code>kanban promote</code> refuses undone parents (#106550); <code>kanban_request_review</code> rejects unknown reviewer profiles (#106547).</li>
+</ul>
+<p><strong>Tools &amp; memory</strong></p>
+<ul>
+<li>A stdio MCP server dying mid-call no longer replays the tool call (#106546); a skills-only background review can no longer delete memory entries (#106310); mem0 memory no longer drops long turns (#106542); <code>tool_search</code> returns nothing rather than five tools sharing one word (#106676); remote NOPASSWD sudo no longer prompts (#107939); RSS and Reddit reading no longer activate by default (#105873).</li>
+</ul>
+<p><strong>Housekeeping</strong></p>
+<ul>
+<li><code>config.yaml</code> backups live in one bounded <code>backups/config/</code> dir (#106388); <code>hermes backup</code> keeps the newest 3 zips (#106455); <code>hermes setup --reset</code> backs up the real config (#106453); <code>debug share</code> retention shrunk to 1 day on the dpaste fallback (#106531).</li>
+</ul>
+<h2>👥 Contributors</h2>
+<p>Thank you to the <strong>140 contributors</strong> whose commits, co-author trailers, and salvaged PRs landed in this window.</p>
+<p><strong>state.db campaign — salvaged PR authors:</strong> @RikETS, @JoaoMarcos44, @Halldrix, @TaoMasterCoder, @chelsealong, @ca-shrimp, @gaoanze888, @nikkoxgonzales, @QDung210, @fangliquanflq, @Sahilvishnaliya, @kshitijk4poor, @jonpol01, @HexLab98, @Sora-bluesky, @Xipong, @efe-arv, @liuhao1024, @mssteuer, @Mi55ed, @SulthanZahran1, @Finn763, @nftpoetrist, @jangomango76, @leegunwoo98, @ggoldani.</p>
+<p><strong>state.db campaign — issue reporters</strong> (the forensics in these threads were often better than the fixes): @thedigitalcarpenterdad, @Rroven, @aoeman84, @StephanRosin, @rubensandrade-sketch, @wanliqin, @chenzheshushi-commits, @CarlosReyesPena, @revazone, @reservassai-art, @Cuttingwater, @soroush5, @e-shizz, @shobhit-87labs, @shivanathd, @hoelzl, @i8ei, @Ace-Kelly, @YinsenWANG, @zbabiarz, @Sravanjangam, @0gl20shk0sbt36, @RChina, @bronder, @ccwssy, @bottenbenny, and @Hitman117890 whose Discord report kicked the campaign off.</p>
+<p><strong>Everyone in the window (alphabetical):</strong> @0genlab, @0xalydev, @100yenadmin, @1052326311, @686f6c61, @69k4xmdfm2-blip, @abundantbeing, @Adolanium, @Ahmett101, @albert748, @AlexxRussell, @alt-glitch, @auroracapital, @austinpickett, @babatorik, @Bartok9, @benbarclay, @bennybuoy, @brian717, @briandevans, @buihongduc132, @ca-shrimp, @cervantesh, @Cesar-Azeredo, @ChanPark03, @chelsealong, @ckomma, @ClintonEmok, @crazyief, @ctaylor86, @dalzio, @DavidMetcalfe, @Drexuxux, @edosulai, @efe-arv, @emozilla, @ericmaddox, @erosika, @ethernet8023, @everm1nd, @FalconOrtiz, @fangliquanflq, @Finn763, @FirmamentalSpring, @francip, @g3org3yo, @gaoanze888, @ggoldani, @Halldrix, @haydster7, @hbizi, @helix4u, @HexLab98, @huklaa, @IAvecilla, @infinitycrew39, @jahfaliabdulrahman-dev, @jangomango76, @JoaoMarcos44, @jonpol01, @jwilson411, @KeyArgo, @kokhlo, @KoNit-K, @kshitijk4poor, @kyssta-exe, @leegunwoo98, @lesterlxt, @liuhao1024, @Mabolla, @manuelschipper, @MaxFreedomPollard, @mearls0501, @mengyuyuan, @Mi55ed, @MiseHinoha, @mjshorty, @mkrb84, @moisesvalero, @moken627-hub, @mssteuer, @nateEc, @nftpoetrist, @nickseelert, @nikkoxgonzales, @notwitcheer, @onuraycicek, @outdog-hwh, @OutThisLife, @philmossman, @phuongvm, @pierrenode, @portavales, @PRATHAMESH75, @QDung210, @rewbs, @RikETS, @romanovzky, @ryantuc, @Sahilvishnaliya, @salch-cred, @sgarrand, @shannonsands, @simpolism, @Solitud1nem, @somewheresy, @Sora-bluesky, @sprmn24, @squevo, @StellarisW, @Stoltemberg, @SulthanZahran1, @Svector-anu, @szicely, @TaoMasterCoder, @teknium1, @ten82e, @thedavidweng, @tkaufmann, @Totoro-qaq, @Tranquil-Flow, @tuancookiez-hub, @TurgutKural, @ugoenyioha, @unsupportedpastels, @victor-kyriazakos, @webtecnica, @wliu-dev, @wukangcheng1994, @Xipong, @Xixiartemis, @xkam7ar, @xxxigm, @yavarb, @yoniebans, @Youssef, @yoyodine-industries, @yuanchenglu, @YuhGuan, @Zeus-Deus.</p>
+<p>Also: Youssef.</p>
+<h2>Updating</h2>
+<ul>
+<li>Existing install: <code>hermes update</code></li>
+<li>Fresh install: <code>curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.sh | bash</code></li>
+<li>Managed deployments should update through their deployment tooling using the new tag.</li>
+<li>If your <code>state.db</code> was already damaged by 0.21.0/0.21.1: run <code>hermes doctor</code> first; it now names structural vs index damage correctly and points at <code>hermes sessions recover --inspect-only</code> (profile-pinned) when a rebuild isn&#39;t enough.</li>
+</ul>
+<p><strong>Full Changelog:</strong> <a href="https://github.com/NousResearch/hermes-agent/compare/v2026.9.7...v2026.9.11">v2026.9.7...v2026.9.11</a></p>
+]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[Hermes Agent v0.21.1 (v2026.9.7)]]></title>
             <link>https://github.com/NousResearch/hermes-agent/releases/tag/v2026.9.7</link>
