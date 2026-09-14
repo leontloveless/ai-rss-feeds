@@ -4,11 +4,65 @@
         <title>hermes-agent Releases</title>
         <link>https://github.com/NousResearch/hermes-agent/releases</link>
         <description>GitHub releases for NousResearch/hermes-agent</description>
-        <lastBuildDate>Fri, 11 Sep 2026 19:20:31 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 14 Sep 2026 16:04:14 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>ai-rss-feeds (https://github.com/leontloveless/ai-rss-feeds)</generator>
         <language>en</language>
         <atom:link href="https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/hermes-agent-releases.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[Hermes Agent v0.21.3 (v2026.9.14)]]></title>
+            <link>https://github.com/NousResearch/hermes-agent/releases/tag/v2026.9.14</link>
+            <guid>https://github.com/NousResearch/hermes-agent/releases/tag/v2026.9.14</guid>
+            <pubDate>Mon, 14 Sep 2026 16:04:14 GMT</pubDate>
+            <description><![CDATA[<h1>Hermes Agent v0.21.3 (v2026.9.14)</h1>
+<p><strong>Release Date:</strong> September 14, 2026</p>
+<blockquote>
+<p>Patch release. This tag rolls up the ~338 PRs merged since v0.21.2 into a stable tagged release for downstream consumers (Docker images, Hermes Cloud, hosted deployments). It exists so the remote-gateway sign-in fixes below reach Cloud agents, which auto-update to the newest release tag.</p>
+</blockquote>
+<h2>What this patch ships for remote Desktop / Cloud users</h2>
+<ul>
+<li><strong>Remote dashboard sessions no longer expire on refresh bursts</strong> (#110061, fixes #55712; salvage #71548 @Doud-FR, #55717 @liuhao1024). Both refresh paths on the gateway (cookie gate and the desktop&#39;s native bearer route) now coalesce concurrent requests carrying the same rotating refresh token, so a Desktop wake burst can no longer replay an already-rotated token into the Portal&#39;s reuse detection and revoke the whole session. Refresh also runs off the event loop, so a slow identity provider no longer freezes <code>/api/status</code>. Pairs with Portal-side NousResearch/hermes-portal#1209 (sliding 30-day idle horizon, 5-minute rotated-token grace).</li>
+</ul>
+<h2>Also requested for this tag</h2>
+<ul>
+<li><strong>Long-lived processes stop leaking duplicate state.db writer handles</strong> (#110934, fixes #100896 #103339; salvage #107974 @kshitijk4poor, mapping @Rroven): gateway, dashboard/Desktop backend, ACP and CLI readers attach read-only and in-process writers share the registry handle, so the <code>N live SessionDB handles</code> precursor stops firing on a healthy topology.</li>
+</ul>
+<h2>About this release</h2>
+<p>Measured at commit <code>9b419a2d3c2657c192008e732149d61170b32c01</code>, the window since v0.21.2 contains <strong>1,036 non-merge commits</strong> across <strong>2,642 changed files</strong> (+131,690 / −37,096) and <strong>338 merged PRs</strong>.</p>
+<p>Also in the window, undocumented here on purpose: server→client JSON-RPC requests and a Pydantic wire-contract registry with generated TS/OpenRPC for the TUI/Desktop gateway (#110521, #110522); reasoning-effort selection on every model picker, a composer pill and per-auxiliary control in Desktop; OpenRouter OAuth PKCE login; HEIF/HEIC/AVIF image decoding; the Honcho peer-model setup rework; MCP OAuth refresh tokens bound to their issuer; a daily MCP re-auth nudge in Desktop; Wan 3.0, Kling 3.0 / Kling Image v3, MiniMax H3 Max Turbo, Gemini Omni Flash 1.1 and Meta Muse in the FAL catalogs; Slack pasted tables and the Agent Sessions API; multiplexed-profile isolation and gateway-liveness fixes; and the state.db WAL refusal on cross-VM filesystems.</p>
+<p><strong>Full curated release notes for this window ship with v0.22.0</strong>, which will document everything from v0.21.0 onward — highlights, feature areas, and complete contributor credits. Nothing in this window is skipped.</p>
+<h2>Updating</h2>
+<ul>
+<li><code>hermes update</code> (git installs), or re-run the installer one-liner.</li>
+<li>Docker / Hermes Cloud: images build from this tag (<code>nousresearch/hermes-agent:v2026.9.14</code>).</li>
+</ul>
+<p><strong>Full changelog:</strong> <a href="https://github.com/NousResearch/hermes-agent/compare/v2026.9.11...v2026.9.14">https://github.com/NousResearch/hermes-agent/compare/v2026.9.11...v2026.9.14</a></p>
+]]></description>
+            <content:encoded><![CDATA[<h1>Hermes Agent v0.21.3 (v2026.9.14)</h1>
+<p><strong>Release Date:</strong> September 14, 2026</p>
+<blockquote>
+<p>Patch release. This tag rolls up the ~338 PRs merged since v0.21.2 into a stable tagged release for downstream consumers (Docker images, Hermes Cloud, hosted deployments). It exists so the remote-gateway sign-in fixes below reach Cloud agents, which auto-update to the newest release tag.</p>
+</blockquote>
+<h2>What this patch ships for remote Desktop / Cloud users</h2>
+<ul>
+<li><strong>Remote dashboard sessions no longer expire on refresh bursts</strong> (#110061, fixes #55712; salvage #71548 @Doud-FR, #55717 @liuhao1024). Both refresh paths on the gateway (cookie gate and the desktop&#39;s native bearer route) now coalesce concurrent requests carrying the same rotating refresh token, so a Desktop wake burst can no longer replay an already-rotated token into the Portal&#39;s reuse detection and revoke the whole session. Refresh also runs off the event loop, so a slow identity provider no longer freezes <code>/api/status</code>. Pairs with Portal-side NousResearch/hermes-portal#1209 (sliding 30-day idle horizon, 5-minute rotated-token grace).</li>
+</ul>
+<h2>Also requested for this tag</h2>
+<ul>
+<li><strong>Long-lived processes stop leaking duplicate state.db writer handles</strong> (#110934, fixes #100896 #103339; salvage #107974 @kshitijk4poor, mapping @Rroven): gateway, dashboard/Desktop backend, ACP and CLI readers attach read-only and in-process writers share the registry handle, so the <code>N live SessionDB handles</code> precursor stops firing on a healthy topology.</li>
+</ul>
+<h2>About this release</h2>
+<p>Measured at commit <code>9b419a2d3c2657c192008e732149d61170b32c01</code>, the window since v0.21.2 contains <strong>1,036 non-merge commits</strong> across <strong>2,642 changed files</strong> (+131,690 / −37,096) and <strong>338 merged PRs</strong>.</p>
+<p>Also in the window, undocumented here on purpose: server→client JSON-RPC requests and a Pydantic wire-contract registry with generated TS/OpenRPC for the TUI/Desktop gateway (#110521, #110522); reasoning-effort selection on every model picker, a composer pill and per-auxiliary control in Desktop; OpenRouter OAuth PKCE login; HEIF/HEIC/AVIF image decoding; the Honcho peer-model setup rework; MCP OAuth refresh tokens bound to their issuer; a daily MCP re-auth nudge in Desktop; Wan 3.0, Kling 3.0 / Kling Image v3, MiniMax H3 Max Turbo, Gemini Omni Flash 1.1 and Meta Muse in the FAL catalogs; Slack pasted tables and the Agent Sessions API; multiplexed-profile isolation and gateway-liveness fixes; and the state.db WAL refusal on cross-VM filesystems.</p>
+<p><strong>Full curated release notes for this window ship with v0.22.0</strong>, which will document everything from v0.21.0 onward — highlights, feature areas, and complete contributor credits. Nothing in this window is skipped.</p>
+<h2>Updating</h2>
+<ul>
+<li><code>hermes update</code> (git installs), or re-run the installer one-liner.</li>
+<li>Docker / Hermes Cloud: images build from this tag (<code>nousresearch/hermes-agent:v2026.9.14</code>).</li>
+</ul>
+<p><strong>Full changelog:</strong> <a href="https://github.com/NousResearch/hermes-agent/compare/v2026.9.11...v2026.9.14">https://github.com/NousResearch/hermes-agent/compare/v2026.9.11...v2026.9.14</a></p>
+]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[Hermes Agent v0.21.2 (v2026.9.11)]]></title>
             <link>https://github.com/NousResearch/hermes-agent/releases/tag/v2026.9.11</link>
