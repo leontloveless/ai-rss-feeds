@@ -4,11 +4,251 @@
         <title>deepseek-harness Releases</title>
         <link>https://github.com/deepseek-ai/deepseek-harness/releases</link>
         <description>GitHub releases for deepseek-ai/deepseek-harness</description>
-        <lastBuildDate>Thu, 10 Sep 2026 15:09:34 GMT</lastBuildDate>
+        <lastBuildDate>Tue, 15 Sep 2026 04:57:57 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>ai-rss-feeds (https://github.com/leontloveless/ai-rss-feeds)</generator>
         <language>en</language>
         <atom:link href="https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/deepseek-harness-releases.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[v0.1.6-alpha.1]]></title>
+            <link>https://github.com/deepseek-ai/deepseek-harness/releases/tag/dsh-v0.1.6-alpha.1</link>
+            <guid>https://github.com/deepseek-ai/deepseek-harness/releases/tag/dsh-v0.1.6-alpha.1</guid>
+            <pubDate>Tue, 15 Sep 2026 04:57:57 GMT</pubDate>
+            <description><![CDATA[<p><a href="#cn-v0.1.6-alpha.1">中文</a> | <a href="#en-v0.1.6-alpha.1">English</a></p>
+<h3 id="cn-v0.1.6-alpha.1">新增功能</h3>
+
+<ul>
+<li>Web 侧边栏新增终端，支持多标签、Shell 选择和刷新后恢复。 @LegGasai</li>
+<li>设置中新增已归档会话列表，支持查看和恢复会话。 @tianyicui</li>
+<li>MCP 支持发现和读取资源、使用 URI 模板。内置 Profile 配置 MCP 服务器后可使用共享资源工具。 @tianyicui</li>
+<li>Headless 支持从标准输入接收任务，用 <code>--session-id</code> 继续已有会话，用 <code>--json</code> 逐行输出 JSON 运行事件。 @lsdsjy</li>
+<li>扩展文件、命令及 PTC 工具，支持 DSH 在本地运行，通过 SSH 使用远端工作区。 @tianyicui</li>
+<li>新增实验性 Browser Use 支持，包含 Playwright MCP、Chrome DevTools MCP 和 Stagehand 浏览器后端。 @tianyicui</li>
+<li>新增实验性 Computer Use 支持，可通过 Cua Driver MCP 或原生驱动操作本机、获取截图。 @tianyicui</li>
+<li>新增实验性 Auto review 模式。 @pku-xht</li>
+</ul>
+<h3>体验优化</h3>
+<ul>
+<li>文件、Skill 引用及交付文件链接默认由侧边栏预览。 @LegGasai</li>
+<li>支持在 Agent Presets 设置中关闭模式切换 UI。 @ZiyaZhang</li>
+<li>优化文件预览，保留文件树滚动位置，图片和 PDF 随面板适配，并简化预览器选择及加载、格式提示。 @Yifffan</li>
+<li>Trajectory 支持展开和复制 JSON 字符串、查看 PTC 代码及调用结果，推理默认展开，并恢复记录中的运行耗时。 @kermanx</li>
+<li>调整输入框加号菜单的分组，将文件添加入口移入菜单，移除独立附件按钮，并统一斜杠菜单的中英文命令展示。 @CreatixChu, @Yifffan</li>
+<li>连接提示区分自动与手动重连，支持点击重试，并减少提示闪烁。 @Yifffan</li>
+<li>轮次运行超过一小时后，耗时按小时、分钟和秒显示。 @lsdsjy</li>
+<li>为适配 DeepSeek V4.1，调整图片缩放和 Token 估算，提高默认请求图片尺寸和编码质量。 @CreatixChu</li>
+<li>提升持久 Bash 处理大量历史输出时的效率。 @turtle2099</li>
+<li>文档站的 Mermaid 图表支持全屏查看、缩放和平移。 @grllll</li>
+<li>Node PTC 的 <code>run_code</code> 支持按次设置超时时间，默认 120 秒、最多 600 秒。 @tianyicui</li>
+<li>MCP 升级至官方 SDK v2，支持协议协商、工具分页，以及未提供工具的服务器。 @tianyicui</li>
+<li>推理和压缩摘要展开后，标题随滚动吸顶，方便折叠，且不遮挡摘要中的代码复制按钮。 @Chinesezjc</li>
+<li>改善 Web 终端文字和光标对比度，切换主题时保留应用配色；刷新后的新视图暂不恢复该配色。 @LegGasai</li>
+</ul>
+<h3>问题修复</h3>
+<ul>
+<li>修复会话最近更新排序，保留刷新后的手动顺序，并将新建空白会话置顶。 @Dudu-0223</li>
+<li>修复按轮次分叉时带入后续输入和设置的问题。 @Dudu-0223</li>
+<li>修复工具说明含双花括号时，PTC 提示词生成失败或文字被误替换的问题。 @kermanx</li>
+<li>修复 Linux 子进程终止和清理时的等待及退出结果判定问题。 @turtle1999, @tianyicui</li>
+<li>可选插件启动失败不影响其他可用插件，必需插件失败时退出；修复 Web 服务恢复后的模块路由注册。 @turtle1999</li>
+<li>修复鼠标悬停或键盘聚焦短 Markdown 表格时，页面位置发生跳动的问题。 @07akioni</li>
+<li>文件编辑卡片按行展示改动和上下文，修正增删行数统计，大范围替换采用整段展示。 @turtle2099</li>
+<li>子代理完成通知改为仅传递正文，修复推理块导致父会话 Messages 请求失败的问题；已保存通知不变。 @tianyicui</li>
+</ul>
+<h3>其他变更</h3>
+<ul>
+<li>新增 image offload 会话事件，记录请求中省略的历史图片，并在会话恢复和分叉时保留该记录。 @CreatixChu</li>
+<li>DeepSeek 默认改用 Messages 协议，并支持通过 Files API 复用已上传图片。自定义 API 地址保留不变。如果手动配置了旧官方根地址，请移除该配置或改为 <code>https://api.deepseek.com/anthropic</code>。 @LegGasai, @tianyicui</li>
+<li>默认不再启用 Ralph，需要使用时请手动启用。 @tianyicui</li>
+<li>移除内置 E2B 执行后端，相关自定义配置需调整。 @tianyicui</li>
+<li>PTC 包名和服务名统一为 <code>ptc-runtime</code> 系列，旧名称不再兼容，自定义插件和配置需更新。 @tianyicui</li>
+<li>工作流执行器改为 <code>workflow-ptc</code>，遵循会话文件策略；自定义配置需更新名称，暂不支持 Python PTC。 @tianyicui</li>
+<li><code>agent/session-start</code> 改为异步串行的 <code>agent/created</code>，首次模型请求等待初始化完成，相关插件及注册调用需适配。 @kermanx</li>
+<li>弃用 Session 的同步历史读取接口 <code>snapshotEvents</code>、<code>eventAt</code> 和 <code>ownEvents</code>。 @kermanx</li>
+<li>实验性 Team 模式统一使用 <code>spawn_teammate</code>，关闭 <code>subagent</code> 和 <code>subagent_fork</code>，默认队友创建上限从 8 增至 16。 @Dudu-0223</li>
+<li>Node PTC 改用独立进程执行，遵循会话文件策略并限制输出和堆内存；<code>process.env</code> 为空，依赖旧执行环境的代码需适配。 @tianyicui</li>
+<li>配置热更新取消事务回滚：解析失败保留原配置，插件激活失败可能部分生效，需修正配置后恢复。 @turtle1999</li>
+<li><code>SandboxProvider.confine</code> 和 <code>ShellExecutor.start</code> 改为可取消的异步接口，准备时间计入超时；修复 POSIX 符号链接与父目录组合、Windows 驱动器相对路径解析。 @tianyicui</li>
+<li>请求图片缓存移至 <code>DSH_HOME/cache/attachments/request-images</code>，删除后可重建；原图保留，旧缓存不自动清理。 @turtle1999</li>
+<li>使用 DeepSeek 模型适配器且连接官方 API 端点时，支持随请求上报会话事件，当前实验性开启，可通过配置关闭。 @tianyicui</li>
+</ul>
+<h3 id="en-v0.1.6-alpha.1">New Features</h3>
+
+<ul>
+<li>Add terminals to the Web sidebar, with multiple tabs, shell selection, and recovery after page refreshes. by @LegGasai</li>
+<li>Add an archived-session list in Settings for browsing and restoring sessions. by @tianyicui</li>
+<li>MCP supports resource discovery and reading, and URI templates. Shared resource tools are available after configuring an MCP server in a built-in Profile. by @tianyicui</li>
+<li>Headless can read tasks from standard input, resume sessions with <code>--session-id</code>, and emit run events as newline-delimited JSON with <code>--json</code>. by @lsdsjy</li>
+<li>Extend file, command, and PTC tools so DSH can run locally while using a remote workspace over SSH. by @tianyicui</li>
+<li>Add experimental Browser Use through Playwright MCP, Chrome DevTools MCP, and Stagehand browser backends. by @tianyicui</li>
+<li>Add experimental Computer Use through Cua Driver MCP or the native driver for local computer interaction and screenshots. by @tianyicui</li>
+<li>Add experimental Auto review mode. by @pku-xht</li>
+</ul>
+<h3>Improvements</h3>
+<ul>
+<li>Preview file and Skill references and delivered-file links in the sidebar by default. by @LegGasai</li>
+<li>Allow the mode-switching UI to be disabled in Agent Presets settings. by @ZiyaZhang</li>
+<li>Improve file previews with preserved file-tree scroll positions, panel-fitted images and PDFs, simpler viewer selection, and clearer loading and format messages. by @Yifffan</li>
+<li>Expand and copy JSON strings in Trajectory, inspect PTC code and call results, show reasoning expanded by default, and recover recorded run timing. by @kermanx</li>
+<li>Reorganize the composer’s plus menu, move file attachment into it, remove the separate attachment button, and align Chinese and English command presentation in the slash menu. by @CreatixChu, @Yifffan</li>
+<li>Distinguish automatic and manual reconnection, support click-to-retry, and reduce notice flicker. by @Yifffan</li>
+<li>Show turn durations in hours, minutes, and seconds once they exceed an hour. by @lsdsjy</li>
+<li>Adapt image resizing and token estimates for DeepSeek V4.1, and increase default request-image size and encoding quality. by @CreatixChu</li>
+<li>Improve persistent Bash performance when processing large amounts of previous output. by @turtle2099</li>
+<li>Support fullscreen viewing, zoom, and pan for Mermaid diagrams on the documentation site. by @grllll</li>
+<li>Support per-call timeouts for Node PTC’s <code>run_code</code>, with a default of 120 seconds and a maximum of 600 seconds. by @tianyicui</li>
+<li>Upgrade MCP to the official SDK v2 with protocol negotiation, paginated tool lists, and support for servers without tools. by @tianyicui</li>
+<li>Keep expanded reasoning and compaction-summary headers pinned while scrolling for easy collapse, without covering code copy buttons in summaries. by @Chinesezjc</li>
+<li>Improve Web terminal text and cursor contrast and preserve application colors across theme changes; new views after refresh do not yet restore those colors. by @LegGasai</li>
+</ul>
+<h3>Bug Fixes</h3>
+<ul>
+<li>Fix session recency sorting, preserve manual order after refreshes, and place new blank sessions at the top. by @Dudu-0223</li>
+<li>Fix turn-based forks including inputs and settings from later turns. by @Dudu-0223</li>
+<li>Fix PTC prompt generation failures and unintended text replacements when tool descriptions contain double braces. by @kermanx</li>
+<li>Fix waiting and exit-result handling during Linux subprocess termination and cleanup. by @turtle1999, @tianyicui</li>
+<li>Keep usable plugins running after optional startup failures, exit on required-plugin failures, and fix module-route registration after Web server recovery. by @turtle1999</li>
+<li>Fix page jumps when hovering over or focusing short Markdown tables. by @07akioni</li>
+<li>Show line-level changes and context in file edit cards, correct added/deleted line counts, and display large replacements as whole fragments. by @turtle2099</li>
+<li>Pass only body text in subagent completion notices to fix reasoning blocks causing parent-session Messages failures; saved notices are unchanged. by @tianyicui</li>
+</ul>
+<h3>Chores</h3>
+<ul>
+<li>Add an image offload session event to record historical images omitted from requests and preserve that record across session recovery and forks. by @CreatixChu</li>
+<li>Use Messages as the default DeepSeek protocol and reuse uploaded images through the Files API. Custom API addresses are preserved. If you explicitly set the old official root URL, remove that override or change it to <code>https://api.deepseek.com/anthropic</code>. by @LegGasai, @tianyicui</li>
+<li>Disable Ralph by default. Enable it explicitly if needed. by @tianyicui</li>
+<li>Remove the built-in E2B execution backends; update custom configurations that use them. by @tianyicui</li>
+<li>Rename PTC packages and services to the <code>ptc-runtime</code> family without legacy aliases; update custom plugins and configurations. by @tianyicui</li>
+<li>Replace the workflow executor with <code>workflow-ptc</code> under the session file policy; update custom configurations. Python PTC is not supported. by @tianyicui</li>
+<li>Replace <code>agent/session-start</code> with asynchronous, serial <code>agent/created</code> initialization; the first model request waits for completion. Update affected plugins and registration calls. by @kermanx</li>
+<li>Deprecate the synchronous Session history APIs <code>snapshotEvents</code>, <code>eventAt</code>, and <code>ownEvents</code>. by @kermanx</li>
+<li>Use <code>spawn_teammate</code> in experimental Team mode, disable <code>subagent</code> and <code>subagent_fork</code>, and raise the default teammate creation limit from 8 to 16. by @Dudu-0223</li>
+<li>Run Node PTC in separate processes under the session file policy with output and heap limits; <code>process.env</code> is empty, so code relying on the previous environment must migrate. by @tianyicui</li>
+<li>Remove transactional rollback from hot reload: parse failures preserve the original configuration, while activation failures may leave partial changes that require correction. by @turtle1999</li>
+<li>Make <code>SandboxProvider.confine</code> and <code>ShellExecutor.start</code> cancellable and asynchronous, with preparation included in timeouts; fix POSIX symlink/parent-directory combinations and Windows drive-relative paths. by @tianyicui</li>
+<li>Move the request-image cache to <code>DSH_HOME/cache/attachments/request-images</code>, where it can be rebuilt after deletion; preserve originals and leave old caches untouched. by @turtle1999</li>
+<li>When using the DeepSeek model adapter with an official API endpoint, session events can be reported with requests. This experimental feature is currently enabled and can be disabled in configuration. by @tianyicui</li>
+</ul>
+<p>Full Changelog: <a href="https://github.com/deepseek-ai/deepseek-harness/compare/dsh-v0.1.5-rc.2...dsh-v0.1.6-alpha.1">dsh-v0.1.5-rc.2...dsh-v0.1.6-alpha.1</a></p>
+]]></description>
+            <content:encoded><![CDATA[<p><a href="#cn-v0.1.6-alpha.1">中文</a> | <a href="#en-v0.1.6-alpha.1">English</a></p>
+<h3 id="cn-v0.1.6-alpha.1">新增功能</h3>
+
+<ul>
+<li>Web 侧边栏新增终端，支持多标签、Shell 选择和刷新后恢复。 @LegGasai</li>
+<li>设置中新增已归档会话列表，支持查看和恢复会话。 @tianyicui</li>
+<li>MCP 支持发现和读取资源、使用 URI 模板。内置 Profile 配置 MCP 服务器后可使用共享资源工具。 @tianyicui</li>
+<li>Headless 支持从标准输入接收任务，用 <code>--session-id</code> 继续已有会话，用 <code>--json</code> 逐行输出 JSON 运行事件。 @lsdsjy</li>
+<li>扩展文件、命令及 PTC 工具，支持 DSH 在本地运行，通过 SSH 使用远端工作区。 @tianyicui</li>
+<li>新增实验性 Browser Use 支持，包含 Playwright MCP、Chrome DevTools MCP 和 Stagehand 浏览器后端。 @tianyicui</li>
+<li>新增实验性 Computer Use 支持，可通过 Cua Driver MCP 或原生驱动操作本机、获取截图。 @tianyicui</li>
+<li>新增实验性 Auto review 模式。 @pku-xht</li>
+</ul>
+<h3>体验优化</h3>
+<ul>
+<li>文件、Skill 引用及交付文件链接默认由侧边栏预览。 @LegGasai</li>
+<li>支持在 Agent Presets 设置中关闭模式切换 UI。 @ZiyaZhang</li>
+<li>优化文件预览，保留文件树滚动位置，图片和 PDF 随面板适配，并简化预览器选择及加载、格式提示。 @Yifffan</li>
+<li>Trajectory 支持展开和复制 JSON 字符串、查看 PTC 代码及调用结果，推理默认展开，并恢复记录中的运行耗时。 @kermanx</li>
+<li>调整输入框加号菜单的分组，将文件添加入口移入菜单，移除独立附件按钮，并统一斜杠菜单的中英文命令展示。 @CreatixChu, @Yifffan</li>
+<li>连接提示区分自动与手动重连，支持点击重试，并减少提示闪烁。 @Yifffan</li>
+<li>轮次运行超过一小时后，耗时按小时、分钟和秒显示。 @lsdsjy</li>
+<li>为适配 DeepSeek V4.1，调整图片缩放和 Token 估算，提高默认请求图片尺寸和编码质量。 @CreatixChu</li>
+<li>提升持久 Bash 处理大量历史输出时的效率。 @turtle2099</li>
+<li>文档站的 Mermaid 图表支持全屏查看、缩放和平移。 @grllll</li>
+<li>Node PTC 的 <code>run_code</code> 支持按次设置超时时间，默认 120 秒、最多 600 秒。 @tianyicui</li>
+<li>MCP 升级至官方 SDK v2，支持协议协商、工具分页，以及未提供工具的服务器。 @tianyicui</li>
+<li>推理和压缩摘要展开后，标题随滚动吸顶，方便折叠，且不遮挡摘要中的代码复制按钮。 @Chinesezjc</li>
+<li>改善 Web 终端文字和光标对比度，切换主题时保留应用配色；刷新后的新视图暂不恢复该配色。 @LegGasai</li>
+</ul>
+<h3>问题修复</h3>
+<ul>
+<li>修复会话最近更新排序，保留刷新后的手动顺序，并将新建空白会话置顶。 @Dudu-0223</li>
+<li>修复按轮次分叉时带入后续输入和设置的问题。 @Dudu-0223</li>
+<li>修复工具说明含双花括号时，PTC 提示词生成失败或文字被误替换的问题。 @kermanx</li>
+<li>修复 Linux 子进程终止和清理时的等待及退出结果判定问题。 @turtle1999, @tianyicui</li>
+<li>可选插件启动失败不影响其他可用插件，必需插件失败时退出；修复 Web 服务恢复后的模块路由注册。 @turtle1999</li>
+<li>修复鼠标悬停或键盘聚焦短 Markdown 表格时，页面位置发生跳动的问题。 @07akioni</li>
+<li>文件编辑卡片按行展示改动和上下文，修正增删行数统计，大范围替换采用整段展示。 @turtle2099</li>
+<li>子代理完成通知改为仅传递正文，修复推理块导致父会话 Messages 请求失败的问题；已保存通知不变。 @tianyicui</li>
+</ul>
+<h3>其他变更</h3>
+<ul>
+<li>新增 image offload 会话事件，记录请求中省略的历史图片，并在会话恢复和分叉时保留该记录。 @CreatixChu</li>
+<li>DeepSeek 默认改用 Messages 协议，并支持通过 Files API 复用已上传图片。自定义 API 地址保留不变。如果手动配置了旧官方根地址，请移除该配置或改为 <code>https://api.deepseek.com/anthropic</code>。 @LegGasai, @tianyicui</li>
+<li>默认不再启用 Ralph，需要使用时请手动启用。 @tianyicui</li>
+<li>移除内置 E2B 执行后端，相关自定义配置需调整。 @tianyicui</li>
+<li>PTC 包名和服务名统一为 <code>ptc-runtime</code> 系列，旧名称不再兼容，自定义插件和配置需更新。 @tianyicui</li>
+<li>工作流执行器改为 <code>workflow-ptc</code>，遵循会话文件策略；自定义配置需更新名称，暂不支持 Python PTC。 @tianyicui</li>
+<li><code>agent/session-start</code> 改为异步串行的 <code>agent/created</code>，首次模型请求等待初始化完成，相关插件及注册调用需适配。 @kermanx</li>
+<li>弃用 Session 的同步历史读取接口 <code>snapshotEvents</code>、<code>eventAt</code> 和 <code>ownEvents</code>。 @kermanx</li>
+<li>实验性 Team 模式统一使用 <code>spawn_teammate</code>，关闭 <code>subagent</code> 和 <code>subagent_fork</code>，默认队友创建上限从 8 增至 16。 @Dudu-0223</li>
+<li>Node PTC 改用独立进程执行，遵循会话文件策略并限制输出和堆内存；<code>process.env</code> 为空，依赖旧执行环境的代码需适配。 @tianyicui</li>
+<li>配置热更新取消事务回滚：解析失败保留原配置，插件激活失败可能部分生效，需修正配置后恢复。 @turtle1999</li>
+<li><code>SandboxProvider.confine</code> 和 <code>ShellExecutor.start</code> 改为可取消的异步接口，准备时间计入超时；修复 POSIX 符号链接与父目录组合、Windows 驱动器相对路径解析。 @tianyicui</li>
+<li>请求图片缓存移至 <code>DSH_HOME/cache/attachments/request-images</code>，删除后可重建；原图保留，旧缓存不自动清理。 @turtle1999</li>
+<li>使用 DeepSeek 模型适配器且连接官方 API 端点时，支持随请求上报会话事件，当前实验性开启，可通过配置关闭。 @tianyicui</li>
+</ul>
+<h3 id="en-v0.1.6-alpha.1">New Features</h3>
+
+<ul>
+<li>Add terminals to the Web sidebar, with multiple tabs, shell selection, and recovery after page refreshes. by @LegGasai</li>
+<li>Add an archived-session list in Settings for browsing and restoring sessions. by @tianyicui</li>
+<li>MCP supports resource discovery and reading, and URI templates. Shared resource tools are available after configuring an MCP server in a built-in Profile. by @tianyicui</li>
+<li>Headless can read tasks from standard input, resume sessions with <code>--session-id</code>, and emit run events as newline-delimited JSON with <code>--json</code>. by @lsdsjy</li>
+<li>Extend file, command, and PTC tools so DSH can run locally while using a remote workspace over SSH. by @tianyicui</li>
+<li>Add experimental Browser Use through Playwright MCP, Chrome DevTools MCP, and Stagehand browser backends. by @tianyicui</li>
+<li>Add experimental Computer Use through Cua Driver MCP or the native driver for local computer interaction and screenshots. by @tianyicui</li>
+<li>Add experimental Auto review mode. by @pku-xht</li>
+</ul>
+<h3>Improvements</h3>
+<ul>
+<li>Preview file and Skill references and delivered-file links in the sidebar by default. by @LegGasai</li>
+<li>Allow the mode-switching UI to be disabled in Agent Presets settings. by @ZiyaZhang</li>
+<li>Improve file previews with preserved file-tree scroll positions, panel-fitted images and PDFs, simpler viewer selection, and clearer loading and format messages. by @Yifffan</li>
+<li>Expand and copy JSON strings in Trajectory, inspect PTC code and call results, show reasoning expanded by default, and recover recorded run timing. by @kermanx</li>
+<li>Reorganize the composer’s plus menu, move file attachment into it, remove the separate attachment button, and align Chinese and English command presentation in the slash menu. by @CreatixChu, @Yifffan</li>
+<li>Distinguish automatic and manual reconnection, support click-to-retry, and reduce notice flicker. by @Yifffan</li>
+<li>Show turn durations in hours, minutes, and seconds once they exceed an hour. by @lsdsjy</li>
+<li>Adapt image resizing and token estimates for DeepSeek V4.1, and increase default request-image size and encoding quality. by @CreatixChu</li>
+<li>Improve persistent Bash performance when processing large amounts of previous output. by @turtle2099</li>
+<li>Support fullscreen viewing, zoom, and pan for Mermaid diagrams on the documentation site. by @grllll</li>
+<li>Support per-call timeouts for Node PTC’s <code>run_code</code>, with a default of 120 seconds and a maximum of 600 seconds. by @tianyicui</li>
+<li>Upgrade MCP to the official SDK v2 with protocol negotiation, paginated tool lists, and support for servers without tools. by @tianyicui</li>
+<li>Keep expanded reasoning and compaction-summary headers pinned while scrolling for easy collapse, without covering code copy buttons in summaries. by @Chinesezjc</li>
+<li>Improve Web terminal text and cursor contrast and preserve application colors across theme changes; new views after refresh do not yet restore those colors. by @LegGasai</li>
+</ul>
+<h3>Bug Fixes</h3>
+<ul>
+<li>Fix session recency sorting, preserve manual order after refreshes, and place new blank sessions at the top. by @Dudu-0223</li>
+<li>Fix turn-based forks including inputs and settings from later turns. by @Dudu-0223</li>
+<li>Fix PTC prompt generation failures and unintended text replacements when tool descriptions contain double braces. by @kermanx</li>
+<li>Fix waiting and exit-result handling during Linux subprocess termination and cleanup. by @turtle1999, @tianyicui</li>
+<li>Keep usable plugins running after optional startup failures, exit on required-plugin failures, and fix module-route registration after Web server recovery. by @turtle1999</li>
+<li>Fix page jumps when hovering over or focusing short Markdown tables. by @07akioni</li>
+<li>Show line-level changes and context in file edit cards, correct added/deleted line counts, and display large replacements as whole fragments. by @turtle2099</li>
+<li>Pass only body text in subagent completion notices to fix reasoning blocks causing parent-session Messages failures; saved notices are unchanged. by @tianyicui</li>
+</ul>
+<h3>Chores</h3>
+<ul>
+<li>Add an image offload session event to record historical images omitted from requests and preserve that record across session recovery and forks. by @CreatixChu</li>
+<li>Use Messages as the default DeepSeek protocol and reuse uploaded images through the Files API. Custom API addresses are preserved. If you explicitly set the old official root URL, remove that override or change it to <code>https://api.deepseek.com/anthropic</code>. by @LegGasai, @tianyicui</li>
+<li>Disable Ralph by default. Enable it explicitly if needed. by @tianyicui</li>
+<li>Remove the built-in E2B execution backends; update custom configurations that use them. by @tianyicui</li>
+<li>Rename PTC packages and services to the <code>ptc-runtime</code> family without legacy aliases; update custom plugins and configurations. by @tianyicui</li>
+<li>Replace the workflow executor with <code>workflow-ptc</code> under the session file policy; update custom configurations. Python PTC is not supported. by @tianyicui</li>
+<li>Replace <code>agent/session-start</code> with asynchronous, serial <code>agent/created</code> initialization; the first model request waits for completion. Update affected plugins and registration calls. by @kermanx</li>
+<li>Deprecate the synchronous Session history APIs <code>snapshotEvents</code>, <code>eventAt</code>, and <code>ownEvents</code>. by @kermanx</li>
+<li>Use <code>spawn_teammate</code> in experimental Team mode, disable <code>subagent</code> and <code>subagent_fork</code>, and raise the default teammate creation limit from 8 to 16. by @Dudu-0223</li>
+<li>Run Node PTC in separate processes under the session file policy with output and heap limits; <code>process.env</code> is empty, so code relying on the previous environment must migrate. by @tianyicui</li>
+<li>Remove transactional rollback from hot reload: parse failures preserve the original configuration, while activation failures may leave partial changes that require correction. by @turtle1999</li>
+<li>Make <code>SandboxProvider.confine</code> and <code>ShellExecutor.start</code> cancellable and asynchronous, with preparation included in timeouts; fix POSIX symlink/parent-directory combinations and Windows drive-relative paths. by @tianyicui</li>
+<li>Move the request-image cache to <code>DSH_HOME/cache/attachments/request-images</code>, where it can be rebuilt after deletion; preserve originals and leave old caches untouched. by @turtle1999</li>
+<li>When using the DeepSeek model adapter with an official API endpoint, session events can be reported with requests. This experimental feature is currently enabled and can be disabled in configuration. by @tianyicui</li>
+</ul>
+<p>Full Changelog: <a href="https://github.com/deepseek-ai/deepseek-harness/compare/dsh-v0.1.5-rc.2...dsh-v0.1.6-alpha.1">dsh-v0.1.5-rc.2...dsh-v0.1.6-alpha.1</a></p>
+]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[v0.1.5-rc.2]]></title>
             <link>https://github.com/deepseek-ai/deepseek-harness/releases/tag/dsh-v0.1.5-rc.2</link>
