@@ -4,11 +4,27 @@
         <title>claude-code Releases</title>
         <link>https://github.com/anthropics/claude-code/releases</link>
         <description>GitHub releases for anthropics/claude-code</description>
-        <lastBuildDate>Mon, 14 Sep 2026 22:12:54 GMT</lastBuildDate>
+        <lastBuildDate>Tue, 15 Sep 2026 00:42:25 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>ai-rss-feeds (https://github.com/leontloveless/ai-rss-feeds)</generator>
         <language>en</language>
         <atom:link href="https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/claude-code-releases.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[v2.1.272]]></title>
+            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.272</link>
+            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.272</guid>
+            <pubDate>Tue, 15 Sep 2026 00:42:25 GMT</pubDate>
+            <description><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Bug fixes and reliability improvements</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Bug fixes and reliability improvements</li>
+</ul>
+]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[v2.1.271]]></title>
             <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.271</link>
@@ -3902,86 +3918,6 @@
 <li>Claude in Chrome: hardened file-upload path validation</li>
 <li>Claude in Chrome: <code>save_to_disk</code> on screenshot actions now writes the image to disk and returns the path; previously it did nothing</li>
 <li>Fixed a prompt-caching regression on Bedrock, Vertex, Mantle, and Foundry that billed the trailing system context block as fresh input tokens on every request.</li>
-</ul>
-]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[v2.1.210]]></title>
-            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.210</link>
-            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.210</guid>
-            <pubDate>Tue, 14 Jul 2026 23:45:25 GMT</pubDate>
-            <description><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>Added a live elapsed-time counter to the collapsed tool summary line so long-running tool calls visibly tick instead of looking stuck</li>
-<li>Added a startup warning for <code>Write(path)</code>, <code>NotebookEdit(path)</code>, and <code>Glob(path)</code> permission rules — use <code>Edit(path)</code> or <code>Read(path)</code> instead</li>
-<li>Fixed <code>isolation: &#39;worktree&#39;</code> subagents being able to run git-mutating commands against the main repo checkout instead of their own isolated worktree</li>
-<li>Fixed the <code>ultracode</code> keyword opt-in firing on non-human-originated input such as webhook payloads and relayed PR comments</li>
-<li>Fixed a rendered text fragment leaking into crash telemetry when a UI component returned content outside a styled text element</li>
-<li>Fixed paste markers leaking into external editors opened from Claude Code, which could appear as stray È/É characters around pasted text</li>
-<li>Fixed <code>claude attach</code> sometimes failing with &quot;job not found&quot; or &quot;agent is still starting&quot; errors during session transitions — attach now waits for the daemon to settle, and terminal resizes during a slow attach are applied once it completes</li>
-<li>Fixed a session crash when a tool&#39;s result renderer returned a numeric bigint value or plain text instead of a UI element</li>
-<li>Fixed a hook callback timeout being misreported to the model as a user rejection, which made unattended sessions stop and wait</li>
-<li>Fixed Claude assuming a <code>cd</code> took effect after its command was moved to the background; the tool result now states the working directory is unchanged</li>
-<li>Fixed plugin-provided MCP servers being torn down when MCP servers are re-synced mid-session</li>
-<li>Fixed plan approvals without edits being labeled &quot;(edited by user)&quot; and overwriting the plan file with a stale snapshot</li>
-<li>Fixed <code>/doctor</code> skipping its auto-mode-default proposal on Bedrock, Vertex, and Foundry, where auto mode no longer needs an opt-in</li>
-<li>Fixed Grep content mode claiming &quot;No matches found&quot; when paginating past the end of results</li>
-<li>Fixed unmatched <code>$1</code>/<code>$2</code> positional placeholders in skills and commands being silently stripped; they are now preserved verbatim</li>
-<li>Fixed plugin cache writes leaving temp files behind on failure and failing on locked-file renames on Windows and network filesystems</li>
-<li>Fixed background workers crash-looping when a client resets its connection to the background service</li>
-<li>Fixed <code>claude agents --effort ultracode</code> not reaching dispatched sessions; the value was silently dropped</li>
-<li>Fixed pressing ← to open the agents view dropping the task tracker when returning to the session</li>
-<li>Fixed the agents dashboard retaining pasted images from abandoned reply drafts after their session was deleted</li>
-<li>Fixed killed background sessions leaving a permanent <code>git worktree lock</code> behind; the periodic sweep now releases locks whose owning process is gone</li>
-<li>Fixed SDK MCP servers registered via an <code>initialize</code> control request waiting until the next turn to start connecting</li>
-<li>Fixed returning to the agents view from a session leaving overlapping ghost frames with <code>CLAUDE_CODE_DISABLE_ALTERNATE_SCREEN=1</code></li>
-<li>Fixed late-appearing <code>.claude/*</code> symlinks not being reconciled into the sandbox deny-write list</li>
-<li>Hardened the Agent tool against indirect prompt injection via content a subagent read</li>
-<li>Improved the Bash/PowerShell tool message when a command hits its timeout and is auto-backgrounded, so the model can distinguish a hang from an explicit background request</li>
-<li>Improved auto mode: the permission classifier now defaults to Sonnet 5 for external sessions, validated on the session&#39;s first request and pinned for the session</li>
-<li>Improved the bundled dataviz skill&#39;s chart color validation with perceptual OKLab color difference and recalibrated color-blindness thresholds</li>
-<li>Memory writes that leave a MEMORY.md index over its read limit now produce an explicit error instead of silent truncation</li>
-<li>Screen reader mode now announces permission mode changes aloud when cycling modes with Shift+Tab</li>
-<li>The agents footer hint now shows how many background agents are waiting on your input, with a brief color emphasis when the count changes</li>
-<li>Agent view: the session you pressed ← from stays visibly marked even after mouse hover or arrow keys move the selection</li>
-<li>Fable temporarily shows as unavailable in the advisor picker while a server-side issue causing Fable advisor failures is fixed</li>
-</ul>
-]]></description>
-            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>Added a live elapsed-time counter to the collapsed tool summary line so long-running tool calls visibly tick instead of looking stuck</li>
-<li>Added a startup warning for <code>Write(path)</code>, <code>NotebookEdit(path)</code>, and <code>Glob(path)</code> permission rules — use <code>Edit(path)</code> or <code>Read(path)</code> instead</li>
-<li>Fixed <code>isolation: &#39;worktree&#39;</code> subagents being able to run git-mutating commands against the main repo checkout instead of their own isolated worktree</li>
-<li>Fixed the <code>ultracode</code> keyword opt-in firing on non-human-originated input such as webhook payloads and relayed PR comments</li>
-<li>Fixed a rendered text fragment leaking into crash telemetry when a UI component returned content outside a styled text element</li>
-<li>Fixed paste markers leaking into external editors opened from Claude Code, which could appear as stray È/É characters around pasted text</li>
-<li>Fixed <code>claude attach</code> sometimes failing with &quot;job not found&quot; or &quot;agent is still starting&quot; errors during session transitions — attach now waits for the daemon to settle, and terminal resizes during a slow attach are applied once it completes</li>
-<li>Fixed a session crash when a tool&#39;s result renderer returned a numeric bigint value or plain text instead of a UI element</li>
-<li>Fixed a hook callback timeout being misreported to the model as a user rejection, which made unattended sessions stop and wait</li>
-<li>Fixed Claude assuming a <code>cd</code> took effect after its command was moved to the background; the tool result now states the working directory is unchanged</li>
-<li>Fixed plugin-provided MCP servers being torn down when MCP servers are re-synced mid-session</li>
-<li>Fixed plan approvals without edits being labeled &quot;(edited by user)&quot; and overwriting the plan file with a stale snapshot</li>
-<li>Fixed <code>/doctor</code> skipping its auto-mode-default proposal on Bedrock, Vertex, and Foundry, where auto mode no longer needs an opt-in</li>
-<li>Fixed Grep content mode claiming &quot;No matches found&quot; when paginating past the end of results</li>
-<li>Fixed unmatched <code>$1</code>/<code>$2</code> positional placeholders in skills and commands being silently stripped; they are now preserved verbatim</li>
-<li>Fixed plugin cache writes leaving temp files behind on failure and failing on locked-file renames on Windows and network filesystems</li>
-<li>Fixed background workers crash-looping when a client resets its connection to the background service</li>
-<li>Fixed <code>claude agents --effort ultracode</code> not reaching dispatched sessions; the value was silently dropped</li>
-<li>Fixed pressing ← to open the agents view dropping the task tracker when returning to the session</li>
-<li>Fixed the agents dashboard retaining pasted images from abandoned reply drafts after their session was deleted</li>
-<li>Fixed killed background sessions leaving a permanent <code>git worktree lock</code> behind; the periodic sweep now releases locks whose owning process is gone</li>
-<li>Fixed SDK MCP servers registered via an <code>initialize</code> control request waiting until the next turn to start connecting</li>
-<li>Fixed returning to the agents view from a session leaving overlapping ghost frames with <code>CLAUDE_CODE_DISABLE_ALTERNATE_SCREEN=1</code></li>
-<li>Fixed late-appearing <code>.claude/*</code> symlinks not being reconciled into the sandbox deny-write list</li>
-<li>Hardened the Agent tool against indirect prompt injection via content a subagent read</li>
-<li>Improved the Bash/PowerShell tool message when a command hits its timeout and is auto-backgrounded, so the model can distinguish a hang from an explicit background request</li>
-<li>Improved auto mode: the permission classifier now defaults to Sonnet 5 for external sessions, validated on the session&#39;s first request and pinned for the session</li>
-<li>Improved the bundled dataviz skill&#39;s chart color validation with perceptual OKLab color difference and recalibrated color-blindness thresholds</li>
-<li>Memory writes that leave a MEMORY.md index over its read limit now produce an explicit error instead of silent truncation</li>
-<li>Screen reader mode now announces permission mode changes aloud when cycling modes with Shift+Tab</li>
-<li>The agents footer hint now shows how many background agents are waiting on your input, with a brief color emphasis when the count changes</li>
-<li>Agent view: the session you pressed ← from stays visibly marked even after mouse hover or arrow keys move the selection</li>
-<li>Fable temporarily shows as unavailable in the advisor picker while a server-side issue causing Fable advisor failures is fixed</li>
 </ul>
 ]]></content:encoded>
         </item>
