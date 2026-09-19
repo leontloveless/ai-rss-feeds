@@ -4,11 +4,29 @@
         <title>claude-code Releases</title>
         <link>https://github.com/anthropics/claude-code/releases</link>
         <description>GitHub releases for anthropics/claude-code</description>
-        <lastBuildDate>Fri, 18 Sep 2026 18:06:32 GMT</lastBuildDate>
+        <lastBuildDate>Sat, 19 Sep 2026 03:10:40 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>ai-rss-feeds (https://github.com/leontloveless/ai-rss-feeds)</generator>
         <language>en</language>
         <atom:link href="https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/claude-code-releases.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[v2.1.278]]></title>
+            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.278</link>
+            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.278</guid>
+            <pubDate>Sat, 19 Sep 2026 03:10:40 GMT</pubDate>
+            <description><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Changed auto mode for Claude API and Enterprise users, and on Bedrock, Vertex, Foundry and gateways, to default to the server-side classifier, which does not charge for classifier overhead (<code>CLAUDE_CODE_AUTO_MODE_SERVER=0</code> opts out on Bedrock, Vertex, Foundry and gateways); warns on billed fallback. See <a href="https://code.claude.com/docs/en/auto-mode-classifier-billing">https://code.claude.com/docs/en/auto-mode-classifier-billing</a></li>
+<li>Added an <code>Auto mode server</code> row to <code>/status</code> showing whether this session&#39;s auto mode classifier runs on the server</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Changed auto mode for Claude API and Enterprise users, and on Bedrock, Vertex, Foundry and gateways, to default to the server-side classifier, which does not charge for classifier overhead (<code>CLAUDE_CODE_AUTO_MODE_SERVER=0</code> opts out on Bedrock, Vertex, Foundry and gateways); warns on billed fallback. See <a href="https://code.claude.com/docs/en/auto-mode-classifier-billing">https://code.claude.com/docs/en/auto-mode-classifier-billing</a></li>
+<li>Added an <code>Auto mode server</code> row to <code>/status</code> showing whether this session&#39;s auto mode classifier runs on the server</li>
+</ul>
+]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[v2.1.277]]></title>
             <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.277</link>
@@ -4230,60 +4248,6 @@
 <li>Changed skills with <code>context: fork</code> to run in the background by default; opt out per skill with <code>background: false</code></li>
 <li>Added <code>yes</code>/<code>no</code>/<code>on</code>/<code>off</code>/<code>1</code>/<code>0</code> (case-insensitive) as accepted values for skill and plugin frontmatter booleans, alongside <code>true</code>/<code>false</code></li>
 <li>Fixed remote sessions continuing to send heartbeats after their worker was replaced, which left long-lived desktop and IDE processes retrying a rejected request every few seconds forever</li>
-</ul>
-]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[v2.1.217]]></title>
-            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.217</link>
-            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.217</guid>
-            <pubDate>Tue, 21 Jul 2026 21:35:10 GMT</pubDate>
-            <description><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>Added emoji shortcode autocomplete in the prompt input: type <code>:heart:</code> to insert ❤️, or <code>:hea</code> for suggestions — disable with the <code>emojiCompletionEnabled</code> setting</li>
-<li>Added warnings when transcript writes are failing (e.g. disk full) or when session saving is off due to an inherited environment variable, instead of losing transcripts silently</li>
-<li>Fixed a memory leak where truncated MCP tool outputs kept the full untruncated result in memory for the rest of the session</li>
-<li>Fixed Windows auto-update failures that could leave <code>claude.exe</code> missing; failed updates now restore the preserved executable automatically</li>
-<li>Fixed background session isolation not canonicalizing symlinked working directories, which could let sessions escape their workspace folder</li>
-<li>Fixed auto-compact never triggering for Claude Opus 4.8 on Bedrock and <code>/compact</code> failing once over the limit</li>
-<li>Fixed corporate mTLS, TLS-verify, OAuth scope, and proxy settings being ignored in Claude Desktop sessions</li>
-<li>Fixed screen reader mode&#39;s startup announcement being cut off by the first prompt render, and the thinking status row re-rendering every few seconds to update elapsed time and token counts</li>
-<li>Fixed managed settings that set <code>OTEL_EXPORTER_OTLP_ENDPOINT</code> not governing all signals — lower-scope signal-specific overrides no longer redirect telemetry away from the managed endpoint</li>
-<li>Fixed <code>--resume</code>/<code>--continue</code> and <code>/resume</code> failing with a TypeError when a transcript has a malformed attachment entry</li>
-<li>Fixed Remote Control sessions not showing a pending permission prompt or dialog to viewers that connected after it appeared</li>
-<li>Fixed background shells sometimes becoming impossible to stop after a session is sent to the background (<code>/background</code> or <code>←</code>) or when the session exits on a heavily loaded machine, most visible on Windows</li>
-<li>Fixed a <code>CLAUDE.md</code> or <code>SKILL.md</code> paths frontmatter value with many brace groups OOM-killing or stalling the CLI at startup — brace expansion is now budget-bounded</li>
-<li>Fixed the transcript preview sitting flush against the input area when attaching to a starting background session; it now leaves the same one-line gap as the live layout, so the transcript no longer shifts when the session takes over</li>
-<li>Improved footer PR badge links to be clickable hyperlinks even when terminal support can&#39;t be detected (e.g. over ssh/tmux); set <code>FORCE_HYPERLINK=0</code> to opt out</li>
-<li>Changed the login-expiry warning to appear 3 days before expiry instead of 5</li>
-<li>Capped the frontend-design plugin suggestion tip at 3 lifetime impressions instead of repeating indefinitely</li>
-<li>Added a cap on concurrently-running subagents (default 20, override with <code>CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS</code>) so one message can&#39;t fan out unbounded background agents</li>
-<li>Changed subagents to no longer spawn nested subagents by default; set <code>CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH</code> to allow deeper nesting</li>
-<li>Fixed <code>--max-budget-usd</code> not stopping background subagents: once the cap is reached, new spawns are denied and running background agents are halted</li>
-</ul>
-]]></description>
-            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>Added emoji shortcode autocomplete in the prompt input: type <code>:heart:</code> to insert ❤️, or <code>:hea</code> for suggestions — disable with the <code>emojiCompletionEnabled</code> setting</li>
-<li>Added warnings when transcript writes are failing (e.g. disk full) or when session saving is off due to an inherited environment variable, instead of losing transcripts silently</li>
-<li>Fixed a memory leak where truncated MCP tool outputs kept the full untruncated result in memory for the rest of the session</li>
-<li>Fixed Windows auto-update failures that could leave <code>claude.exe</code> missing; failed updates now restore the preserved executable automatically</li>
-<li>Fixed background session isolation not canonicalizing symlinked working directories, which could let sessions escape their workspace folder</li>
-<li>Fixed auto-compact never triggering for Claude Opus 4.8 on Bedrock and <code>/compact</code> failing once over the limit</li>
-<li>Fixed corporate mTLS, TLS-verify, OAuth scope, and proxy settings being ignored in Claude Desktop sessions</li>
-<li>Fixed screen reader mode&#39;s startup announcement being cut off by the first prompt render, and the thinking status row re-rendering every few seconds to update elapsed time and token counts</li>
-<li>Fixed managed settings that set <code>OTEL_EXPORTER_OTLP_ENDPOINT</code> not governing all signals — lower-scope signal-specific overrides no longer redirect telemetry away from the managed endpoint</li>
-<li>Fixed <code>--resume</code>/<code>--continue</code> and <code>/resume</code> failing with a TypeError when a transcript has a malformed attachment entry</li>
-<li>Fixed Remote Control sessions not showing a pending permission prompt or dialog to viewers that connected after it appeared</li>
-<li>Fixed background shells sometimes becoming impossible to stop after a session is sent to the background (<code>/background</code> or <code>←</code>) or when the session exits on a heavily loaded machine, most visible on Windows</li>
-<li>Fixed a <code>CLAUDE.md</code> or <code>SKILL.md</code> paths frontmatter value with many brace groups OOM-killing or stalling the CLI at startup — brace expansion is now budget-bounded</li>
-<li>Fixed the transcript preview sitting flush against the input area when attaching to a starting background session; it now leaves the same one-line gap as the live layout, so the transcript no longer shifts when the session takes over</li>
-<li>Improved footer PR badge links to be clickable hyperlinks even when terminal support can&#39;t be detected (e.g. over ssh/tmux); set <code>FORCE_HYPERLINK=0</code> to opt out</li>
-<li>Changed the login-expiry warning to appear 3 days before expiry instead of 5</li>
-<li>Capped the frontend-design plugin suggestion tip at 3 lifetime impressions instead of repeating indefinitely</li>
-<li>Added a cap on concurrently-running subagents (default 20, override with <code>CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS</code>) so one message can&#39;t fan out unbounded background agents</li>
-<li>Changed subagents to no longer spawn nested subagents by default; set <code>CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH</code> to allow deeper nesting</li>
-<li>Fixed <code>--max-budget-usd</code> not stopping background subagents: once the cap is reached, new spawns are denied and running background agents are halted</li>
 </ul>
 ]]></content:encoded>
         </item>
