@@ -4,11 +4,123 @@
         <title>deepseek-harness Releases</title>
         <link>https://github.com/deepseek-ai/deepseek-harness/releases</link>
         <description>GitHub releases for deepseek-ai/deepseek-harness</description>
-        <lastBuildDate>Tue, 22 Sep 2026 06:16:27 GMT</lastBuildDate>
+        <lastBuildDate>Tue, 22 Sep 2026 15:49:49 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>ai-rss-feeds (https://github.com/leontloveless/ai-rss-feeds)</generator>
         <language>en</language>
         <atom:link href="https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/deepseek-harness-releases.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[v0.1.7-alpha.2]]></title>
+            <link>https://github.com/deepseek-ai/deepseek-harness/releases/tag/dsh-v0.1.7-alpha.2</link>
+            <guid>https://github.com/deepseek-ai/deepseek-harness/releases/tag/dsh-v0.1.7-alpha.2</guid>
+            <pubDate>Tue, 22 Sep 2026 15:49:49 GMT</pubDate>
+            <description><![CDATA[<p><a href="#cn-v0.1.7-alpha.2">中文</a> | <a href="#en-v0.1.7-alpha.2">English</a></p>
+<h3 id="cn-v0.1.7-alpha.2">体验优化</h3>
+
+<ul>
+<li>稳定会话与工作过程组的滚动跟随；改善历史分页与轮次跳转，并减少发送消息的瞬间跳动或重复显示。 @imccyu</li>
+<li>统一会话区域各代码块样式，支持复制/换行，并改善差异内容和行号展示。 @yixiangihsiang</li>
+<li>重新编辑排队消息时保留换行，避免多行内容发送给模型时合并成一行。 @turtle2099</li>
+<li>Agent Team 成员的初始任务增加查找队友和联系 Lead 的指引，明确按成员名称发送消息。 @Dudu-0223</li>
+<li>首次安装插件且未配置源时，优先寻找最优可访问 npm 源；保留手动选择和私有源配置。 @LegGasai</li>
+</ul>
+<h3>问题修复</h3>
+<ul>
+<li>修复消息中长文件名越出气泡、拖动文件改动审阅浮窗后下拉菜单错位的问题。 @sjw1231</li>
+<li>修复含特殊内容的 Excel 文件无法预览或内容丢失的问题。 @yudshj</li>
+<li>修复持久 PowerShell 命令完成后仍需额外等待的问题。 @Elevator14B</li>
+<li>Excel 预览随面板大小变化自动调整，并保留当前工作表与选中单元格。 @yudshj</li>
+<li>修复连续完成多个后台命令或一次性子代理任务后，会话停住并等待用户输入的问题；默认不再限制任务完成后连续唤醒 Agent 的次数，仍可显式配置上限。 @turtle1999</li>
+<li>修复语音输入切换识别语言或识别器时设置保存失败的问题，选择立即生效并在重启后保留。 @LegGasai</li>
+<li>模型发现候选列表优先显示可读名称，缺失时显示模型 ID；仍可按名称或 ID 搜索，并保留原始 ID 用于添加。 @LegGasai</li>
+<li>修复 Web 服务重启后显示已连接却无法继续显示回复的问题；原页面在应用就绪后恢复连接，保留会话历史和输入草稿。 @imccyu</li>
+</ul>
+<h3>其他变更</h3>
+<ul>
+<li>工具返回的文字和图片改按统一的估算 token 预算保留首尾，修复 MCP 图片在文字截断后不可用的问题，并提供被省略内容的读取地址。自定义 <code>spill-policy</code> 配置中的 <code>maxInlineBytes</code> 需改为 <code>maxInlineTokens</code>，按 token 数重新设置预算。 @CreatixChu</li>
+<li>将 Cordis 等 vendor 包与 Node Addon System 的自动依赖更新限制为同一次版本内的补丁版本，避免安装时自动引入新的次版本。 @imccyu</li>
+</ul>
+<h3 id="en-v0.1.7-alpha.2">Improvements</h3>
+
+<ul>
+<li>Stabilize scroll following in conversations and work-detail groups. Improve history pagination and turn navigation, and reduce momentary jumps or duplicate display when sending messages. by @imccyu</li>
+<li>Unify code-block styling across conversations, with copy and wrapping controls and clearer diffs and line numbers. by @yixiangihsiang</li>
+<li>Preserve line breaks when re-editing queued messages so multiline content reaches the model unchanged. by @turtle2099</li>
+<li>Add teammate-discovery and Lead-contact guidance to Agent Team members’ initial tasks, including messaging by member name. by @Dudu-0223</li>
+<li>Prefer the most responsive available npm registry for the first plugin installation when none is configured, while preserving manual choices and private-registry settings. by @LegGasai</li>
+</ul>
+<h3>Bug Fixes</h3>
+<ul>
+<li>Fix long filenames overflowing message bubbles and file-picker menus becoming detached when the review window is dragged. by @sjw1231</li>
+<li>Fix preview failures and missing content in Excel files with special content. by @yudshj</li>
+<li>Remove unnecessary waiting after persistent PowerShell commands finish. by @Elevator14B</li>
+<li>Resize Excel previews with their pane while preserving the selected worksheet and cell. by @yudshj</li>
+<li>Fix sessions stalling after successive background commands or one-shot subagent tasks finish. Completion-triggered Agent wakeups are unlimited by default, with an optional configurable cap. by @turtle1999</li>
+<li>Fix saving speech-recognition language and recognizer selections. Changes take effect immediately and persist across restarts. by @LegGasai</li>
+<li>Show readable names in discovered-model lists, falling back to model IDs. Search by name or ID and retain the original ID when adding a model. by @LegGasai</li>
+<li>Fix Web clients appearing connected after a server restart but no longer displaying replies. Reconnect the existing page once the application is ready, preserving conversation history and input drafts. by @imccyu</li>
+</ul>
+<h3>Chores</h3>
+<ul>
+<li>Retain text and images from tool results within a shared estimated-token budget, preserving both ends and providing access paths for omitted content. Fix MCP images becoming unavailable after text truncation. Custom <code>spill-policy</code> configurations must replace <code>maxInlineBytes</code> with <code>maxInlineTokens</code> and set the budget in tokens. by @CreatixChu</li>
+<li>Restrict automatic dependency updates for Cordis and other vendored packages, plus Node Addon System, to patch releases within the same minor version. by @imccyu</li>
+</ul>
+<p>Full Changelog: <a href="https://github.com/deepseek-ai/deepseek-harness/compare/dsh-v0.1.7-alpha.1...dsh-v0.1.7-alpha.2">dsh-v0.1.7-alpha.1...dsh-v0.1.7-alpha.2</a></p>
+]]></description>
+            <content:encoded><![CDATA[<p><a href="#cn-v0.1.7-alpha.2">中文</a> | <a href="#en-v0.1.7-alpha.2">English</a></p>
+<h3 id="cn-v0.1.7-alpha.2">体验优化</h3>
+
+<ul>
+<li>稳定会话与工作过程组的滚动跟随；改善历史分页与轮次跳转，并减少发送消息的瞬间跳动或重复显示。 @imccyu</li>
+<li>统一会话区域各代码块样式，支持复制/换行，并改善差异内容和行号展示。 @yixiangihsiang</li>
+<li>重新编辑排队消息时保留换行，避免多行内容发送给模型时合并成一行。 @turtle2099</li>
+<li>Agent Team 成员的初始任务增加查找队友和联系 Lead 的指引，明确按成员名称发送消息。 @Dudu-0223</li>
+<li>首次安装插件且未配置源时，优先寻找最优可访问 npm 源；保留手动选择和私有源配置。 @LegGasai</li>
+</ul>
+<h3>问题修复</h3>
+<ul>
+<li>修复消息中长文件名越出气泡、拖动文件改动审阅浮窗后下拉菜单错位的问题。 @sjw1231</li>
+<li>修复含特殊内容的 Excel 文件无法预览或内容丢失的问题。 @yudshj</li>
+<li>修复持久 PowerShell 命令完成后仍需额外等待的问题。 @Elevator14B</li>
+<li>Excel 预览随面板大小变化自动调整，并保留当前工作表与选中单元格。 @yudshj</li>
+<li>修复连续完成多个后台命令或一次性子代理任务后，会话停住并等待用户输入的问题；默认不再限制任务完成后连续唤醒 Agent 的次数，仍可显式配置上限。 @turtle1999</li>
+<li>修复语音输入切换识别语言或识别器时设置保存失败的问题，选择立即生效并在重启后保留。 @LegGasai</li>
+<li>模型发现候选列表优先显示可读名称，缺失时显示模型 ID；仍可按名称或 ID 搜索，并保留原始 ID 用于添加。 @LegGasai</li>
+<li>修复 Web 服务重启后显示已连接却无法继续显示回复的问题；原页面在应用就绪后恢复连接，保留会话历史和输入草稿。 @imccyu</li>
+</ul>
+<h3>其他变更</h3>
+<ul>
+<li>工具返回的文字和图片改按统一的估算 token 预算保留首尾，修复 MCP 图片在文字截断后不可用的问题，并提供被省略内容的读取地址。自定义 <code>spill-policy</code> 配置中的 <code>maxInlineBytes</code> 需改为 <code>maxInlineTokens</code>，按 token 数重新设置预算。 @CreatixChu</li>
+<li>将 Cordis 等 vendor 包与 Node Addon System 的自动依赖更新限制为同一次版本内的补丁版本，避免安装时自动引入新的次版本。 @imccyu</li>
+</ul>
+<h3 id="en-v0.1.7-alpha.2">Improvements</h3>
+
+<ul>
+<li>Stabilize scroll following in conversations and work-detail groups. Improve history pagination and turn navigation, and reduce momentary jumps or duplicate display when sending messages. by @imccyu</li>
+<li>Unify code-block styling across conversations, with copy and wrapping controls and clearer diffs and line numbers. by @yixiangihsiang</li>
+<li>Preserve line breaks when re-editing queued messages so multiline content reaches the model unchanged. by @turtle2099</li>
+<li>Add teammate-discovery and Lead-contact guidance to Agent Team members’ initial tasks, including messaging by member name. by @Dudu-0223</li>
+<li>Prefer the most responsive available npm registry for the first plugin installation when none is configured, while preserving manual choices and private-registry settings. by @LegGasai</li>
+</ul>
+<h3>Bug Fixes</h3>
+<ul>
+<li>Fix long filenames overflowing message bubbles and file-picker menus becoming detached when the review window is dragged. by @sjw1231</li>
+<li>Fix preview failures and missing content in Excel files with special content. by @yudshj</li>
+<li>Remove unnecessary waiting after persistent PowerShell commands finish. by @Elevator14B</li>
+<li>Resize Excel previews with their pane while preserving the selected worksheet and cell. by @yudshj</li>
+<li>Fix sessions stalling after successive background commands or one-shot subagent tasks finish. Completion-triggered Agent wakeups are unlimited by default, with an optional configurable cap. by @turtle1999</li>
+<li>Fix saving speech-recognition language and recognizer selections. Changes take effect immediately and persist across restarts. by @LegGasai</li>
+<li>Show readable names in discovered-model lists, falling back to model IDs. Search by name or ID and retain the original ID when adding a model. by @LegGasai</li>
+<li>Fix Web clients appearing connected after a server restart but no longer displaying replies. Reconnect the existing page once the application is ready, preserving conversation history and input drafts. by @imccyu</li>
+</ul>
+<h3>Chores</h3>
+<ul>
+<li>Retain text and images from tool results within a shared estimated-token budget, preserving both ends and providing access paths for omitted content. Fix MCP images becoming unavailable after text truncation. Custom <code>spill-policy</code> configurations must replace <code>maxInlineBytes</code> with <code>maxInlineTokens</code> and set the budget in tokens. by @CreatixChu</li>
+<li>Restrict automatic dependency updates for Cordis and other vendored packages, plus Node Addon System, to patch releases within the same minor version. by @imccyu</li>
+</ul>
+<p>Full Changelog: <a href="https://github.com/deepseek-ai/deepseek-harness/compare/dsh-v0.1.7-alpha.1...dsh-v0.1.7-alpha.2">dsh-v0.1.7-alpha.1...dsh-v0.1.7-alpha.2</a></p>
+]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[v0.1.7-alpha.1]]></title>
             <link>https://github.com/deepseek-ai/deepseek-harness/releases/tag/dsh-v0.1.7-alpha.1</link>
