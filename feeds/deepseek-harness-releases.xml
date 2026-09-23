@@ -4,11 +4,437 @@
         <title>deepseek-harness Releases</title>
         <link>https://github.com/deepseek-ai/deepseek-harness/releases</link>
         <description>GitHub releases for deepseek-ai/deepseek-harness</description>
-        <lastBuildDate>Tue, 22 Sep 2026 15:49:49 GMT</lastBuildDate>
+        <lastBuildDate>Wed, 23 Sep 2026 13:30:24 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>ai-rss-feeds (https://github.com/leontloveless/ai-rss-feeds)</generator>
         <language>en</language>
         <atom:link href="https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/deepseek-harness-releases.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[v0.1.7-rc.1]]></title>
+            <link>https://github.com/deepseek-ai/deepseek-harness/releases/tag/dsh-v0.1.7-rc.1</link>
+            <guid>https://github.com/deepseek-ai/deepseek-harness/releases/tag/dsh-v0.1.7-rc.1</guid>
+            <pubDate>Wed, 23 Sep 2026 13:30:24 GMT</pubDate>
+            <description><![CDATA[<p><a href="#cn-v0.1.7-rc.1">中文</a> | <a href="#en-v0.1.7-rc.1">English</a></p>
+<p>作为 0.1.7 系列的首个候选版本，本版本汇总了自 v0.1.5-rc.3 以来的主要用户和开发者相关变更。</p>
+<h3 id="cn-v0.1.7-rc.1">新增功能</h3>
+
+<ul>
+<li>Web 侧边栏新增终端，支持多标签、Shell 选择和刷新后恢复。 @LegGasai</li>
+<li>管理会话归档：支持置顶、筛选、恢复，并在归档运行中会话时确认受影响的任务。 @tianyicui, @Yifffan, @LegGasai</li>
+<li>MCP 支持发现和读取资源、使用 URI 模板。内置 Profile 配置 MCP 服务器后可使用共享资源工具。 @tianyicui</li>
+<li>Headless 支持从标准输入接收任务，用 <code>--session-id</code> 继续已有会话，用 <code>--json</code> 逐行输出 JSON 运行事件。 @lsdsjy</li>
+<li>扩展文件、命令及 PTC 工具，支持 DSH 在本地运行，通过 SSH 使用远端工作区。 @tianyicui</li>
+<li>新增实验性 Playwright MCP、Chrome DevTools MCP 和 Stagehand 浏览器后端。 @tianyicui</li>
+<li>新增实验性 Computer Use 支持，可通过 Cua Driver MCP 或原生驱动操作本机、获取截图。 @tianyicui</li>
+<li>新增实验性 Auto review 模式。 @pku-xht</li>
+<li>会话文件改动可在卡片和侧边栏审阅；差异支持逐行、左右分栏、高亮、同步滚动与悬停预览，并改善明暗主题配色。 @CreatixChu, @yixiangihsiang, @sjw1231</li>
+<li>插件管理页支持安装、配置、启停和运行时卸载。 @LegGasai, @turtle1999, @imccyu</li>
+<li>侧边栏可预览 Word、Excel、PowerPoint、CSV 和 TSV；Excel 支持工作表、单元格、公式与复制，并改善窄面板中的控件和触控板滚动。 @yudshj, @imccyu</li>
+<li>支持在侧边栏以浏览器模式访问指定 URL。 @imccyu</li>
+<li>支持在侧边栏打开 Subagent 会话。 @imccyu</li>
+<li>侧边栏可预览提交计划；计划审阅在其他面板打开期间到达后仍可查看全文。 @LegGasai</li>
+<li>插件安装可选择官方源、国内镜像或自定义源；首次安装自动选择可访问的源，GitHub 网络失败后可改用镜像重新输入包名。 @LegGasai, @Yifffan, @ZiyaZhang</li>
+<li>实验性语音转写首次使用时准备本地模型；支持自动或手动选择 Hugging Face 与 HF-Mirror 下载源，并在自动模式下尝试其他可用源。 @LegGasai</li>
+<li>Agent Team 面板实时展示成员与任务，并可从会话页头查看或切换成员。 @Dudu-0223, @Yifffan</li>
+<li>聊天中的本地图片可直接查看和放大；图片链接在悬停或键盘聚焦时提供预览。 @Kaige-Gao</li>
+</ul>
+<h3>体验优化</h3>
+<ul>
+<li>图片、PDF 和 Office 预览使用统一缩放控件，保留每个标签页的缩放比例；捏合缩放后重新绘制页面以保持文字清晰。 @Yifffan, @yudshj</li>
+<li>为适配 DeepSeek V4.1，调整图片缩放和 Token 估算，提高默认请求图片尺寸和编码质量。 @CreatixChu</li>
+<li>MCP 升级至官方 SDK v2，支持协议协商、工具分页，以及未提供工具的服务器。 @tianyicui</li>
+<li>改善文件引用与侧边栏操作，支持直接打开已有文件，并在首次发送消息前使用文件预览和终端。 @LegGasai, @Dudu-0223</li>
+<li>长时间命令和工作流可转入后台；任务面板显示实时输出，后台任务完成后会继续唤醒所属会话。 @LegGasai, @turtle1999</li>
+<li>全新安装首次启动时自动创建默认工作区和空白会话，无需先选择文件夹。 @kermanx</li>
+<li>文件预览在回合结束后自动更新，并支持响应本地文件变化 @grllll</li>
+<li>文件预览、交付卡片和改动审阅支持使用系统默认或其他关联应用打开文件、显示文件位置，不支持预览的文件也可直接打开。 @CreatixChu</li>
+<li>改善长对话的初始化加载、轮次导航跳转、加载历史开销 @imccyu, @tianyicui</li>
+<li>Team 工具按成员名称操作，并在成员初始任务中提供查找队友和联系 Lead 的指引。 @Dudu-0223</li>
+<li>Team 任务看板改为只读，任务创建和更新由 Agent 通过工具完成。 @Dudu-0223</li>
+<li>模型页统一为「添加模型提供商」入口，可在第三方提供商和自定义 API 之间切换并保留草稿。 @LegGasai</li>
+<li>稳定会话与工作过程组的滚动跟随；改善历史分页与轮次跳转，并减少发送消息的瞬间跳动或重复显示。 @imccyu</li>
+<li>统一会话区域各代码块样式，支持复制/换行，并改善差异内容和行号展示。 @yixiangihsiang</li>
+<li>模型发现列表显示原始模型 ID，悬停可见名称，仍可按名称或 ID 搜索。 @LegGasai, @yudshj</li>
+<li>「工作过程展示」设置可在简洁、标准、详细和运行中完全展开模式间切换；连续思考与工具调用归为可折叠过程组。 @imccyu</li>
+<li>工具调用在生成参数时显示准备状态；写入或编辑文件时显示内容准备进度。 @imccyu</li>
+<li>「性能与用量」设置可控制聊天中性能和用量信息的显示详略。 @lsdsjy</li>
+<li>「开发者工具」设置控制诊断入口；插件提供的标签页保持可见。 @std4453, @lsdsjy</li>
+<li>Windows 可通过系统关联应用打开配置文件和其他本地文件。 @Elevator14B</li>
+<li>Office 任务默认使用随应用安装的 LibreOffice 运行环境。 @yudshj</li>
+</ul>
+<h3>问题修复</h3>
+<ul>
+<li>Web 连接提示支持区分自动与手动重连；服务重启后在应用就绪时恢复回复，同时保留会话历史和输入草稿。 @Yifffan, @imccyu</li>
+<li>可选插件启动失败时，其余可用插件仍可运行；必需插件失败时退出。 @turtle1999</li>
+<li>修复旧子代理完成通知在 Messages 协议下导致父会话无法继续的问题。 @tianyicui, @LegGasai</li>
+<li>启动失败时分类显示错误和等待中的服务，并将完整诊断保存到日志文件。 @turtle1999</li>
+<li>修复 pi-ai 视觉模型被识别为仅支持文本的问题，支持手动调整输入类型。 @Kingwl, @LegGasai</li>
+<li>修复重启后待处理的 Inbox 消息无法恢复的问题。 @kermanx</li>
+<li>修复重复申请当前有效权限模式时仍需审批的问题。 @turtle1999</li>
+<li>会话被其他 DSH 实例占用时，提示退出对应实例后重试。 @07akioni</li>
+<li>Web 用户终端使用系统用户权限，不受 Agent 沙箱模式限制。 @LegGasai</li>
+<li>修复 Web 部署在反向代理的子路径下无法正常访问的问题。 @oraluben</li>
+<li>新建空白会话不再误复用已有历史或被其他实例占用；列表刷新和重连后保留会话状态，并显示创建失败原因。 @LegGasai, @turtle1999, @liukx0205</li>
+<li>无法读取的可选插件包不再直接中止 Profile 加载，并在插件管理页保留错误信息和禁用、移除操作。 @turtle1999</li>
+<li>插件安装弹窗可在等待期间立即关闭，并可重新查看同一安装任务；连接异常后会尝试恢复结果，无法确认时明确提示。 @LegGasai</li>
+<li>修复侧边栏 Markdown 预览中的本地图片加载，支持相对文档路径、中文、空格及 URL 编码。 @LegGasai</li>
+<li>主动压缩会预留模型输出预算和额外上下文空间，减少长输出后才触发压缩而导致的上下文溢出。 @Dudu-0223</li>
+<li>修复源码启动时受模块运行时解析行为影响导致的初始化失败，并支持 link 到本地开发中的插件。 @imccyu</li>
+<li>修复 Windows 沙箱可删除授权目录之外文件的问题，并阻止跨工作区删除。 @Elevator14B</li>
+<li>修复 pi-ai 处理大型流式工具参数时阻塞整个 DSH 进程的问题。 @turtle1999</li>
+<li>修复 Pkg 运行时并发首次加载 Native addon 时崩溃或加载失败的问题。 @koalazf99</li>
+<li>修复语音输入切换识别语言或识别器时设置保存失败的问题，选择立即生效并在重启后保留。 @LegGasai</li>
+<li>修复 Safari/WebKit 中模型菜单的鼠标选择和触发按钮收起问题，并恢复键盘焦点。 @grllll</li>
+<li>模型设置页固定将 DeepSeek 官方提供商显示在首位，同时保留其他提供商顺序。 @LegGasai</li>
+<li>Web 服务恢复后正确重新注册模块路由。 @turtle1999</li>
+<li>插件安装或卸载停滞时会结束等待，避免长期占用 Profile 配置。 @turtle1999</li>
+<li>长时间使用双向流时，Gateway 不再持续保留已消费的数据。 @imccyu</li>
+</ul>
+<h3>其他变更</h3>
+<ul>
+<li>官方 DeepSeek 适配器仅使用 Messages API，并可通过 Files API 复用已上传图片；旧 <code>protocol</code> 配置和 Chat Completions 地址需迁移。 @LegGasai, @tianyicui</li>
+<li>默认不再启用 Ralph，需要使用时请手动启用。 @tianyicui</li>
+<li>移除内置 E2B 执行后端，相关自定义配置需调整。 @tianyicui</li>
+<li>PTC 包名和服务名统一为 <code>ptc-runtime</code> 系列，旧名称不再兼容，自定义插件和配置需更新。 @tianyicui</li>
+<li>工作流执行器改为 <code>workflow-ptc</code>，遵循会话文件策略；自定义配置需更新名称，暂不支持 Python PTC。 @tianyicui</li>
+<li><code>agent/session-start</code> 改为异步串行的 <code>agent/created</code>，首次模型请求等待初始化完成，相关插件及注册调用需适配。 @kermanx</li>
+<li>弃用 Session 的同步历史读取接口 <code>snapshotEvents</code>、<code>eventAt</code> 和 <code>ownEvents</code>。 @kermanx</li>
+<li>实验性 Team 模式统一使用 <code>spawn_teammate</code>，关闭 <code>subagent</code> 和 <code>subagent_fork</code>，默认队友创建上限从 8 增至 16。 @Dudu-0223</li>
+<li>Node PTC 改用独立进程执行，遵循会话文件策略并限制输出和堆内存；<code>process.env</code> 为空，依赖旧执行环境的代码需适配。 @tianyicui</li>
+<li>配置热更新取消事务回滚：解析失败保留原配置，插件激活失败可能部分生效，需修正配置后恢复。 @turtle1999</li>
+<li><code>SandboxProvider.confine</code> 和 <code>ShellExecutor.start</code> 改为可取消的异步接口，准备时间计入超时；修复 POSIX 符号链接与父目录组合、Windows 驱动器相对路径解析。 @tianyicui</li>
+<li>默认模型列表移除 V4 Flash 和 V4 Flash Vision Exp。 @tianyicui</li>
+<li>可继续对话的 Subagent 链默认最多同时保留 8 个子代理、委派深度为 1，可在设置中调整。 @Dudu-0223, @ZiyaZhang</li>
+<li>创造模式移除原 Cordis 动态定义及运行工具，调整为通过 Plugin Manager 安装持久化插件。 @turtle1999</li>
+<li>客户端 Session 会话支持多实例共存，相关 API 及 slot 有变化。 @imccyu</li>
+<li>Session 日志升级为 V4，新增面向开发者的批量迁移工具，并兼容部分 V3 会话缺少轮次结束记录的情况。 @tianyicui, @kermanx</li>
+<li>仅保存在自定义事件中的附件不再自动读取或导出，插件需适配。 @tianyicui</li>
+<li>插件可通过 locale 数据结构声明多语言标题和描述，通过 package.json 声明图标，并用于插件管理页面展示 @imccyu, @turtle1999</li>
+<li>插件组合包支持按顺序加载多个 patch 文件，原有单文件写法仍可使用。 @turtle1999</li>
+<li>新增 --dump-config-schema，导出 Cordis 配置及 patch 的 JSON Schema，辅助配置编写与静态检查。 @turtle1999</li>
+<li>Remote 支持双向流及二进制结果传输，减少 Office 预览等大文件的编码开销；工作区文件读取统一为 <code>readBytes</code>，插件需迁移旧接口。 @imccyu, @yudshj</li>
+<li>Agent 预设改由插件组合包声明和安装，可通过创造模式创建或覆盖；设置页保留查看与选择，移除复制、删除和打开目录入口，旧目录预设需迁移。 @turtle1999</li>
+<li>设置改由当前 Profile 的插件配置保存，支持声明过的实时更新字段；旧 settings.yaml 仅尝试导入一次，自定义设置插件需适配。 @turtle1999</li>
+<li>工具返回的文字和图片改按统一的估算 token 预算保留首尾，修复 MCP 图片在文字截断后不可用的问题，并提供被省略内容的读取地址。自定义 <code>spill-policy</code> 配置中的 <code>maxInlineBytes</code> 需改为 <code>maxInlineTokens</code>，按 token 数重新设置预算。 @CreatixChu</li>
+<li>插件可声明无需重载的配置字段；仅修改这些字段时保留运行中的插件实例。 @turtle1999</li>
+<li>插件安装和启动会检查与当前 DSH 版本的兼容性；不兼容时说明原因，并可对确切版本授予例外。 @turtle1999</li>
+</ul>
+<h3 id="en-v0.1.7-rc.1">New Features</h3>
+
+<ul>
+<li>Add terminals to the Web sidebar, with multiple tabs, shell selection, and recovery after page refreshes. by @LegGasai</li>
+<li>Manage archived sessions with pinning, filters and restoration; confirm affected tasks before archiving a running session. by @tianyicui, @Yifffan, @LegGasai</li>
+<li>MCP supports resource discovery and reading, and URI templates. Shared resource tools are available after configuring an MCP server in a built-in Profile. by @tianyicui</li>
+<li>Headless can read tasks from standard input, resume sessions with <code>--session-id</code>, and emit run events as newline-delimited JSON with <code>--json</code>. by @lsdsjy</li>
+<li>Extend file, command, and PTC tools so DSH can run locally while using a remote workspace over SSH. by @tianyicui</li>
+<li>Add experimental Playwright MCP, Chrome DevTools MCP, and Stagehand browser backends. by @tianyicui</li>
+<li>Add experimental Computer Use through Cua Driver MCP or the native driver for local computer interaction and screenshots. by @tianyicui</li>
+<li>Add experimental Auto review mode. by @pku-xht</li>
+<li>Review session file changes in cards and the sidebar, with line-level and side-by-side diffs, highlighting, synchronized scrolling, hover previews, and improved colors in both themes. by @CreatixChu, @yixiangihsiang, @sjw1231</li>
+<li>Manage plugin installation, configuration, activation and runtime removal. by @LegGasai, @turtle1999, @imccyu</li>
+<li>Preview Word, Excel, PowerPoint, CSV and TSV files in the sidebar. Excel previews support worksheets, cells, formulas and copying, with clearer controls in narrow panes and better trackpad scrolling. by @yudshj, @imccyu</li>
+<li>Open a specified URL in browser mode in the sidebar. by @imccyu</li>
+<li>Open Subagent conversations in the sidebar. by @imccyu</li>
+<li>Preview submission plans in the sidebar, including plans received while another panel is open. by @LegGasai</li>
+<li>Choose an official, mirrored or custom registry for plugin installation. The first installation selects an available source automatically, and GitHub network failures can be retried through a mirror. by @LegGasai, @Yifffan, @ZiyaZhang</li>
+<li>Prepare a local model for experimental speech transcription, with automatic or manual Hugging Face and HF-Mirror selection and automatic fallback. by @LegGasai</li>
+<li>The Agent Team panel shows live member and task updates, and the chat header lets you view or switch members. by @Dudu-0223, @Yifffan</li>
+<li>View and enlarge local images directly in chat, and preview image links on hover or keyboard focus. by @Kaige-Gao</li>
+</ul>
+<h3>Improvements</h3>
+<ul>
+<li>Use consistent zoom controls for image, PDF and Office previews and retain each tab’s zoom level. Redraw pages after pinch zooming to keep text sharp. by @Yifffan, @yudshj</li>
+<li>Adapt image resizing and token estimates for DeepSeek V4.1, and increase default request-image size and encoding quality. by @CreatixChu</li>
+<li>Upgrade MCP to the official SDK v2 with protocol negotiation, paginated tool lists, and support for servers without tools. by @tianyicui</li>
+<li>Improve file references and sidebar interactions: open existing files directly and use file previews and terminals before sending the first message. by @LegGasai, @Dudu-0223</li>
+<li>Move long commands and workflows into background jobs, show live output in the job panel, and wake their sessions when jobs finish. by @LegGasai, @turtle1999</li>
+<li>Create a default workspace and blank session on first launch after a fresh installation, without requiring a folder selection. by @kermanx</li>
+<li>Refresh file previews after turns and on local file changes. by @grllll</li>
+<li>Open files with the system default or another associated application, or reveal their location, from previews, deliverable cards, and change review. Files without preview support can also be opened directly. by @CreatixChu</li>
+<li>Improve initial loading and turn navigation in long conversations, and reduce history-loading overhead. by @imccyu, @tianyicui</li>
+<li>Address Team members by name and guide new members in finding teammates and contacting the Lead. by @Dudu-0223</li>
+<li>Make the Team task board read-only; agents create and update tasks through tools. by @Dudu-0223</li>
+<li>Unify model setup under Add Model Provider, with switching between third-party providers and custom APIs while preserving drafts. by @LegGasai</li>
+<li>Stabilize scroll following in conversations and work-detail groups. Improve history pagination and turn navigation, and reduce momentary jumps or duplicate display when sending messages. by @imccyu</li>
+<li>Unify code-block styling across conversations, with copy and wrapping controls and clearer diffs and line numbers. by @yixiangihsiang</li>
+<li>Show original model IDs in discovered-model lists, reveal names on hover, and keep search by name or ID. by @LegGasai, @yudshj</li>
+<li>Choose Compact, Standard, Detailed or fully expanded live work steps. Consecutive reasoning and tool calls appear in collapsible groups. by @imccyu</li>
+<li>Show tool calls while arguments are being prepared, including content preparation progress for file writes and edits. by @imccyu</li>
+<li>Control how much performance and usage information appears in chat. by @lsdsjy</li>
+<li>Use the Developer Tools setting to control diagnostics while keeping plugin-provided tabs visible. by @std4453, @lsdsjy</li>
+<li>Open configuration and other local files with their associated Windows applications. by @Elevator14B</li>
+<li>Office tasks use the LibreOffice runtime installed with the application by default. by @yudshj</li>
+</ul>
+<h3>Bug Fixes</h3>
+<ul>
+<li>Distinguish automatic from manual reconnects and resume replies after a Web server restart once the app is ready, preserving history and drafts. by @Yifffan, @imccyu</li>
+<li>Keep usable plugins running after optional startup failures and exit when a required plugin fails. by @turtle1999</li>
+<li>Fix older subagent completion notifications preventing parent sessions from continuing through the Messages API. by @tianyicui, @LegGasai</li>
+<li>Group startup errors and pending services, and save full diagnostics to a log file. by @turtle1999</li>
+<li>Fix pi-ai vision models being recognized as text-only, and allow input types to be adjusted manually. by @Kingwl, @LegGasai</li>
+<li>Restore pending Inbox messages after a restart. by @kermanx</li>
+<li>Avoid requesting approval again for the already effective permission mode. by @turtle1999</li>
+<li>When another DSH instance holds a session, prompt the user to exit that instance and retry. by @07akioni</li>
+<li>Web user terminals run with system-user permissions, independently of the Agent sandbox mode. by @LegGasai</li>
+<li>Fix Web access when deployed under a reverse-proxy subpath. by @oraluben</li>
+<li>Create blank sessions without reusing existing history or sessions held by another instance; preserve their status after reconnects and report creation failures. by @LegGasai, @turtle1999, @liukx0205</li>
+<li>Continue Profile loading past unreadable optional bundles and retain diagnostics and disable/remove controls in Plugin Manager. by @turtle1999</li>
+<li>Allow pending plugin installation dialogs to close immediately and reopen the same task. Recover results after connection failures when possible and clearly report unknown outcomes. by @LegGasai</li>
+<li>Fix local images in sidebar Markdown previews, including document-relative paths, Chinese characters, spaces, and URL encoding. by @LegGasai</li>
+<li>Reserve model output capacity and additional context headroom for proactive compaction, reducing overflow after long outputs. by @Dudu-0223</li>
+<li>Fix source-launch initialization failures caused by runtime module resolution, and support linking plugins under local development. by @imccyu</li>
+<li>Fix Windows sandbox deletions escaping the authorized directory, and prevent deletions across workspaces. by @Elevator14B</li>
+<li>Fix large streaming tool-call arguments blocking the entire DSH process in pi-ai. by @turtle1999</li>
+<li>Fix crashes and load failures when Pkg runtimes concurrently load native addons for the first time. by @koalazf99</li>
+<li>Fix saving speech-recognition language and recognizer selections. Changes take effect immediately and persist across restarts. by @LegGasai</li>
+<li>Fix mouse selection and trigger-button dismissal of model menus in Safari/WebKit, and restore keyboard focus. by @grllll</li>
+<li>Keep the official DeepSeek provider first in model settings while preserving the order of other providers. by @LegGasai</li>
+<li>Restore module routes correctly after the Web server recovers. by @turtle1999</li>
+<li>Bound stalled plugin installation and removal so they do not hold profile configuration indefinitely. by @turtle1999</li>
+<li>Stop long-lived Gateway streams from retaining data already consumed. by @imccyu</li>
+</ul>
+<h3>Chores</h3>
+<ul>
+<li>Use the Messages API exclusively for the official DeepSeek adapter and reuse uploaded images through the Files API. Migrate legacy protocol settings and Chat Completions URLs. by @LegGasai, @tianyicui</li>
+<li>Disable Ralph by default. Enable it explicitly if needed. by @tianyicui</li>
+<li>Remove the built-in E2B execution backends; update custom configurations that use them. by @tianyicui</li>
+<li>Rename PTC packages and services to the <code>ptc-runtime</code> family without legacy aliases; update custom plugins and configurations. by @tianyicui</li>
+<li>Replace the workflow executor with <code>workflow-ptc</code> under the session file policy; update custom configurations. Python PTC is not supported. by @tianyicui</li>
+<li>Replace <code>agent/session-start</code> with asynchronous, serial <code>agent/created</code> initialization; the first model request waits for completion. Update affected plugins and registration calls. by @kermanx</li>
+<li>Deprecate the synchronous Session history APIs <code>snapshotEvents</code>, <code>eventAt</code>, and <code>ownEvents</code>. by @kermanx</li>
+<li>Use <code>spawn_teammate</code> in experimental Team mode, disable <code>subagent</code> and <code>subagent_fork</code>, and raise the default teammate creation limit from 8 to 16. by @Dudu-0223</li>
+<li>Run Node PTC in separate processes under the session file policy with output and heap limits; <code>process.env</code> is empty, so code relying on the previous environment must migrate. by @tianyicui</li>
+<li>Remove transactional rollback from hot reload: parse failures preserve the original configuration, while activation failures may leave partial changes that require correction. by @turtle1999</li>
+<li>Make <code>SandboxProvider.confine</code> and <code>ShellExecutor.start</code> cancellable and asynchronous, with preparation included in timeouts; fix POSIX symlink/parent-directory combinations and Windows drive-relative paths. by @tianyicui</li>
+<li>Remove V4 Flash and V4 Flash Vision Exp from the default model list. by @tianyicui</li>
+<li>Continuable Subagent chains default to at most 8 live children and a delegation depth of 1, adjustable in settings. by @Dudu-0223, @ZiyaZhang</li>
+<li>Creator mode removes the previous Cordis dynamic definition and execution tools and uses Plugin Manager to install persistent plugins. by @turtle1999</li>
+<li>Client Sessions support multiple coexisting instances, with changes to related APIs and slots. by @imccyu</li>
+<li>Upgrade Session logs to V4 and add a batch migration tool for developers, including support for some V3 histories with missing turn-end records. by @tianyicui, @kermanx</li>
+<li>Attachments stored only in custom events are no longer read or exported automatically; plugins must adapt. by @tianyicui</li>
+<li>Allow plugins to declare localized titles and descriptions through the locale data structure and icons in package.json for display in Plugin Manager. by @imccyu, @turtle1999</li>
+<li>Allow plugin bundles to load multiple patch files in order while retaining single-file declarations. by @turtle1999</li>
+<li>Add --dump-config-schema to export JSON Schema for Cordis configuration and patches, assisting configuration authoring and static checks. by @turtle1999</li>
+<li>Support bidirectional Remote streams and binary results to reduce encoding overhead for large Office previews. Workspace file reads now use <code>readBytes</code>; plugins must migrate from the old API. by @imccyu, @yudshj</li>
+<li>Declare and install Agent presets through plugin bundles, with creation and overrides available in Creator mode. Settings retains viewing and selection but removes copy, delete, and open-directory actions; legacy directory-based presets require migration. by @turtle1999</li>
+<li>Save settings in the current Profile’s plugin configuration, supporting fields declared for live updates. Import from the legacy settings.yaml is attempted only once; custom settings plugins must adapt. by @turtle1999</li>
+<li>Retain text and images from tool results within a shared estimated-token budget, preserving both ends and providing access paths for omitted content. Fix MCP images becoming unavailable after text truncation. Custom <code>spill-policy</code> configurations must replace <code>maxInlineBytes</code> with <code>maxInlineTokens</code> and set the budget in tokens. by @CreatixChu</li>
+<li>Plugins can declare configuration fields that update without a reload, retaining running instances when only those fields change. by @turtle1999</li>
+<li>Check plugin compatibility with the running DSH version during installation and startup, explain refusals, and allow exact-version exemptions. by @turtle1999</li>
+</ul>
+<p>Full Changelog: <a href="https://github.com/deepseek-ai/deepseek-harness/compare/dsh-v0.1.5-rc.3...dsh-v0.1.7-rc.1">dsh-v0.1.5-rc.3...dsh-v0.1.7-rc.1</a></p>
+]]></description>
+            <content:encoded><![CDATA[<p><a href="#cn-v0.1.7-rc.1">中文</a> | <a href="#en-v0.1.7-rc.1">English</a></p>
+<p>作为 0.1.7 系列的首个候选版本，本版本汇总了自 v0.1.5-rc.3 以来的主要用户和开发者相关变更。</p>
+<h3 id="cn-v0.1.7-rc.1">新增功能</h3>
+
+<ul>
+<li>Web 侧边栏新增终端，支持多标签、Shell 选择和刷新后恢复。 @LegGasai</li>
+<li>管理会话归档：支持置顶、筛选、恢复，并在归档运行中会话时确认受影响的任务。 @tianyicui, @Yifffan, @LegGasai</li>
+<li>MCP 支持发现和读取资源、使用 URI 模板。内置 Profile 配置 MCP 服务器后可使用共享资源工具。 @tianyicui</li>
+<li>Headless 支持从标准输入接收任务，用 <code>--session-id</code> 继续已有会话，用 <code>--json</code> 逐行输出 JSON 运行事件。 @lsdsjy</li>
+<li>扩展文件、命令及 PTC 工具，支持 DSH 在本地运行，通过 SSH 使用远端工作区。 @tianyicui</li>
+<li>新增实验性 Playwright MCP、Chrome DevTools MCP 和 Stagehand 浏览器后端。 @tianyicui</li>
+<li>新增实验性 Computer Use 支持，可通过 Cua Driver MCP 或原生驱动操作本机、获取截图。 @tianyicui</li>
+<li>新增实验性 Auto review 模式。 @pku-xht</li>
+<li>会话文件改动可在卡片和侧边栏审阅；差异支持逐行、左右分栏、高亮、同步滚动与悬停预览，并改善明暗主题配色。 @CreatixChu, @yixiangihsiang, @sjw1231</li>
+<li>插件管理页支持安装、配置、启停和运行时卸载。 @LegGasai, @turtle1999, @imccyu</li>
+<li>侧边栏可预览 Word、Excel、PowerPoint、CSV 和 TSV；Excel 支持工作表、单元格、公式与复制，并改善窄面板中的控件和触控板滚动。 @yudshj, @imccyu</li>
+<li>支持在侧边栏以浏览器模式访问指定 URL。 @imccyu</li>
+<li>支持在侧边栏打开 Subagent 会话。 @imccyu</li>
+<li>侧边栏可预览提交计划；计划审阅在其他面板打开期间到达后仍可查看全文。 @LegGasai</li>
+<li>插件安装可选择官方源、国内镜像或自定义源；首次安装自动选择可访问的源，GitHub 网络失败后可改用镜像重新输入包名。 @LegGasai, @Yifffan, @ZiyaZhang</li>
+<li>实验性语音转写首次使用时准备本地模型；支持自动或手动选择 Hugging Face 与 HF-Mirror 下载源，并在自动模式下尝试其他可用源。 @LegGasai</li>
+<li>Agent Team 面板实时展示成员与任务，并可从会话页头查看或切换成员。 @Dudu-0223, @Yifffan</li>
+<li>聊天中的本地图片可直接查看和放大；图片链接在悬停或键盘聚焦时提供预览。 @Kaige-Gao</li>
+</ul>
+<h3>体验优化</h3>
+<ul>
+<li>图片、PDF 和 Office 预览使用统一缩放控件，保留每个标签页的缩放比例；捏合缩放后重新绘制页面以保持文字清晰。 @Yifffan, @yudshj</li>
+<li>为适配 DeepSeek V4.1，调整图片缩放和 Token 估算，提高默认请求图片尺寸和编码质量。 @CreatixChu</li>
+<li>MCP 升级至官方 SDK v2，支持协议协商、工具分页，以及未提供工具的服务器。 @tianyicui</li>
+<li>改善文件引用与侧边栏操作，支持直接打开已有文件，并在首次发送消息前使用文件预览和终端。 @LegGasai, @Dudu-0223</li>
+<li>长时间命令和工作流可转入后台；任务面板显示实时输出，后台任务完成后会继续唤醒所属会话。 @LegGasai, @turtle1999</li>
+<li>全新安装首次启动时自动创建默认工作区和空白会话，无需先选择文件夹。 @kermanx</li>
+<li>文件预览在回合结束后自动更新，并支持响应本地文件变化 @grllll</li>
+<li>文件预览、交付卡片和改动审阅支持使用系统默认或其他关联应用打开文件、显示文件位置，不支持预览的文件也可直接打开。 @CreatixChu</li>
+<li>改善长对话的初始化加载、轮次导航跳转、加载历史开销 @imccyu, @tianyicui</li>
+<li>Team 工具按成员名称操作，并在成员初始任务中提供查找队友和联系 Lead 的指引。 @Dudu-0223</li>
+<li>Team 任务看板改为只读，任务创建和更新由 Agent 通过工具完成。 @Dudu-0223</li>
+<li>模型页统一为「添加模型提供商」入口，可在第三方提供商和自定义 API 之间切换并保留草稿。 @LegGasai</li>
+<li>稳定会话与工作过程组的滚动跟随；改善历史分页与轮次跳转，并减少发送消息的瞬间跳动或重复显示。 @imccyu</li>
+<li>统一会话区域各代码块样式，支持复制/换行，并改善差异内容和行号展示。 @yixiangihsiang</li>
+<li>模型发现列表显示原始模型 ID，悬停可见名称，仍可按名称或 ID 搜索。 @LegGasai, @yudshj</li>
+<li>「工作过程展示」设置可在简洁、标准、详细和运行中完全展开模式间切换；连续思考与工具调用归为可折叠过程组。 @imccyu</li>
+<li>工具调用在生成参数时显示准备状态；写入或编辑文件时显示内容准备进度。 @imccyu</li>
+<li>「性能与用量」设置可控制聊天中性能和用量信息的显示详略。 @lsdsjy</li>
+<li>「开发者工具」设置控制诊断入口；插件提供的标签页保持可见。 @std4453, @lsdsjy</li>
+<li>Windows 可通过系统关联应用打开配置文件和其他本地文件。 @Elevator14B</li>
+<li>Office 任务默认使用随应用安装的 LibreOffice 运行环境。 @yudshj</li>
+</ul>
+<h3>问题修复</h3>
+<ul>
+<li>Web 连接提示支持区分自动与手动重连；服务重启后在应用就绪时恢复回复，同时保留会话历史和输入草稿。 @Yifffan, @imccyu</li>
+<li>可选插件启动失败时，其余可用插件仍可运行；必需插件失败时退出。 @turtle1999</li>
+<li>修复旧子代理完成通知在 Messages 协议下导致父会话无法继续的问题。 @tianyicui, @LegGasai</li>
+<li>启动失败时分类显示错误和等待中的服务，并将完整诊断保存到日志文件。 @turtle1999</li>
+<li>修复 pi-ai 视觉模型被识别为仅支持文本的问题，支持手动调整输入类型。 @Kingwl, @LegGasai</li>
+<li>修复重启后待处理的 Inbox 消息无法恢复的问题。 @kermanx</li>
+<li>修复重复申请当前有效权限模式时仍需审批的问题。 @turtle1999</li>
+<li>会话被其他 DSH 实例占用时，提示退出对应实例后重试。 @07akioni</li>
+<li>Web 用户终端使用系统用户权限，不受 Agent 沙箱模式限制。 @LegGasai</li>
+<li>修复 Web 部署在反向代理的子路径下无法正常访问的问题。 @oraluben</li>
+<li>新建空白会话不再误复用已有历史或被其他实例占用；列表刷新和重连后保留会话状态，并显示创建失败原因。 @LegGasai, @turtle1999, @liukx0205</li>
+<li>无法读取的可选插件包不再直接中止 Profile 加载，并在插件管理页保留错误信息和禁用、移除操作。 @turtle1999</li>
+<li>插件安装弹窗可在等待期间立即关闭，并可重新查看同一安装任务；连接异常后会尝试恢复结果，无法确认时明确提示。 @LegGasai</li>
+<li>修复侧边栏 Markdown 预览中的本地图片加载，支持相对文档路径、中文、空格及 URL 编码。 @LegGasai</li>
+<li>主动压缩会预留模型输出预算和额外上下文空间，减少长输出后才触发压缩而导致的上下文溢出。 @Dudu-0223</li>
+<li>修复源码启动时受模块运行时解析行为影响导致的初始化失败，并支持 link 到本地开发中的插件。 @imccyu</li>
+<li>修复 Windows 沙箱可删除授权目录之外文件的问题，并阻止跨工作区删除。 @Elevator14B</li>
+<li>修复 pi-ai 处理大型流式工具参数时阻塞整个 DSH 进程的问题。 @turtle1999</li>
+<li>修复 Pkg 运行时并发首次加载 Native addon 时崩溃或加载失败的问题。 @koalazf99</li>
+<li>修复语音输入切换识别语言或识别器时设置保存失败的问题，选择立即生效并在重启后保留。 @LegGasai</li>
+<li>修复 Safari/WebKit 中模型菜单的鼠标选择和触发按钮收起问题，并恢复键盘焦点。 @grllll</li>
+<li>模型设置页固定将 DeepSeek 官方提供商显示在首位，同时保留其他提供商顺序。 @LegGasai</li>
+<li>Web 服务恢复后正确重新注册模块路由。 @turtle1999</li>
+<li>插件安装或卸载停滞时会结束等待，避免长期占用 Profile 配置。 @turtle1999</li>
+<li>长时间使用双向流时，Gateway 不再持续保留已消费的数据。 @imccyu</li>
+</ul>
+<h3>其他变更</h3>
+<ul>
+<li>官方 DeepSeek 适配器仅使用 Messages API，并可通过 Files API 复用已上传图片；旧 <code>protocol</code> 配置和 Chat Completions 地址需迁移。 @LegGasai, @tianyicui</li>
+<li>默认不再启用 Ralph，需要使用时请手动启用。 @tianyicui</li>
+<li>移除内置 E2B 执行后端，相关自定义配置需调整。 @tianyicui</li>
+<li>PTC 包名和服务名统一为 <code>ptc-runtime</code> 系列，旧名称不再兼容，自定义插件和配置需更新。 @tianyicui</li>
+<li>工作流执行器改为 <code>workflow-ptc</code>，遵循会话文件策略；自定义配置需更新名称，暂不支持 Python PTC。 @tianyicui</li>
+<li><code>agent/session-start</code> 改为异步串行的 <code>agent/created</code>，首次模型请求等待初始化完成，相关插件及注册调用需适配。 @kermanx</li>
+<li>弃用 Session 的同步历史读取接口 <code>snapshotEvents</code>、<code>eventAt</code> 和 <code>ownEvents</code>。 @kermanx</li>
+<li>实验性 Team 模式统一使用 <code>spawn_teammate</code>，关闭 <code>subagent</code> 和 <code>subagent_fork</code>，默认队友创建上限从 8 增至 16。 @Dudu-0223</li>
+<li>Node PTC 改用独立进程执行，遵循会话文件策略并限制输出和堆内存；<code>process.env</code> 为空，依赖旧执行环境的代码需适配。 @tianyicui</li>
+<li>配置热更新取消事务回滚：解析失败保留原配置，插件激活失败可能部分生效，需修正配置后恢复。 @turtle1999</li>
+<li><code>SandboxProvider.confine</code> 和 <code>ShellExecutor.start</code> 改为可取消的异步接口，准备时间计入超时；修复 POSIX 符号链接与父目录组合、Windows 驱动器相对路径解析。 @tianyicui</li>
+<li>默认模型列表移除 V4 Flash 和 V4 Flash Vision Exp。 @tianyicui</li>
+<li>可继续对话的 Subagent 链默认最多同时保留 8 个子代理、委派深度为 1，可在设置中调整。 @Dudu-0223, @ZiyaZhang</li>
+<li>创造模式移除原 Cordis 动态定义及运行工具，调整为通过 Plugin Manager 安装持久化插件。 @turtle1999</li>
+<li>客户端 Session 会话支持多实例共存，相关 API 及 slot 有变化。 @imccyu</li>
+<li>Session 日志升级为 V4，新增面向开发者的批量迁移工具，并兼容部分 V3 会话缺少轮次结束记录的情况。 @tianyicui, @kermanx</li>
+<li>仅保存在自定义事件中的附件不再自动读取或导出，插件需适配。 @tianyicui</li>
+<li>插件可通过 locale 数据结构声明多语言标题和描述，通过 package.json 声明图标，并用于插件管理页面展示 @imccyu, @turtle1999</li>
+<li>插件组合包支持按顺序加载多个 patch 文件，原有单文件写法仍可使用。 @turtle1999</li>
+<li>新增 --dump-config-schema，导出 Cordis 配置及 patch 的 JSON Schema，辅助配置编写与静态检查。 @turtle1999</li>
+<li>Remote 支持双向流及二进制结果传输，减少 Office 预览等大文件的编码开销；工作区文件读取统一为 <code>readBytes</code>，插件需迁移旧接口。 @imccyu, @yudshj</li>
+<li>Agent 预设改由插件组合包声明和安装，可通过创造模式创建或覆盖；设置页保留查看与选择，移除复制、删除和打开目录入口，旧目录预设需迁移。 @turtle1999</li>
+<li>设置改由当前 Profile 的插件配置保存，支持声明过的实时更新字段；旧 settings.yaml 仅尝试导入一次，自定义设置插件需适配。 @turtle1999</li>
+<li>工具返回的文字和图片改按统一的估算 token 预算保留首尾，修复 MCP 图片在文字截断后不可用的问题，并提供被省略内容的读取地址。自定义 <code>spill-policy</code> 配置中的 <code>maxInlineBytes</code> 需改为 <code>maxInlineTokens</code>，按 token 数重新设置预算。 @CreatixChu</li>
+<li>插件可声明无需重载的配置字段；仅修改这些字段时保留运行中的插件实例。 @turtle1999</li>
+<li>插件安装和启动会检查与当前 DSH 版本的兼容性；不兼容时说明原因，并可对确切版本授予例外。 @turtle1999</li>
+</ul>
+<h3 id="en-v0.1.7-rc.1">New Features</h3>
+
+<ul>
+<li>Add terminals to the Web sidebar, with multiple tabs, shell selection, and recovery after page refreshes. by @LegGasai</li>
+<li>Manage archived sessions with pinning, filters and restoration; confirm affected tasks before archiving a running session. by @tianyicui, @Yifffan, @LegGasai</li>
+<li>MCP supports resource discovery and reading, and URI templates. Shared resource tools are available after configuring an MCP server in a built-in Profile. by @tianyicui</li>
+<li>Headless can read tasks from standard input, resume sessions with <code>--session-id</code>, and emit run events as newline-delimited JSON with <code>--json</code>. by @lsdsjy</li>
+<li>Extend file, command, and PTC tools so DSH can run locally while using a remote workspace over SSH. by @tianyicui</li>
+<li>Add experimental Playwright MCP, Chrome DevTools MCP, and Stagehand browser backends. by @tianyicui</li>
+<li>Add experimental Computer Use through Cua Driver MCP or the native driver for local computer interaction and screenshots. by @tianyicui</li>
+<li>Add experimental Auto review mode. by @pku-xht</li>
+<li>Review session file changes in cards and the sidebar, with line-level and side-by-side diffs, highlighting, synchronized scrolling, hover previews, and improved colors in both themes. by @CreatixChu, @yixiangihsiang, @sjw1231</li>
+<li>Manage plugin installation, configuration, activation and runtime removal. by @LegGasai, @turtle1999, @imccyu</li>
+<li>Preview Word, Excel, PowerPoint, CSV and TSV files in the sidebar. Excel previews support worksheets, cells, formulas and copying, with clearer controls in narrow panes and better trackpad scrolling. by @yudshj, @imccyu</li>
+<li>Open a specified URL in browser mode in the sidebar. by @imccyu</li>
+<li>Open Subagent conversations in the sidebar. by @imccyu</li>
+<li>Preview submission plans in the sidebar, including plans received while another panel is open. by @LegGasai</li>
+<li>Choose an official, mirrored or custom registry for plugin installation. The first installation selects an available source automatically, and GitHub network failures can be retried through a mirror. by @LegGasai, @Yifffan, @ZiyaZhang</li>
+<li>Prepare a local model for experimental speech transcription, with automatic or manual Hugging Face and HF-Mirror selection and automatic fallback. by @LegGasai</li>
+<li>The Agent Team panel shows live member and task updates, and the chat header lets you view or switch members. by @Dudu-0223, @Yifffan</li>
+<li>View and enlarge local images directly in chat, and preview image links on hover or keyboard focus. by @Kaige-Gao</li>
+</ul>
+<h3>Improvements</h3>
+<ul>
+<li>Use consistent zoom controls for image, PDF and Office previews and retain each tab’s zoom level. Redraw pages after pinch zooming to keep text sharp. by @Yifffan, @yudshj</li>
+<li>Adapt image resizing and token estimates for DeepSeek V4.1, and increase default request-image size and encoding quality. by @CreatixChu</li>
+<li>Upgrade MCP to the official SDK v2 with protocol negotiation, paginated tool lists, and support for servers without tools. by @tianyicui</li>
+<li>Improve file references and sidebar interactions: open existing files directly and use file previews and terminals before sending the first message. by @LegGasai, @Dudu-0223</li>
+<li>Move long commands and workflows into background jobs, show live output in the job panel, and wake their sessions when jobs finish. by @LegGasai, @turtle1999</li>
+<li>Create a default workspace and blank session on first launch after a fresh installation, without requiring a folder selection. by @kermanx</li>
+<li>Refresh file previews after turns and on local file changes. by @grllll</li>
+<li>Open files with the system default or another associated application, or reveal their location, from previews, deliverable cards, and change review. Files without preview support can also be opened directly. by @CreatixChu</li>
+<li>Improve initial loading and turn navigation in long conversations, and reduce history-loading overhead. by @imccyu, @tianyicui</li>
+<li>Address Team members by name and guide new members in finding teammates and contacting the Lead. by @Dudu-0223</li>
+<li>Make the Team task board read-only; agents create and update tasks through tools. by @Dudu-0223</li>
+<li>Unify model setup under Add Model Provider, with switching between third-party providers and custom APIs while preserving drafts. by @LegGasai</li>
+<li>Stabilize scroll following in conversations and work-detail groups. Improve history pagination and turn navigation, and reduce momentary jumps or duplicate display when sending messages. by @imccyu</li>
+<li>Unify code-block styling across conversations, with copy and wrapping controls and clearer diffs and line numbers. by @yixiangihsiang</li>
+<li>Show original model IDs in discovered-model lists, reveal names on hover, and keep search by name or ID. by @LegGasai, @yudshj</li>
+<li>Choose Compact, Standard, Detailed or fully expanded live work steps. Consecutive reasoning and tool calls appear in collapsible groups. by @imccyu</li>
+<li>Show tool calls while arguments are being prepared, including content preparation progress for file writes and edits. by @imccyu</li>
+<li>Control how much performance and usage information appears in chat. by @lsdsjy</li>
+<li>Use the Developer Tools setting to control diagnostics while keeping plugin-provided tabs visible. by @std4453, @lsdsjy</li>
+<li>Open configuration and other local files with their associated Windows applications. by @Elevator14B</li>
+<li>Office tasks use the LibreOffice runtime installed with the application by default. by @yudshj</li>
+</ul>
+<h3>Bug Fixes</h3>
+<ul>
+<li>Distinguish automatic from manual reconnects and resume replies after a Web server restart once the app is ready, preserving history and drafts. by @Yifffan, @imccyu</li>
+<li>Keep usable plugins running after optional startup failures and exit when a required plugin fails. by @turtle1999</li>
+<li>Fix older subagent completion notifications preventing parent sessions from continuing through the Messages API. by @tianyicui, @LegGasai</li>
+<li>Group startup errors and pending services, and save full diagnostics to a log file. by @turtle1999</li>
+<li>Fix pi-ai vision models being recognized as text-only, and allow input types to be adjusted manually. by @Kingwl, @LegGasai</li>
+<li>Restore pending Inbox messages after a restart. by @kermanx</li>
+<li>Avoid requesting approval again for the already effective permission mode. by @turtle1999</li>
+<li>When another DSH instance holds a session, prompt the user to exit that instance and retry. by @07akioni</li>
+<li>Web user terminals run with system-user permissions, independently of the Agent sandbox mode. by @LegGasai</li>
+<li>Fix Web access when deployed under a reverse-proxy subpath. by @oraluben</li>
+<li>Create blank sessions without reusing existing history or sessions held by another instance; preserve their status after reconnects and report creation failures. by @LegGasai, @turtle1999, @liukx0205</li>
+<li>Continue Profile loading past unreadable optional bundles and retain diagnostics and disable/remove controls in Plugin Manager. by @turtle1999</li>
+<li>Allow pending plugin installation dialogs to close immediately and reopen the same task. Recover results after connection failures when possible and clearly report unknown outcomes. by @LegGasai</li>
+<li>Fix local images in sidebar Markdown previews, including document-relative paths, Chinese characters, spaces, and URL encoding. by @LegGasai</li>
+<li>Reserve model output capacity and additional context headroom for proactive compaction, reducing overflow after long outputs. by @Dudu-0223</li>
+<li>Fix source-launch initialization failures caused by runtime module resolution, and support linking plugins under local development. by @imccyu</li>
+<li>Fix Windows sandbox deletions escaping the authorized directory, and prevent deletions across workspaces. by @Elevator14B</li>
+<li>Fix large streaming tool-call arguments blocking the entire DSH process in pi-ai. by @turtle1999</li>
+<li>Fix crashes and load failures when Pkg runtimes concurrently load native addons for the first time. by @koalazf99</li>
+<li>Fix saving speech-recognition language and recognizer selections. Changes take effect immediately and persist across restarts. by @LegGasai</li>
+<li>Fix mouse selection and trigger-button dismissal of model menus in Safari/WebKit, and restore keyboard focus. by @grllll</li>
+<li>Keep the official DeepSeek provider first in model settings while preserving the order of other providers. by @LegGasai</li>
+<li>Restore module routes correctly after the Web server recovers. by @turtle1999</li>
+<li>Bound stalled plugin installation and removal so they do not hold profile configuration indefinitely. by @turtle1999</li>
+<li>Stop long-lived Gateway streams from retaining data already consumed. by @imccyu</li>
+</ul>
+<h3>Chores</h3>
+<ul>
+<li>Use the Messages API exclusively for the official DeepSeek adapter and reuse uploaded images through the Files API. Migrate legacy protocol settings and Chat Completions URLs. by @LegGasai, @tianyicui</li>
+<li>Disable Ralph by default. Enable it explicitly if needed. by @tianyicui</li>
+<li>Remove the built-in E2B execution backends; update custom configurations that use them. by @tianyicui</li>
+<li>Rename PTC packages and services to the <code>ptc-runtime</code> family without legacy aliases; update custom plugins and configurations. by @tianyicui</li>
+<li>Replace the workflow executor with <code>workflow-ptc</code> under the session file policy; update custom configurations. Python PTC is not supported. by @tianyicui</li>
+<li>Replace <code>agent/session-start</code> with asynchronous, serial <code>agent/created</code> initialization; the first model request waits for completion. Update affected plugins and registration calls. by @kermanx</li>
+<li>Deprecate the synchronous Session history APIs <code>snapshotEvents</code>, <code>eventAt</code>, and <code>ownEvents</code>. by @kermanx</li>
+<li>Use <code>spawn_teammate</code> in experimental Team mode, disable <code>subagent</code> and <code>subagent_fork</code>, and raise the default teammate creation limit from 8 to 16. by @Dudu-0223</li>
+<li>Run Node PTC in separate processes under the session file policy with output and heap limits; <code>process.env</code> is empty, so code relying on the previous environment must migrate. by @tianyicui</li>
+<li>Remove transactional rollback from hot reload: parse failures preserve the original configuration, while activation failures may leave partial changes that require correction. by @turtle1999</li>
+<li>Make <code>SandboxProvider.confine</code> and <code>ShellExecutor.start</code> cancellable and asynchronous, with preparation included in timeouts; fix POSIX symlink/parent-directory combinations and Windows drive-relative paths. by @tianyicui</li>
+<li>Remove V4 Flash and V4 Flash Vision Exp from the default model list. by @tianyicui</li>
+<li>Continuable Subagent chains default to at most 8 live children and a delegation depth of 1, adjustable in settings. by @Dudu-0223, @ZiyaZhang</li>
+<li>Creator mode removes the previous Cordis dynamic definition and execution tools and uses Plugin Manager to install persistent plugins. by @turtle1999</li>
+<li>Client Sessions support multiple coexisting instances, with changes to related APIs and slots. by @imccyu</li>
+<li>Upgrade Session logs to V4 and add a batch migration tool for developers, including support for some V3 histories with missing turn-end records. by @tianyicui, @kermanx</li>
+<li>Attachments stored only in custom events are no longer read or exported automatically; plugins must adapt. by @tianyicui</li>
+<li>Allow plugins to declare localized titles and descriptions through the locale data structure and icons in package.json for display in Plugin Manager. by @imccyu, @turtle1999</li>
+<li>Allow plugin bundles to load multiple patch files in order while retaining single-file declarations. by @turtle1999</li>
+<li>Add --dump-config-schema to export JSON Schema for Cordis configuration and patches, assisting configuration authoring and static checks. by @turtle1999</li>
+<li>Support bidirectional Remote streams and binary results to reduce encoding overhead for large Office previews. Workspace file reads now use <code>readBytes</code>; plugins must migrate from the old API. by @imccyu, @yudshj</li>
+<li>Declare and install Agent presets through plugin bundles, with creation and overrides available in Creator mode. Settings retains viewing and selection but removes copy, delete, and open-directory actions; legacy directory-based presets require migration. by @turtle1999</li>
+<li>Save settings in the current Profile’s plugin configuration, supporting fields declared for live updates. Import from the legacy settings.yaml is attempted only once; custom settings plugins must adapt. by @turtle1999</li>
+<li>Retain text and images from tool results within a shared estimated-token budget, preserving both ends and providing access paths for omitted content. Fix MCP images becoming unavailable after text truncation. Custom <code>spill-policy</code> configurations must replace <code>maxInlineBytes</code> with <code>maxInlineTokens</code> and set the budget in tokens. by @CreatixChu</li>
+<li>Plugins can declare configuration fields that update without a reload, retaining running instances when only those fields change. by @turtle1999</li>
+<li>Check plugin compatibility with the running DSH version during installation and startup, explain refusals, and allow exact-version exemptions. by @turtle1999</li>
+</ul>
+<p>Full Changelog: <a href="https://github.com/deepseek-ai/deepseek-harness/compare/dsh-v0.1.5-rc.3...dsh-v0.1.7-rc.1">dsh-v0.1.5-rc.3...dsh-v0.1.7-rc.1</a></p>
+]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[v0.1.7-alpha.2]]></title>
             <link>https://github.com/deepseek-ai/deepseek-harness/releases/tag/dsh-v0.1.7-alpha.2</link>
