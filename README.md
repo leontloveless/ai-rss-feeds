@@ -54,7 +54,7 @@ GitHub release feeds and native RSS/Atom feeds are added without a model call. S
 | [kubernetes/kubernetes](https://github.com/kubernetes/kubernetes) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/kubernetes-releases.xml) | ✅ 38 releases |
 | [grafana/mcp-grafana](https://github.com/grafana/mcp-grafana) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/mcp-grafana-releases.xml) | ✅ 50 releases |
 | [openclaw/openclaw](https://github.com/openclaw/openclaw) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/openclaw-releases.xml) | ✅ 50 releases |
-| [prometheus/prometheus](https://github.com/prometheus/prometheus) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/prometheus-releases.xml) | ✅ 32 releases |
+| [prometheus/prometheus](https://github.com/prometheus/prometheus) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/prometheus-releases.xml) | ✅ 33 releases |
 | [thanos-io/thanos](https://github.com/thanos-io/thanos) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/thanos-releases.xml) | ✅ 31 releases |
 <!-- FEEDS_TABLE_END -->
 

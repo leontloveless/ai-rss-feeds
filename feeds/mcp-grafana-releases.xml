@@ -4,11 +4,45 @@
         <title>mcp-grafana Releases</title>
         <link>https://github.com/grafana/mcp-grafana/releases</link>
         <description>GitHub releases for grafana/mcp-grafana</description>
-        <lastBuildDate>Thu, 17 Sep 2026 16:41:24 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 25 Sep 2026 10:31:44 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>ai-rss-feeds (https://github.com/leontloveless/ai-rss-feeds)</generator>
         <language>en</language>
         <atom:link href="https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/mcp-grafana-releases.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[v1.6.0]]></title>
+            <link>https://github.com/grafana/mcp-grafana/releases/tag/v1.6.0</link>
+            <guid>https://github.com/grafana/mcp-grafana/releases/tag/v1.6.0</guid>
+            <pubDate>Fri, 25 Sep 2026 10:31:44 GMT</pubDate>
+            <description><![CDATA[<h3>Added</h3>
+<ul>
+<li>Opt-in per-request Grafana URL selection, with an optional allowlist of permitted URLs and a request-scoped token (<a href="https://github.com/grafana/mcp-grafana/pull/1242">#1242</a>)</li>
+<li>Opt-in <code>cloudlogging</code> tool category for the Google Cloud Logging datasource: <code>query_cloud_logging</code> runs Cloud Logging queries, and <code>list_cloud_logging_projects</code>, <code>list_cloud_logging_buckets</code> and <code>list_cloud_logging_views</code> discover what it can read (<a href="https://github.com/grafana/mcp-grafana/pull/1228">#1228</a>)</li>
+<li>Tempo TraceQL metrics tools now describe the query grammar with a worked example and return correction hints for common PromQL-style mistakes, so agents can fix rejected queries (<a href="https://github.com/grafana/mcp-grafana/pull/1207">#1207</a>)</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
+<li><code>list_prometheus_metric_names</code> now pushes regex filtering and a result limit to the datasource instead of downloading every metric name, avoiding large memory spikes on datasources with many metrics. <code>page * limit</code> must now not exceed 10000 (<a href="https://github.com/grafana/mcp-grafana/pull/1217">#1217</a>)</li>
+<li><code>--base-path</code> now applies to the streamable HTTP endpoint and works for SSE with or without a trailing slash; <code>/healthz</code> and <code>/metrics</code> stay at the server root, and invalid or conflicting paths are rejected at startup (<a href="https://github.com/grafana/mcp-grafana/pull/1033">#1033</a>)</li>
+<li><code>query_loki_logs</code>, <code>query_loki_stats</code> and <code>query_loki_patterns</code> return <code>logql is required</code> for an empty query instead of a Loki parse error. VictoriaLogs stats queries now need an explicit selector (<code>*</code> still works) (<a href="https://github.com/grafana/mcp-grafana/pull/1238">#1238</a>)</li>
+<li><code>get_panel_image</code> now returns the deeplink as structured content, so the panel viewer shows &quot;Open in Grafana&quot; in Claude (<a href="https://github.com/grafana/mcp-grafana/pull/1240">#1240</a>)</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h3>Added</h3>
+<ul>
+<li>Opt-in per-request Grafana URL selection, with an optional allowlist of permitted URLs and a request-scoped token (<a href="https://github.com/grafana/mcp-grafana/pull/1242">#1242</a>)</li>
+<li>Opt-in <code>cloudlogging</code> tool category for the Google Cloud Logging datasource: <code>query_cloud_logging</code> runs Cloud Logging queries, and <code>list_cloud_logging_projects</code>, <code>list_cloud_logging_buckets</code> and <code>list_cloud_logging_views</code> discover what it can read (<a href="https://github.com/grafana/mcp-grafana/pull/1228">#1228</a>)</li>
+<li>Tempo TraceQL metrics tools now describe the query grammar with a worked example and return correction hints for common PromQL-style mistakes, so agents can fix rejected queries (<a href="https://github.com/grafana/mcp-grafana/pull/1207">#1207</a>)</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
+<li><code>list_prometheus_metric_names</code> now pushes regex filtering and a result limit to the datasource instead of downloading every metric name, avoiding large memory spikes on datasources with many metrics. <code>page * limit</code> must now not exceed 10000 (<a href="https://github.com/grafana/mcp-grafana/pull/1217">#1217</a>)</li>
+<li><code>--base-path</code> now applies to the streamable HTTP endpoint and works for SSE with or without a trailing slash; <code>/healthz</code> and <code>/metrics</code> stay at the server root, and invalid or conflicting paths are rejected at startup (<a href="https://github.com/grafana/mcp-grafana/pull/1033">#1033</a>)</li>
+<li><code>query_loki_logs</code>, <code>query_loki_stats</code> and <code>query_loki_patterns</code> return <code>logql is required</code> for an empty query instead of a Loki parse error. VictoriaLogs stats queries now need an explicit selector (<code>*</code> still works) (<a href="https://github.com/grafana/mcp-grafana/pull/1238">#1238</a>)</li>
+<li><code>get_panel_image</code> now returns the deeplink as structured content, so the panel viewer shows &quot;Open in Grafana&quot; in Claude (<a href="https://github.com/grafana/mcp-grafana/pull/1240">#1240</a>)</li>
+</ul>
+]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[v1.5.1]]></title>
             <link>https://github.com/grafana/mcp-grafana/releases/tag/v1.5.1</link>
@@ -1774,30 +1808,6 @@
 <li>4371d047b1f589d71d11b9ac750ad2f8c2b442c0 feat(tools): Update dashboards with jsonpath (#241)</li>
 <li>8c3f20f7fbc800737a0935d73ff618ecaa223a4e feat: Add generate deeplink tool for dashboards, panels, and explore queries (#218)</li>
 <li>a3ae12bad224cb0db02c5a4b3bbb93ed0b657160 feat: Add otel spans to tool calls (#206)</li>
-</ul>
-<hr>
-<p>Released by <a href="https://github.com/goreleaser/goreleaser">GoReleaser</a>.</p>
-]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[v0.6.2]]></title>
-            <link>https://github.com/grafana/mcp-grafana/releases/tag/v0.6.2</link>
-            <guid>https://github.com/grafana/mcp-grafana/releases/tag/v0.6.2</guid>
-            <pubDate>Wed, 23 Jul 2025 13:20:05 GMT</pubDate>
-            <description><![CDATA[<h2>Changelog</h2>
-<ul>
-<li>46506c48a552256e9fb1e5a53ed32bce57bab4cc Update available tools in readme (#209)</li>
-<li>f039212de14469625ae34518feebeca75cb14406 chore(deps): bump the github-actions group across 1 directory with 2 updates (#214)</li>
-<li>91e5561fe4b6eb008e3853d71d4bfb7c661823fa chore(deps): bump the go-dependencies group across 1 directory with 3 updates (#205)</li>
-</ul>
-<hr>
-<p>Released by <a href="https://github.com/goreleaser/goreleaser">GoReleaser</a>.</p>
-]]></description>
-            <content:encoded><![CDATA[<h2>Changelog</h2>
-<ul>
-<li>46506c48a552256e9fb1e5a53ed32bce57bab4cc Update available tools in readme (#209)</li>
-<li>f039212de14469625ae34518feebeca75cb14406 chore(deps): bump the github-actions group across 1 directory with 2 updates (#214)</li>
-<li>91e5561fe4b6eb008e3853d71d4bfb7c661823fa chore(deps): bump the go-dependencies group across 1 directory with 3 updates (#205)</li>
 </ul>
 <hr>
 <p>Released by <a href="https://github.com/goreleaser/goreleaser">GoReleaser</a>.</p>
