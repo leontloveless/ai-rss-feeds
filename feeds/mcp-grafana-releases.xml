@@ -4,11 +4,77 @@
         <title>mcp-grafana Releases</title>
         <link>https://github.com/grafana/mcp-grafana/releases</link>
         <description>GitHub releases for grafana/mcp-grafana</description>
-        <lastBuildDate>Wed, 30 Sep 2026 12:25:22 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 01 Oct 2026 12:44:24 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>ai-rss-feeds (https://github.com/leontloveless/ai-rss-feeds)</generator>
         <language>en</language>
         <atom:link href="https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/mcp-grafana-releases.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[v2.0.0]]></title>
+            <link>https://github.com/grafana/mcp-grafana/releases/tag/v2.0.0</link>
+            <guid>https://github.com/grafana/mcp-grafana/releases/tag/v2.0.0</guid>
+            <pubDate>Thu, 01 Oct 2026 12:44:24 GMT</pubDate>
+            <description><![CDATA[<p>2.0 moves the server from <code>mark3labs/mcp-go</code> to the official <a href="https://github.com/modelcontextprotocol/go-sdk">MCP Go SDK</a>. The major version bump is for the Go library: the SDK&#39;s types are part of this module&#39;s exported API.</p>
+<p>For most people running the server there is nothing to change. You are only affected if you:</p>
+<ul>
+<li>import <code>mcp-grafana</code> as a Go library (new module path and SDK types)</li>
+<li>use the Sift tools, which have been removed</li>
+<li>call <code>alerting_manage_rules</code> or <code>alerting_manage_silences</code> directly, rather than letting your client discover tools</li>
+<li>use the SSE transport with per-request headers (Grafana URL, credentials, org ID or forwarded headers); switch to streamable HTTP</li>
+</ul>
+<h3>Changed</h3>
+<ul>
+<li><strong>Breaking:</strong> The server now uses the official <a href="https://github.com/modelcontextprotocol/go-sdk">MCP Go SDK</a> instead of <code>mark3labs/mcp-go</code> (<a href="https://github.com/grafana/mcp-grafana/pull/1180">#1180</a>). Over SSE, per-request headers no longer reach tool calls, so per-call Grafana URL overrides, credentials, org ID and forwarded headers only work over streamable HTTP. <code>--session-idle-timeout-minutes</code> is still accepted but ignored</li>
+<li><strong>Breaking:</strong> The Go module path is now <code>github.com/grafana/mcp-grafana/v2</code>; importers must update their import paths (<a href="https://github.com/grafana/mcp-grafana/pull/1232">#1232</a>)</li>
+<li><strong>Breaking:</strong> The alerting tools are split into read and write tools, so read-only credentials and <code>--disable-write</code> keep read access: <code>alerting_manage_rules</code> becomes <code>alerting_rules_read</code> and <code>alerting_rules_write</code>, and <code>alerting_manage_silences</code> becomes <code>alerting_silences_read</code> and <code>alerting_silences_write</code> (<a href="https://github.com/grafana/mcp-grafana/pull/1233">#1233</a>)</li>
+<li>Anonymous usage statistics reporting is now enabled by default. Opt out with <code>--usage-stats=disabled</code>, <code>GRAFANA_USAGE_STATS=disabled</code> or <code>DO_NOT_TRACK=1</code> (<a href="https://github.com/grafana/mcp-grafana/pull/1197">#1197</a>)</li>
+</ul>
+<h3>Added</h3>
+<ul>
+<li><code>alerting_routing_write</code> creates Grafana-managed contact points (<a href="https://github.com/grafana/mcp-grafana/pull/1245">#1245</a>)</li>
+</ul>
+<h3>Removed</h3>
+<ul>
+<li><strong>Breaking:</strong> The deprecated Sift tools and the <code>sift</code> tool category (<a href="https://github.com/grafana/mcp-grafana/pull/1191">#1191</a>)</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
+<li>Browser clients on an allowed CORS origin can send the <code>X-Grafana-URL</code>, <code>X-Grafana-Service-Account-Token</code>, <code>X-Grafana-API-Key</code> and <code>X-Grafana-Org-Id</code> headers, and CORS responses now set <code>Vary: Origin</code></li>
+<li>Tool parameters that accept any value now declare an explicit type list in their JSON schema, so MCP clients no longer warn that the schema has no validation keywords (<a href="https://github.com/grafana/mcp-grafana/pull/1231">#1231</a>)</li>
+<li>Observability providers shut down in parallel, so one slow exporter no longer makes the others time out on shutdown (<a href="https://github.com/grafana/mcp-grafana/pull/1230">#1230</a>)</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<p>2.0 moves the server from <code>mark3labs/mcp-go</code> to the official <a href="https://github.com/modelcontextprotocol/go-sdk">MCP Go SDK</a>. The major version bump is for the Go library: the SDK&#39;s types are part of this module&#39;s exported API.</p>
+<p>For most people running the server there is nothing to change. You are only affected if you:</p>
+<ul>
+<li>import <code>mcp-grafana</code> as a Go library (new module path and SDK types)</li>
+<li>use the Sift tools, which have been removed</li>
+<li>call <code>alerting_manage_rules</code> or <code>alerting_manage_silences</code> directly, rather than letting your client discover tools</li>
+<li>use the SSE transport with per-request headers (Grafana URL, credentials, org ID or forwarded headers); switch to streamable HTTP</li>
+</ul>
+<h3>Changed</h3>
+<ul>
+<li><strong>Breaking:</strong> The server now uses the official <a href="https://github.com/modelcontextprotocol/go-sdk">MCP Go SDK</a> instead of <code>mark3labs/mcp-go</code> (<a href="https://github.com/grafana/mcp-grafana/pull/1180">#1180</a>). Over SSE, per-request headers no longer reach tool calls, so per-call Grafana URL overrides, credentials, org ID and forwarded headers only work over streamable HTTP. <code>--session-idle-timeout-minutes</code> is still accepted but ignored</li>
+<li><strong>Breaking:</strong> The Go module path is now <code>github.com/grafana/mcp-grafana/v2</code>; importers must update their import paths (<a href="https://github.com/grafana/mcp-grafana/pull/1232">#1232</a>)</li>
+<li><strong>Breaking:</strong> The alerting tools are split into read and write tools, so read-only credentials and <code>--disable-write</code> keep read access: <code>alerting_manage_rules</code> becomes <code>alerting_rules_read</code> and <code>alerting_rules_write</code>, and <code>alerting_manage_silences</code> becomes <code>alerting_silences_read</code> and <code>alerting_silences_write</code> (<a href="https://github.com/grafana/mcp-grafana/pull/1233">#1233</a>)</li>
+<li>Anonymous usage statistics reporting is now enabled by default. Opt out with <code>--usage-stats=disabled</code>, <code>GRAFANA_USAGE_STATS=disabled</code> or <code>DO_NOT_TRACK=1</code> (<a href="https://github.com/grafana/mcp-grafana/pull/1197">#1197</a>)</li>
+</ul>
+<h3>Added</h3>
+<ul>
+<li><code>alerting_routing_write</code> creates Grafana-managed contact points (<a href="https://github.com/grafana/mcp-grafana/pull/1245">#1245</a>)</li>
+</ul>
+<h3>Removed</h3>
+<ul>
+<li><strong>Breaking:</strong> The deprecated Sift tools and the <code>sift</code> tool category (<a href="https://github.com/grafana/mcp-grafana/pull/1191">#1191</a>)</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
+<li>Browser clients on an allowed CORS origin can send the <code>X-Grafana-URL</code>, <code>X-Grafana-Service-Account-Token</code>, <code>X-Grafana-API-Key</code> and <code>X-Grafana-Org-Id</code> headers, and CORS responses now set <code>Vary: Origin</code></li>
+<li>Tool parameters that accept any value now declare an explicit type list in their JSON schema, so MCP clients no longer warn that the schema has no validation keywords (<a href="https://github.com/grafana/mcp-grafana/pull/1231">#1231</a>)</li>
+<li>Observability providers shut down in parallel, so one slow exporter no longer makes the others time out on shutdown (<a href="https://github.com/grafana/mcp-grafana/pull/1230">#1230</a>)</li>
+</ul>
+]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[v1.6.3]]></title>
             <link>https://github.com/grafana/mcp-grafana/releases/tag/v1.6.3</link>
@@ -1735,34 +1801,6 @@
 </ul>
 <hr>
 <p>Released by <a href="https://github.com/goreleaser/goreleaser">GoReleaser</a>.</p>
-]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[v0.7.0]]></title>
-            <link>https://github.com/grafana/mcp-grafana/releases/tag/v0.7.0</link>
-            <guid>https://github.com/grafana/mcp-grafana/releases/tag/v0.7.0</guid>
-            <pubDate>Thu, 25 Sep 2025 13:58:54 GMT</pubDate>
-            <description><![CDATA[<h2>What&#39;s Changed</h2>
-<ul>
-<li>chore(deps): bump the go-dependencies group with 2 updates by @dependabot[bot] in <a href="https://github.com/grafana/mcp-grafana/pull/282">https://github.com/grafana/mcp-grafana/pull/282</a></li>
-<li>chore(deps): bump actions/setup-go from 5.5.0 to 6.0.0 in the github-actions group by @dependabot[bot] in <a href="https://github.com/grafana/mcp-grafana/pull/281">https://github.com/grafana/mcp-grafana/pull/281</a></li>
-<li>feat(tools): Add alert groups support by @ioanarm in <a href="https://github.com/grafana/mcp-grafana/pull/294">https://github.com/grafana/mcp-grafana/pull/294</a></li>
-<li>chore(deps): bump the go-dependencies group across 1 directory with 2 updates by @dependabot[bot] in <a href="https://github.com/grafana/mcp-grafana/pull/301">https://github.com/grafana/mcp-grafana/pull/301</a></li>
-<li>chore(deps): bump astral-sh/setup-uv from 6.6.1 to 6.7.0 in the github-actions group by @dependabot[bot] in <a href="https://github.com/grafana/mcp-grafana/pull/288">https://github.com/grafana/mcp-grafana/pull/288</a></li>
-<li>docs: add info about alert group tools to README by @ioanarm in <a href="https://github.com/grafana/mcp-grafana/pull/302">https://github.com/grafana/mcp-grafana/pull/302</a></li>
-</ul>
-<p><strong>Full Changelog</strong>: <a href="https://github.com/grafana/mcp-grafana/compare/v0.6.5...v0.7.0">https://github.com/grafana/mcp-grafana/compare/v0.6.5...v0.7.0</a></p>
-]]></description>
-            <content:encoded><![CDATA[<h2>What&#39;s Changed</h2>
-<ul>
-<li>chore(deps): bump the go-dependencies group with 2 updates by @dependabot[bot] in <a href="https://github.com/grafana/mcp-grafana/pull/282">https://github.com/grafana/mcp-grafana/pull/282</a></li>
-<li>chore(deps): bump actions/setup-go from 5.5.0 to 6.0.0 in the github-actions group by @dependabot[bot] in <a href="https://github.com/grafana/mcp-grafana/pull/281">https://github.com/grafana/mcp-grafana/pull/281</a></li>
-<li>feat(tools): Add alert groups support by @ioanarm in <a href="https://github.com/grafana/mcp-grafana/pull/294">https://github.com/grafana/mcp-grafana/pull/294</a></li>
-<li>chore(deps): bump the go-dependencies group across 1 directory with 2 updates by @dependabot[bot] in <a href="https://github.com/grafana/mcp-grafana/pull/301">https://github.com/grafana/mcp-grafana/pull/301</a></li>
-<li>chore(deps): bump astral-sh/setup-uv from 6.6.1 to 6.7.0 in the github-actions group by @dependabot[bot] in <a href="https://github.com/grafana/mcp-grafana/pull/288">https://github.com/grafana/mcp-grafana/pull/288</a></li>
-<li>docs: add info about alert group tools to README by @ioanarm in <a href="https://github.com/grafana/mcp-grafana/pull/302">https://github.com/grafana/mcp-grafana/pull/302</a></li>
-</ul>
-<p><strong>Full Changelog</strong>: <a href="https://github.com/grafana/mcp-grafana/compare/v0.6.5...v0.7.0">https://github.com/grafana/mcp-grafana/compare/v0.6.5...v0.7.0</a></p>
 ]]></content:encoded>
         </item>
     </channel>
