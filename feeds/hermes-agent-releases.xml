@@ -4,11 +4,95 @@
         <title>hermes-agent Releases</title>
         <link>https://github.com/NousResearch/hermes-agent/releases</link>
         <description>GitHub releases for NousResearch/hermes-agent</description>
-        <lastBuildDate>Thu, 24 Sep 2026 10:09:38 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 08 Oct 2026 11:51:57 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>ai-rss-feeds (https://github.com/leontloveless/ai-rss-feeds)</generator>
         <language>en</language>
         <atom:link href="https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/hermes-agent-releases.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[Hermes Agent v0.21.6]]></title>
+            <link>https://github.com/NousResearch/hermes-agent/releases/tag/v0.21.6</link>
+            <guid>https://github.com/NousResearch/hermes-agent/releases/tag/v0.21.6</guid>
+            <pubDate>Thu, 08 Oct 2026 11:51:57 GMT</pubDate>
+            <description><![CDATA[<h1>Hermes Agent v0.21.6</h1>
+<p><strong>Release Date:</strong> October 8, 2026</p>
+<blockquote>
+<p>Patch release. This tag rolls up the ~2,100 PRs merged since v0.21.5 into a stable tagged release for Docker and Hermes Cloud. Full curated notes for this window ship with v0.22.0.</p>
+</blockquote>
+<!-- HERMES_BUILDS_TABLE -->
+
+<h2>About this release</h2>
+<p>This is the first release cut by the new stable release pipeline: one attempt ref, a tested Docker image, and a receipt tag at publish. It ships the tag, this GitHub release and the Docker image. The desktop app, Termux packages and the Microsoft Store stay on their current build for now and move with the next bundled release.</p>
+<p>Measured at commit <code>818c13be1dc4fd28987e1e881a9408224afd4535</code>, the window since v0.21.5 contains <strong>8,867 non-merge commits</strong> across <strong>8,342 changed files</strong> (+772,490 / −225,600), <strong>2,106 merged PRs</strong> and <strong>3,027 closed issues</strong>.</p>
+<p>Also in the window, undocumented here on purpose: live transcription while you speak on CLI, TUI and Desktop (<code>stt.streaming</code>); spoken voice turns routed to their own model (<code>auxiliary.voice_chat</code>) with reasoning off by default; third-party plugins running in a per-profile plugin host (<code>plugins.isolation: host</code>) and one Settings ▸ Plugins home for their settings pages; favorite and pinned models at the top of the Desktop picker, a usage chip before a subscription hits its wall, and rate-limited providers that say why and until when; local models in <code>hermes model</code> plus llama.cpp CUDA on Linux x64 and arm64; pluggable, layered language packs across core, Desktop and TUI; a summary-first <code>hermes status</code> (<code>--short</code>, <code>--full</code>); a review-pane diff scope selector (Uncommitted / Branch / Last turn) and keep-awake that follows the turn; cron, <code>doctor</code> and home-channel warnings when the cron store goes unwritable; approval flags for credential uploads and invisible Unicode in terminal commands; a Discord setup that checks the bot token and prints the invite link; a unified Kanban workflow definition; <code>activate.fish</code>; GPT-6.1 Sol and Claude Sonnet 5.5 / Haiku 5.5 in the catalogs; and dozens of new community plugins.</p>
+<p><strong>Full curated release notes for this window ship with v0.22.0</strong>, which will document everything from v0.21.0 onward — highlights, feature areas, and complete contributor credits. Nothing in this window is skipped.</p>
+<h2>Updating</h2>
+<ul>
+<li>Docker / Hermes Cloud: <code>nousresearch/hermes-agent:stable</code> (or <code>:latest</code>).</li>
+<li>CLI (git installs): <code>hermes update</code>, or re-run the installer one-liner.</li>
+<li>Desktop app and Termux: no change in this release; they update with the next bundled release.</li>
+</ul>
+<h2>Security Fixes</h2>
+<p><strong>Dashboard authentication hardening</strong></p>
+<ul>
+<li>Spoofed <code>X-Forwarded-For</code> headers could reset the password-login rate limit and get around the per-IP cap on native sign-in (#133367)</li>
+<li>Unauthenticated login requests could write unbounded values to the auth audit log (#133369)</li>
+<li>The public <code>/auth/</code> routes had no request-body size limit (#133370)</li>
+<li>Native sign-in could send login codes to a non-loopback redirect, which allowed session takeover (#130685)</li>
+</ul>
+<p>Thanks to Tenable Research for reporting all four issues (TRA-725, TRA-726, TRA-727, TRA-728). The native sign-in redirect issue was also reported independently and fixed by @Froraut. The <code>X-Forwarded-For</code> fix builds on community work by @hinotoi-agent and @BearHuddleston (#40285).</p>
+<p><strong>Repository git filter hardening</strong></p>
+<ul>
+<li>Automatic git calls (session workspace snapshot, subagent worktrees, kanban, worktree cleanup, <code>hermes -w</code>) could run <code>clean</code>/<code>smudge</code>/<code>process</code> filter programs defined by an untrusted repository&#39;s own config, before the first prompt (#130661)</li>
+</ul>
+<p>Thanks to 燕涛 for reporting this privately. It was also reported and fixed publicly by @jonpol01 (#126017, #126019) and @JoaoMarcos44 (#126075).</p>
+<p><strong>Email gateway sender hardening</strong></p>
+<ul>
+<li>A quoted display name in the <code>From</code> header (e.g. <code>&quot;Victim &lt;victim@example.com&gt;&quot; &lt;attacker@evil.test&gt;</code>) could make an attacker&#39;s message pass the email allowlist as an allowed sender (#125212)</li>
+</ul>
+<p>Thanks to Daniel Steele (@keeltrace) for reporting this and writing the fix (#124322).</p>
+<p><strong>Full Changelog</strong>: <a href="https://github.com/NousResearch/hermes-agent/compare/v2026.9.24...v0.21.6">v2026.9.24...v0.21.6</a></p>
+]]></description>
+            <content:encoded><![CDATA[<h1>Hermes Agent v0.21.6</h1>
+<p><strong>Release Date:</strong> October 8, 2026</p>
+<blockquote>
+<p>Patch release. This tag rolls up the ~2,100 PRs merged since v0.21.5 into a stable tagged release for Docker and Hermes Cloud. Full curated notes for this window ship with v0.22.0.</p>
+</blockquote>
+<!-- HERMES_BUILDS_TABLE -->
+
+<h2>About this release</h2>
+<p>This is the first release cut by the new stable release pipeline: one attempt ref, a tested Docker image, and a receipt tag at publish. It ships the tag, this GitHub release and the Docker image. The desktop app, Termux packages and the Microsoft Store stay on their current build for now and move with the next bundled release.</p>
+<p>Measured at commit <code>818c13be1dc4fd28987e1e881a9408224afd4535</code>, the window since v0.21.5 contains <strong>8,867 non-merge commits</strong> across <strong>8,342 changed files</strong> (+772,490 / −225,600), <strong>2,106 merged PRs</strong> and <strong>3,027 closed issues</strong>.</p>
+<p>Also in the window, undocumented here on purpose: live transcription while you speak on CLI, TUI and Desktop (<code>stt.streaming</code>); spoken voice turns routed to their own model (<code>auxiliary.voice_chat</code>) with reasoning off by default; third-party plugins running in a per-profile plugin host (<code>plugins.isolation: host</code>) and one Settings ▸ Plugins home for their settings pages; favorite and pinned models at the top of the Desktop picker, a usage chip before a subscription hits its wall, and rate-limited providers that say why and until when; local models in <code>hermes model</code> plus llama.cpp CUDA on Linux x64 and arm64; pluggable, layered language packs across core, Desktop and TUI; a summary-first <code>hermes status</code> (<code>--short</code>, <code>--full</code>); a review-pane diff scope selector (Uncommitted / Branch / Last turn) and keep-awake that follows the turn; cron, <code>doctor</code> and home-channel warnings when the cron store goes unwritable; approval flags for credential uploads and invisible Unicode in terminal commands; a Discord setup that checks the bot token and prints the invite link; a unified Kanban workflow definition; <code>activate.fish</code>; GPT-6.1 Sol and Claude Sonnet 5.5 / Haiku 5.5 in the catalogs; and dozens of new community plugins.</p>
+<p><strong>Full curated release notes for this window ship with v0.22.0</strong>, which will document everything from v0.21.0 onward — highlights, feature areas, and complete contributor credits. Nothing in this window is skipped.</p>
+<h2>Updating</h2>
+<ul>
+<li>Docker / Hermes Cloud: <code>nousresearch/hermes-agent:stable</code> (or <code>:latest</code>).</li>
+<li>CLI (git installs): <code>hermes update</code>, or re-run the installer one-liner.</li>
+<li>Desktop app and Termux: no change in this release; they update with the next bundled release.</li>
+</ul>
+<h2>Security Fixes</h2>
+<p><strong>Dashboard authentication hardening</strong></p>
+<ul>
+<li>Spoofed <code>X-Forwarded-For</code> headers could reset the password-login rate limit and get around the per-IP cap on native sign-in (#133367)</li>
+<li>Unauthenticated login requests could write unbounded values to the auth audit log (#133369)</li>
+<li>The public <code>/auth/</code> routes had no request-body size limit (#133370)</li>
+<li>Native sign-in could send login codes to a non-loopback redirect, which allowed session takeover (#130685)</li>
+</ul>
+<p>Thanks to Tenable Research for reporting all four issues (TRA-725, TRA-726, TRA-727, TRA-728). The native sign-in redirect issue was also reported independently and fixed by @Froraut. The <code>X-Forwarded-For</code> fix builds on community work by @hinotoi-agent and @BearHuddleston (#40285).</p>
+<p><strong>Repository git filter hardening</strong></p>
+<ul>
+<li>Automatic git calls (session workspace snapshot, subagent worktrees, kanban, worktree cleanup, <code>hermes -w</code>) could run <code>clean</code>/<code>smudge</code>/<code>process</code> filter programs defined by an untrusted repository&#39;s own config, before the first prompt (#130661)</li>
+</ul>
+<p>Thanks to 燕涛 for reporting this privately. It was also reported and fixed publicly by @jonpol01 (#126017, #126019) and @JoaoMarcos44 (#126075).</p>
+<p><strong>Email gateway sender hardening</strong></p>
+<ul>
+<li>A quoted display name in the <code>From</code> header (e.g. <code>&quot;Victim &lt;victim@example.com&gt;&quot; &lt;attacker@evil.test&gt;</code>) could make an attacker&#39;s message pass the email allowlist as an allowed sender (#125212)</li>
+</ul>
+<p>Thanks to Daniel Steele (@keeltrace) for reporting this and writing the fix (#124322).</p>
+<p><strong>Full Changelog</strong>: <a href="https://github.com/NousResearch/hermes-agent/compare/v2026.9.24...v0.21.6">v2026.9.24...v0.21.6</a></p>
+]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[Hermes Agent v0.21.5 (v2026.9.24)]]></title>
             <link>https://github.com/NousResearch/hermes-agent/releases/tag/v2026.9.24</link>
