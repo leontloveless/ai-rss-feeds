@@ -4,11 +4,29 @@
         <title>claude-code Releases</title>
         <link>https://github.com/anthropics/claude-code/releases</link>
         <description>GitHub releases for anthropics/claude-code</description>
-        <lastBuildDate>Wed, 07 Oct 2026 18:10:20 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 08 Oct 2026 05:03:54 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>ai-rss-feeds (https://github.com/leontloveless/ai-rss-feeds)</generator>
         <language>en</language>
         <atom:link href="https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/claude-code-releases.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[v2.1.294]]></title>
+            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.294</link>
+            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.294</guid>
+            <pubDate>Thu, 08 Oct 2026 05:03:54 GMT</pubDate>
+            <description><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Fixed <code>prompt</code> and <code>agent</code> hooks written as instructions (such as &quot;Block commands that...&quot;) allowing what they should block</li>
+<li>Improved how <code>prompt</code> hooks on Stop and SubagentStop written as instructions (such as &quot;Carry on if the build is broken&quot;) are judged, so Claude is less likely to stop early</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Fixed <code>prompt</code> and <code>agent</code> hooks written as instructions (such as &quot;Block commands that...&quot;) allowing what they should block</li>
+<li>Improved how <code>prompt</code> hooks on Stop and SubagentStop written as instructions (such as &quot;Carry on if the build is broken&quot;) are judged, so Claude is less likely to stop early</li>
+</ul>
+]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[v2.1.293]]></title>
             <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.293</link>
@@ -6316,60 +6334,6 @@
 <li>Background task notifications delivered between turns are now sent to the model inside <code>&lt;system-reminder&gt;</code> tags, matching mid-turn delivery</li>
 <li>Mantle: skip the admin-pin availability probe at startup when a main-loop model is already picked</li>
 <li>Windows: startup no longer stalls on repeated rename retries when <code>~/.claude.json</code> is read-only</li>
-</ul>
-]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[v2.1.233]]></title>
-            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.233</link>
-            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.233</guid>
-            <pubDate>Fri, 14 Aug 2026 22:20:57 GMT</pubDate>
-            <description><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>Added GitLab merge request URL support to the <code>--worktree</code> flag and the <code>claude agents</code> view (where MRs display as <code>!N</code>)</li>
-<li>Added an opt-in <code>forward_user_identity</code> apps gateway setting on Anthropic upstreams that sends the signed-in user&#39;s identity as headers, so a proxy behind the gateway can attribute spend per user</li>
-<li>Added opt-in memory cgroup support for Bash tool commands on Linux (<code>CLAUDE_CODE_TOOL_MEMORY_LIMIT</code>) so a runaway build can&#39;t stall the session</li>
-<li>Added <code>CLAUDE_CODE_WEBFETCH_CACHE_TTL_MS</code> environment variable to configure the WebFetch session URL cache TTL (default unchanged: 15 minutes)</li>
-<li>Fixed cloud sessions occasionally being marked as lost when the environment shut down while Claude was waiting on a permission prompt</li>
-<li>Fixed MCP v2 connections endlessly reopening the subscriptions/listen stream against servers that terminate long-held streams on a fixed timeout (e.g. serverless hosts)</li>
-<li>Fixed Notification hooks not firing for permission prompts when running under Claude Desktop or VS Code</li>
-<li>Fixed idle sessions on Linux sometimes keeping one CPU core at 100% when sandboxing is enabled</li>
-<li>Fixed bundled skill aliases like <code>/checkup</code> and <code>/review</code> reporting &quot;Unknown command&quot; in <code>-p</code> mode or with plugins/MCP loaded when a user or project skill shadows the bundled skill</li>
-<li>Fixed skill/command argument substitution to prevent argument values from being re-expanded as template markers</li>
-<li>Fixed Windows paths spelled with the NT <code>\??\</code> device prefix bypassing UNC path validation, closing an NTLM credential-leak vector</li>
-<li>Improved <code>claude self-hosted-runner</code> session start time: the session branch is now created without rewriting the working tree, and two server round trips no longer block the agent&#39;s launch</li>
-<li>Improved apps gateway error forwarding: 400/413 errors from Vertex, Foundry, and Claude Platform on AWS upstreams now carry the upstream&#39;s own message; fixes a bug with auto-compact on apps gateway</li>
-<li>Improved <code>claude plugin validate</code> to check a bare <code>.claude/skills</code> directory, reporting SKILL.md files whose frontmatter fails to parse</li>
-<li>Improved screen reader mode: the <code>/effort</code> selector renders as a numbered list with a typed-number prompt, and hint and dialog text is no longer clipped</li>
-<li>Improved print mode diagnostics: a <code>[claude-code:unrecognized_model]</code> line is written to stderr when a request goes out for a model ID Claude Code doesn&#39;t recognize; map it with <code>modelOverrides</code> to silence</li>
-<li>Changed the GitHub app setup tip to no longer appear in repositories whose origin remote is on gitlab.com or bitbucket.org; the enterprise marketplace tip now covers non-GitHub internal git hosts</li>
-<li>Todo/task-tracking tools (TaskCreate/Get/Update/List, TodoWrite) are no longer available on Opus 4.8, Sonnet 5, Fable 5, Mythos 5, and newer models; set <code>CLAUDE_CODE_ENABLE_TODO_TOOLS=1</code> to bring them back</li>
-<li>Windows: fixed auto mode repeatedly stopping for manual approval on ordinary <code>cd &lt;dir&gt; &amp;&amp; &lt;command&gt; &gt; file</code> Bash commands (a 2.1.232 regression)</li>
-<li>Reverted the 2.1.232 Bash permission changes for Cygwin-style symlinks on Windows and for input redirections (<code>&lt; file</code>); a narrower version will return in a later release</li>
-</ul>
-]]></description>
-            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>Added GitLab merge request URL support to the <code>--worktree</code> flag and the <code>claude agents</code> view (where MRs display as <code>!N</code>)</li>
-<li>Added an opt-in <code>forward_user_identity</code> apps gateway setting on Anthropic upstreams that sends the signed-in user&#39;s identity as headers, so a proxy behind the gateway can attribute spend per user</li>
-<li>Added opt-in memory cgroup support for Bash tool commands on Linux (<code>CLAUDE_CODE_TOOL_MEMORY_LIMIT</code>) so a runaway build can&#39;t stall the session</li>
-<li>Added <code>CLAUDE_CODE_WEBFETCH_CACHE_TTL_MS</code> environment variable to configure the WebFetch session URL cache TTL (default unchanged: 15 minutes)</li>
-<li>Fixed cloud sessions occasionally being marked as lost when the environment shut down while Claude was waiting on a permission prompt</li>
-<li>Fixed MCP v2 connections endlessly reopening the subscriptions/listen stream against servers that terminate long-held streams on a fixed timeout (e.g. serverless hosts)</li>
-<li>Fixed Notification hooks not firing for permission prompts when running under Claude Desktop or VS Code</li>
-<li>Fixed idle sessions on Linux sometimes keeping one CPU core at 100% when sandboxing is enabled</li>
-<li>Fixed bundled skill aliases like <code>/checkup</code> and <code>/review</code> reporting &quot;Unknown command&quot; in <code>-p</code> mode or with plugins/MCP loaded when a user or project skill shadows the bundled skill</li>
-<li>Fixed skill/command argument substitution to prevent argument values from being re-expanded as template markers</li>
-<li>Fixed Windows paths spelled with the NT <code>\??\</code> device prefix bypassing UNC path validation, closing an NTLM credential-leak vector</li>
-<li>Improved <code>claude self-hosted-runner</code> session start time: the session branch is now created without rewriting the working tree, and two server round trips no longer block the agent&#39;s launch</li>
-<li>Improved apps gateway error forwarding: 400/413 errors from Vertex, Foundry, and Claude Platform on AWS upstreams now carry the upstream&#39;s own message; fixes a bug with auto-compact on apps gateway</li>
-<li>Improved <code>claude plugin validate</code> to check a bare <code>.claude/skills</code> directory, reporting SKILL.md files whose frontmatter fails to parse</li>
-<li>Improved screen reader mode: the <code>/effort</code> selector renders as a numbered list with a typed-number prompt, and hint and dialog text is no longer clipped</li>
-<li>Improved print mode diagnostics: a <code>[claude-code:unrecognized_model]</code> line is written to stderr when a request goes out for a model ID Claude Code doesn&#39;t recognize; map it with <code>modelOverrides</code> to silence</li>
-<li>Changed the GitHub app setup tip to no longer appear in repositories whose origin remote is on gitlab.com or bitbucket.org; the enterprise marketplace tip now covers non-GitHub internal git hosts</li>
-<li>Todo/task-tracking tools (TaskCreate/Get/Update/List, TodoWrite) are no longer available on Opus 4.8, Sonnet 5, Fable 5, Mythos 5, and newer models; set <code>CLAUDE_CODE_ENABLE_TODO_TOOLS=1</code> to bring them back</li>
-<li>Windows: fixed auto mode repeatedly stopping for manual approval on ordinary <code>cd &lt;dir&gt; &amp;&amp; &lt;command&gt; &gt; file</code> Bash commands (a 2.1.232 regression)</li>
-<li>Reverted the 2.1.232 Bash permission changes for Cygwin-style symlinks on Windows and for input redirections (<code>&lt; file</code>); a narrower version will return in a later release</li>
 </ul>
 ]]></content:encoded>
         </item>
