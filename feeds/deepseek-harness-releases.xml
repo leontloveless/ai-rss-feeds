@@ -18,17 +18,14 @@
 <h3 id="cn-v0.2.1-alpha.2-community">新增功能</h3>
 
 <ul>
-<li>新增思考过程机器翻译实验插件，可在插件页启用，选择 Bing、Google 或付费 DeepSeek Flash。 @tianyicui</li>
+<li>新增实验性思考过程机器翻译插件，可在插件页启用，选择 Bing、Google 或付费 DeepSeek Flash。 @tianyicui, @ZiyaZhang, @imccyu</li>
+<li>新增实验性 Git Worktrees 插件，可在插件页启用，由 Agent 创建并进入独立的 Git checkout。 @tianyicui</li>
+<li>新增实验性插件的 Session 状态记录接口，供插件写入和读取自己的会话记录。 @tianyicui</li>
 <li>全局指令支持读取共享 agents 目录中的 AGENTS.md，可通过 DSH_AGENTS_HOME 指定目录。 @tianyicui</li>
 <li>新增 working_directory 工具，并为 TypeScript/Python SDK 提供会话工作目录的读取和切换接口。 @tianyicui</li>
-<li>新增 Git Worktrees 实验插件，可在插件页启用，由 Agent 创建并进入独立的 Git checkout。 @tianyicui</li>
 <li>Official 插件列表新增 Claude Code 和 Codex 组合包的按需安装入口，发布版安装对应版本的包。 @tianyicui</li>
-<li>通用设置新增字体选项，可分别调整界面正文、代码与工具输出、侧栏终端的字体和字号。 @turtle2099</li>
-<li>语音输入新增麦克风选择，可在插件详情页选择输入设备，并查看所选设备的实时输入电平。 @yudshj</li>
-<li>Web 支持绑定指定的 IPv4/IPv6 地址，并通过 --tls-cert 和 --tls-key 配置原生 HTTPS 监听。 @oraluben</li>
 <li>新增工作步骤收起时机设置，可选择回答结束后收起，或在下一条普通消息到来时收起。 @imccyu</li>
 <li>pi-ai 路由支持按模型能力处理会话中的系统提示词更新，以及工具的动态新增和移除。 @Tuyixiang</li>
-<li>新增实验性插件的 Session 状态记录接口，供插件写入和读取自己的会话记录。 @tianyicui</li>
 <li>SSH 新增独立可执行的 helper 运行时，支持远端文件操作、进程、终端、沙箱和 Node PTC。 @LegGasai</li>
 </ul>
 <h3>问题修复</h3>
@@ -53,6 +50,9 @@
 </ul>
 <h3>体验优化</h3>
 <ul>
+<li>通用设置新增字体选项，可分别调整界面正文、代码与工具输出、侧栏终端的字体和字号。 @turtle2099</li>
+<li>语音输入新增麦克风选择，可在插件详情页选择输入设备，并查看所选设备的实时输入电平。 @yudshj</li>
+<li>Web 支持绑定指定的 IPv4/IPv6 地址，并通过 --tls-cert 和 --tls-key 配置原生 HTTPS 监听。 @oraluben</li>
 <li>Shell 和插件安装详情支持横向查看及复制完整命令；后台 Bash 调用可展开输入和启动回执。 @tianyicui</li>
 <li>优化含超长源码行的文件预览性能，超长行使用无高亮文本展示，普通行继续进行语法高亮。 @turtle2099</li>
 <li>优化自动会话标题生成，对同主题的追问、补充和继续请求保留已有合适标题。 @tianyicui, @ZiyaZhang</li>
@@ -67,28 +67,21 @@
 <li>统一子代理执行与完成通知，工具立即返回 child ID；自定义 SDK runtime 需支持 session/wait。 @Dudu-0223</li>
 <li>Agent Team 消息改为直接投递目标 Inbox，移除独立 outbox、自动重试和重发去重；相关配置与结果字段需迁移。 @Dudu-0223</li>
 <li>默认 SDK profile 从固定的编程 Agent 改为通用 AI Agent 身份，适用于一般任务。 @Dudu-0223</li>
-<li>测试版 Desktop 默认关闭更新网关鉴权弹窗，可通过 updates.allowTestAuthPopupWindow 本地配置启用。 @winewill</li>
 <li>可选插件支持极简模式；Claude Code 和 Codex 组合包可用于 headless、SDK 和 ACP profile。 @turtle2099</li>
-<li>新增思考正文 Slot 和官方 Markdown Content Factory，供插件替换正文或复用官方渲染。 @imccyu</li>
-<li>新增本地未签名 macOS DMG 打包入口，支持 arm64 和 x64，无需配置 Apple 发布凭据。 @tianyicui</li>
-<li>新增回环 registry 命令，可在打包应用中测试本地构建的 Official 组合包安装。 @tianyicui</li>
-<li>pi-ai 更新至 1.0.2，包含上游模型目录更新和适配器修复。 @tianyicui</li>
 <li>更新运行时工具、MCP 协议、图片处理和客户端渲染依赖，纳入兼容版本的安全修复。 @tianyicui</li>
+<li>pi-ai 更新至 1.0.2，包含上游模型目录更新和适配器修复。 @tianyicui</li>
 </ul>
 <h3 id="en-v0.2.1-alpha.2-community">New Features</h3>
 
 <ul>
-<li>Add an experimental reasoning translation plugin, enabled from the Plugins page with Bing, Google, or paid DeepSeek Flash as the provider. by @tianyicui</li>
+<li>Add an experimental reasoning translation plugin, enabled from the Plugins page with Bing, Google, or paid DeepSeek Flash as the provider. by @tianyicui, @ZiyaZhang, @imccyu</li>
+<li>Add an experimental Git Worktrees plugin that can be enabled on the Plugins page for Agents to create and enter separate Git checkouts. by @tianyicui</li>
+<li>Add Session state-record APIs for experimental plugins to write and read their own session records. by @tianyicui</li>
 <li>Load global instructions from AGENTS.md in the shared agents directory, with DSH_AGENTS_HOME available to select its location. by @tianyicui</li>
 <li>Add the working_directory tool and TypeScript/Python SDK APIs for reading and changing a session’s working directory. by @tianyicui</li>
-<li>Add an experimental Git Worktrees plugin that can be enabled on the Plugins page for Agents to create and enter separate Git checkouts. by @tianyicui</li>
 <li>Add on-demand installation of Claude Code and Codex bundles to the Official plugin catalog, using packages matching the running release. by @tianyicui</li>
-<li>Add General settings for independently choosing fonts and sizes for interface text, code and tool output, and sidebar terminals. by @turtle2099</li>
-<li>Add microphone selection to voice input, with an input-device selector and live levels for the selected device in plugin details. by @yudshj</li>
-<li>Allow Web to bind to a specific IPv4/IPv6 address and configure native HTTPS listeners through --tls-cert and --tls-key. by @oraluben</li>
 <li>Add a setting to collapse work details either when the response finishes or when the next regular message arrives. by @imccyu</li>
 <li>Support in-conversation system prompt updates and dynamic tool additions and removals on pi-ai routes according to model capabilities. by @Tuyixiang</li>
-<li>Add Session state-record APIs for experimental plugins to write and read their own session records. by @tianyicui</li>
 <li>Add standalone executable SSH helper runtimes supporting remote file operations, processes, terminals, sandboxing, and Node PTC. by @LegGasai</li>
 </ul>
 <h3>Bug Fixes</h3>
@@ -113,6 +106,9 @@
 </ul>
 <h3>Improvements</h3>
 <ul>
+<li>Add General settings for independently choosing fonts and sizes for interface text, code and tool output, and sidebar terminals. by @turtle2099</li>
+<li>Add microphone selection to voice input, with an input-device selector and live levels for the selected device in plugin details. by @yudshj</li>
+<li>Allow Web to bind to a specific IPv4/IPv6 address and configure native HTTPS listeners through --tls-cert and --tls-key. by @oraluben</li>
 <li>Support scrolling and copying full commands in Shell and plugin installation details, and expand background Bash inputs and launch receipts. by @tianyicui</li>
 <li>Improve previews of files containing overlong source lines, rendering those lines without syntax colors while regular lines retain highlighting. by @turtle2099</li>
 <li>Improve automatic session titles by retaining adequate titles for same-topic follow-ups, additional details, and requests to continue. by @tianyicui, @ZiyaZhang</li>
@@ -127,13 +123,9 @@
 <li>Unify subagent execution and completion notifications, with tools returning child IDs immediately. Custom SDK runtimes must support session/wait. by @Dudu-0223</li>
 <li>Deliver Agent Team messages directly to the target Inbox, removing the separate outbox, automatic retries, and resend deduplication. Migrate affected configuration and result fields. by @Dudu-0223</li>
 <li>Change the default SDK profile from a fixed coding-agent persona to a general AI Agent identity for general-purpose tasks. by @Dudu-0223</li>
-<li>Disable update-gateway authentication popups by default in test Desktop builds, with the local updates.allowTestAuthPopupWindow setting available to enable them. by @winewill</li>
 <li>Support optional plugins in Minimal mode and allow Claude Code and Codex bundles in headless, SDK, and ACP profiles. by @turtle2099</li>
-<li>Add a reasoning-body Slot and the official Markdown Content Factory for plugins to replace the body or reuse official rendering. by @imccyu</li>
-<li>Add local unsigned macOS DMG packaging for arm64 and x64 without configuring Apple release credentials. by @tianyicui</li>
-<li>Add a loopback registry command to test installation of locally built Official bundles in packaged applications. by @tianyicui</li>
-<li>Update pi-ai to 1.0.2, including upstream model-catalog updates and adapter fixes. by @tianyicui</li>
 <li>Update runtime utilities, MCP protocol integrations, image processing, and client-rendering dependencies with compatible security fixes. by @tianyicui</li>
+<li>Update pi-ai to 1.0.2, including upstream model-catalog updates and adapter fixes. by @tianyicui</li>
 </ul>
 <p>Full Changelog: <a href="https://github.com/deepseek-ai/deepseek-harness/compare/dsh-v0.2.1-alpha.1...dsh-v0.2.1-alpha.2">dsh-v0.2.1-alpha.1...dsh-v0.2.1-alpha.2</a></p>
 ]]></description>
@@ -141,17 +133,14 @@
 <h3 id="cn-v0.2.1-alpha.2-community">新增功能</h3>
 
 <ul>
-<li>新增思考过程机器翻译实验插件，可在插件页启用，选择 Bing、Google 或付费 DeepSeek Flash。 @tianyicui</li>
+<li>新增实验性思考过程机器翻译插件，可在插件页启用，选择 Bing、Google 或付费 DeepSeek Flash。 @tianyicui, @ZiyaZhang, @imccyu</li>
+<li>新增实验性 Git Worktrees 插件，可在插件页启用，由 Agent 创建并进入独立的 Git checkout。 @tianyicui</li>
+<li>新增实验性插件的 Session 状态记录接口，供插件写入和读取自己的会话记录。 @tianyicui</li>
 <li>全局指令支持读取共享 agents 目录中的 AGENTS.md，可通过 DSH_AGENTS_HOME 指定目录。 @tianyicui</li>
 <li>新增 working_directory 工具，并为 TypeScript/Python SDK 提供会话工作目录的读取和切换接口。 @tianyicui</li>
-<li>新增 Git Worktrees 实验插件，可在插件页启用，由 Agent 创建并进入独立的 Git checkout。 @tianyicui</li>
 <li>Official 插件列表新增 Claude Code 和 Codex 组合包的按需安装入口，发布版安装对应版本的包。 @tianyicui</li>
-<li>通用设置新增字体选项，可分别调整界面正文、代码与工具输出、侧栏终端的字体和字号。 @turtle2099</li>
-<li>语音输入新增麦克风选择，可在插件详情页选择输入设备，并查看所选设备的实时输入电平。 @yudshj</li>
-<li>Web 支持绑定指定的 IPv4/IPv6 地址，并通过 --tls-cert 和 --tls-key 配置原生 HTTPS 监听。 @oraluben</li>
 <li>新增工作步骤收起时机设置，可选择回答结束后收起，或在下一条普通消息到来时收起。 @imccyu</li>
 <li>pi-ai 路由支持按模型能力处理会话中的系统提示词更新，以及工具的动态新增和移除。 @Tuyixiang</li>
-<li>新增实验性插件的 Session 状态记录接口，供插件写入和读取自己的会话记录。 @tianyicui</li>
 <li>SSH 新增独立可执行的 helper 运行时，支持远端文件操作、进程、终端、沙箱和 Node PTC。 @LegGasai</li>
 </ul>
 <h3>问题修复</h3>
@@ -176,6 +165,9 @@
 </ul>
 <h3>体验优化</h3>
 <ul>
+<li>通用设置新增字体选项，可分别调整界面正文、代码与工具输出、侧栏终端的字体和字号。 @turtle2099</li>
+<li>语音输入新增麦克风选择，可在插件详情页选择输入设备，并查看所选设备的实时输入电平。 @yudshj</li>
+<li>Web 支持绑定指定的 IPv4/IPv6 地址，并通过 --tls-cert 和 --tls-key 配置原生 HTTPS 监听。 @oraluben</li>
 <li>Shell 和插件安装详情支持横向查看及复制完整命令；后台 Bash 调用可展开输入和启动回执。 @tianyicui</li>
 <li>优化含超长源码行的文件预览性能，超长行使用无高亮文本展示，普通行继续进行语法高亮。 @turtle2099</li>
 <li>优化自动会话标题生成，对同主题的追问、补充和继续请求保留已有合适标题。 @tianyicui, @ZiyaZhang</li>
@@ -190,28 +182,21 @@
 <li>统一子代理执行与完成通知，工具立即返回 child ID；自定义 SDK runtime 需支持 session/wait。 @Dudu-0223</li>
 <li>Agent Team 消息改为直接投递目标 Inbox，移除独立 outbox、自动重试和重发去重；相关配置与结果字段需迁移。 @Dudu-0223</li>
 <li>默认 SDK profile 从固定的编程 Agent 改为通用 AI Agent 身份，适用于一般任务。 @Dudu-0223</li>
-<li>测试版 Desktop 默认关闭更新网关鉴权弹窗，可通过 updates.allowTestAuthPopupWindow 本地配置启用。 @winewill</li>
 <li>可选插件支持极简模式；Claude Code 和 Codex 组合包可用于 headless、SDK 和 ACP profile。 @turtle2099</li>
-<li>新增思考正文 Slot 和官方 Markdown Content Factory，供插件替换正文或复用官方渲染。 @imccyu</li>
-<li>新增本地未签名 macOS DMG 打包入口，支持 arm64 和 x64，无需配置 Apple 发布凭据。 @tianyicui</li>
-<li>新增回环 registry 命令，可在打包应用中测试本地构建的 Official 组合包安装。 @tianyicui</li>
-<li>pi-ai 更新至 1.0.2，包含上游模型目录更新和适配器修复。 @tianyicui</li>
 <li>更新运行时工具、MCP 协议、图片处理和客户端渲染依赖，纳入兼容版本的安全修复。 @tianyicui</li>
+<li>pi-ai 更新至 1.0.2，包含上游模型目录更新和适配器修复。 @tianyicui</li>
 </ul>
 <h3 id="en-v0.2.1-alpha.2-community">New Features</h3>
 
 <ul>
-<li>Add an experimental reasoning translation plugin, enabled from the Plugins page with Bing, Google, or paid DeepSeek Flash as the provider. by @tianyicui</li>
+<li>Add an experimental reasoning translation plugin, enabled from the Plugins page with Bing, Google, or paid DeepSeek Flash as the provider. by @tianyicui, @ZiyaZhang, @imccyu</li>
+<li>Add an experimental Git Worktrees plugin that can be enabled on the Plugins page for Agents to create and enter separate Git checkouts. by @tianyicui</li>
+<li>Add Session state-record APIs for experimental plugins to write and read their own session records. by @tianyicui</li>
 <li>Load global instructions from AGENTS.md in the shared agents directory, with DSH_AGENTS_HOME available to select its location. by @tianyicui</li>
 <li>Add the working_directory tool and TypeScript/Python SDK APIs for reading and changing a session’s working directory. by @tianyicui</li>
-<li>Add an experimental Git Worktrees plugin that can be enabled on the Plugins page for Agents to create and enter separate Git checkouts. by @tianyicui</li>
 <li>Add on-demand installation of Claude Code and Codex bundles to the Official plugin catalog, using packages matching the running release. by @tianyicui</li>
-<li>Add General settings for independently choosing fonts and sizes for interface text, code and tool output, and sidebar terminals. by @turtle2099</li>
-<li>Add microphone selection to voice input, with an input-device selector and live levels for the selected device in plugin details. by @yudshj</li>
-<li>Allow Web to bind to a specific IPv4/IPv6 address and configure native HTTPS listeners through --tls-cert and --tls-key. by @oraluben</li>
 <li>Add a setting to collapse work details either when the response finishes or when the next regular message arrives. by @imccyu</li>
 <li>Support in-conversation system prompt updates and dynamic tool additions and removals on pi-ai routes according to model capabilities. by @Tuyixiang</li>
-<li>Add Session state-record APIs for experimental plugins to write and read their own session records. by @tianyicui</li>
 <li>Add standalone executable SSH helper runtimes supporting remote file operations, processes, terminals, sandboxing, and Node PTC. by @LegGasai</li>
 </ul>
 <h3>Bug Fixes</h3>
@@ -236,6 +221,9 @@
 </ul>
 <h3>Improvements</h3>
 <ul>
+<li>Add General settings for independently choosing fonts and sizes for interface text, code and tool output, and sidebar terminals. by @turtle2099</li>
+<li>Add microphone selection to voice input, with an input-device selector and live levels for the selected device in plugin details. by @yudshj</li>
+<li>Allow Web to bind to a specific IPv4/IPv6 address and configure native HTTPS listeners through --tls-cert and --tls-key. by @oraluben</li>
 <li>Support scrolling and copying full commands in Shell and plugin installation details, and expand background Bash inputs and launch receipts. by @tianyicui</li>
 <li>Improve previews of files containing overlong source lines, rendering those lines without syntax colors while regular lines retain highlighting. by @turtle2099</li>
 <li>Improve automatic session titles by retaining adequate titles for same-topic follow-ups, additional details, and requests to continue. by @tianyicui, @ZiyaZhang</li>
@@ -250,13 +238,9 @@
 <li>Unify subagent execution and completion notifications, with tools returning child IDs immediately. Custom SDK runtimes must support session/wait. by @Dudu-0223</li>
 <li>Deliver Agent Team messages directly to the target Inbox, removing the separate outbox, automatic retries, and resend deduplication. Migrate affected configuration and result fields. by @Dudu-0223</li>
 <li>Change the default SDK profile from a fixed coding-agent persona to a general AI Agent identity for general-purpose tasks. by @Dudu-0223</li>
-<li>Disable update-gateway authentication popups by default in test Desktop builds, with the local updates.allowTestAuthPopupWindow setting available to enable them. by @winewill</li>
 <li>Support optional plugins in Minimal mode and allow Claude Code and Codex bundles in headless, SDK, and ACP profiles. by @turtle2099</li>
-<li>Add a reasoning-body Slot and the official Markdown Content Factory for plugins to replace the body or reuse official rendering. by @imccyu</li>
-<li>Add local unsigned macOS DMG packaging for arm64 and x64 without configuring Apple release credentials. by @tianyicui</li>
-<li>Add a loopback registry command to test installation of locally built Official bundles in packaged applications. by @tianyicui</li>
-<li>Update pi-ai to 1.0.2, including upstream model-catalog updates and adapter fixes. by @tianyicui</li>
 <li>Update runtime utilities, MCP protocol integrations, image processing, and client-rendering dependencies with compatible security fixes. by @tianyicui</li>
+<li>Update pi-ai to 1.0.2, including upstream model-catalog updates and adapter fixes. by @tianyicui</li>
 </ul>
 <p>Full Changelog: <a href="https://github.com/deepseek-ai/deepseek-harness/compare/dsh-v0.2.1-alpha.1...dsh-v0.2.1-alpha.2">dsh-v0.2.1-alpha.1...dsh-v0.2.1-alpha.2</a></p>
 ]]></content:encoded>
