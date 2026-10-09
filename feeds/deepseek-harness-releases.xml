@@ -4,11 +4,263 @@
         <title>deepseek-harness Releases</title>
         <link>https://github.com/deepseek-ai/deepseek-harness/releases</link>
         <description>GitHub releases for deepseek-ai/deepseek-harness</description>
-        <lastBuildDate>Sat, 03 Oct 2026 06:42:19 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 09 Oct 2026 11:09:26 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>ai-rss-feeds (https://github.com/leontloveless/ai-rss-feeds)</generator>
         <language>en</language>
         <atom:link href="https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/deepseek-harness-releases.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[v0.2.1-alpha.2]]></title>
+            <link>https://github.com/deepseek-ai/deepseek-harness/releases/tag/dsh-v0.2.1-alpha.2</link>
+            <guid>https://github.com/deepseek-ai/deepseek-harness/releases/tag/dsh-v0.2.1-alpha.2</guid>
+            <pubDate>Fri, 09 Oct 2026 11:09:26 GMT</pubDate>
+            <description><![CDATA[<p><a href="#cn-v0.2.1-alpha.2-community">中文</a> | <a href="#en-v0.2.1-alpha.2-community">English</a></p>
+<h3 id="cn-v0.2.1-alpha.2-community">新增功能</h3>
+
+<ul>
+<li>新增思考过程机器翻译实验插件，可在插件页启用，选择 Bing、Google 或付费 DeepSeek Flash。 @tianyicui</li>
+<li>全局指令支持读取共享 agents 目录中的 AGENTS.md，可通过 DSH_AGENTS_HOME 指定目录。 @tianyicui</li>
+<li>新增 working_directory 工具，并为 TypeScript/Python SDK 提供会话工作目录的读取和切换接口。 @tianyicui</li>
+<li>新增 Git Worktrees 实验插件，可在插件页启用，由 Agent 创建并进入独立的 Git checkout。 @tianyicui</li>
+<li>Official 插件列表新增 Claude Code 和 Codex 组合包的按需安装入口，发布版安装对应版本的包。 @tianyicui</li>
+<li>通用设置新增字体选项，可分别调整界面正文、代码与工具输出、侧栏终端的字体和字号。 @turtle2099</li>
+<li>语音输入新增麦克风选择，可在插件详情页选择输入设备，并查看所选设备的实时输入电平。 @yudshj</li>
+<li>Web 支持绑定指定的 IPv4/IPv6 地址，并通过 --tls-cert 和 --tls-key 配置原生 HTTPS 监听。 @oraluben</li>
+<li>新增工作步骤收起时机设置，可选择回答结束后收起，或在下一条普通消息到来时收起。 @imccyu</li>
+<li>pi-ai 路由支持按模型能力处理会话中的系统提示词更新，以及工具的动态新增和移除。 @Tuyixiang</li>
+<li>新增实验性插件的 Session 状态记录接口，供插件写入和读取自己的会话记录。 @tianyicui</li>
+<li>SSH 新增独立可执行的 helper 运行时，支持远端文件操作、进程、终端、沙箱和 Node PTC。 @LegGasai</li>
+</ul>
+<h3>问题修复</h3>
+<ul>
+<li>修复模型响应流停止输出、且底层传输不响应取消时，请求超过空闲超时仍一直挂起的问题。 @tianyicui</li>
+<li>修复插件包元信息不可读，或辅助请求扩展准备失败时，整个 DeepSeek 请求被阻断的问题。 @turtle1999, @turtle2099</li>
+<li>修复凭据、配置和技能文件监听器关闭后的未捕获异常，以及 Agent 关闭时资源提前释放的问题。 @tianyicui, @kermanx</li>
+<li>修复模型设置刷新期间仍可基于旧数据编辑或删除配置，导致刚保存的选择未出现在编辑器中的问题。 @tianyicui</li>
+<li>修复部分 Windows 环境下，持久 PowerShell 在大量输出滚屏后迟迟无法结束当前调用的问题。 @Chinesezjc</li>
+<li>修复 Windows 缺少 sleep 命令时，Claude Code Mods 的 Blast Radius 示例在取消后仍执行工具的问题。 @tianyicui</li>
+<li>修复 Trajectory 将等待、流式输出或重试中的请求标为完成，以及压缩任务提前显示结果的问题。 @turtle2099, @kermanx</li>
+<li>修复后台工作流仍在运行，却因父级工具步骤或对话轮次正常结束而被标为已中断的问题。 @turtle2099</li>
+<li>恢复可继续子代理输入栏的图片粘贴和拖放，支持运行中追加图片和完成后发送图片续发消息。 @ZiyaZhang</li>
+<li>修复在 /goal、/plan 等高亮命令与参数交界处输入时，编辑器报错及草稿与屏幕文字不一致的问题。 @LegGasai</li>
+<li>修复展开右侧栏后，会话标题栏中的后台任务列表被侧栏遮挡或裁切的问题。 @turtle2099</li>
+<li>修复 Windows Desktop 图片预览遮罩及关闭按钮与标题栏重叠、侧栏按钮悬停圆角不一致的问题。 @turtle2099</li>
+<li>修复开发者工具捕获网络响应时，调用者取消请求后，响应读取和连接仍未结束的问题。 @turtle2099</li>
+<li>修复本地 SenseVoice 语音识别开启 VAD 后，录音开头被截断、首字或音节丢失的问题。 @yudshj</li>
+<li>修复 Windows 安装器对磁盘根目录的校验，拒绝带重复末尾路径分隔符的根目录写法。 @tianyicui</li>
+<li>修复 macOS 应用的小尺寸 Finder 图标，以及复制和替换应用提示中的图标损坏问题。 @07akioni</li>
+<li>修复 Windows Desktop 终端退出后，PTY 后台工作进程未随之清理的问题。 @winewill</li>
+</ul>
+<h3>体验优化</h3>
+<ul>
+<li>Shell 和插件安装详情支持横向查看及复制完整命令；后台 Bash 调用可展开输入和启动回执。 @tianyicui</li>
+<li>优化含超长源码行的文件预览性能，超长行使用无高亮文本展示，普通行继续进行语法高亮。 @turtle2099</li>
+<li>优化自动会话标题生成，对同主题的追问、补充和继续请求保留已有合适标题。 @tianyicui, @ZiyaZhang</li>
+<li>允许远程主机访问的 Web 配置使用页面内目录选择器，不再在服务器上弹出原生目录对话框。 @oraluben</li>
+<li>侧栏 Fork 和子代理目录浏览新增迁移提示，遇到需要迁移的会话时引导用户先打开原会话。 @imccyu</li>
+</ul>
+<h3>其他变更</h3>
+<ul>
+<li>Python PTC 接入 Session 文件沙箱策略；自定义组合需提供 sandbox 和 sandboxPolicy 服务。 @tianyicui</li>
+<li>移除工具展示的 both 混合模式，仅保留 native 和 ptc；使用旧模式的配置与 API 调用需要更新。 @tianyicui</li>
+<li>移除 agent-instructions 插件逐行 dshHome 配置，指令目录改从进程的 DSH_HOME 或默认目录读取。 @tianyicui</li>
+<li>统一子代理执行与完成通知，工具立即返回 child ID；自定义 SDK runtime 需支持 session/wait。 @Dudu-0223</li>
+<li>Agent Team 消息改为直接投递目标 Inbox，移除独立 outbox、自动重试和重发去重；相关配置与结果字段需迁移。 @Dudu-0223</li>
+<li>默认 SDK profile 从固定的编程 Agent 改为通用 AI Agent 身份，适用于一般任务。 @Dudu-0223</li>
+<li>测试版 Desktop 默认关闭更新网关鉴权弹窗，可通过 updates.allowTestAuthPopupWindow 本地配置启用。 @winewill</li>
+<li>可选插件支持极简模式；Claude Code 和 Codex 组合包可用于 headless、SDK 和 ACP profile。 @turtle2099</li>
+<li>新增思考正文 Slot 和官方 Markdown Content Factory，供插件替换正文或复用官方渲染。 @imccyu</li>
+<li>新增本地未签名 macOS DMG 打包入口，支持 arm64 和 x64，无需配置 Apple 发布凭据。 @tianyicui</li>
+<li>新增回环 registry 命令，可在打包应用中测试本地构建的 Official 组合包安装。 @tianyicui</li>
+<li>pi-ai 更新至 1.0.2，包含上游模型目录更新和适配器修复。 @tianyicui</li>
+<li>更新运行时工具、MCP 协议、图片处理和客户端渲染依赖，纳入兼容版本的安全修复。 @tianyicui</li>
+</ul>
+<h3 id="en-v0.2.1-alpha.2-community">New Features</h3>
+
+<ul>
+<li>Add an experimental reasoning translation plugin, enabled from the Plugins page with Bing, Google, or paid DeepSeek Flash as the provider. by @tianyicui</li>
+<li>Load global instructions from AGENTS.md in the shared agents directory, with DSH_AGENTS_HOME available to select its location. by @tianyicui</li>
+<li>Add the working_directory tool and TypeScript/Python SDK APIs for reading and changing a session’s working directory. by @tianyicui</li>
+<li>Add an experimental Git Worktrees plugin that can be enabled on the Plugins page for Agents to create and enter separate Git checkouts. by @tianyicui</li>
+<li>Add on-demand installation of Claude Code and Codex bundles to the Official plugin catalog, using packages matching the running release. by @tianyicui</li>
+<li>Add General settings for independently choosing fonts and sizes for interface text, code and tool output, and sidebar terminals. by @turtle2099</li>
+<li>Add microphone selection to voice input, with an input-device selector and live levels for the selected device in plugin details. by @yudshj</li>
+<li>Allow Web to bind to a specific IPv4/IPv6 address and configure native HTTPS listeners through --tls-cert and --tls-key. by @oraluben</li>
+<li>Add a setting to collapse work details either when the response finishes or when the next regular message arrives. by @imccyu</li>
+<li>Support in-conversation system prompt updates and dynamic tool additions and removals on pi-ai routes according to model capabilities. by @Tuyixiang</li>
+<li>Add Session state-record APIs for experimental plugins to write and read their own session records. by @tianyicui</li>
+<li>Add standalone executable SSH helper runtimes supporting remote file operations, processes, terminals, sandboxing, and Node PTC. by @LegGasai</li>
+</ul>
+<h3>Bug Fixes</h3>
+<ul>
+<li>Fix requests remaining stuck beyond the idle timeout when a model response stream stops producing output and its transport ignores cancellation. by @tianyicui</li>
+<li>Fix entire DeepSeek requests being blocked when plugin package metadata cannot be read or auxiliary request-extension preparation fails. by @turtle1999, @turtle2099</li>
+<li>Fix uncaught errors after credential, configuration, and skill watchers close, and premature resource release during Agent shutdown. by @tianyicui, @kermanx</li>
+<li>Fix editing or deleting model settings from stale data during refresh, including newly saved selections missing from the editor. by @tianyicui</li>
+<li>Fix persistent PowerShell calls failing to settle promptly after large amounts of output scroll in some Windows environments. by @Chinesezjc</li>
+<li>Fix the Claude Code Mods Blast Radius example executing tools after cancellation on Windows when the sleep command is unavailable. by @tianyicui</li>
+<li>Fix Trajectory marking waiting, streaming, or retrying requests as completed and showing results before compaction tasks finish. by @turtle2099, @kermanx</li>
+<li>Fix background workflows being marked interrupted while still running after their parent tool step or conversation turn ends normally. by @turtle2099</li>
+<li>Restore image paste and drop in continuable subagent composers, including images sent while running and follow-ups after completion. by @ZiyaZhang</li>
+<li>Fix editor errors and draft/display mismatches when typing between highlighted commands such as /goal or /plan and their arguments. by @LegGasai</li>
+<li>Fix the background job list in the session header being obscured or clipped when the right sidebar is expanded. by @turtle2099</li>
+<li>Fix Windows Desktop image-preview masks and close buttons overlapping the caption, and inconsistent sidebar-button hover corners. by @turtle2099</li>
+<li>Fix response reads and connections remaining open after the caller cancels a request while Developer Tools captures network responses. by @turtle2099</li>
+<li>Fix clipped recording onsets and missing initial words or syllables in local SenseVoice transcription with VAD enabled. by @yudshj</li>
+<li>Fix drive-root validation in the Windows installer to reject root paths containing repeated trailing separators. by @tianyicui</li>
+<li>Fix corrupt small Finder icons for the macOS app and icons shown in application copy and replacement dialogs. by @07akioni</li>
+<li>Fix PTY worker processes remaining after a terminal exits in Windows Desktop. by @winewill</li>
+</ul>
+<h3>Improvements</h3>
+<ul>
+<li>Support scrolling and copying full commands in Shell and plugin installation details, and expand background Bash inputs and launch receipts. by @tianyicui</li>
+<li>Improve previews of files containing overlong source lines, rendering those lines without syntax colors while regular lines retain highlighting. by @turtle2099</li>
+<li>Improve automatic session titles by retaining adequate titles for same-topic follow-ups, additional details, and requests to continue. by @tianyicui, @ZiyaZhang</li>
+<li>Use the in-page directory picker in Web configurations that allow remote hosts, instead of opening a native directory dialog on the server. by @oraluben</li>
+<li>Add migration guidance to sidebar forks and subagent catalog browsing, directing users to open the original session when migration is required. by @imccyu</li>
+</ul>
+<h3>Chores</h3>
+<ul>
+<li>Apply Session filesystem sandbox policies to Python PTC; custom compositions require sandbox and sandboxPolicy services. by @tianyicui</li>
+<li>Remove the both mixed tool-presentation mode, leaving native and ptc. Update configurations and API calls that use the removed mode. by @tianyicui</li>
+<li>Remove the per-row dshHome setting from agent-instructions and resolve instruction directories from the process DSH_HOME or its default. by @tianyicui</li>
+<li>Unify subagent execution and completion notifications, with tools returning child IDs immediately. Custom SDK runtimes must support session/wait. by @Dudu-0223</li>
+<li>Deliver Agent Team messages directly to the target Inbox, removing the separate outbox, automatic retries, and resend deduplication. Migrate affected configuration and result fields. by @Dudu-0223</li>
+<li>Change the default SDK profile from a fixed coding-agent persona to a general AI Agent identity for general-purpose tasks. by @Dudu-0223</li>
+<li>Disable update-gateway authentication popups by default in test Desktop builds, with the local updates.allowTestAuthPopupWindow setting available to enable them. by @winewill</li>
+<li>Support optional plugins in Minimal mode and allow Claude Code and Codex bundles in headless, SDK, and ACP profiles. by @turtle2099</li>
+<li>Add a reasoning-body Slot and the official Markdown Content Factory for plugins to replace the body or reuse official rendering. by @imccyu</li>
+<li>Add local unsigned macOS DMG packaging for arm64 and x64 without configuring Apple release credentials. by @tianyicui</li>
+<li>Add a loopback registry command to test installation of locally built Official bundles in packaged applications. by @tianyicui</li>
+<li>Update pi-ai to 1.0.2, including upstream model-catalog updates and adapter fixes. by @tianyicui</li>
+<li>Update runtime utilities, MCP protocol integrations, image processing, and client-rendering dependencies with compatible security fixes. by @tianyicui</li>
+</ul>
+<p>Full Changelog: <a href="https://github.com/deepseek-ai/deepseek-harness/compare/dsh-v0.2.1-alpha.1...dsh-v0.2.1-alpha.2">dsh-v0.2.1-alpha.1...dsh-v0.2.1-alpha.2</a></p>
+]]></description>
+            <content:encoded><![CDATA[<p><a href="#cn-v0.2.1-alpha.2-community">中文</a> | <a href="#en-v0.2.1-alpha.2-community">English</a></p>
+<h3 id="cn-v0.2.1-alpha.2-community">新增功能</h3>
+
+<ul>
+<li>新增思考过程机器翻译实验插件，可在插件页启用，选择 Bing、Google 或付费 DeepSeek Flash。 @tianyicui</li>
+<li>全局指令支持读取共享 agents 目录中的 AGENTS.md，可通过 DSH_AGENTS_HOME 指定目录。 @tianyicui</li>
+<li>新增 working_directory 工具，并为 TypeScript/Python SDK 提供会话工作目录的读取和切换接口。 @tianyicui</li>
+<li>新增 Git Worktrees 实验插件，可在插件页启用，由 Agent 创建并进入独立的 Git checkout。 @tianyicui</li>
+<li>Official 插件列表新增 Claude Code 和 Codex 组合包的按需安装入口，发布版安装对应版本的包。 @tianyicui</li>
+<li>通用设置新增字体选项，可分别调整界面正文、代码与工具输出、侧栏终端的字体和字号。 @turtle2099</li>
+<li>语音输入新增麦克风选择，可在插件详情页选择输入设备，并查看所选设备的实时输入电平。 @yudshj</li>
+<li>Web 支持绑定指定的 IPv4/IPv6 地址，并通过 --tls-cert 和 --tls-key 配置原生 HTTPS 监听。 @oraluben</li>
+<li>新增工作步骤收起时机设置，可选择回答结束后收起，或在下一条普通消息到来时收起。 @imccyu</li>
+<li>pi-ai 路由支持按模型能力处理会话中的系统提示词更新，以及工具的动态新增和移除。 @Tuyixiang</li>
+<li>新增实验性插件的 Session 状态记录接口，供插件写入和读取自己的会话记录。 @tianyicui</li>
+<li>SSH 新增独立可执行的 helper 运行时，支持远端文件操作、进程、终端、沙箱和 Node PTC。 @LegGasai</li>
+</ul>
+<h3>问题修复</h3>
+<ul>
+<li>修复模型响应流停止输出、且底层传输不响应取消时，请求超过空闲超时仍一直挂起的问题。 @tianyicui</li>
+<li>修复插件包元信息不可读，或辅助请求扩展准备失败时，整个 DeepSeek 请求被阻断的问题。 @turtle1999, @turtle2099</li>
+<li>修复凭据、配置和技能文件监听器关闭后的未捕获异常，以及 Agent 关闭时资源提前释放的问题。 @tianyicui, @kermanx</li>
+<li>修复模型设置刷新期间仍可基于旧数据编辑或删除配置，导致刚保存的选择未出现在编辑器中的问题。 @tianyicui</li>
+<li>修复部分 Windows 环境下，持久 PowerShell 在大量输出滚屏后迟迟无法结束当前调用的问题。 @Chinesezjc</li>
+<li>修复 Windows 缺少 sleep 命令时，Claude Code Mods 的 Blast Radius 示例在取消后仍执行工具的问题。 @tianyicui</li>
+<li>修复 Trajectory 将等待、流式输出或重试中的请求标为完成，以及压缩任务提前显示结果的问题。 @turtle2099, @kermanx</li>
+<li>修复后台工作流仍在运行，却因父级工具步骤或对话轮次正常结束而被标为已中断的问题。 @turtle2099</li>
+<li>恢复可继续子代理输入栏的图片粘贴和拖放，支持运行中追加图片和完成后发送图片续发消息。 @ZiyaZhang</li>
+<li>修复在 /goal、/plan 等高亮命令与参数交界处输入时，编辑器报错及草稿与屏幕文字不一致的问题。 @LegGasai</li>
+<li>修复展开右侧栏后，会话标题栏中的后台任务列表被侧栏遮挡或裁切的问题。 @turtle2099</li>
+<li>修复 Windows Desktop 图片预览遮罩及关闭按钮与标题栏重叠、侧栏按钮悬停圆角不一致的问题。 @turtle2099</li>
+<li>修复开发者工具捕获网络响应时，调用者取消请求后，响应读取和连接仍未结束的问题。 @turtle2099</li>
+<li>修复本地 SenseVoice 语音识别开启 VAD 后，录音开头被截断、首字或音节丢失的问题。 @yudshj</li>
+<li>修复 Windows 安装器对磁盘根目录的校验，拒绝带重复末尾路径分隔符的根目录写法。 @tianyicui</li>
+<li>修复 macOS 应用的小尺寸 Finder 图标，以及复制和替换应用提示中的图标损坏问题。 @07akioni</li>
+<li>修复 Windows Desktop 终端退出后，PTY 后台工作进程未随之清理的问题。 @winewill</li>
+</ul>
+<h3>体验优化</h3>
+<ul>
+<li>Shell 和插件安装详情支持横向查看及复制完整命令；后台 Bash 调用可展开输入和启动回执。 @tianyicui</li>
+<li>优化含超长源码行的文件预览性能，超长行使用无高亮文本展示，普通行继续进行语法高亮。 @turtle2099</li>
+<li>优化自动会话标题生成，对同主题的追问、补充和继续请求保留已有合适标题。 @tianyicui, @ZiyaZhang</li>
+<li>允许远程主机访问的 Web 配置使用页面内目录选择器，不再在服务器上弹出原生目录对话框。 @oraluben</li>
+<li>侧栏 Fork 和子代理目录浏览新增迁移提示，遇到需要迁移的会话时引导用户先打开原会话。 @imccyu</li>
+</ul>
+<h3>其他变更</h3>
+<ul>
+<li>Python PTC 接入 Session 文件沙箱策略；自定义组合需提供 sandbox 和 sandboxPolicy 服务。 @tianyicui</li>
+<li>移除工具展示的 both 混合模式，仅保留 native 和 ptc；使用旧模式的配置与 API 调用需要更新。 @tianyicui</li>
+<li>移除 agent-instructions 插件逐行 dshHome 配置，指令目录改从进程的 DSH_HOME 或默认目录读取。 @tianyicui</li>
+<li>统一子代理执行与完成通知，工具立即返回 child ID；自定义 SDK runtime 需支持 session/wait。 @Dudu-0223</li>
+<li>Agent Team 消息改为直接投递目标 Inbox，移除独立 outbox、自动重试和重发去重；相关配置与结果字段需迁移。 @Dudu-0223</li>
+<li>默认 SDK profile 从固定的编程 Agent 改为通用 AI Agent 身份，适用于一般任务。 @Dudu-0223</li>
+<li>测试版 Desktop 默认关闭更新网关鉴权弹窗，可通过 updates.allowTestAuthPopupWindow 本地配置启用。 @winewill</li>
+<li>可选插件支持极简模式；Claude Code 和 Codex 组合包可用于 headless、SDK 和 ACP profile。 @turtle2099</li>
+<li>新增思考正文 Slot 和官方 Markdown Content Factory，供插件替换正文或复用官方渲染。 @imccyu</li>
+<li>新增本地未签名 macOS DMG 打包入口，支持 arm64 和 x64，无需配置 Apple 发布凭据。 @tianyicui</li>
+<li>新增回环 registry 命令，可在打包应用中测试本地构建的 Official 组合包安装。 @tianyicui</li>
+<li>pi-ai 更新至 1.0.2，包含上游模型目录更新和适配器修复。 @tianyicui</li>
+<li>更新运行时工具、MCP 协议、图片处理和客户端渲染依赖，纳入兼容版本的安全修复。 @tianyicui</li>
+</ul>
+<h3 id="en-v0.2.1-alpha.2-community">New Features</h3>
+
+<ul>
+<li>Add an experimental reasoning translation plugin, enabled from the Plugins page with Bing, Google, or paid DeepSeek Flash as the provider. by @tianyicui</li>
+<li>Load global instructions from AGENTS.md in the shared agents directory, with DSH_AGENTS_HOME available to select its location. by @tianyicui</li>
+<li>Add the working_directory tool and TypeScript/Python SDK APIs for reading and changing a session’s working directory. by @tianyicui</li>
+<li>Add an experimental Git Worktrees plugin that can be enabled on the Plugins page for Agents to create and enter separate Git checkouts. by @tianyicui</li>
+<li>Add on-demand installation of Claude Code and Codex bundles to the Official plugin catalog, using packages matching the running release. by @tianyicui</li>
+<li>Add General settings for independently choosing fonts and sizes for interface text, code and tool output, and sidebar terminals. by @turtle2099</li>
+<li>Add microphone selection to voice input, with an input-device selector and live levels for the selected device in plugin details. by @yudshj</li>
+<li>Allow Web to bind to a specific IPv4/IPv6 address and configure native HTTPS listeners through --tls-cert and --tls-key. by @oraluben</li>
+<li>Add a setting to collapse work details either when the response finishes or when the next regular message arrives. by @imccyu</li>
+<li>Support in-conversation system prompt updates and dynamic tool additions and removals on pi-ai routes according to model capabilities. by @Tuyixiang</li>
+<li>Add Session state-record APIs for experimental plugins to write and read their own session records. by @tianyicui</li>
+<li>Add standalone executable SSH helper runtimes supporting remote file operations, processes, terminals, sandboxing, and Node PTC. by @LegGasai</li>
+</ul>
+<h3>Bug Fixes</h3>
+<ul>
+<li>Fix requests remaining stuck beyond the idle timeout when a model response stream stops producing output and its transport ignores cancellation. by @tianyicui</li>
+<li>Fix entire DeepSeek requests being blocked when plugin package metadata cannot be read or auxiliary request-extension preparation fails. by @turtle1999, @turtle2099</li>
+<li>Fix uncaught errors after credential, configuration, and skill watchers close, and premature resource release during Agent shutdown. by @tianyicui, @kermanx</li>
+<li>Fix editing or deleting model settings from stale data during refresh, including newly saved selections missing from the editor. by @tianyicui</li>
+<li>Fix persistent PowerShell calls failing to settle promptly after large amounts of output scroll in some Windows environments. by @Chinesezjc</li>
+<li>Fix the Claude Code Mods Blast Radius example executing tools after cancellation on Windows when the sleep command is unavailable. by @tianyicui</li>
+<li>Fix Trajectory marking waiting, streaming, or retrying requests as completed and showing results before compaction tasks finish. by @turtle2099, @kermanx</li>
+<li>Fix background workflows being marked interrupted while still running after their parent tool step or conversation turn ends normally. by @turtle2099</li>
+<li>Restore image paste and drop in continuable subagent composers, including images sent while running and follow-ups after completion. by @ZiyaZhang</li>
+<li>Fix editor errors and draft/display mismatches when typing between highlighted commands such as /goal or /plan and their arguments. by @LegGasai</li>
+<li>Fix the background job list in the session header being obscured or clipped when the right sidebar is expanded. by @turtle2099</li>
+<li>Fix Windows Desktop image-preview masks and close buttons overlapping the caption, and inconsistent sidebar-button hover corners. by @turtle2099</li>
+<li>Fix response reads and connections remaining open after the caller cancels a request while Developer Tools captures network responses. by @turtle2099</li>
+<li>Fix clipped recording onsets and missing initial words or syllables in local SenseVoice transcription with VAD enabled. by @yudshj</li>
+<li>Fix drive-root validation in the Windows installer to reject root paths containing repeated trailing separators. by @tianyicui</li>
+<li>Fix corrupt small Finder icons for the macOS app and icons shown in application copy and replacement dialogs. by @07akioni</li>
+<li>Fix PTY worker processes remaining after a terminal exits in Windows Desktop. by @winewill</li>
+</ul>
+<h3>Improvements</h3>
+<ul>
+<li>Support scrolling and copying full commands in Shell and plugin installation details, and expand background Bash inputs and launch receipts. by @tianyicui</li>
+<li>Improve previews of files containing overlong source lines, rendering those lines without syntax colors while regular lines retain highlighting. by @turtle2099</li>
+<li>Improve automatic session titles by retaining adequate titles for same-topic follow-ups, additional details, and requests to continue. by @tianyicui, @ZiyaZhang</li>
+<li>Use the in-page directory picker in Web configurations that allow remote hosts, instead of opening a native directory dialog on the server. by @oraluben</li>
+<li>Add migration guidance to sidebar forks and subagent catalog browsing, directing users to open the original session when migration is required. by @imccyu</li>
+</ul>
+<h3>Chores</h3>
+<ul>
+<li>Apply Session filesystem sandbox policies to Python PTC; custom compositions require sandbox and sandboxPolicy services. by @tianyicui</li>
+<li>Remove the both mixed tool-presentation mode, leaving native and ptc. Update configurations and API calls that use the removed mode. by @tianyicui</li>
+<li>Remove the per-row dshHome setting from agent-instructions and resolve instruction directories from the process DSH_HOME or its default. by @tianyicui</li>
+<li>Unify subagent execution and completion notifications, with tools returning child IDs immediately. Custom SDK runtimes must support session/wait. by @Dudu-0223</li>
+<li>Deliver Agent Team messages directly to the target Inbox, removing the separate outbox, automatic retries, and resend deduplication. Migrate affected configuration and result fields. by @Dudu-0223</li>
+<li>Change the default SDK profile from a fixed coding-agent persona to a general AI Agent identity for general-purpose tasks. by @Dudu-0223</li>
+<li>Disable update-gateway authentication popups by default in test Desktop builds, with the local updates.allowTestAuthPopupWindow setting available to enable them. by @winewill</li>
+<li>Support optional plugins in Minimal mode and allow Claude Code and Codex bundles in headless, SDK, and ACP profiles. by @turtle2099</li>
+<li>Add a reasoning-body Slot and the official Markdown Content Factory for plugins to replace the body or reuse official rendering. by @imccyu</li>
+<li>Add local unsigned macOS DMG packaging for arm64 and x64 without configuring Apple release credentials. by @tianyicui</li>
+<li>Add a loopback registry command to test installation of locally built Official bundles in packaged applications. by @tianyicui</li>
+<li>Update pi-ai to 1.0.2, including upstream model-catalog updates and adapter fixes. by @tianyicui</li>
+<li>Update runtime utilities, MCP protocol integrations, image processing, and client-rendering dependencies with compatible security fixes. by @tianyicui</li>
+</ul>
+<p>Full Changelog: <a href="https://github.com/deepseek-ai/deepseek-harness/compare/dsh-v0.2.1-alpha.1...dsh-v0.2.1-alpha.2">dsh-v0.2.1-alpha.1...dsh-v0.2.1-alpha.2</a></p>
+]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[v0.2.1-alpha.1]]></title>
             <link>https://github.com/deepseek-ai/deepseek-harness/releases/tag/dsh-v0.2.1-alpha.1</link>
