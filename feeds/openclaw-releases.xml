@@ -14,136 +14,18 @@
             <link>https://github.com/openclaw/openclaw/releases/tag/v2026.10.3</link>
             <guid>https://github.com/openclaw/openclaw/releases/tag/v2026.10.3</guid>
             <pubDate>Tue, 13 Oct 2026 13:49:25 GMT</pubDate>
-            <description><![CDATA[<h2>2026.10.3</h2>
-<h3>Highlights</h3>
+            <description><![CDATA[<!-- openclaw-release-publication:docs-v1 -->
+
+<h2>OpenClaw v2026.10.3</h2>
+<p>90 commits · 79 pull requests · 99 contributors</p>
+<h3>Changes included in this release</h3>
+<p>The release notes and changelog contain the same content, presented in two formats:</p>
 <ul>
-<li>Updates that were stuck behind lost leases, completed-but-unrecognized receipts, or legacy 2026.9.8 activation records now recover and finish instead of refusing every retry. (#168388, #169038, #169027, #170195, #170170) Thanks @k94118, @mkdelta221, @waynegault, @chedong, and @Warhangel.</li>
-<li>Windows, macOS, and pnpm updates no longer leave the Gateway stopped or roll back: machine-qualified task accounts, short-name install paths, Doctor ancestry re-checks, protected Bun service commands, and pnpm 12 launchers all keep working. (#169481, #169292, #169563, #170006, #170003, #170131) Thanks @RomneyDa, @jokerman1302-eng, @xilopaint, and @k-sekula.</li>
-<li>Doctor no longer destroys data during repair: unreadable legacy auth keeps OAuth profiles, malformed UTF-8 memory files stay byte-exact, and blocked plugins keep their enabled state. (#170256, #169029, #168111) Thanks @Yolo521-bot, @wangmiao0668000666, and @obviyus.</li>
-<li>The &quot;On this Mac&quot; first run on a fresh Mac authenticates the app-hosted Gateway instead of failing with &quot;Gateway rejected auth&quot;, and the Mac app reconnects after a trusted certificate renewal. (#169403, #168151)</li>
-<li>Chat-requested updates and plugin upgrades no longer roll back during Doctor cleanup, and stale Codex runtimes no longer break turns after an update. (#170218, #170306, #170339) Thanks @RomneyDa, @hannesrudolph, and @ezimerman.</li>
-<li>Agent turns are more reliable: the next turn after native compaction, ChatGPT WebSocket closes mid-stream, switching back to OpenAI without the Codex plugin, and Codex follow-ups after failed thread preparation all succeed. (#169583, #167512, #169412, #169431) Thanks @obviyus, @ericcurtin, @mightyx, @jjjhenriksen, and @RomneyDa.</li>
+<li><a href="https://docs.openclaw.ai/releases/2026.10.3">Release notes</a> — formatted for people.</li>
+<li><a href="https://raw.githubusercontent.com/openclaw/openclaw/main/CHANGELOG/2026.10.3.md">Changelog</a> — plain Markdown for AI agents and tools.</li>
 </ul>
-<h3>Changes</h3>
-<ul>
-<li>Meta: Muse Wonder is available as a model. (#170232) Thanks @RomneyDa.</li>
-<li>MiniMax: M3.1 models honor the selected thinking effort level, and OAuth sign-ins refresh expired tokens at the issuing regional endpoint instead of failing about two hours after login. (#160089, #160459) Thanks @NianJiuZst, @php737, @masatohoshino, and @rongtianhua.</li>
-</ul>
-<h3>Fixes</h3>
-<ul>
-<li>Doctor: keep canonical OAuth profiles when the legacy auth store is unreadable or malformed instead of deleting them. (#170256) Thanks @Yolo521-bot.</li>
-<li>Doctor: never rewrite root memory files with replacement characters, and reject malformed UTF-8 before <code>path set</code> writes an edited file. (#169029, #168491) Thanks @wangmiao0668000666 and @Takhoffman.</li>
-<li>Doctor: preserve installed plugins when path-safety checks block them instead of stripping their <code>enabled</code> flag when run as root. (#168111) Thanks @obviyus.</li>
-<li>Doctor: include Canvas and Memory Core files in recovery copies, keep captures stable while workers stay open, honor Windows permissions for SQLite recovery snapshots, and stop spurious backups for unchanged one-shot cron jobs. (#169436, #169516, #170022, #169397, #168938) Thanks @RomneyDa, @harshitgupta31415, and @WG-Mojo.</li>
-<li>Updates: recover blocked updates after receipt identity drift, lost handoff leases, legacy package metadata drift, and FreeBSD package recovery refusals. (#168388, #169038, #169027, #168775) Thanks @k94118, @mkdelta221, @waynegault, and @chedong.</li>
-<li>Updates: older updaters no longer refuse candidates over bookkeeping-only config changes, and npm recovery reclaims retained runtimes that blocked it. (#170195, #170170) Thanks @Warhangel.</li>
-<li>Updates: keep the real failure when git-update cleanup reporting is unavailable, route migrated-no-rollback failures to <code>openclaw update repair</code>, and stop reporting successful handoffs as failures. (#169454, #168993) Thanks @sayitfast and @RomneyDa.</li>
-<li>Updates: clear repaired migration warnings, tolerate clock jumps during verification, and name the database and reason in capture and config-read warnings. (#169004, #169282, #169284) Thanks @WG-Mojo and @DonnieFi.</li>
-<li>Updates: preserve the service heap limit in update processes, stop copying unrelated parent dependencies, and keep npm-global updates from retaining unrelated global packages. (#168889, #168927, #169551) Thanks @bluet, @RomneyDa, and @holgergruenhagen.</li>
-<li>Updates: ride out briefly locked state databases, keep update-history writes from stalling Gateway cron and cleanup, and prevent false ownership loss during upgrades. (#168210, #169283, #169915) Thanks @DonnieFi and @vincentkoc.</li>
-<li>Updates: Doctor handles unreadable supervisors and child binding errors, clean service-install refusals stay out of native-authority recovery, and <code>openclaw update repair</code> no longer reports success when Doctor maintenance was skipped. (#169665, #169658, #167714)</li>
-<li>Windows: recognize machine-qualified Scheduled Task accounts, keep updater workers on short-name or miscased install paths, and stop rollbacks from Doctor ancestry re-checks. (#169481, #169292, #169563) Thanks @RomneyDa.</li>
-<li>macOS: unblock updates with protected Bun service commands, authenticate the app-hosted first run, and renew learned TLS pins on automatic reconnects. (#170006, #169403, #168151) Thanks @jokerman1302-eng.</li>
-<li>pnpm: keep Gateway service commands on the durable install link and keep pnpm 12 launchers working after native updates. (#170003, #170131) Thanks @xilopaint and @k-sekula.</li>
-<li>Plugins: preserve webhook listeners during deferred plugin upgrades, unblock repairs while data migrations are pending, and stop stale Codex runtimes breaking turns after updates. (#169035, #170339, #170306) Thanks @sirius1024 and @RomneyDa.</li>
-<li>Plugins: catalog refreshes no longer retain duplicate native plugin graphs and recover their config after a failed native ESM refresh. (#169272, #169321) Thanks @obviyus and @RomneyDa.</li>
-<li>Gateway: Claude CLI session tools keep working after the turn that started the MCP loopback ends, and channel tools no longer fail with stale caller authority after a config write restarts the account. (#165432, #159396) Thanks @Oldrich333, @Leit-motif, @ceckert, and @RomneyDa.</li>
-<li>Gateway: node requests and events no longer fail with &quot;pairing changed&quot; after unrelated pairing activity or while another device&#39;s pairing is written. (#169486, #169575)</li>
-<li>Gateway: restart cleanly when a stored cloud worker&#39;s machine is gone, preserve live sends during outbound queue recovery, and resume steered sessions after restart. (#168907, #169010, #170252) Thanks @RomneyDa.</li>
-<li>Agents: prevent next-turn failures after native compaction without loading entire large transcripts. (#169583, #108851) Thanks @obviyus.</li>
-<li>Models: switching back to an OpenAI model works when the Codex plugin is disabled, and model selections without an activatable harness are rejected. (#169412, #134837) Thanks @obviyus and @goslingmanagment.</li>
-<li>OpenAI: turns no longer fail when the ChatGPT WebSocket closes with code 1000 mid-stream. (#167512) Thanks @ericcurtin, @obviyus, and @mightyx.</li>
-<li>Codex: recover follow-up requests after failed thread preparation. (#169431) Thanks @jjjhenriksen and @RomneyDa.</li>
-<li>Networking: guarded model requests fall back to IPv6 when IPv4 is unreachable, keeping SSRF validation. (#168973) Thanks @an2in and @georgenaz.</li>
-<li>Copilot: honor reported context capacity when native limits are missing. (#156636) Thanks @saju01 and @RomneyDa.</li>
-<li>Anthropic: guide Claude CLI to the registered OpenClaw tools. (#153032) Thanks @kiranvk-2011.</li>
-<li>DeepSeek: recover <code>calls</code> markup instead of leaking tool payloads into replies. (#169728) Thanks @TOMUIV.</li>
-<li>Release: first-hop update coverage admits sources by schema version, failed receipts recover without rerunning workloads, and upgrade diagnostics keep failing steps. (#169012, #168266, #165267, #169567, #169084, #168191, #165968, #164789, #168097) Thanks @RomneyDa and @shakkernerd.</li>
-</ul>
-<h3>Complete contribution record</h3>
-<p>This audited record covers the complete v2026.10.2..8dd1ada0a3c166b77c7b671847a1752200e7f2c1 history: 79 in-range PRs + 0 retained seed-only PRs = 79 unique PRs. The generation manifest also supplies direct commits as editorial input; the grouped notes above prioritize user impact.</p>
-<h4>Pull requests</h4>
-<ul>
-<li><strong>PR #170218</strong> Thanks @RomneyDa and @hannesrudolph.</li>
-<li><strong>PR #170306</strong> Thanks @RomneyDa.</li>
-<li><strong>PR #156636</strong> Thanks @saju01.</li>
-<li><strong>PR #153032</strong> Thanks @kiranvk-2011.</li>
-<li><strong>PR #160089</strong> Related #160037. Thanks @NianJiuZst and @php737.</li>
-<li><strong>PR #169403</strong></li>
-<li><strong>PR #168151</strong></li>
-<li><strong>PR #169728</strong> Related #159665. Thanks @TOMUIV.</li>
-<li><strong>PR #168889</strong> Related #168729. Thanks @bluet.</li>
-<li><strong>PR #168927</strong></li>
-<li><strong>PR #169292</strong> Thanks @RomneyDa.</li>
-<li><strong>PR #169551</strong> Related #169373. Thanks @RomneyDa and @holgergruenhagen.</li>
-<li><strong>PR #169563</strong> Thanks @RomneyDa.</li>
-<li><strong>PR #169481</strong></li>
-<li><strong>PR #170006</strong> Related #169662. Thanks @jokerman1302-eng.</li>
-<li><strong>PR #169283</strong> Thanks @DonnieFi.</li>
-<li><strong>PR #168210</strong></li>
-<li><strong>PR #170003</strong> Related #169059. Thanks @xilopaint.</li>
-<li><strong>PR #170131</strong> Related #169244. Thanks @k-sekula.</li>
-<li><strong>PR #169431</strong> Thanks @jjjhenriksen.</li>
-<li><strong>PR #165432</strong> Related #157126. Thanks @Oldrich333 and @Leit-motif.</li>
-<li><strong>PR #159396</strong> Thanks @ceckert.</li>
-<li><strong>PR #169486</strong></li>
-<li><strong>PR #169575</strong></li>
-<li><strong>PR #169583</strong> Thanks @obviyus.</li>
-<li><strong>PR #108851</strong> Thanks @obviyus.</li>
-<li><strong>PR #168907</strong></li>
-<li><strong>PR #168973</strong> Related #87763. Thanks @an2in and @georgenaz.</li>
-<li><strong>PR #168491</strong> Thanks @wangmiao0668000666 and @Takhoffman.</li>
-<li><strong>PR #169010</strong> Thanks @RomneyDa.</li>
-<li><strong>PR #169412</strong> Thanks @obviyus.</li>
-<li><strong>PR #134837</strong> Related #134305. Thanks @obviyus and @goslingmanagment.</li>
-<li><strong>PR #167512</strong> Related #167345. Thanks @ericcurtin and @obviyus and @mightyx.</li>
-<li><strong>PR #170252</strong></li>
-<li><strong>PR #170339</strong> Thanks @RomneyDa.</li>
-<li><strong>PR #167356</strong> Thanks @vincentkoc.</li>
-<li><strong>PR #169012</strong> Related #168257. Thanks @RomneyDa.</li>
-<li><strong>PR #169268</strong> Thanks @RomneyDa.</li>
-<li><strong>PR #168266</strong> Thanks @RomneyDa.</li>
-<li><strong>PR #168926</strong></li>
-<li><strong>PR #166092</strong> Thanks @RomneyDa.</li>
-<li><strong>PR #166118</strong> Thanks @RomneyDa.</li>
-<li><strong>PR #165267</strong> Related #165264. Thanks @shakkernerd.</li>
-<li><strong>PR #169567</strong> Thanks @RomneyDa.</li>
-<li><strong>PR #169084</strong> Thanks @RomneyDa.</li>
-<li><strong>PR #167344</strong> Thanks @vincentkoc.</li>
-<li><strong>PR #168191</strong> Thanks @RomneyDa.</li>
-<li><strong>PR #165968</strong> Thanks @RomneyDa.</li>
-<li><strong>PR #164789</strong> Thanks @RomneyDa.</li>
-<li><strong>PR #168097</strong> Thanks @RomneyDa.</li>
-<li><strong>PR #170256</strong> Related #168959. Thanks @Yolo521-bot.</li>
-<li><strong>PR #169436</strong> Thanks @RomneyDa.</li>
-<li><strong>PR #169516</strong> Thanks @RomneyDa.</li>
-<li><strong>PR #168938</strong> Related #168838. Thanks @harshitgupta31415 and @WG-Mojo.</li>
-<li><strong>PR #169029</strong> Related #168567. Thanks @wangmiao0668000666.</li>
-<li><strong>PR #168111</strong> Related #168066. Thanks @obviyus.</li>
-<li><strong>PR #169397</strong></li>
-<li><strong>PR #169035</strong> Related #168872. Thanks @sirius1024.</li>
-<li><strong>PR #168388</strong> Related #168092. Thanks @k94118.</li>
-<li><strong>PR #169038</strong> Related #167506, #167771. Thanks @mkdelta221 and @waynegault.</li>
-<li><strong>PR #169027</strong> Related #168856. Thanks @chedong.</li>
-<li><strong>PR #169454</strong></li>
-<li><strong>PR #169004</strong> Related #168835. Thanks @WG-Mojo.</li>
-<li><strong>PR #168993</strong> Related #168870. Thanks @sayitfast.</li>
-<li><strong>PR #169282</strong> Related #169259. Thanks @DonnieFi.</li>
-<li><strong>PR #169284</strong> Related #169261. Thanks @DonnieFi.</li>
-<li><strong>PR #170195</strong></li>
-<li><strong>PR #170170</strong> Related #169463. Thanks @Warhangel.</li>
-<li><strong>PR #169915</strong> Thanks @vincentkoc.</li>
-<li><strong>PR #169658</strong></li>
-<li><strong>PR #169665</strong></li>
-<li><strong>PR #168775</strong></li>
-<li><strong>PR #169272</strong> Thanks @obviyus.</li>
-<li><strong>PR #169321</strong> Thanks @RomneyDa.</li>
-<li><strong>PR #170022</strong></li>
-<li><strong>PR #170232</strong> Thanks @RomneyDa.</li>
-<li><strong>PR #167714</strong></li>
-<li><strong>PR #168264</strong> Thanks @obviyus.</li>
-<li><strong>PR #160459</strong> Related #77467. Thanks @masatohoshino and @rongtianhua.</li>
-</ul>
+<h3>Thanks</h3>
+<p><a href="https://github.com/aaajiao">@aaajiao</a> <a href="https://github.com/adenzhou1350">@adenzhou1350</a> <a href="https://github.com/aia007731-lab">@aia007731-lab</a> <a href="https://github.com/aleps001">@aleps001</a> <a href="https://github.com/alexph-dev">@alexph-dev</a> <a href="https://github.com/an2in">@an2in</a> <a href="https://github.com/arifarai">@arifarai</a> <a href="https://github.com/bluet">@bluet</a> <a href="https://github.com/ceckert">@ceckert</a> <a href="https://github.com/chedong">@chedong</a> <a href="https://github.com/clawdgawd">@clawdgawd</a> <a href="https://github.com/Claynetic">@Claynetic</a> <a href="https://github.com/CodeForcer">@CodeForcer</a> <a href="https://github.com/creanet-64">@creanet-64</a> <a href="https://github.com/davidevelyn">@davidevelyn</a> <a href="https://github.com/davidmackrory-byte">@davidmackrory-byte</a> <a href="https://github.com/destinedenergy">@destinedenergy</a> <a href="https://github.com/DonnieFi">@DonnieFi</a> <a href="https://github.com/eduherranz">@eduherranz</a> <a href="https://github.com/ericcurtin">@ericcurtin</a> <a href="https://github.com/ezimerman">@ezimerman</a> <a href="https://github.com/frxiaobei">@frxiaobei</a> <a href="https://github.com/fuller-stack-dev">@fuller-stack-dev</a> <a href="https://github.com/georgenaz">@georgenaz</a> <a href="https://github.com/gisk0">@gisk0</a> <a href="https://github.com/GoldenrodScript">@GoldenrodScript</a> <a href="https://github.com/goutamadwant">@goutamadwant</a> <a href="https://github.com/Grynn">@Grynn</a> <a href="https://github.com/h6y3">@h6y3</a> <a href="https://github.com/hannesrudolph">@hannesrudolph</a> <a href="https://github.com/Hansen1018">@Hansen1018</a> <a href="https://github.com/harshitgupta31415">@harshitgupta31415</a> <a href="https://github.com/holgergruenhagen">@holgergruenhagen</a> <a href="https://github.com/Jeehut">@Jeehut</a> <a href="https://github.com/jjjhenriksen">@jjjhenriksen</a> <a href="https://github.com/jlapenna">@jlapenna</a> <a href="https://github.com/jokerman1302-eng">@jokerman1302-eng</a> <a href="https://github.com/josephsilvagnoli">@josephsilvagnoli</a> <a href="https://github.com/joshpetras">@joshpetras</a> <a href="https://github.com/jullianatolentino">@jullianatolentino</a> <a href="https://github.com/justinforsound">@justinforsound</a> <a href="https://github.com/k-sekula">@k-sekula</a> <a href="https://github.com/k94118">@k94118</a> <a href="https://github.com/kimjinsuhh">@kimjinsuhh</a> <a href="https://github.com/kiranvk-2011">@kiranvk-2011</a> <a href="https://github.com/lakemike">@lakemike</a> <a href="https://github.com/Leit-motif">@Leit-motif</a> <a href="https://github.com/lishewen">@lishewen</a> <a href="https://github.com/maestrokling">@maestrokling</a> <a href="https://github.com/marl0n">@marl0n</a> <a href="https://github.com/masatohoshino">@masatohoshino</a> <a href="https://github.com/mcooks-cmd">@mcooks-cmd</a> <a href="https://github.com/mightyx">@mightyx</a> <a href="https://github.com/mkdelta221">@mkdelta221</a> <a href="https://github.com/motookoyama">@motookoyama</a> <a href="https://github.com/mychataa">@mychataa</a> <a href="https://github.com/Mydudeclaps">@Mydudeclaps</a> <a href="https://github.com/N4DH">@N4DH</a> <a href="https://github.com/neilofneils404">@neilofneils404</a> <a href="https://github.com/NianJiuZst">@NianJiuZst</a> <a href="https://github.com/nosmile99">@nosmile99</a> <a href="https://github.com/ns-spec">@ns-spec</a> <a href="https://github.com/nukk-pain">@nukk-pain</a> <a href="https://github.com/obviyus">@obviyus</a> <a href="https://github.com/Oldrich333">@Oldrich333</a> <a href="https://github.com/olveww-dot">@olveww-dot</a> <a href="https://github.com/orthogonalistic">@orthogonalistic</a> <a href="https://github.com/philknows">@philknows</a> <a href="https://github.com/php737">@php737</a> <a href="https://github.com/rauf543">@rauf543</a> <a href="https://github.com/RomneyDa">@RomneyDa</a> <a href="https://github.com/rongtianhua">@rongtianhua</a> <a href="https://github.com/ruicozibon">@ruicozibon</a> <a href="https://github.com/S1gv4rd">@S1gv4rd</a> <a href="https://github.com/saju01">@saju01</a> <a href="https://github.com/sayitfast">@sayitfast</a> <a href="https://github.com/shakkernerd">@shakkernerd</a> <a href="https://github.com/sirius1024">@sirius1024</a> <a href="https://github.com/sjf-oa">@sjf-oa</a> <a href="https://github.com/slinkoff">@slinkoff</a> <a href="https://github.com/snotty">@snotty</a> <a href="https://github.com/steipete">@steipete</a> <a href="https://github.com/sunnyshu0925">@sunnyshu0925</a> <a href="https://github.com/svdinu-jpg">@svdinu-jpg</a> <a href="https://github.com/Takhoffman">@Takhoffman</a> <a href="https://github.com/TOMUIV">@TOMUIV</a> <a href="https://github.com/vinaycodeaxe">@vinaycodeaxe</a> <a href="https://github.com/vincentkoc">@vincentkoc</a> <a href="https://github.com/wangmiao0668000666">@wangmiao0668000666</a> <a href="https://github.com/warhangel">@warhangel</a> <a href="https://github.com/waynegault">@waynegault</a> <a href="https://github.com/wbumgardner-max">@wbumgardner-max</a> <a href="https://github.com/wg-mojo">@wg-mojo</a> <a href="https://github.com/xilopaint">@xilopaint</a> <a href="https://github.com/XX441">@XX441</a> <a href="https://github.com/yetval">@yetval</a> <a href="https://github.com/Yigtwxx">@Yigtwxx</a> <a href="https://github.com/yoyo837">@yoyo837</a> <a href="https://github.com/zhangguiping-xydt">@zhangguiping-xydt</a></p>
 <h3>Release verification</h3>
 <ul>
 <li>npm package: <a href="https://www.npmjs.com/package/openclaw/v/2026.10.3">https://www.npmjs.com/package/openclaw/v/2026.10.3</a></li>
@@ -162,136 +44,18 @@
 <li>Android APK: skipped — apps/android/version.json is 2026.8.2, release train is 2026.10.3; run pnpm android:version:pin -- --from-gateway before the next tag.</li>
 </ul>
 ]]></description>
-            <content:encoded><![CDATA[<h2>2026.10.3</h2>
-<h3>Highlights</h3>
+            <content:encoded><![CDATA[<!-- openclaw-release-publication:docs-v1 -->
+
+<h2>OpenClaw v2026.10.3</h2>
+<p>90 commits · 79 pull requests · 99 contributors</p>
+<h3>Changes included in this release</h3>
+<p>The release notes and changelog contain the same content, presented in two formats:</p>
 <ul>
-<li>Updates that were stuck behind lost leases, completed-but-unrecognized receipts, or legacy 2026.9.8 activation records now recover and finish instead of refusing every retry. (#168388, #169038, #169027, #170195, #170170) Thanks @k94118, @mkdelta221, @waynegault, @chedong, and @Warhangel.</li>
-<li>Windows, macOS, and pnpm updates no longer leave the Gateway stopped or roll back: machine-qualified task accounts, short-name install paths, Doctor ancestry re-checks, protected Bun service commands, and pnpm 12 launchers all keep working. (#169481, #169292, #169563, #170006, #170003, #170131) Thanks @RomneyDa, @jokerman1302-eng, @xilopaint, and @k-sekula.</li>
-<li>Doctor no longer destroys data during repair: unreadable legacy auth keeps OAuth profiles, malformed UTF-8 memory files stay byte-exact, and blocked plugins keep their enabled state. (#170256, #169029, #168111) Thanks @Yolo521-bot, @wangmiao0668000666, and @obviyus.</li>
-<li>The &quot;On this Mac&quot; first run on a fresh Mac authenticates the app-hosted Gateway instead of failing with &quot;Gateway rejected auth&quot;, and the Mac app reconnects after a trusted certificate renewal. (#169403, #168151)</li>
-<li>Chat-requested updates and plugin upgrades no longer roll back during Doctor cleanup, and stale Codex runtimes no longer break turns after an update. (#170218, #170306, #170339) Thanks @RomneyDa, @hannesrudolph, and @ezimerman.</li>
-<li>Agent turns are more reliable: the next turn after native compaction, ChatGPT WebSocket closes mid-stream, switching back to OpenAI without the Codex plugin, and Codex follow-ups after failed thread preparation all succeed. (#169583, #167512, #169412, #169431) Thanks @obviyus, @ericcurtin, @mightyx, @jjjhenriksen, and @RomneyDa.</li>
+<li><a href="https://docs.openclaw.ai/releases/2026.10.3">Release notes</a> — formatted for people.</li>
+<li><a href="https://raw.githubusercontent.com/openclaw/openclaw/main/CHANGELOG/2026.10.3.md">Changelog</a> — plain Markdown for AI agents and tools.</li>
 </ul>
-<h3>Changes</h3>
-<ul>
-<li>Meta: Muse Wonder is available as a model. (#170232) Thanks @RomneyDa.</li>
-<li>MiniMax: M3.1 models honor the selected thinking effort level, and OAuth sign-ins refresh expired tokens at the issuing regional endpoint instead of failing about two hours after login. (#160089, #160459) Thanks @NianJiuZst, @php737, @masatohoshino, and @rongtianhua.</li>
-</ul>
-<h3>Fixes</h3>
-<ul>
-<li>Doctor: keep canonical OAuth profiles when the legacy auth store is unreadable or malformed instead of deleting them. (#170256) Thanks @Yolo521-bot.</li>
-<li>Doctor: never rewrite root memory files with replacement characters, and reject malformed UTF-8 before <code>path set</code> writes an edited file. (#169029, #168491) Thanks @wangmiao0668000666 and @Takhoffman.</li>
-<li>Doctor: preserve installed plugins when path-safety checks block them instead of stripping their <code>enabled</code> flag when run as root. (#168111) Thanks @obviyus.</li>
-<li>Doctor: include Canvas and Memory Core files in recovery copies, keep captures stable while workers stay open, honor Windows permissions for SQLite recovery snapshots, and stop spurious backups for unchanged one-shot cron jobs. (#169436, #169516, #170022, #169397, #168938) Thanks @RomneyDa, @harshitgupta31415, and @WG-Mojo.</li>
-<li>Updates: recover blocked updates after receipt identity drift, lost handoff leases, legacy package metadata drift, and FreeBSD package recovery refusals. (#168388, #169038, #169027, #168775) Thanks @k94118, @mkdelta221, @waynegault, and @chedong.</li>
-<li>Updates: older updaters no longer refuse candidates over bookkeeping-only config changes, and npm recovery reclaims retained runtimes that blocked it. (#170195, #170170) Thanks @Warhangel.</li>
-<li>Updates: keep the real failure when git-update cleanup reporting is unavailable, route migrated-no-rollback failures to <code>openclaw update repair</code>, and stop reporting successful handoffs as failures. (#169454, #168993) Thanks @sayitfast and @RomneyDa.</li>
-<li>Updates: clear repaired migration warnings, tolerate clock jumps during verification, and name the database and reason in capture and config-read warnings. (#169004, #169282, #169284) Thanks @WG-Mojo and @DonnieFi.</li>
-<li>Updates: preserve the service heap limit in update processes, stop copying unrelated parent dependencies, and keep npm-global updates from retaining unrelated global packages. (#168889, #168927, #169551) Thanks @bluet, @RomneyDa, and @holgergruenhagen.</li>
-<li>Updates: ride out briefly locked state databases, keep update-history writes from stalling Gateway cron and cleanup, and prevent false ownership loss during upgrades. (#168210, #169283, #169915) Thanks @DonnieFi and @vincentkoc.</li>
-<li>Updates: Doctor handles unreadable supervisors and child binding errors, clean service-install refusals stay out of native-authority recovery, and <code>openclaw update repair</code> no longer reports success when Doctor maintenance was skipped. (#169665, #169658, #167714)</li>
-<li>Windows: recognize machine-qualified Scheduled Task accounts, keep updater workers on short-name or miscased install paths, and stop rollbacks from Doctor ancestry re-checks. (#169481, #169292, #169563) Thanks @RomneyDa.</li>
-<li>macOS: unblock updates with protected Bun service commands, authenticate the app-hosted first run, and renew learned TLS pins on automatic reconnects. (#170006, #169403, #168151) Thanks @jokerman1302-eng.</li>
-<li>pnpm: keep Gateway service commands on the durable install link and keep pnpm 12 launchers working after native updates. (#170003, #170131) Thanks @xilopaint and @k-sekula.</li>
-<li>Plugins: preserve webhook listeners during deferred plugin upgrades, unblock repairs while data migrations are pending, and stop stale Codex runtimes breaking turns after updates. (#169035, #170339, #170306) Thanks @sirius1024 and @RomneyDa.</li>
-<li>Plugins: catalog refreshes no longer retain duplicate native plugin graphs and recover their config after a failed native ESM refresh. (#169272, #169321) Thanks @obviyus and @RomneyDa.</li>
-<li>Gateway: Claude CLI session tools keep working after the turn that started the MCP loopback ends, and channel tools no longer fail with stale caller authority after a config write restarts the account. (#165432, #159396) Thanks @Oldrich333, @Leit-motif, @ceckert, and @RomneyDa.</li>
-<li>Gateway: node requests and events no longer fail with &quot;pairing changed&quot; after unrelated pairing activity or while another device&#39;s pairing is written. (#169486, #169575)</li>
-<li>Gateway: restart cleanly when a stored cloud worker&#39;s machine is gone, preserve live sends during outbound queue recovery, and resume steered sessions after restart. (#168907, #169010, #170252) Thanks @RomneyDa.</li>
-<li>Agents: prevent next-turn failures after native compaction without loading entire large transcripts. (#169583, #108851) Thanks @obviyus.</li>
-<li>Models: switching back to an OpenAI model works when the Codex plugin is disabled, and model selections without an activatable harness are rejected. (#169412, #134837) Thanks @obviyus and @goslingmanagment.</li>
-<li>OpenAI: turns no longer fail when the ChatGPT WebSocket closes with code 1000 mid-stream. (#167512) Thanks @ericcurtin, @obviyus, and @mightyx.</li>
-<li>Codex: recover follow-up requests after failed thread preparation. (#169431) Thanks @jjjhenriksen and @RomneyDa.</li>
-<li>Networking: guarded model requests fall back to IPv6 when IPv4 is unreachable, keeping SSRF validation. (#168973) Thanks @an2in and @georgenaz.</li>
-<li>Copilot: honor reported context capacity when native limits are missing. (#156636) Thanks @saju01 and @RomneyDa.</li>
-<li>Anthropic: guide Claude CLI to the registered OpenClaw tools. (#153032) Thanks @kiranvk-2011.</li>
-<li>DeepSeek: recover <code>calls</code> markup instead of leaking tool payloads into replies. (#169728) Thanks @TOMUIV.</li>
-<li>Release: first-hop update coverage admits sources by schema version, failed receipts recover without rerunning workloads, and upgrade diagnostics keep failing steps. (#169012, #168266, #165267, #169567, #169084, #168191, #165968, #164789, #168097) Thanks @RomneyDa and @shakkernerd.</li>
-</ul>
-<h3>Complete contribution record</h3>
-<p>This audited record covers the complete v2026.10.2..8dd1ada0a3c166b77c7b671847a1752200e7f2c1 history: 79 in-range PRs + 0 retained seed-only PRs = 79 unique PRs. The generation manifest also supplies direct commits as editorial input; the grouped notes above prioritize user impact.</p>
-<h4>Pull requests</h4>
-<ul>
-<li><strong>PR #170218</strong> Thanks @RomneyDa and @hannesrudolph.</li>
-<li><strong>PR #170306</strong> Thanks @RomneyDa.</li>
-<li><strong>PR #156636</strong> Thanks @saju01.</li>
-<li><strong>PR #153032</strong> Thanks @kiranvk-2011.</li>
-<li><strong>PR #160089</strong> Related #160037. Thanks @NianJiuZst and @php737.</li>
-<li><strong>PR #169403</strong></li>
-<li><strong>PR #168151</strong></li>
-<li><strong>PR #169728</strong> Related #159665. Thanks @TOMUIV.</li>
-<li><strong>PR #168889</strong> Related #168729. Thanks @bluet.</li>
-<li><strong>PR #168927</strong></li>
-<li><strong>PR #169292</strong> Thanks @RomneyDa.</li>
-<li><strong>PR #169551</strong> Related #169373. Thanks @RomneyDa and @holgergruenhagen.</li>
-<li><strong>PR #169563</strong> Thanks @RomneyDa.</li>
-<li><strong>PR #169481</strong></li>
-<li><strong>PR #170006</strong> Related #169662. Thanks @jokerman1302-eng.</li>
-<li><strong>PR #169283</strong> Thanks @DonnieFi.</li>
-<li><strong>PR #168210</strong></li>
-<li><strong>PR #170003</strong> Related #169059. Thanks @xilopaint.</li>
-<li><strong>PR #170131</strong> Related #169244. Thanks @k-sekula.</li>
-<li><strong>PR #169431</strong> Thanks @jjjhenriksen.</li>
-<li><strong>PR #165432</strong> Related #157126. Thanks @Oldrich333 and @Leit-motif.</li>
-<li><strong>PR #159396</strong> Thanks @ceckert.</li>
-<li><strong>PR #169486</strong></li>
-<li><strong>PR #169575</strong></li>
-<li><strong>PR #169583</strong> Thanks @obviyus.</li>
-<li><strong>PR #108851</strong> Thanks @obviyus.</li>
-<li><strong>PR #168907</strong></li>
-<li><strong>PR #168973</strong> Related #87763. Thanks @an2in and @georgenaz.</li>
-<li><strong>PR #168491</strong> Thanks @wangmiao0668000666 and @Takhoffman.</li>
-<li><strong>PR #169010</strong> Thanks @RomneyDa.</li>
-<li><strong>PR #169412</strong> Thanks @obviyus.</li>
-<li><strong>PR #134837</strong> Related #134305. Thanks @obviyus and @goslingmanagment.</li>
-<li><strong>PR #167512</strong> Related #167345. Thanks @ericcurtin and @obviyus and @mightyx.</li>
-<li><strong>PR #170252</strong></li>
-<li><strong>PR #170339</strong> Thanks @RomneyDa.</li>
-<li><strong>PR #167356</strong> Thanks @vincentkoc.</li>
-<li><strong>PR #169012</strong> Related #168257. Thanks @RomneyDa.</li>
-<li><strong>PR #169268</strong> Thanks @RomneyDa.</li>
-<li><strong>PR #168266</strong> Thanks @RomneyDa.</li>
-<li><strong>PR #168926</strong></li>
-<li><strong>PR #166092</strong> Thanks @RomneyDa.</li>
-<li><strong>PR #166118</strong> Thanks @RomneyDa.</li>
-<li><strong>PR #165267</strong> Related #165264. Thanks @shakkernerd.</li>
-<li><strong>PR #169567</strong> Thanks @RomneyDa.</li>
-<li><strong>PR #169084</strong> Thanks @RomneyDa.</li>
-<li><strong>PR #167344</strong> Thanks @vincentkoc.</li>
-<li><strong>PR #168191</strong> Thanks @RomneyDa.</li>
-<li><strong>PR #165968</strong> Thanks @RomneyDa.</li>
-<li><strong>PR #164789</strong> Thanks @RomneyDa.</li>
-<li><strong>PR #168097</strong> Thanks @RomneyDa.</li>
-<li><strong>PR #170256</strong> Related #168959. Thanks @Yolo521-bot.</li>
-<li><strong>PR #169436</strong> Thanks @RomneyDa.</li>
-<li><strong>PR #169516</strong> Thanks @RomneyDa.</li>
-<li><strong>PR #168938</strong> Related #168838. Thanks @harshitgupta31415 and @WG-Mojo.</li>
-<li><strong>PR #169029</strong> Related #168567. Thanks @wangmiao0668000666.</li>
-<li><strong>PR #168111</strong> Related #168066. Thanks @obviyus.</li>
-<li><strong>PR #169397</strong></li>
-<li><strong>PR #169035</strong> Related #168872. Thanks @sirius1024.</li>
-<li><strong>PR #168388</strong> Related #168092. Thanks @k94118.</li>
-<li><strong>PR #169038</strong> Related #167506, #167771. Thanks @mkdelta221 and @waynegault.</li>
-<li><strong>PR #169027</strong> Related #168856. Thanks @chedong.</li>
-<li><strong>PR #169454</strong></li>
-<li><strong>PR #169004</strong> Related #168835. Thanks @WG-Mojo.</li>
-<li><strong>PR #168993</strong> Related #168870. Thanks @sayitfast.</li>
-<li><strong>PR #169282</strong> Related #169259. Thanks @DonnieFi.</li>
-<li><strong>PR #169284</strong> Related #169261. Thanks @DonnieFi.</li>
-<li><strong>PR #170195</strong></li>
-<li><strong>PR #170170</strong> Related #169463. Thanks @Warhangel.</li>
-<li><strong>PR #169915</strong> Thanks @vincentkoc.</li>
-<li><strong>PR #169658</strong></li>
-<li><strong>PR #169665</strong></li>
-<li><strong>PR #168775</strong></li>
-<li><strong>PR #169272</strong> Thanks @obviyus.</li>
-<li><strong>PR #169321</strong> Thanks @RomneyDa.</li>
-<li><strong>PR #170022</strong></li>
-<li><strong>PR #170232</strong> Thanks @RomneyDa.</li>
-<li><strong>PR #167714</strong></li>
-<li><strong>PR #168264</strong> Thanks @obviyus.</li>
-<li><strong>PR #160459</strong> Related #77467. Thanks @masatohoshino and @rongtianhua.</li>
-</ul>
+<h3>Thanks</h3>
+<p><a href="https://github.com/aaajiao">@aaajiao</a> <a href="https://github.com/adenzhou1350">@adenzhou1350</a> <a href="https://github.com/aia007731-lab">@aia007731-lab</a> <a href="https://github.com/aleps001">@aleps001</a> <a href="https://github.com/alexph-dev">@alexph-dev</a> <a href="https://github.com/an2in">@an2in</a> <a href="https://github.com/arifarai">@arifarai</a> <a href="https://github.com/bluet">@bluet</a> <a href="https://github.com/ceckert">@ceckert</a> <a href="https://github.com/chedong">@chedong</a> <a href="https://github.com/clawdgawd">@clawdgawd</a> <a href="https://github.com/Claynetic">@Claynetic</a> <a href="https://github.com/CodeForcer">@CodeForcer</a> <a href="https://github.com/creanet-64">@creanet-64</a> <a href="https://github.com/davidevelyn">@davidevelyn</a> <a href="https://github.com/davidmackrory-byte">@davidmackrory-byte</a> <a href="https://github.com/destinedenergy">@destinedenergy</a> <a href="https://github.com/DonnieFi">@DonnieFi</a> <a href="https://github.com/eduherranz">@eduherranz</a> <a href="https://github.com/ericcurtin">@ericcurtin</a> <a href="https://github.com/ezimerman">@ezimerman</a> <a href="https://github.com/frxiaobei">@frxiaobei</a> <a href="https://github.com/fuller-stack-dev">@fuller-stack-dev</a> <a href="https://github.com/georgenaz">@georgenaz</a> <a href="https://github.com/gisk0">@gisk0</a> <a href="https://github.com/GoldenrodScript">@GoldenrodScript</a> <a href="https://github.com/goutamadwant">@goutamadwant</a> <a href="https://github.com/Grynn">@Grynn</a> <a href="https://github.com/h6y3">@h6y3</a> <a href="https://github.com/hannesrudolph">@hannesrudolph</a> <a href="https://github.com/Hansen1018">@Hansen1018</a> <a href="https://github.com/harshitgupta31415">@harshitgupta31415</a> <a href="https://github.com/holgergruenhagen">@holgergruenhagen</a> <a href="https://github.com/Jeehut">@Jeehut</a> <a href="https://github.com/jjjhenriksen">@jjjhenriksen</a> <a href="https://github.com/jlapenna">@jlapenna</a> <a href="https://github.com/jokerman1302-eng">@jokerman1302-eng</a> <a href="https://github.com/josephsilvagnoli">@josephsilvagnoli</a> <a href="https://github.com/joshpetras">@joshpetras</a> <a href="https://github.com/jullianatolentino">@jullianatolentino</a> <a href="https://github.com/justinforsound">@justinforsound</a> <a href="https://github.com/k-sekula">@k-sekula</a> <a href="https://github.com/k94118">@k94118</a> <a href="https://github.com/kimjinsuhh">@kimjinsuhh</a> <a href="https://github.com/kiranvk-2011">@kiranvk-2011</a> <a href="https://github.com/lakemike">@lakemike</a> <a href="https://github.com/Leit-motif">@Leit-motif</a> <a href="https://github.com/lishewen">@lishewen</a> <a href="https://github.com/maestrokling">@maestrokling</a> <a href="https://github.com/marl0n">@marl0n</a> <a href="https://github.com/masatohoshino">@masatohoshino</a> <a href="https://github.com/mcooks-cmd">@mcooks-cmd</a> <a href="https://github.com/mightyx">@mightyx</a> <a href="https://github.com/mkdelta221">@mkdelta221</a> <a href="https://github.com/motookoyama">@motookoyama</a> <a href="https://github.com/mychataa">@mychataa</a> <a href="https://github.com/Mydudeclaps">@Mydudeclaps</a> <a href="https://github.com/N4DH">@N4DH</a> <a href="https://github.com/neilofneils404">@neilofneils404</a> <a href="https://github.com/NianJiuZst">@NianJiuZst</a> <a href="https://github.com/nosmile99">@nosmile99</a> <a href="https://github.com/ns-spec">@ns-spec</a> <a href="https://github.com/nukk-pain">@nukk-pain</a> <a href="https://github.com/obviyus">@obviyus</a> <a href="https://github.com/Oldrich333">@Oldrich333</a> <a href="https://github.com/olveww-dot">@olveww-dot</a> <a href="https://github.com/orthogonalistic">@orthogonalistic</a> <a href="https://github.com/philknows">@philknows</a> <a href="https://github.com/php737">@php737</a> <a href="https://github.com/rauf543">@rauf543</a> <a href="https://github.com/RomneyDa">@RomneyDa</a> <a href="https://github.com/rongtianhua">@rongtianhua</a> <a href="https://github.com/ruicozibon">@ruicozibon</a> <a href="https://github.com/S1gv4rd">@S1gv4rd</a> <a href="https://github.com/saju01">@saju01</a> <a href="https://github.com/sayitfast">@sayitfast</a> <a href="https://github.com/shakkernerd">@shakkernerd</a> <a href="https://github.com/sirius1024">@sirius1024</a> <a href="https://github.com/sjf-oa">@sjf-oa</a> <a href="https://github.com/slinkoff">@slinkoff</a> <a href="https://github.com/snotty">@snotty</a> <a href="https://github.com/steipete">@steipete</a> <a href="https://github.com/sunnyshu0925">@sunnyshu0925</a> <a href="https://github.com/svdinu-jpg">@svdinu-jpg</a> <a href="https://github.com/Takhoffman">@Takhoffman</a> <a href="https://github.com/TOMUIV">@TOMUIV</a> <a href="https://github.com/vinaycodeaxe">@vinaycodeaxe</a> <a href="https://github.com/vincentkoc">@vincentkoc</a> <a href="https://github.com/wangmiao0668000666">@wangmiao0668000666</a> <a href="https://github.com/warhangel">@warhangel</a> <a href="https://github.com/waynegault">@waynegault</a> <a href="https://github.com/wbumgardner-max">@wbumgardner-max</a> <a href="https://github.com/wg-mojo">@wg-mojo</a> <a href="https://github.com/xilopaint">@xilopaint</a> <a href="https://github.com/XX441">@XX441</a> <a href="https://github.com/yetval">@yetval</a> <a href="https://github.com/Yigtwxx">@Yigtwxx</a> <a href="https://github.com/yoyo837">@yoyo837</a> <a href="https://github.com/zhangguiping-xydt">@zhangguiping-xydt</a></p>
 <h3>Release verification</h3>
 <ul>
 <li>npm package: <a href="https://www.npmjs.com/package/openclaw/v/2026.10.3">https://www.npmjs.com/package/openclaw/v/2026.10.3</a></li>
@@ -11958,16 +11722,16 @@
             <link>https://github.com/openclaw/openclaw/releases/tag/linux-stable</link>
             <guid>https://github.com/openclaw/openclaw/releases/tag/linux-stable</guid>
             <pubDate>Sat, 19 Sep 2026 05:00:44 GMT</pubDate>
-            <description><![CDATA[<p>Latest published Linux companion: v2026.10.2</p>
+            <description><![CDATA[<p>Latest published Linux companion: v2026.10.3</p>
 <ul>
-<li><a href="https://github.com/openclaw/openclaw/releases/download/v2026.10.2/OpenClaw-2026.10.2-amd64.AppImage">AppImage</a></li>
-<li><a href="https://github.com/openclaw/openclaw/releases/download/v2026.10.2/OpenClaw-2026.10.2-amd64.deb">Debian package</a></li>
+<li><a href="https://github.com/openclaw/openclaw/releases/download/v2026.10.3/OpenClaw-2026.10.3-amd64.AppImage">AppImage</a></li>
+<li><a href="https://github.com/openclaw/openclaw/releases/download/v2026.10.3/OpenClaw-2026.10.3-amd64.deb">Debian package</a></li>
 </ul>
 ]]></description>
-            <content:encoded><![CDATA[<p>Latest published Linux companion: v2026.10.2</p>
+            <content:encoded><![CDATA[<p>Latest published Linux companion: v2026.10.3</p>
 <ul>
-<li><a href="https://github.com/openclaw/openclaw/releases/download/v2026.10.2/OpenClaw-2026.10.2-amd64.AppImage">AppImage</a></li>
-<li><a href="https://github.com/openclaw/openclaw/releases/download/v2026.10.2/OpenClaw-2026.10.2-amd64.deb">Debian package</a></li>
+<li><a href="https://github.com/openclaw/openclaw/releases/download/v2026.10.3/OpenClaw-2026.10.3-amd64.AppImage">AppImage</a></li>
+<li><a href="https://github.com/openclaw/openclaw/releases/download/v2026.10.3/OpenClaw-2026.10.3-amd64.deb">Debian package</a></li>
 </ul>
 ]]></content:encoded>
         </item>
