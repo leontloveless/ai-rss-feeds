@@ -4,11 +4,193 @@
         <title>deepseek-harness Releases</title>
         <link>https://github.com/deepseek-ai/deepseek-harness/releases</link>
         <description>GitHub releases for deepseek-ai/deepseek-harness</description>
-        <lastBuildDate>Fri, 09 Oct 2026 11:09:26 GMT</lastBuildDate>
+        <lastBuildDate>Wed, 14 Oct 2026 13:32:15 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>ai-rss-feeds (https://github.com/leontloveless/ai-rss-feeds)</generator>
         <language>en</language>
         <atom:link href="https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/deepseek-harness-releases.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[v0.2.1-alpha.3]]></title>
+            <link>https://github.com/deepseek-ai/deepseek-harness/releases/tag/dsh-v0.2.1-alpha.3</link>
+            <guid>https://github.com/deepseek-ai/deepseek-harness/releases/tag/dsh-v0.2.1-alpha.3</guid>
+            <pubDate>Wed, 14 Oct 2026 13:32:15 GMT</pubDate>
+            <description><![CDATA[<p><a href="#cn-v0.2.1-alpha.3-community">中文</a> | <a href="#en-v0.2.1-alpha.3-community">English</a></p>
+<h3 id="cn-v0.2.1-alpha.3-community">新增功能</h3>
+
+<ul>
+<li>Web 版支持在本机 HTTP 访问时登录 DeepSeek 账号。 @lsdsjy</li>
+<li>支持识别已发送消息中的密钥和令牌，并默认脱敏按需查看。 @ZiyaZhang</li>
+<li>极简模式支持读取图片和自动压缩长对话，Web 与桌面端可通过 /compact 指令手动压缩上下文。 @LogosVeritas</li>
+</ul>
+<h3>问题修复</h3>
+<ul>
+<li>修复切换会话、收起工作过程或发送后续消息时，对话区域出现大块空白、滚动跳动的问题。 @imccyu</li>
+<li>修复重启应用后部分会话无法继续，以及切换到 DeepSeek 后因历史消息兼容问题导致请求失败的情况。 @imccyu, @yudshj</li>
+<li>修复插件更新或重新安装后仍运行旧代码的问题。启用热重载时，可替换的插件会直接生效；无法热重载的情况会提示重启。 @turtle1999</li>
+<li>修复 macOS 添加工作区时目录选择器无法粘贴目录路径，以及取消选择仍添加工作区的问题。 @dsh-portal, @turtle2099</li>
+<li>修复原预设被删除或调整后，恢复空白会话、切换工作区可能失败的问题。 @LegGasai</li>
+<li>修复部分较旧 Git 版本下无法创建工作树的问题。 @turtle2099</li>
+<li>修复远程 Web 在网络拥塞时被误判为断线，以及刷新后语言、主题等偏好丢失的问题。 @turtle2099, @oraluben</li>
+<li>应用意外退出后，未完成的任务会明确显示“任务已停止”，避免被误认为正常完成。 @turtle2099</li>
+<li>凭据文件中出现 DSH 不使用的额外字段时，不再阻止应用启动。 @turtle2099</li>
+<li>修复卸载会话存储插件时，最后的会话记录可能丢失的问题。 @turtle1999</li>
+</ul>
+<h3>体验优化</h3>
+<ul>
+<li>改善会话列表加载和 @ 会话搜索体验 @imccyu</li>
+<li>子智能体可通过配置选用独立 Agent Preset 预设，统一设置角色和工具； @grllll, @Dudu-0223</li>
+<li>优化侧栏展开规则，让运行中和等待回应的会话更容易找到；会话菜单支持复制会话 ID。 @turtle1999, @imccyu</li>
+<li>DeepSeek 账号的模型列表随账号可用模型更新，并隐藏当前客户端版本不支持的模型。 @LegGasai</li>
+<li>模型设置更清楚地提示凭据来源和检测状态，支持按需显示输入的 API Key。 @Magolor</li>
+<li>Office 文档任务按需加载编辑、渲染和导出指引，减少简单内容修改中不必要的检查与预览。 @yudshj</li>
+<li>改进子智能体的委派与等待指引：达到委派层数上限时提前提示，等待子任务期间不再消耗新的目标执行轮次。 @ZiyaZhang, @turtle1999</li>
+<li>Web 终端更可靠地处理连续输入、粘贴和尺寸调整，并保留进程退出前的最后输出。 @LegGasai</li>
+<li>桌面端可用 Cmd/Ctrl + 加号或减号统一调整正文、代码和终端字号。 @koalazf99</li>
+<li>优化会话和工作区的悬停操作，统一卡片与菜单样式，并改善页头排列及插件页、自动化任务页的窄窗口布局。 @Yifffan, @Kingwl, @dsh-portal</li>
+<li>PTC Mode 的 Node 执行环境新增可选的 in-memory 模式，多次运行代码可复用变量、函数和已导入模块。 @CreatixChu</li>
+</ul>
+<h3>其他变更</h3>
+<ul>
+<li>API Key 读取优先级变更：Web端/桌面端优先采用已保存的凭据；headless 默认改用环境变量和 .env，不读取已保存的密钥。 @Magolor</li>
+<li>更新第三方模型支持；Azure 提供方名称统一为 azure，使用旧名称 azure-openai-responses 的提供方配置需迁移。 @LegGasai</li>
+<li>Python SDK 的 Office 引擎和完整创作环境改为按需下载。 @yudshj</li>
+<li>使用 --from-default-profile 重建已有自定义配置时，会替换该配置及其插件和设置。 @turtle2099</li>
+<li>TypeScript 和 Python SDK 支持 resume 功能，恢复已保存的会话，继续使用原有会话 ID 和工作目录。 @koalazf99</li>
+</ul>
+<hr>
+<h3 id="en-v0.2.1-alpha.3-community">New Features</h3>
+
+<ul>
+<li>The Web app supports DeepSeek account sign-in when accessed over local HTTP. by @lsdsjy</li>
+<li>Detect keys and tokens in sent messages and mask them by default, with an option to reveal them. by @ZiyaZhang</li>
+<li>Minimal mode can read images and automatically compact long conversations. Web and Desktop users can run the /compact command to compact context manually. by @LogosVeritas</li>
+</ul>
+<h3>Bug Fixes</h3>
+<ul>
+<li>Fix large blank areas and scroll jumps when switching sessions, collapsing work details, or sending follow-up messages. by @imccyu</li>
+<li>Fix failures when continuing some sessions after an application restart, and history compatibility errors when switching to DeepSeek. by @imccyu, @yudshj</li>
+<li>Fix stale plugin code after updates or reinstallation. With hot reload enabled, replaceable plugins take effect immediately; changes that cannot be hot-reloaded request a restart. by @turtle1999</li>
+<li>Fix pasting directory paths into the directory picker when adding a workspace on macOS, and prevent cancelled selections from adding a workspace. by @dsh-portal, @turtle2099</li>
+<li>Fix failures when restoring a blank session or switching workspaces after its original preset was removed or changed. by @LegGasai</li>
+<li>Fix worktree creation failures with some older Git versions. by @turtle2099</li>
+<li>Fix false disconnects during network congestion and lost language, theme, and other preferences after refreshing a remote Web client. by @turtle2099, @oraluben</li>
+<li>Tasks interrupted by an application exit now show “Task stopped” instead of appearing to have completed normally. by @turtle2099</li>
+<li>Extra fields that DSH does not use in the credentials file no longer prevent the application from starting. by @turtle2099</li>
+<li>Fix a case where final session records could be lost while unloading the session storage plugin. by @turtle1999</li>
+</ul>
+<h3>Improvements</h3>
+<ul>
+<li>Improve session list loading and @ session search. by @imccyu</li>
+<li>Configure spawned subagents with independent Agent Presets to manage their roles and tools together. by @grllll, @Dudu-0223</li>
+<li>Improve sidebar expansion so running sessions and sessions awaiting a response are easier to find. Session menus support copying the session ID. by @turtle1999, @imccyu</li>
+<li>Keep the DeepSeek account model list up to date with the models available to the account, while hiding models unsupported by the current client version. by @LegGasai</li>
+<li>Model settings show clearer credential sources and detection status, and let users reveal an entered API key. by @Magolor</li>
+<li>Load Office editing, rendering, and export guidance as needed, reducing unnecessary checks and previews for simple content edits. by @yudshj</li>
+<li>Improve subagent delegation and waiting guidance: announce delegation depth limits in advance and wait for running subtasks before starting another goal round. by @ZiyaZhang, @turtle1999</li>
+<li>Handle continuous input, pastes, and resizing more reliably in the Web terminal, and preserve the final output when a process exits. by @LegGasai</li>
+<li>Use Cmd/Ctrl + plus or minus on Desktop to adjust text, code, and terminal font sizes together. by @koalazf99</li>
+<li>Refine session and workspace hover interactions, unify card and menu styling, and improve header ordering and narrow-window layouts on plugin and automation pages. by @Yifffan, @Kingwl, @dsh-portal</li>
+<li>The Node runtime for PTC Mode adds an optional in-memory mode that reuses variables, functions, and imported modules across code executions. by @CreatixChu</li>
+</ul>
+<h3>Chores</h3>
+<ul>
+<li>Change API key precedence: Web and Desktop prioritize saved credentials. Headless uses environment variables and .env files by default, without reading saved keys. by @Magolor</li>
+<li>Update third-party model support and rename the Azure provider to azure. Provider configurations using azure-openai-responses must be migrated. by @LegGasai</li>
+<li>The Python SDK’s Office engine and full authoring environment are now downloaded on demand. by @yudshj</li>
+<li>Using --from-default-profile to recreate an existing custom profile replaces that profile, including its plugins and settings. by @turtle2099</li>
+<li>The TypeScript and Python SDKs support session resume, restoring saved sessions with their original session IDs and working directories. by @koalazf99</li>
+</ul>
+<p>Full Changelog: <a href="https://github.com/deepseek-ai/deepseek-harness/compare/dsh-v0.2.1-alpha.2...dsh-v0.2.1-alpha.3">dsh-v0.2.1-alpha.2...dsh-v0.2.1-alpha.3</a></p>
+]]></description>
+            <content:encoded><![CDATA[<p><a href="#cn-v0.2.1-alpha.3-community">中文</a> | <a href="#en-v0.2.1-alpha.3-community">English</a></p>
+<h3 id="cn-v0.2.1-alpha.3-community">新增功能</h3>
+
+<ul>
+<li>Web 版支持在本机 HTTP 访问时登录 DeepSeek 账号。 @lsdsjy</li>
+<li>支持识别已发送消息中的密钥和令牌，并默认脱敏按需查看。 @ZiyaZhang</li>
+<li>极简模式支持读取图片和自动压缩长对话，Web 与桌面端可通过 /compact 指令手动压缩上下文。 @LogosVeritas</li>
+</ul>
+<h3>问题修复</h3>
+<ul>
+<li>修复切换会话、收起工作过程或发送后续消息时，对话区域出现大块空白、滚动跳动的问题。 @imccyu</li>
+<li>修复重启应用后部分会话无法继续，以及切换到 DeepSeek 后因历史消息兼容问题导致请求失败的情况。 @imccyu, @yudshj</li>
+<li>修复插件更新或重新安装后仍运行旧代码的问题。启用热重载时，可替换的插件会直接生效；无法热重载的情况会提示重启。 @turtle1999</li>
+<li>修复 macOS 添加工作区时目录选择器无法粘贴目录路径，以及取消选择仍添加工作区的问题。 @dsh-portal, @turtle2099</li>
+<li>修复原预设被删除或调整后，恢复空白会话、切换工作区可能失败的问题。 @LegGasai</li>
+<li>修复部分较旧 Git 版本下无法创建工作树的问题。 @turtle2099</li>
+<li>修复远程 Web 在网络拥塞时被误判为断线，以及刷新后语言、主题等偏好丢失的问题。 @turtle2099, @oraluben</li>
+<li>应用意外退出后，未完成的任务会明确显示“任务已停止”，避免被误认为正常完成。 @turtle2099</li>
+<li>凭据文件中出现 DSH 不使用的额外字段时，不再阻止应用启动。 @turtle2099</li>
+<li>修复卸载会话存储插件时，最后的会话记录可能丢失的问题。 @turtle1999</li>
+</ul>
+<h3>体验优化</h3>
+<ul>
+<li>改善会话列表加载和 @ 会话搜索体验 @imccyu</li>
+<li>子智能体可通过配置选用独立 Agent Preset 预设，统一设置角色和工具； @grllll, @Dudu-0223</li>
+<li>优化侧栏展开规则，让运行中和等待回应的会话更容易找到；会话菜单支持复制会话 ID。 @turtle1999, @imccyu</li>
+<li>DeepSeek 账号的模型列表随账号可用模型更新，并隐藏当前客户端版本不支持的模型。 @LegGasai</li>
+<li>模型设置更清楚地提示凭据来源和检测状态，支持按需显示输入的 API Key。 @Magolor</li>
+<li>Office 文档任务按需加载编辑、渲染和导出指引，减少简单内容修改中不必要的检查与预览。 @yudshj</li>
+<li>改进子智能体的委派与等待指引：达到委派层数上限时提前提示，等待子任务期间不再消耗新的目标执行轮次。 @ZiyaZhang, @turtle1999</li>
+<li>Web 终端更可靠地处理连续输入、粘贴和尺寸调整，并保留进程退出前的最后输出。 @LegGasai</li>
+<li>桌面端可用 Cmd/Ctrl + 加号或减号统一调整正文、代码和终端字号。 @koalazf99</li>
+<li>优化会话和工作区的悬停操作，统一卡片与菜单样式，并改善页头排列及插件页、自动化任务页的窄窗口布局。 @Yifffan, @Kingwl, @dsh-portal</li>
+<li>PTC Mode 的 Node 执行环境新增可选的 in-memory 模式，多次运行代码可复用变量、函数和已导入模块。 @CreatixChu</li>
+</ul>
+<h3>其他变更</h3>
+<ul>
+<li>API Key 读取优先级变更：Web端/桌面端优先采用已保存的凭据；headless 默认改用环境变量和 .env，不读取已保存的密钥。 @Magolor</li>
+<li>更新第三方模型支持；Azure 提供方名称统一为 azure，使用旧名称 azure-openai-responses 的提供方配置需迁移。 @LegGasai</li>
+<li>Python SDK 的 Office 引擎和完整创作环境改为按需下载。 @yudshj</li>
+<li>使用 --from-default-profile 重建已有自定义配置时，会替换该配置及其插件和设置。 @turtle2099</li>
+<li>TypeScript 和 Python SDK 支持 resume 功能，恢复已保存的会话，继续使用原有会话 ID 和工作目录。 @koalazf99</li>
+</ul>
+<hr>
+<h3 id="en-v0.2.1-alpha.3-community">New Features</h3>
+
+<ul>
+<li>The Web app supports DeepSeek account sign-in when accessed over local HTTP. by @lsdsjy</li>
+<li>Detect keys and tokens in sent messages and mask them by default, with an option to reveal them. by @ZiyaZhang</li>
+<li>Minimal mode can read images and automatically compact long conversations. Web and Desktop users can run the /compact command to compact context manually. by @LogosVeritas</li>
+</ul>
+<h3>Bug Fixes</h3>
+<ul>
+<li>Fix large blank areas and scroll jumps when switching sessions, collapsing work details, or sending follow-up messages. by @imccyu</li>
+<li>Fix failures when continuing some sessions after an application restart, and history compatibility errors when switching to DeepSeek. by @imccyu, @yudshj</li>
+<li>Fix stale plugin code after updates or reinstallation. With hot reload enabled, replaceable plugins take effect immediately; changes that cannot be hot-reloaded request a restart. by @turtle1999</li>
+<li>Fix pasting directory paths into the directory picker when adding a workspace on macOS, and prevent cancelled selections from adding a workspace. by @dsh-portal, @turtle2099</li>
+<li>Fix failures when restoring a blank session or switching workspaces after its original preset was removed or changed. by @LegGasai</li>
+<li>Fix worktree creation failures with some older Git versions. by @turtle2099</li>
+<li>Fix false disconnects during network congestion and lost language, theme, and other preferences after refreshing a remote Web client. by @turtle2099, @oraluben</li>
+<li>Tasks interrupted by an application exit now show “Task stopped” instead of appearing to have completed normally. by @turtle2099</li>
+<li>Extra fields that DSH does not use in the credentials file no longer prevent the application from starting. by @turtle2099</li>
+<li>Fix a case where final session records could be lost while unloading the session storage plugin. by @turtle1999</li>
+</ul>
+<h3>Improvements</h3>
+<ul>
+<li>Improve session list loading and @ session search. by @imccyu</li>
+<li>Configure spawned subagents with independent Agent Presets to manage their roles and tools together. by @grllll, @Dudu-0223</li>
+<li>Improve sidebar expansion so running sessions and sessions awaiting a response are easier to find. Session menus support copying the session ID. by @turtle1999, @imccyu</li>
+<li>Keep the DeepSeek account model list up to date with the models available to the account, while hiding models unsupported by the current client version. by @LegGasai</li>
+<li>Model settings show clearer credential sources and detection status, and let users reveal an entered API key. by @Magolor</li>
+<li>Load Office editing, rendering, and export guidance as needed, reducing unnecessary checks and previews for simple content edits. by @yudshj</li>
+<li>Improve subagent delegation and waiting guidance: announce delegation depth limits in advance and wait for running subtasks before starting another goal round. by @ZiyaZhang, @turtle1999</li>
+<li>Handle continuous input, pastes, and resizing more reliably in the Web terminal, and preserve the final output when a process exits. by @LegGasai</li>
+<li>Use Cmd/Ctrl + plus or minus on Desktop to adjust text, code, and terminal font sizes together. by @koalazf99</li>
+<li>Refine session and workspace hover interactions, unify card and menu styling, and improve header ordering and narrow-window layouts on plugin and automation pages. by @Yifffan, @Kingwl, @dsh-portal</li>
+<li>The Node runtime for PTC Mode adds an optional in-memory mode that reuses variables, functions, and imported modules across code executions. by @CreatixChu</li>
+</ul>
+<h3>Chores</h3>
+<ul>
+<li>Change API key precedence: Web and Desktop prioritize saved credentials. Headless uses environment variables and .env files by default, without reading saved keys. by @Magolor</li>
+<li>Update third-party model support and rename the Azure provider to azure. Provider configurations using azure-openai-responses must be migrated. by @LegGasai</li>
+<li>The Python SDK’s Office engine and full authoring environment are now downloaded on demand. by @yudshj</li>
+<li>Using --from-default-profile to recreate an existing custom profile replaces that profile, including its plugins and settings. by @turtle2099</li>
+<li>The TypeScript and Python SDKs support session resume, restoring saved sessions with their original session IDs and working directories. by @koalazf99</li>
+</ul>
+<p>Full Changelog: <a href="https://github.com/deepseek-ai/deepseek-harness/compare/dsh-v0.2.1-alpha.2...dsh-v0.2.1-alpha.3">dsh-v0.2.1-alpha.2...dsh-v0.2.1-alpha.3</a></p>
+]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[v0.2.1-alpha.2]]></title>
             <link>https://github.com/deepseek-ai/deepseek-harness/releases/tag/dsh-v0.2.1-alpha.2</link>
