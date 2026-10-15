@@ -4,11 +4,127 @@
         <title>claude-code Releases</title>
         <link>https://github.com/anthropics/claude-code/releases</link>
         <description>GitHub releases for anthropics/claude-code</description>
-        <lastBuildDate>Wed, 14 Oct 2026 18:24:25 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 15 Oct 2026 19:22:06 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>ai-rss-feeds (https://github.com/leontloveless/ai-rss-feeds)</generator>
         <language>en</language>
         <atom:link href="https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/claude-code-releases.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[v2.1.301]]></title>
+            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.301</link>
+            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.301</guid>
+            <pubDate>Thu, 15 Oct 2026 19:22:06 GMT</pubDate>
+            <description><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Added <code>CLAUDE_CODE_RETRY_WATCHDOG_MAX_USAGE_LIMIT_WAIT_MS</code> so unattended retry mode (<code>CLAUDE_CODE_RETRY_WATCHDOG</code>) ends a request at a usage limit that resets too far away instead of waiting</li>
+<li>Added OpenTelemetry tracing guidance to the <code>claude-api</code> skill, including setting up trace destinations with the <code>ant</code> CLI</li>
+<li>Added the <code>%</code> motion to vim mode: jump to the matching bracket, alone or with d/c/y</li>
+<li>Added <code>rows</code> to a mod&#39;s <code>Input</code>: a text field of several lines in the terminal, where Enter submits and Shift+Enter or a backslash before Enter starts a new line</li>
+<li>Added <code>classifier_verdict</code> and <code>permission_mode</code> to OpenTelemetry <code>tool_decision</code> events, so auto mode classifier decisions can be told apart from permission rules</li>
+<li>Added <code>classifier_category</code> to OpenTelemetry <code>tool_decision</code> events, naming the built-in rule a classifier block matched, when <code>OTEL_LOG_TOOL_DETAILS=1</code></li>
+<li>Fixed quitting removing a worktree made by a <code>WorktreeCreate</code> hook without asking when it may hold unpushed commits</li>
+<li>Fixed the <code>fable</code> (and <code>best</code>) model alias erroring on the Anthropic API when the newest Fable model is not available to your organization: Claude Code now retries once on the previous Fable model</li>
+<li>Fixed a misleading &quot;Please run /login&quot; error when a full disk keeps the login from being refreshed; the error now names the disk and says to delete files</li>
+<li>Fixed Grep and Glob reporting no matches when the search program failed unexpectedly before returning any results; they now return an error saying the search failed</li>
+<li>Fixed workflow agents sometimes skipping their step, and the run still reporting success, after reading the harness note that their task text carries no user authority</li>
+<li>Fixed artifact updates being refused where a PreToolUse hook covers Edit or Write; Claude now edits the file and then republishes instead of changing it in the publish call</li>
+<li>Fixed skills and commands with very many or very long argument names stalling for seconds when invoked; only the first 64 names, each up to 64 characters, are now filled in</li>
+<li>Fixed skills, commands and hooks using very large amounts of memory when their arguments fill many placeholders</li>
+<li>Fixed stray characters such as <code>&gt;0q</code> covering the folder trust prompt, and <code>&gt;4m</code> before the shell prompt at exit, in terminals built on VTE older than 0.53 such as MATE Terminal on RHEL 8</li>
+<li>Fixed stray <code>GOK</code> text appearing in the prompt at startup in some versions of iTerm2</li>
+<li>Fixed switching to a model whose name contains <code>application-inference-profile</code> running your <code>awsAuthRefresh</code> command and delaying model-switch hooks when the provider is not Bedrock</li>
+<li>Fixed sign-in refresh timeouts and unexpected sign-outs after a short command such as <code>claude auth status</code> or <code>claude plugin list</code> exited in the middle of a token refresh</li>
+<li>Fixed a tool call cut off by a message sent mid-turn during its permission check being reported to the model as rejected by the user</li>
+<li>Fixed a case where switching to a model with a smaller context window could spend usage credits on a summary by the previous model without asking first</li>
+<li>Fixed conversations being compacted over and over, on a model you didn&#39;t pick, behind an LLM gateway whose responses name a different model than the one requested</li>
+<li>Fixed vim mode sometimes staying in INSERT after Escape on a slow or busy machine</li>
+<li>Fixed Esc discarding a typed AskUserQuestion answer in vim mode: the free-text field now supports vim NORMAL mode, and Esc cancels only from NORMAL</li>
+<li>Fixed the Read tool reading binary files such as .xlsm, .parquet, .epub and .heic as text</li>
+<li>Fixed a Markdown table with only a header row drawing nothing when too wide for the terminal, including in plans on the plan approval card</li>
+<li>Fixed the /claude-api skill saying CMEK external-key endpoints aren&#39;t available on Claude Platform on AWS</li>
+<li>Fixed skills no longer being listed to the model after using <code>/rewind</code></li>
+<li>Fixed the compaction row in a resumed session offering ctrl+o for history that is not loaded; it now says where the earlier messages are saved, and also shows in fullscreen</li>
+<li>Fixed the &quot;new task? /clear to save tokens&quot; hint coming back right after you interrupt a response</li>
+<li>Fixed the permission prompt for a plugin or skill hook&#39;s <code>ask</code> decision not showing which plugin or skill the hook comes from</li>
+<li>Fixed <code>/diff</code> not noticing a conflicted cherry-pick or revert in reftable repositories when one of its git checks timed out or failed</li>
+<li>Fixed workflow scripts asking for permission or being refused when read, edited or re-run after a Bash <code>cd</code> in the same session</li>
+<li>Fixed dim text on the dark ANSI theme and 16-color terminals: faint inside filled boxes, not faint under selection and search highlights, and list descriptions dimmed like other secondary text</li>
+<li>Fixed a mod&#39;s <code>$.model.fork</code> returning <code>nothing-to-fork</code> when called before the first response of a new Claude Code process had finished, as in <code>claude -p</code> runs and cloud sessions</li>
+<li>Fullscreen mode: Fixed <code>/compact</code> and auto-compact briefly freezing the UI while the visible transcript is rebuilt</li>
+<li>Self-hosted runner: Fixed sessions started from Slack being unable to find or attach a repository when managed settings restrict MCP servers; use <code>deniedMcpServers</code> to keep those tools off</li>
+<li>Self-hosted runner: Fixed sessions being reported as having a deleted source branch, and not retried, when an unrelated setup or session failure quoted git&#39;s missing-ref wording</li>
+<li>Self-hosted runner: Fixed the log promising a retry of a failed or declined session release for a session that is ending; repeated failures now show a count</li>
+<li>Windows: Fixed stopped background PowerShell commands missing the closing <code>[killed]</code> line in their output file</li>
+<li>Improved switching to a model with a smaller context window: a conversation too long for the new model is now summarized by the previous model first</li>
+<li>Improved rendering performance while a long-running subagent works: its progress trail now updates incrementally instead of being reprocessed in full on every render</li>
+<li>Improved artifacts: pages Claude writes now paint the band above a sticky header, so scrolled text no longer shows there in the mobile apps</li>
+<li>Improved mods: in VS Code and the desktop and mobile apps, a tree drawn above the question dialog can now hold Markdown and up to 48 rows; the terminal keeps 12 plain rows</li>
+<li>Changed a mod hook&#39;s <code>.catch</code> handler to run only when the hook throws or times out; events raised beneath the hook&#39;s own calls now skip that hook without asking its <code>.catch</code></li>
+<li>Changed a mod&#39;s <code>$.env.set</code> to resolve with <code>{}</code> once the variable is set or unset, or with <code>{ deny }</code> saying why when the write is not made</li>
+<li>[VSCode] Added LaTeX math rendering in Claude&#39;s responses, including <code>$$</code> and multi-line <code>\[ … \]</code> blocks and inline <code>$…$</code> and <code>\(…\)</code> math</li>
+<li>[VSCode] Added a &quot;Get more usage&quot; link to the usage-limit banner for Pro and Max plans in the VS Code and JetBrains panels</li>
+<li>[VSCode] Fixed a conversation that crashes or freezes the panel being reopened on every reload</li>
+<li>[VSCode] Fixed the chat panel slowing down during long thinking: it no longer re-parses the whole thinking text on every update</li>
+<li>[VSCode] Fixed diagnostics showing &quot;[object Object]&quot; instead of the rule code (e.g. MD013) for some language servers</li>
+<li>[VSCode] Fixed the native dictation audio module being loaded, to check microphone permission, where dictation is not offered (non-claude.ai sign-ins, remote windows)</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Added <code>CLAUDE_CODE_RETRY_WATCHDOG_MAX_USAGE_LIMIT_WAIT_MS</code> so unattended retry mode (<code>CLAUDE_CODE_RETRY_WATCHDOG</code>) ends a request at a usage limit that resets too far away instead of waiting</li>
+<li>Added OpenTelemetry tracing guidance to the <code>claude-api</code> skill, including setting up trace destinations with the <code>ant</code> CLI</li>
+<li>Added the <code>%</code> motion to vim mode: jump to the matching bracket, alone or with d/c/y</li>
+<li>Added <code>rows</code> to a mod&#39;s <code>Input</code>: a text field of several lines in the terminal, where Enter submits and Shift+Enter or a backslash before Enter starts a new line</li>
+<li>Added <code>classifier_verdict</code> and <code>permission_mode</code> to OpenTelemetry <code>tool_decision</code> events, so auto mode classifier decisions can be told apart from permission rules</li>
+<li>Added <code>classifier_category</code> to OpenTelemetry <code>tool_decision</code> events, naming the built-in rule a classifier block matched, when <code>OTEL_LOG_TOOL_DETAILS=1</code></li>
+<li>Fixed quitting removing a worktree made by a <code>WorktreeCreate</code> hook without asking when it may hold unpushed commits</li>
+<li>Fixed the <code>fable</code> (and <code>best</code>) model alias erroring on the Anthropic API when the newest Fable model is not available to your organization: Claude Code now retries once on the previous Fable model</li>
+<li>Fixed a misleading &quot;Please run /login&quot; error when a full disk keeps the login from being refreshed; the error now names the disk and says to delete files</li>
+<li>Fixed Grep and Glob reporting no matches when the search program failed unexpectedly before returning any results; they now return an error saying the search failed</li>
+<li>Fixed workflow agents sometimes skipping their step, and the run still reporting success, after reading the harness note that their task text carries no user authority</li>
+<li>Fixed artifact updates being refused where a PreToolUse hook covers Edit or Write; Claude now edits the file and then republishes instead of changing it in the publish call</li>
+<li>Fixed skills and commands with very many or very long argument names stalling for seconds when invoked; only the first 64 names, each up to 64 characters, are now filled in</li>
+<li>Fixed skills, commands and hooks using very large amounts of memory when their arguments fill many placeholders</li>
+<li>Fixed stray characters such as <code>&gt;0q</code> covering the folder trust prompt, and <code>&gt;4m</code> before the shell prompt at exit, in terminals built on VTE older than 0.53 such as MATE Terminal on RHEL 8</li>
+<li>Fixed stray <code>GOK</code> text appearing in the prompt at startup in some versions of iTerm2</li>
+<li>Fixed switching to a model whose name contains <code>application-inference-profile</code> running your <code>awsAuthRefresh</code> command and delaying model-switch hooks when the provider is not Bedrock</li>
+<li>Fixed sign-in refresh timeouts and unexpected sign-outs after a short command such as <code>claude auth status</code> or <code>claude plugin list</code> exited in the middle of a token refresh</li>
+<li>Fixed a tool call cut off by a message sent mid-turn during its permission check being reported to the model as rejected by the user</li>
+<li>Fixed a case where switching to a model with a smaller context window could spend usage credits on a summary by the previous model without asking first</li>
+<li>Fixed conversations being compacted over and over, on a model you didn&#39;t pick, behind an LLM gateway whose responses name a different model than the one requested</li>
+<li>Fixed vim mode sometimes staying in INSERT after Escape on a slow or busy machine</li>
+<li>Fixed Esc discarding a typed AskUserQuestion answer in vim mode: the free-text field now supports vim NORMAL mode, and Esc cancels only from NORMAL</li>
+<li>Fixed the Read tool reading binary files such as .xlsm, .parquet, .epub and .heic as text</li>
+<li>Fixed a Markdown table with only a header row drawing nothing when too wide for the terminal, including in plans on the plan approval card</li>
+<li>Fixed the /claude-api skill saying CMEK external-key endpoints aren&#39;t available on Claude Platform on AWS</li>
+<li>Fixed skills no longer being listed to the model after using <code>/rewind</code></li>
+<li>Fixed the compaction row in a resumed session offering ctrl+o for history that is not loaded; it now says where the earlier messages are saved, and also shows in fullscreen</li>
+<li>Fixed the &quot;new task? /clear to save tokens&quot; hint coming back right after you interrupt a response</li>
+<li>Fixed the permission prompt for a plugin or skill hook&#39;s <code>ask</code> decision not showing which plugin or skill the hook comes from</li>
+<li>Fixed <code>/diff</code> not noticing a conflicted cherry-pick or revert in reftable repositories when one of its git checks timed out or failed</li>
+<li>Fixed workflow scripts asking for permission or being refused when read, edited or re-run after a Bash <code>cd</code> in the same session</li>
+<li>Fixed dim text on the dark ANSI theme and 16-color terminals: faint inside filled boxes, not faint under selection and search highlights, and list descriptions dimmed like other secondary text</li>
+<li>Fixed a mod&#39;s <code>$.model.fork</code> returning <code>nothing-to-fork</code> when called before the first response of a new Claude Code process had finished, as in <code>claude -p</code> runs and cloud sessions</li>
+<li>Fullscreen mode: Fixed <code>/compact</code> and auto-compact briefly freezing the UI while the visible transcript is rebuilt</li>
+<li>Self-hosted runner: Fixed sessions started from Slack being unable to find or attach a repository when managed settings restrict MCP servers; use <code>deniedMcpServers</code> to keep those tools off</li>
+<li>Self-hosted runner: Fixed sessions being reported as having a deleted source branch, and not retried, when an unrelated setup or session failure quoted git&#39;s missing-ref wording</li>
+<li>Self-hosted runner: Fixed the log promising a retry of a failed or declined session release for a session that is ending; repeated failures now show a count</li>
+<li>Windows: Fixed stopped background PowerShell commands missing the closing <code>[killed]</code> line in their output file</li>
+<li>Improved switching to a model with a smaller context window: a conversation too long for the new model is now summarized by the previous model first</li>
+<li>Improved rendering performance while a long-running subagent works: its progress trail now updates incrementally instead of being reprocessed in full on every render</li>
+<li>Improved artifacts: pages Claude writes now paint the band above a sticky header, so scrolled text no longer shows there in the mobile apps</li>
+<li>Improved mods: in VS Code and the desktop and mobile apps, a tree drawn above the question dialog can now hold Markdown and up to 48 rows; the terminal keeps 12 plain rows</li>
+<li>Changed a mod hook&#39;s <code>.catch</code> handler to run only when the hook throws or times out; events raised beneath the hook&#39;s own calls now skip that hook without asking its <code>.catch</code></li>
+<li>Changed a mod&#39;s <code>$.env.set</code> to resolve with <code>{}</code> once the variable is set or unset, or with <code>{ deny }</code> saying why when the write is not made</li>
+<li>[VSCode] Added LaTeX math rendering in Claude&#39;s responses, including <code>$$</code> and multi-line <code>\[ … \]</code> blocks and inline <code>$…$</code> and <code>\(…\)</code> math</li>
+<li>[VSCode] Added a &quot;Get more usage&quot; link to the usage-limit banner for Pro and Max plans in the VS Code and JetBrains panels</li>
+<li>[VSCode] Fixed a conversation that crashes or freezes the panel being reopened on every reload</li>
+<li>[VSCode] Fixed the chat panel slowing down during long thinking: it no longer re-parses the whole thinking text on every update</li>
+<li>[VSCode] Fixed diagnostics showing &quot;[object Object]&quot; instead of the rule code (e.g. MD013) for some language servers</li>
+<li>[VSCode] Fixed the native dictation audio module being loaded, to check microphone permission, where dictation is not offered (non-claude.ai sign-ins, remote windows)</li>
+</ul>
+]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[v2.1.300]]></title>
             <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.300</link>
@@ -7032,98 +7148,6 @@
 <li>Remote Control: clearer message and <code>claude doctor</code> wording when Remote Control isn&#39;t enabled for your account</li>
 <li>Windows: cross-session messaging is now available, so Claude Code sessions across your machines can message each other with <code>SendMessage</code> and find each other with <code>ListAgents</code>, as on macOS and Linux</li>
 <li>[VSCode] &quot;View usage&quot; in the usage-limit banner now sits inline with the warning text instead of floating mid-banner</li>
-</ul>
-]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[v2.1.238]]></title>
-            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.238</link>
-            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.238</guid>
-            <pubDate>Thu, 20 Aug 2026 20:33:51 GMT</pubDate>
-            <description><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>Added a <code>keybindingFlavor</code> setting: set it to <code>&quot;readline&quot;</code> to make Ctrl+W in the prompt delete back to the previous whitespace, as in Bash; the default (<code>&quot;classic&quot;</code>) is unchanged</li>
-<li>Plugin marketplaces: <code>headersHelper</code> on a url marketplace or a catalog entry runs a command that mints HTTP headers (e.g. a short-lived token) for catalog and same-origin archive fetches</li>
-<li>A catalog entry&#39;s <code>headersHelper</code> runs only when you install or update that plugin, after its command is shown; <code>claude plugin install/update</code> ask <code>[y/N]</code> (or pass <code>-y</code>)</li>
-<li>Added <code>claude self-hosted-runner --defer-shutdown-max-min &lt;minutes&gt;</code>: on SIGTERM, keep serving attached sessions, park what is left after that many minutes, then exit</li>
-<li>Added <code>claude self-hosted-runner --proxy-authorization-command</code> / <code>--proxy-authorization-file</code> for egress proxies that require a freshly issued <code>Proxy-Authorization</code> header on every connection</li>
-<li>Fixed unbounded memory growth in long interactive sessions: subagent tool results are now released once they leave the recent display window</li>
-<li>Fixed custom, project, and plugin output styles drifting back to the default voice mid-session</li>
-<li>Fixed <code>CLAUDE_CODE_ENABLE_PROMPT_SUGGESTION=true</code> not keeping prompt suggestions on when your account is near, but not over, its usage limit</li>
-<li>Fixed worktree-isolation Bash refusals telling you to remove a redirect when the command had none</li>
-<li>Fixed self-hosted runners occasionally being removed by the server after a single slow or lost poll request, handing their healthy session to another runner</li>
-<li>Fixed MCP elicitation dialogs showing nothing for URLs longer than 4,096 characters, and permission prompts dropping the &quot;don&#39;t ask again&quot; option when the project path didn&#39;t fit the terminal width</li>
-<li>Fixed leftover <code>/tmp/claude-*-cwd</code> files when a Bash command is killed, times out, or is interrupted</li>
-<li>Fixed held Backspace being ignored on terminals that send Ctrl+H for Backspace when keystrokes arrive in large bursts (slow SSH/mosh links)</li>
-<li>Fixed text-wrapping in permission prompt diffs: lines containing wide multi-code-point characters (such as emoji) or tabs are no longer clipped</li>
-<li>Fixed killing a suspended (Ctrl+Z) session sometimes leaving the terminal in bracketed-paste mode with the cursor hidden</li>
-<li>Fixed stdio MCP servers receiving a <code>server/discover</code> request before <code>initialize</code>, forcing lazy servers to start their backend on every session open</li>
-<li>Fixed a proxy&#39;s refusal of a connection being reported as a generic network error instead of naming the proxy</li>
-<li>Fixed the <code>/model</code> and <code>/effort</code> cache-miss warning appearing when the prompt cache had already expired</li>
-<li>Fixed per-task Stop from the Remote Control tasks panel doing nothing on CLI-hosted sessions</li>
-<li>Fixed remote sessions exiting when a client delivered a user message without a valid role</li>
-<li>Fixed Remote Control sessions started by <code>claude remote-control</code> inheriting session-scoped environment variables from the launching shell</li>
-<li>Fixed a Remote Control session whose process crashed staying unavailable until <code>claude remote-control</code> was restarted; it can now be reused when you next message it</li>
-<li>Fixed Remote Control messages sent from the web or Desktop while Claude is mid-turn disappearing from the transcript after the turn finishes</li>
-<li>Fixed Remote Control model picks made on a phone or web not updating the model shown in the terminal</li>
-<li>Fixed Remote Control disconnecting with &quot;login expired&quot; when a brief network hiccup delays renewing your sign-in; it now retries and stays connected</li>
-<li>Fixed Remote Control reporting a failed reconnect on sign-out; signing out now ends the session with a clear message</li>
-<li>Fixed <code>ListAgents</code>/<code>SendMessage</code> reporting &quot;Remote Control is not connected&quot; in sessions run by <code>claude remote-control</code> (server mode) or Desktop/IDE hosts; they now list and reach Remote Control peers</li>
-<li>Fixed <code>ListAgents</code> and <code>SendMessage</code> exposing the idle worker that the agent view pre-warms for your next background session; it now appears only once a task claims it</li>
-<li>Cross-session messaging: sending to a session on this machine that refuses inbound messages (e.g. <code>crossSessionInbound: &quot;refuse&quot;</code>) now reports &quot;refused&quot; to the sender instead of a silent success</li>
-<li>Cross-session messaging: a session whose inbox drops your messages (rate limit or full queue) now tells your session, instead of the messages vanishing silently</li>
-<li>Improved startup: bare <code>claude</code> starts sooner on macOS</li>
-<li>Improved Bash tool permission checking for zsh-specific syntax in shell conditionals</li>
-<li>Improved Remote Control connection resilience: brief HTTP 403 refusals from a network edge, VPN, or proxy are now tolerated for up to 3 minutes, with the refusing party named when a block persists</li>
-<li>Improved startup responsiveness: the automatic update check now runs about 10 seconds after launch instead of competing with startup for CPU</li>
-<li>Updated the bundled <code>claude-api</code> skill for the Managed Agents Aug 19 release: web search/fetch domain settings and memory stores on self-hosted sandboxes</li>
-<li>Changed Ctrl+L and Cmd+K in fullscreen to always just repaint — the double-press <code>/clear</code> shortcut was removed, and 1-row nvim terminals no longer trigger automatic <code>/clear</code> loops</li>
-<li>Changed <code>claude mcp list</code> and <code>claude mcp get</code> to show disabled servers as <code>⊘ Disabled</code> instead of connecting to them for a health check</li>
-<li>MCP <code>headersHelper</code> in a project <code>.mcp.json</code>, and inline MCP servers in project or <code>--add-dir</code> agent files, now require that folder&#39;s trust dialog to have been accepted (also under <code>claude -p</code>)</li>
-<li>MCP <code>headersHelper</code> from a project <code>.mcp.json</code>, plugin, or agent file runs without inherited credential env vars; user, managed and claude.ai-scope helpers now run from the Claude config dir</li>
-</ul>
-]]></description>
-            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>Added a <code>keybindingFlavor</code> setting: set it to <code>&quot;readline&quot;</code> to make Ctrl+W in the prompt delete back to the previous whitespace, as in Bash; the default (<code>&quot;classic&quot;</code>) is unchanged</li>
-<li>Plugin marketplaces: <code>headersHelper</code> on a url marketplace or a catalog entry runs a command that mints HTTP headers (e.g. a short-lived token) for catalog and same-origin archive fetches</li>
-<li>A catalog entry&#39;s <code>headersHelper</code> runs only when you install or update that plugin, after its command is shown; <code>claude plugin install/update</code> ask <code>[y/N]</code> (or pass <code>-y</code>)</li>
-<li>Added <code>claude self-hosted-runner --defer-shutdown-max-min &lt;minutes&gt;</code>: on SIGTERM, keep serving attached sessions, park what is left after that many minutes, then exit</li>
-<li>Added <code>claude self-hosted-runner --proxy-authorization-command</code> / <code>--proxy-authorization-file</code> for egress proxies that require a freshly issued <code>Proxy-Authorization</code> header on every connection</li>
-<li>Fixed unbounded memory growth in long interactive sessions: subagent tool results are now released once they leave the recent display window</li>
-<li>Fixed custom, project, and plugin output styles drifting back to the default voice mid-session</li>
-<li>Fixed <code>CLAUDE_CODE_ENABLE_PROMPT_SUGGESTION=true</code> not keeping prompt suggestions on when your account is near, but not over, its usage limit</li>
-<li>Fixed worktree-isolation Bash refusals telling you to remove a redirect when the command had none</li>
-<li>Fixed self-hosted runners occasionally being removed by the server after a single slow or lost poll request, handing their healthy session to another runner</li>
-<li>Fixed MCP elicitation dialogs showing nothing for URLs longer than 4,096 characters, and permission prompts dropping the &quot;don&#39;t ask again&quot; option when the project path didn&#39;t fit the terminal width</li>
-<li>Fixed leftover <code>/tmp/claude-*-cwd</code> files when a Bash command is killed, times out, or is interrupted</li>
-<li>Fixed held Backspace being ignored on terminals that send Ctrl+H for Backspace when keystrokes arrive in large bursts (slow SSH/mosh links)</li>
-<li>Fixed text-wrapping in permission prompt diffs: lines containing wide multi-code-point characters (such as emoji) or tabs are no longer clipped</li>
-<li>Fixed killing a suspended (Ctrl+Z) session sometimes leaving the terminal in bracketed-paste mode with the cursor hidden</li>
-<li>Fixed stdio MCP servers receiving a <code>server/discover</code> request before <code>initialize</code>, forcing lazy servers to start their backend on every session open</li>
-<li>Fixed a proxy&#39;s refusal of a connection being reported as a generic network error instead of naming the proxy</li>
-<li>Fixed the <code>/model</code> and <code>/effort</code> cache-miss warning appearing when the prompt cache had already expired</li>
-<li>Fixed per-task Stop from the Remote Control tasks panel doing nothing on CLI-hosted sessions</li>
-<li>Fixed remote sessions exiting when a client delivered a user message without a valid role</li>
-<li>Fixed Remote Control sessions started by <code>claude remote-control</code> inheriting session-scoped environment variables from the launching shell</li>
-<li>Fixed a Remote Control session whose process crashed staying unavailable until <code>claude remote-control</code> was restarted; it can now be reused when you next message it</li>
-<li>Fixed Remote Control messages sent from the web or Desktop while Claude is mid-turn disappearing from the transcript after the turn finishes</li>
-<li>Fixed Remote Control model picks made on a phone or web not updating the model shown in the terminal</li>
-<li>Fixed Remote Control disconnecting with &quot;login expired&quot; when a brief network hiccup delays renewing your sign-in; it now retries and stays connected</li>
-<li>Fixed Remote Control reporting a failed reconnect on sign-out; signing out now ends the session with a clear message</li>
-<li>Fixed <code>ListAgents</code>/<code>SendMessage</code> reporting &quot;Remote Control is not connected&quot; in sessions run by <code>claude remote-control</code> (server mode) or Desktop/IDE hosts; they now list and reach Remote Control peers</li>
-<li>Fixed <code>ListAgents</code> and <code>SendMessage</code> exposing the idle worker that the agent view pre-warms for your next background session; it now appears only once a task claims it</li>
-<li>Cross-session messaging: sending to a session on this machine that refuses inbound messages (e.g. <code>crossSessionInbound: &quot;refuse&quot;</code>) now reports &quot;refused&quot; to the sender instead of a silent success</li>
-<li>Cross-session messaging: a session whose inbox drops your messages (rate limit or full queue) now tells your session, instead of the messages vanishing silently</li>
-<li>Improved startup: bare <code>claude</code> starts sooner on macOS</li>
-<li>Improved Bash tool permission checking for zsh-specific syntax in shell conditionals</li>
-<li>Improved Remote Control connection resilience: brief HTTP 403 refusals from a network edge, VPN, or proxy are now tolerated for up to 3 minutes, with the refusing party named when a block persists</li>
-<li>Improved startup responsiveness: the automatic update check now runs about 10 seconds after launch instead of competing with startup for CPU</li>
-<li>Updated the bundled <code>claude-api</code> skill for the Managed Agents Aug 19 release: web search/fetch domain settings and memory stores on self-hosted sandboxes</li>
-<li>Changed Ctrl+L and Cmd+K in fullscreen to always just repaint — the double-press <code>/clear</code> shortcut was removed, and 1-row nvim terminals no longer trigger automatic <code>/clear</code> loops</li>
-<li>Changed <code>claude mcp list</code> and <code>claude mcp get</code> to show disabled servers as <code>⊘ Disabled</code> instead of connecting to them for a health check</li>
-<li>MCP <code>headersHelper</code> in a project <code>.mcp.json</code>, and inline MCP servers in project or <code>--add-dir</code> agent files, now require that folder&#39;s trust dialog to have been accepted (also under <code>claude -p</code>)</li>
-<li>MCP <code>headersHelper</code> from a project <code>.mcp.json</code>, plugin, or agent file runs without inherited credential env vars; user, managed and claude.ai-scope helpers now run from the Claude config dir</li>
 </ul>
 ]]></content:encoded>
         </item>
