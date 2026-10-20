@@ -4,11 +4,115 @@
         <title>mcp-grafana Releases</title>
         <link>https://github.com/grafana/mcp-grafana/releases</link>
         <description>GitHub releases for grafana/mcp-grafana</description>
-        <lastBuildDate>Wed, 07 Oct 2026 20:18:40 GMT</lastBuildDate>
+        <lastBuildDate>Tue, 20 Oct 2026 17:35:20 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>ai-rss-feeds (https://github.com/leontloveless/ai-rss-feeds)</generator>
         <language>en</language>
         <atom:link href="https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/mcp-grafana-releases.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[v2.1.1]]></title>
+            <link>https://github.com/grafana/mcp-grafana/releases/tag/v2.1.1</link>
+            <guid>https://github.com/grafana/mcp-grafana/releases/tag/v2.1.1</guid>
+            <pubDate>Tue, 20 Oct 2026 17:35:20 GMT</pubDate>
+            <description><![CDATA[<h3>Fixed</h3>
+<ul>
+<li>Classic (v1) dashboards are read and patched as v1 again on Grafana versions whose v1→v2 conversion adds a default grid layout preference, such as Grafana Cloud 13.3. Since v2.1.0, <code>get_dashboard_by_uid</code> reported every such dashboard as v2, so <code>update_dashboard</code> patches with <code>$.panels[...]</code> paths failed, and retrying with v2 paths migrated the dashboard to v2 (<a href="https://github.com/grafana/mcp-grafana/pull/1369">#1369</a>)</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h3>Fixed</h3>
+<ul>
+<li>Classic (v1) dashboards are read and patched as v1 again on Grafana versions whose v1→v2 conversion adds a default grid layout preference, such as Grafana Cloud 13.3. Since v2.1.0, <code>get_dashboard_by_uid</code> reported every such dashboard as v2, so <code>update_dashboard</code> patches with <code>$.panels[...]</code> paths failed, and retrying with v2 paths migrated the dashboard to v2 (<a href="https://github.com/grafana/mcp-grafana/pull/1369">#1369</a>)</li>
+</ul>
+]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[v2.1.0]]></title>
+            <link>https://github.com/grafana/mcp-grafana/releases/tag/v2.1.0</link>
+            <guid>https://github.com/grafana/mcp-grafana/releases/tag/v2.1.0</guid>
+            <pubDate>Tue, 20 Oct 2026 15:46:24 GMT</pubDate>
+            <description><![CDATA[<h3>Added</h3>
+<ul>
+<li><code>alerting_rules_write</code> and <code>alerting_routing_write</code> can create Mimir/Cortex or Loki ruler alert rules and Mimir/Cortex Alertmanager receivers with <code>managed_by: &quot;datasource&quot;</code>. Grafana-managed creation stays the default. The target datasource comes from <code>datasource_uid</code> or, when exactly one compatible datasource exists, is selected automatically; existing rules in the group and the rest of the Alertmanager configuration are preserved (<a href="https://github.com/grafana/mcp-grafana/pull/1342">#1342</a>)</li>
+<li><code>query_prometheus</code> renders its results as an interactive chart (time series, heatmap, bars, stat or table, chosen from the response shape) in MCP hosts that support MCP Apps. The text output is unchanged (<a href="https://github.com/grafana/mcp-grafana/pull/1309">#1309</a>)</li>
+<li>Every tool declares the Grafana RBAC actions it needs in its <code>_meta</code> (<code>grafana.com/requiredPermissions</code>), and the README&#39;s permissions column is generated from those declarations, adding 20 missing tools and correcting stale entries (<a href="https://github.com/grafana/mcp-grafana/pull/1306">#1306</a>)</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
+<li><code>update_dashboard</code> detects v2 dashboards that Grafana still reports as stored at v1, instead of saving them as v1 and silently dropping auto grid, tabs and conditional rendering (<a href="https://github.com/grafana/mcp-grafana/pull/1357">#1357</a>)</li>
+<li><code>query_sql</code> and <code>run_panel_query</code> replace <code>$__from</code>, <code>$__to</code> and <code>$__interval</code> only as whole tokens, so plugin macros such as ClickHouse&#39;s <code>$__fromTime</code>, <code>$__toTime</code> and <code>$__interval_s</code> (and tokens like <code>$__to_date</code> in other dialects) are no longer corrupted (<a href="https://github.com/grafana/mcp-grafana/pull/1346">#1346</a>)</li>
+<li><code>query_prometheus</code> returns <code>endTime is required</code> or <code>startTime must be provided when queryType is &#39;range&#39;</code> instead of a PromQL parser error when those times are missing (<a href="https://github.com/grafana/mcp-grafana/pull/1347">#1347</a>)</li>
+<li><code>--enable-write-tools=generate_deeplink</code> now works with <code>--disable-write</code>, so <code>shorten=true</code> returns a short link (<a href="https://github.com/grafana/mcp-grafana/pull/1337">#1337</a>)</li>
+<li><code>get_panel_image</code> uses separate default sizes for panels (1000x750), dashboards (1200x900) and Explore (1000x1000) at scale 1, clamps scale to 1-3, and caps each rendered dimension at 3000 pixels (<a href="https://github.com/grafana/mcp-grafana/pull/1323">#1323</a>)</li>
+<li>Listing datasource-managed (Prometheus, Mimir, Loki) alert rules pages through results and stops once enough matches are found, with a 10 MiB per-page and 30s overall bound, instead of decoding every rule at once (<a href="https://github.com/grafana/mcp-grafana/pull/1335">#1335</a>)</li>
+<li>Several tool bugs (<a href="https://github.com/grafana/mcp-grafana/pull/1313">#1313</a>):<ul>
+<li><code>create_annotation</code> converts Graphite <code>when</code> from milliseconds to seconds</li>
+<li><code>update_dashboard</code> returns the saved title instead of <code>null</code></li>
+<li>Pyroscope label tools return <code>[]</code> instead of <code>null</code></li>
+<li><code>get_tempo_trace</code> returns a not-found error for unknown trace IDs instead of <code>{}</code></li>
+<li>Incident results no longer include empty placeholder assignments</li>
+<li><code>install_plugin</code> only suggests creating a datasource for datasource plugins</li>
+</ul>
+</li>
+<li>Generic empty-result hints for Prometheus and Loki are shorter, using fewer tokens per empty response (<a href="https://github.com/grafana/mcp-grafana/pull/1336">#1336</a>)</li>
+<li>The MCP apps no longer ship duplicate <code>woff</code> fonts, shrinking the trace viewer by about 19% (<a href="https://github.com/grafana/mcp-grafana/pull/1312">#1312</a>)</li>
+<li>Docker images report their real version from <code>--version</code> (<a href="https://github.com/grafana/mcp-grafana/pull/1315">#1315</a>)</li>
+</ul>
+<h3>Changed</h3>
+<ul>
+<li><strong>Breaking:</strong> <code>list_users_by_org</code> is paginated, with new <code>query</code>, <code>limit</code> (default 100, max 1000) and <code>page</code> inputs, and returns <code>{totalCount, page, perPage, orgUsers}</code> instead of an array of users. Agents pick up the new shape from the tool description and need no changes; only code that parses the tool output directly must read <code>orgUsers</code> (<a href="https://github.com/grafana/mcp-grafana/pull/1313">#1313</a>)</li>
+<li><code>generate_deeplink</code> with <code>shorten: true</code> returns an error containing the full link when a short URL cannot be created, instead of silently returning the long URL (<a href="https://github.com/grafana/mcp-grafana/pull/1313">#1313</a>)</li>
+<li><code>grafana_api_request</code> times out after the Grafana client timeout (10s by default; raise it with <code>--grafana-timeout</code>). <code>get_panel_image</code> render timeouts default to 60s and are capped at 120s. The client cache is bounded to 1000 entries per client type (<a href="https://github.com/grafana/mcp-grafana/pull/1315">#1315</a>)</li>
+<li>Prometheus query and metadata responses larger than 10 MiB fail with an error asking you to narrow the query, instead of being read without limit (<a href="https://github.com/grafana/mcp-grafana/pull/1331">#1331</a>)</li>
+</ul>
+<h3>Security</h3>
+<ul>
+<li>Bump the Go toolchain to 1.26.9, <code>golang.org/x/net</code> to v0.60.0 and the builder images to Go 1.27.2 for CVEs (<a href="https://github.com/grafana/mcp-grafana/pull/1333">#1333</a>)</li>
+<li>Bump vite in the bundled UI apps to remediate a <code>source-map-js</code> CVE (<a href="https://github.com/grafana/mcp-grafana/pull/1332">#1332</a>)</li>
+<li>Releases are signed with keyless cosign: the binaries checksums file, the <code>.mcpb</code> bundle and the Docker images, each with SPDX SBOMs (<a href="https://github.com/grafana/mcp-grafana/pull/1314">#1314</a>)</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h3>Added</h3>
+<ul>
+<li><code>alerting_rules_write</code> and <code>alerting_routing_write</code> can create Mimir/Cortex or Loki ruler alert rules and Mimir/Cortex Alertmanager receivers with <code>managed_by: &quot;datasource&quot;</code>. Grafana-managed creation stays the default. The target datasource comes from <code>datasource_uid</code> or, when exactly one compatible datasource exists, is selected automatically; existing rules in the group and the rest of the Alertmanager configuration are preserved (<a href="https://github.com/grafana/mcp-grafana/pull/1342">#1342</a>)</li>
+<li><code>query_prometheus</code> renders its results as an interactive chart (time series, heatmap, bars, stat or table, chosen from the response shape) in MCP hosts that support MCP Apps. The text output is unchanged (<a href="https://github.com/grafana/mcp-grafana/pull/1309">#1309</a>)</li>
+<li>Every tool declares the Grafana RBAC actions it needs in its <code>_meta</code> (<code>grafana.com/requiredPermissions</code>), and the README&#39;s permissions column is generated from those declarations, adding 20 missing tools and correcting stale entries (<a href="https://github.com/grafana/mcp-grafana/pull/1306">#1306</a>)</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
+<li><code>update_dashboard</code> detects v2 dashboards that Grafana still reports as stored at v1, instead of saving them as v1 and silently dropping auto grid, tabs and conditional rendering (<a href="https://github.com/grafana/mcp-grafana/pull/1357">#1357</a>)</li>
+<li><code>query_sql</code> and <code>run_panel_query</code> replace <code>$__from</code>, <code>$__to</code> and <code>$__interval</code> only as whole tokens, so plugin macros such as ClickHouse&#39;s <code>$__fromTime</code>, <code>$__toTime</code> and <code>$__interval_s</code> (and tokens like <code>$__to_date</code> in other dialects) are no longer corrupted (<a href="https://github.com/grafana/mcp-grafana/pull/1346">#1346</a>)</li>
+<li><code>query_prometheus</code> returns <code>endTime is required</code> or <code>startTime must be provided when queryType is &#39;range&#39;</code> instead of a PromQL parser error when those times are missing (<a href="https://github.com/grafana/mcp-grafana/pull/1347">#1347</a>)</li>
+<li><code>--enable-write-tools=generate_deeplink</code> now works with <code>--disable-write</code>, so <code>shorten=true</code> returns a short link (<a href="https://github.com/grafana/mcp-grafana/pull/1337">#1337</a>)</li>
+<li><code>get_panel_image</code> uses separate default sizes for panels (1000x750), dashboards (1200x900) and Explore (1000x1000) at scale 1, clamps scale to 1-3, and caps each rendered dimension at 3000 pixels (<a href="https://github.com/grafana/mcp-grafana/pull/1323">#1323</a>)</li>
+<li>Listing datasource-managed (Prometheus, Mimir, Loki) alert rules pages through results and stops once enough matches are found, with a 10 MiB per-page and 30s overall bound, instead of decoding every rule at once (<a href="https://github.com/grafana/mcp-grafana/pull/1335">#1335</a>)</li>
+<li>Several tool bugs (<a href="https://github.com/grafana/mcp-grafana/pull/1313">#1313</a>):<ul>
+<li><code>create_annotation</code> converts Graphite <code>when</code> from milliseconds to seconds</li>
+<li><code>update_dashboard</code> returns the saved title instead of <code>null</code></li>
+<li>Pyroscope label tools return <code>[]</code> instead of <code>null</code></li>
+<li><code>get_tempo_trace</code> returns a not-found error for unknown trace IDs instead of <code>{}</code></li>
+<li>Incident results no longer include empty placeholder assignments</li>
+<li><code>install_plugin</code> only suggests creating a datasource for datasource plugins</li>
+</ul>
+</li>
+<li>Generic empty-result hints for Prometheus and Loki are shorter, using fewer tokens per empty response (<a href="https://github.com/grafana/mcp-grafana/pull/1336">#1336</a>)</li>
+<li>The MCP apps no longer ship duplicate <code>woff</code> fonts, shrinking the trace viewer by about 19% (<a href="https://github.com/grafana/mcp-grafana/pull/1312">#1312</a>)</li>
+<li>Docker images report their real version from <code>--version</code> (<a href="https://github.com/grafana/mcp-grafana/pull/1315">#1315</a>)</li>
+</ul>
+<h3>Changed</h3>
+<ul>
+<li><strong>Breaking:</strong> <code>list_users_by_org</code> is paginated, with new <code>query</code>, <code>limit</code> (default 100, max 1000) and <code>page</code> inputs, and returns <code>{totalCount, page, perPage, orgUsers}</code> instead of an array of users. Agents pick up the new shape from the tool description and need no changes; only code that parses the tool output directly must read <code>orgUsers</code> (<a href="https://github.com/grafana/mcp-grafana/pull/1313">#1313</a>)</li>
+<li><code>generate_deeplink</code> with <code>shorten: true</code> returns an error containing the full link when a short URL cannot be created, instead of silently returning the long URL (<a href="https://github.com/grafana/mcp-grafana/pull/1313">#1313</a>)</li>
+<li><code>grafana_api_request</code> times out after the Grafana client timeout (10s by default; raise it with <code>--grafana-timeout</code>). <code>get_panel_image</code> render timeouts default to 60s and are capped at 120s. The client cache is bounded to 1000 entries per client type (<a href="https://github.com/grafana/mcp-grafana/pull/1315">#1315</a>)</li>
+<li>Prometheus query and metadata responses larger than 10 MiB fail with an error asking you to narrow the query, instead of being read without limit (<a href="https://github.com/grafana/mcp-grafana/pull/1331">#1331</a>)</li>
+</ul>
+<h3>Security</h3>
+<ul>
+<li>Bump the Go toolchain to 1.26.9, <code>golang.org/x/net</code> to v0.60.0 and the builder images to Go 1.27.2 for CVEs (<a href="https://github.com/grafana/mcp-grafana/pull/1333">#1333</a>)</li>
+<li>Bump vite in the bundled UI apps to remediate a <code>source-map-js</code> CVE (<a href="https://github.com/grafana/mcp-grafana/pull/1332">#1332</a>)</li>
+<li>Releases are signed with keyless cosign: the binaries checksums file, the <code>.mcpb</code> bundle and the Docker images, each with SPDX SBOMs (<a href="https://github.com/grafana/mcp-grafana/pull/1314">#1314</a>)</li>
+</ul>
+]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[v2.0.2]]></title>
             <link>https://github.com/grafana/mcp-grafana/releases/tag/v2.0.2</link>
@@ -1751,66 +1855,6 @@
 </ul>
 <hr>
 <p>Released by <a href="https://github.com/goreleaser/goreleaser">GoReleaser</a>.</p>
-]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[v0.7.4]]></title>
-            <link>https://github.com/grafana/mcp-grafana/releases/tag/v0.7.4</link>
-            <guid>https://github.com/grafana/mcp-grafana/releases/tag/v0.7.4</guid>
-            <pubDate>Wed, 15 Oct 2025 07:10:48 GMT</pubDate>
-            <description><![CDATA[<h2>Changelog</h2>
-<ul>
-<li>2c3bde3977f4bd2357505c17e0530e36469b342f chore(deps): bump github.com/prometheus/common (#317)</li>
-<li>192b26e7b1327cc147b41fdcc97a587489e853b2 chore(deps): bump the github-actions group across 1 directory with 3 updates (#321)</li>
-<li>43bc281fe4f6ad29cd6cf2ee60f7e1797eaaa7e9 chore: add server.json for MCP registry (#323)</li>
-<li>aca244bb4d09ffcc51ea31780685b559c6f18f66 chore: strip &#39;v&#39; prefix off Docker image tag (#319)</li>
-<li>3c57f7710065d8acf0a313c4887b6bcd62a21c04 feat: add health check endpoint on /healthz (#322)</li>
-<li>48e982b811eed1d649543f138ba0e5369186728e fix: update connectrpc/connect-go to resolve the compile error (#316)</li>
-<li>5ed6922b19e95df849c25cd653305668a23be62f fix: use separate step to extract image tag (#324)</li>
-</ul>
-<hr>
-<p>Released by <a href="https://github.com/goreleaser/goreleaser">GoReleaser</a>.</p>
-]]></description>
-            <content:encoded><![CDATA[<h2>Changelog</h2>
-<ul>
-<li>2c3bde3977f4bd2357505c17e0530e36469b342f chore(deps): bump github.com/prometheus/common (#317)</li>
-<li>192b26e7b1327cc147b41fdcc97a587489e853b2 chore(deps): bump the github-actions group across 1 directory with 3 updates (#321)</li>
-<li>43bc281fe4f6ad29cd6cf2ee60f7e1797eaaa7e9 chore: add server.json for MCP registry (#323)</li>
-<li>aca244bb4d09ffcc51ea31780685b559c6f18f66 chore: strip &#39;v&#39; prefix off Docker image tag (#319)</li>
-<li>3c57f7710065d8acf0a313c4887b6bcd62a21c04 feat: add health check endpoint on /healthz (#322)</li>
-<li>48e982b811eed1d649543f138ba0e5369186728e fix: update connectrpc/connect-go to resolve the compile error (#316)</li>
-<li>5ed6922b19e95df849c25cd653305668a23be62f fix: use separate step to extract image tag (#324)</li>
-</ul>
-<hr>
-<p>Released by <a href="https://github.com/goreleaser/goreleaser">GoReleaser</a>.</p>
-]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[v0.7.3]]></title>
-            <link>https://github.com/grafana/mcp-grafana/releases/tag/v0.7.3</link>
-            <guid>https://github.com/grafana/mcp-grafana/releases/tag/v0.7.3</guid>
-            <pubDate>Fri, 10 Oct 2025 14:01:04 GMT</pubDate>
-            <description><![CDATA[<h2>What&#39;s Changed</h2>
-<ul>
-<li>[MINOR]Add tools to create and search folders by @failedanswer in <a href="https://github.com/grafana/mcp-grafana/pull/303">https://github.com/grafana/mcp-grafana/pull/303</a></li>
-<li>chore(deps): bump the go-dependencies group with 4 updates by @dependabot[bot] in <a href="https://github.com/grafana/mcp-grafana/pull/304">https://github.com/grafana/mcp-grafana/pull/304</a></li>
-<li>chore(deps): bump the go-dependencies group with 2 updates by @dependabot[bot] in <a href="https://github.com/grafana/mcp-grafana/pull/311">https://github.com/grafana/mcp-grafana/pull/311</a></li>
-<li>chore(deps): bump the github-actions group with 2 updates by @dependabot[bot] in <a href="https://github.com/grafana/mcp-grafana/pull/310">https://github.com/grafana/mcp-grafana/pull/310</a></li>
-<li>feat: add more alerting tools by @sd2k in <a href="https://github.com/grafana/mcp-grafana/pull/292">https://github.com/grafana/mcp-grafana/pull/292</a></li>
-<li>Build and push image to docker hub by @ioanarm in <a href="https://github.com/grafana/mcp-grafana/pull/313">https://github.com/grafana/mcp-grafana/pull/313</a></li>
-</ul>
-<p><strong>Full Changelog</strong>: <a href="https://github.com/grafana/mcp-grafana/compare/v0.7.2...v0.7.3">https://github.com/grafana/mcp-grafana/compare/v0.7.2...v0.7.3</a></p>
-]]></description>
-            <content:encoded><![CDATA[<h2>What&#39;s Changed</h2>
-<ul>
-<li>[MINOR]Add tools to create and search folders by @failedanswer in <a href="https://github.com/grafana/mcp-grafana/pull/303">https://github.com/grafana/mcp-grafana/pull/303</a></li>
-<li>chore(deps): bump the go-dependencies group with 4 updates by @dependabot[bot] in <a href="https://github.com/grafana/mcp-grafana/pull/304">https://github.com/grafana/mcp-grafana/pull/304</a></li>
-<li>chore(deps): bump the go-dependencies group with 2 updates by @dependabot[bot] in <a href="https://github.com/grafana/mcp-grafana/pull/311">https://github.com/grafana/mcp-grafana/pull/311</a></li>
-<li>chore(deps): bump the github-actions group with 2 updates by @dependabot[bot] in <a href="https://github.com/grafana/mcp-grafana/pull/310">https://github.com/grafana/mcp-grafana/pull/310</a></li>
-<li>feat: add more alerting tools by @sd2k in <a href="https://github.com/grafana/mcp-grafana/pull/292">https://github.com/grafana/mcp-grafana/pull/292</a></li>
-<li>Build and push image to docker hub by @ioanarm in <a href="https://github.com/grafana/mcp-grafana/pull/313">https://github.com/grafana/mcp-grafana/pull/313</a></li>
-</ul>
-<p><strong>Full Changelog</strong>: <a href="https://github.com/grafana/mcp-grafana/compare/v0.7.2...v0.7.3">https://github.com/grafana/mcp-grafana/compare/v0.7.2...v0.7.3</a></p>
 ]]></content:encoded>
         </item>
     </channel>
