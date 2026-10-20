@@ -31,8 +31,8 @@ GitHub release feeds and native RSS/Atom feeds are added without a model call. S
 | [Essays](https://www.paulgraham.com/articles.html) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/paulgraham.xml) | ✅ 20 articles |
 | [Podcast AI要約｜投資・金融番組のポイント整理 — BigGo ファイナンス](https://finance.biggo.jp/podcast) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/podcast.xml) | ✅ 20 articles |
 | [Stability AI News](https://stability.ai/news) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/stability-ai.xml) | ✅ 20 articles |
-| [文匯報](https://www.wenweipo.com/) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/wenweipo.xml) | ✅ 12 articles |
-| [文匯香港](https://www.wenweipo.com/hongkong) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/wenweipo-hongkong.xml) | ✅ 13 articles |
+| [文匯報](https://www.wenweipo.com/) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/wenweipo.xml) | ✅ 13 articles |
+| [文匯香港](https://www.wenweipo.com/hongkong) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/wenweipo-hongkong.xml) | ✅ 15 articles |
 | [Windsurf Blog](https://windsurf.com/blog) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/windsurf.xml) | ✅ 50 articles |
 
 ### External RSS (5)
@@ -54,7 +54,7 @@ GitHub release feeds and native RSS/Atom feeds are added without a model call. S
 | [NousResearch/hermes-agent](https://github.com/NousResearch/hermes-agent) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/hermes-agent-releases.xml) | ✅ 41 releases |
 | [kubernetes/kubernetes](https://github.com/kubernetes/kubernetes) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/kubernetes-releases.xml) | ✅ 36 releases |
 | [grafana/mcp-grafana](https://github.com/grafana/mcp-grafana) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/mcp-grafana-releases.xml) | ✅ 50 releases |
-| [omacom/omarchy](https://github.com/omacom/omarchy) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/omarchy-releases.xml) | ✅ 50 releases |
+| [omacom/omarchy](https://github.com/omacom/omarchy) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/omarchy-releases.xml) | ✅ 49 releases |
 | [openclaw/openclaw](https://github.com/openclaw/openclaw) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/openclaw-releases.xml) | ✅ 50 releases |
 | [prometheus/prometheus](https://github.com/prometheus/prometheus) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/prometheus-releases.xml) | ✅ 33 releases |
 | [thanos-io/thanos](https://github.com/thanos-io/thanos) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/thanos-releases.xml) | ✅ 31 releases |
