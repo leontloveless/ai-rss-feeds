@@ -4,11 +4,101 @@
         <title>claude-code Releases</title>
         <link>https://github.com/anthropics/claude-code/releases</link>
         <description>GitHub releases for anthropics/claude-code</description>
-        <lastBuildDate>Mon, 19 Oct 2026 21:34:39 GMT</lastBuildDate>
+        <lastBuildDate>Tue, 20 Oct 2026 20:46:50 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>ai-rss-feeds (https://github.com/leontloveless/ai-rss-feeds)</generator>
         <language>en</language>
         <atom:link href="https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/claude-code-releases.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[v2.1.305]]></title>
+            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.305</link>
+            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.305</guid>
+            <pubDate>Tue, 20 Oct 2026 20:46:50 GMT</pubDate>
+            <description><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Added <code>sandbox.allowNestedUserNamespaces</code> so sandboxed commands on Linux can create user namespaces (Chromium, rootless podman); this lets them get around the sandbox&#39;s file protections</li>
+<li>Added <code>CLAUDE_CODE_RETRY_WATCHDOG_USAGE_LIMIT_RECHECK_MS</code> so unattended retry mode (<code>CLAUDE_CODE_RETRY_WATCHDOG</code>) notices a usage limit that was lifted before its reset</li>
+<li>Fixed every request failing on Vertex, Bedrock and other providers when the endpoint or a gateway rejects tool search, and behind gateways with ToolSearch disallowed or left out of <code>--tools</code> (a 2.1.304 regression): Claude Code now retries without it</li>
+<li>Fixed <code>/effort</code> and <code>/autocompact</code> settings not applying when the model name differed from a <code>modelOverrides</code> value by letter case or a <code>[1m]</code> tag</li>
+<li>Fixed new worktrees in a bare repository sometimes starting from local HEAD instead of the default branch, and unchanged subagent worktrees sometimes not being cleaned up</li>
+<li>Fixed Bash commands on a full disk failing with a raw <code>ENOSPC</code> file path: the error now says the disk is full and that nothing ran</li>
+<li>Fixed an MCP server passed by a cloud session or by the SDK&#39;s <code>setMcpServers</code> being replaced later in the session by a same-named server from your own settings</li>
+<li>Fixed Claude naming the wrong model for a subagent&#39;s work after the subagent switched to a fallback model</li>
+<li>Fixed cloud sessions and teammates not telling Claude when a compaction had to leave the oldest messages out of its summary to fit</li>
+<li>Fixed more cases of scheduled Cowork cloud sessions waiting five minutes for each subagent whose WebFetch needed a URL approval that nobody was there to give</li>
+<li>Fixed Workflow resume re-running already-completed <code>pipeline()</code> and <code>parallel()</code> agents instead of serving them from the run&#39;s journal</li>
+<li>Fixed Remote Control leaving empty &quot;(session)&quot; entries in <code>/resume</code> after switching conversations with <code>/resume</code></li>
+<li>Fixed <code>/usage</code> rows being cut off in narrow terminals</li>
+<li>Fixed startup warnings printing as raw text above the logo: they now go to the debug log, and permission rules that restrict nothing show as warning rows under the banner</li>
+<li>Fixed screen reader mode: search boxes now say &quot;Search:&quot; instead of a symbol VoiceOver read as &quot;telephone recorder&quot;, and highlighted prompt text, such as Ctrl+R search matches and &quot;ultrathink&quot;, no longer has spaces inside words</li>
+<li>Self-hosted runner: Fixed a start script that shares only its stdout with the runner or orchestrator failing with <code>Resource temporarily unavailable</code> when <code>TERM</code> is set (a 2.1.300 regression)</li>
+<li>Self-hosted runner: Fixed repository access failing since 2.1.296 when a git credential helper or askpass program reads its settings through <code>GIT_CONFIG</code></li>
+<li>Self-hosted runner: Fixed the orchestrator reporting a spawn-runner hook as timed out when a runner it started in the background kept its output open</li>
+<li>Improved <code>/usage</code>: each warning is now a one-line fix that names its source, and <code>f</code> applies the fixes; the same fixes appear in VS Code and <code>/doctor</code></li>
+<li>Improved MCP consent dialogs so an Enter meant for the prompt is less likely to be taken as Accept</li>
+<li>Improved a mod&#39;s <code>Image</code> to draw its picture in iTerm2 3.5 and later with fullscreen rendering, where it showed only its <code>alt</code> text</li>
+<li>Remote Control: Improved the spawn-mode messages: pressing <code>w</code> now says the new mode is saved for the folder, and a later <code>claude remote-control</code> start that uses the saved mode says where it came from</li>
+<li>Changed <code>allowedMcpServers</code> to stop filtering <code>managed-mcp.json</code> stdio servers that use <code>${VAR}</code> only in <code>env</code>: one your allowlist left out now loads on upgrade; use <code>deniedMcpServers</code> to keep it off</li>
+<li>Changed plugins that Claude Desktop mounts by path to no longer keep their <code>allowed-tools</code> when your organization&#39;s managed settings set <code>allowManagedPermissionRulesOnly</code></li>
+<li>Changed the <code>/artifacts</code> delete confirmation to take 1 or Enter to keep, 2 to delete, and Esc to cancel; <code>y</code> and <code>n</code> no longer answer it</li>
+<li>Changed a mod&#39;s docked pane to stay within 45% of the terminal&#39;s width, including a width kept from a wider terminal</li>
+<li>[VSCode] Added a &quot;Running start-up hooks&quot; spinner status, with a screen reader announcement, while SessionStart or Setup hooks run</li>
+<li>[VSCode] Fixed the spinner cutting off &quot;Compacting...&quot; when your <code>spinnerVerbs</code> setting replaces the built-in verbs with short ones</li>
+<li>[VSCode] Changed the message shown when a session does not start in time and no hook is running: it now leads with the output logs and lists causes instead of pointing to sign-in and network first</li>
+<li>[Cloud sessions] Fixed the Cloud environments admin page wrongly refusing to save an existing environment with an &quot;installs packages&quot; error</li>
+<li>[Cloud sessions] Improved deleting a self-hosted environment so the dialog and error messages say what blocks the delete and what it will affect</li>
+<li>[Claude Tag] Added public Slack channels Claude hasn&#39;t joined to the Claude Tag admin Add place search, so admins can set one up from there</li>
+<li>[Claude Tag] Fixed Claude Tag access bundles so a repository that moved to another GitHub account can be added again</li>
+<li>[Claude Tag] Fixed a routine set up in a Slack DM thread no longer posting after another routine in that thread restarted the conversation; both now keep posting there</li>
+<li>[Claude Tag] Fixed routines set up in a Slack thread reporting success without posting after the conversation ended; those runs are now skipped and the creator is told</li>
+<li>[Claude Tag] Improved Claude Tag admin pages in large organizations so plugin, skill and bundle edits work while the channel list is still loading</li>
+<li>[Code Review] Fixed Code Review sometimes not reviewing the newest commit when several pushes landed on a pull request during a review</li>
+<li>[Code Review] Changed Code Review re-reviews so they no longer open with LGTM while earlier blocking findings are still open</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Added <code>sandbox.allowNestedUserNamespaces</code> so sandboxed commands on Linux can create user namespaces (Chromium, rootless podman); this lets them get around the sandbox&#39;s file protections</li>
+<li>Added <code>CLAUDE_CODE_RETRY_WATCHDOG_USAGE_LIMIT_RECHECK_MS</code> so unattended retry mode (<code>CLAUDE_CODE_RETRY_WATCHDOG</code>) notices a usage limit that was lifted before its reset</li>
+<li>Fixed every request failing on Vertex, Bedrock and other providers when the endpoint or a gateway rejects tool search, and behind gateways with ToolSearch disallowed or left out of <code>--tools</code> (a 2.1.304 regression): Claude Code now retries without it</li>
+<li>Fixed <code>/effort</code> and <code>/autocompact</code> settings not applying when the model name differed from a <code>modelOverrides</code> value by letter case or a <code>[1m]</code> tag</li>
+<li>Fixed new worktrees in a bare repository sometimes starting from local HEAD instead of the default branch, and unchanged subagent worktrees sometimes not being cleaned up</li>
+<li>Fixed Bash commands on a full disk failing with a raw <code>ENOSPC</code> file path: the error now says the disk is full and that nothing ran</li>
+<li>Fixed an MCP server passed by a cloud session or by the SDK&#39;s <code>setMcpServers</code> being replaced later in the session by a same-named server from your own settings</li>
+<li>Fixed Claude naming the wrong model for a subagent&#39;s work after the subagent switched to a fallback model</li>
+<li>Fixed cloud sessions and teammates not telling Claude when a compaction had to leave the oldest messages out of its summary to fit</li>
+<li>Fixed more cases of scheduled Cowork cloud sessions waiting five minutes for each subagent whose WebFetch needed a URL approval that nobody was there to give</li>
+<li>Fixed Workflow resume re-running already-completed <code>pipeline()</code> and <code>parallel()</code> agents instead of serving them from the run&#39;s journal</li>
+<li>Fixed Remote Control leaving empty &quot;(session)&quot; entries in <code>/resume</code> after switching conversations with <code>/resume</code></li>
+<li>Fixed <code>/usage</code> rows being cut off in narrow terminals</li>
+<li>Fixed startup warnings printing as raw text above the logo: they now go to the debug log, and permission rules that restrict nothing show as warning rows under the banner</li>
+<li>Fixed screen reader mode: search boxes now say &quot;Search:&quot; instead of a symbol VoiceOver read as &quot;telephone recorder&quot;, and highlighted prompt text, such as Ctrl+R search matches and &quot;ultrathink&quot;, no longer has spaces inside words</li>
+<li>Self-hosted runner: Fixed a start script that shares only its stdout with the runner or orchestrator failing with <code>Resource temporarily unavailable</code> when <code>TERM</code> is set (a 2.1.300 regression)</li>
+<li>Self-hosted runner: Fixed repository access failing since 2.1.296 when a git credential helper or askpass program reads its settings through <code>GIT_CONFIG</code></li>
+<li>Self-hosted runner: Fixed the orchestrator reporting a spawn-runner hook as timed out when a runner it started in the background kept its output open</li>
+<li>Improved <code>/usage</code>: each warning is now a one-line fix that names its source, and <code>f</code> applies the fixes; the same fixes appear in VS Code and <code>/doctor</code></li>
+<li>Improved MCP consent dialogs so an Enter meant for the prompt is less likely to be taken as Accept</li>
+<li>Improved a mod&#39;s <code>Image</code> to draw its picture in iTerm2 3.5 and later with fullscreen rendering, where it showed only its <code>alt</code> text</li>
+<li>Remote Control: Improved the spawn-mode messages: pressing <code>w</code> now says the new mode is saved for the folder, and a later <code>claude remote-control</code> start that uses the saved mode says where it came from</li>
+<li>Changed <code>allowedMcpServers</code> to stop filtering <code>managed-mcp.json</code> stdio servers that use <code>${VAR}</code> only in <code>env</code>: one your allowlist left out now loads on upgrade; use <code>deniedMcpServers</code> to keep it off</li>
+<li>Changed plugins that Claude Desktop mounts by path to no longer keep their <code>allowed-tools</code> when your organization&#39;s managed settings set <code>allowManagedPermissionRulesOnly</code></li>
+<li>Changed the <code>/artifacts</code> delete confirmation to take 1 or Enter to keep, 2 to delete, and Esc to cancel; <code>y</code> and <code>n</code> no longer answer it</li>
+<li>Changed a mod&#39;s docked pane to stay within 45% of the terminal&#39;s width, including a width kept from a wider terminal</li>
+<li>[VSCode] Added a &quot;Running start-up hooks&quot; spinner status, with a screen reader announcement, while SessionStart or Setup hooks run</li>
+<li>[VSCode] Fixed the spinner cutting off &quot;Compacting...&quot; when your <code>spinnerVerbs</code> setting replaces the built-in verbs with short ones</li>
+<li>[VSCode] Changed the message shown when a session does not start in time and no hook is running: it now leads with the output logs and lists causes instead of pointing to sign-in and network first</li>
+<li>[Cloud sessions] Fixed the Cloud environments admin page wrongly refusing to save an existing environment with an &quot;installs packages&quot; error</li>
+<li>[Cloud sessions] Improved deleting a self-hosted environment so the dialog and error messages say what blocks the delete and what it will affect</li>
+<li>[Claude Tag] Added public Slack channels Claude hasn&#39;t joined to the Claude Tag admin Add place search, so admins can set one up from there</li>
+<li>[Claude Tag] Fixed Claude Tag access bundles so a repository that moved to another GitHub account can be added again</li>
+<li>[Claude Tag] Fixed a routine set up in a Slack DM thread no longer posting after another routine in that thread restarted the conversation; both now keep posting there</li>
+<li>[Claude Tag] Fixed routines set up in a Slack thread reporting success without posting after the conversation ended; those runs are now skipped and the creator is told</li>
+<li>[Claude Tag] Improved Claude Tag admin pages in large organizations so plugin, skill and bundle edits work while the channel list is still loading</li>
+<li>[Code Review] Fixed Code Review sometimes not reviewing the newest commit when several pushes landed on a pull request during a review</li>
+<li>[Code Review] Changed Code Review re-reviews so they no longer open with LGTM while earlier blocking findings are still open</li>
+</ul>
+]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[v2.1.304]]></title>
             <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.304</link>
@@ -7290,22 +7380,6 @@
 <li>Changed <code>claude install</code> and <code>claude update</code> to defer a pending managed-settings consent prompt to the next interactive session instead of prompting mid-command</li>
 <li>Changed OpenTelemetry plugin events for plugins synced from claude.ai: <code>plugin_id_hash</code> now reflects the plugin&#39;s real marketplace, and <code>enabled_via</code> is <code>admin-install</code> for admin-installed plugins</li>
 <li>Fixed the command sandbox&#39;s filesystem configuration not respecting <code>--setting-sources</code></li>
-</ul>
-]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[v2.1.245]]></title>
-            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.245</link>
-            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.245</guid>
-            <pubDate>Tue, 25 Aug 2026 05:13:24 GMT</pubDate>
-            <description><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>Fixed a crash on startup on Linux distributions that ship glibc 2.44 (for example Arch Linux, CachyOS and Fedora Rawhide)</li>
-</ul>
-]]></description>
-            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>Fixed a crash on startup on Linux distributions that ship glibc 2.44 (for example Arch Linux, CachyOS and Fedora Rawhide)</li>
 </ul>
 ]]></content:encoded>
         </item>
