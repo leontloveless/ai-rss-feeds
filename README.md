@@ -14,7 +14,7 @@ GitHub release feeds and native RSS/Atom feeds are added without a model call. S
 |------|------|--------|
 | [www.aihero.dev](https://www.aihero.dev/) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/aihero-dev.xml) | ✅ 50 articles |
 | [Aleph Alpha Blog](https://aleph-alpha.com/en/blog/) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/aleph-alpha.xml) | ✅ 10 articles |
-| [Anthropic News](https://www.anthropic.com/news) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/anthropic.xml) | ✅ 10 articles |
+| [Anthropic News](https://www.anthropic.com/news) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/anthropic.xml) | ✅ 24 articles |
 | [Claude Blog](https://claude.com/resources/articles) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/claude.xml) | ✅ 11 articles |
 | [blog.cloudflare.com](https://blog.cloudflare.com/tag/ai/) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/cloudflare-com.xml) | ✅ 20 articles |
 | [Composio Blog](https://composio.dev/blog) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/composio.xml) | ✅ 3 articles |
