@@ -31,7 +31,7 @@ GitHub release feeds and native RSS/Atom feeds are added without a model call. S
 | [Essays](https://www.paulgraham.com/articles.html) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/paulgraham.xml) | ✅ 20 articles |
 | [Podcast AI要約｜投資・金融番組のポイント整理 — BigGo ファイナンス](https://finance.biggo.jp/podcast) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/podcast.xml) | ✅ 20 articles |
 | [Stability AI News](https://stability.ai/news) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/stability-ai.xml) | ✅ 20 articles |
-| [文匯報](https://www.wenweipo.com/) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/wenweipo.xml) | ✅ 13 articles |
+| [文匯報](https://www.wenweipo.com/) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/wenweipo.xml) | ✅ 12 articles |
 | [文匯香港](https://www.wenweipo.com/hongkong) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/wenweipo-hongkong.xml) | ✅ 15 articles |
 | [Windsurf Blog](https://windsurf.com/blog) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/windsurf.xml) | ✅ 50 articles |
 
@@ -50,7 +50,7 @@ GitHub release feeds and native RSS/Atom feeds are added without a model call. S
 | Project | Feed | Status |
 |---------|------|--------|
 | [anthropics/claude-code](https://github.com/anthropics/claude-code) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/claude-code-releases.xml) | ✅ 50 releases |
-| [deepseek-ai/deepseek-harness](https://github.com/deepseek-ai/deepseek-harness) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/deepseek-harness-releases.xml) | ✅ 34 releases |
+| [deepseek-ai/deepseek-harness](https://github.com/deepseek-ai/deepseek-harness) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/deepseek-harness-releases.xml) | ✅ 35 releases |
 | [NousResearch/hermes-agent](https://github.com/NousResearch/hermes-agent) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/hermes-agent-releases.xml) | ✅ 44 releases |
 | [kubernetes/kubernetes](https://github.com/kubernetes/kubernetes) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/kubernetes-releases.xml) | ✅ 37 releases |
 | [grafana/mcp-grafana](https://github.com/grafana/mcp-grafana) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/mcp-grafana-releases.xml) | ✅ 50 releases |
