@@ -51,10 +51,10 @@ GitHub release feeds and native RSS/Atom feeds are added without a model call. S
 |---------|------|--------|
 | [anthropics/claude-code](https://github.com/anthropics/claude-code) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/claude-code-releases.xml) | ✅ 50 releases |
 | [deepseek-ai/deepseek-harness](https://github.com/deepseek-ai/deepseek-harness) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/deepseek-harness-releases.xml) | ✅ 35 releases |
-| [NousResearch/hermes-agent](https://github.com/NousResearch/hermes-agent) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/hermes-agent-releases.xml) | ✅ 44 releases |
+| [NousResearch/hermes-agent](https://github.com/NousResearch/hermes-agent) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/hermes-agent-releases.xml) | ✅ 45 releases |
 | [kubernetes/kubernetes](https://github.com/kubernetes/kubernetes) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/kubernetes-releases.xml) | ✅ 37 releases |
 | [grafana/mcp-grafana](https://github.com/grafana/mcp-grafana) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/mcp-grafana-releases.xml) | ✅ 50 releases |
-| [omacom/omarchy](https://github.com/omacom/omarchy) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/omarchy-releases.xml) | ✅ 48 releases |
+| [omacom/omarchy](https://github.com/omacom/omarchy) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/omarchy-releases.xml) | ✅ 47 releases |
 | [openclaw/openclaw](https://github.com/openclaw/openclaw) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/openclaw-releases.xml) | ✅ 50 releases |
 | [prometheus/prometheus](https://github.com/prometheus/prometheus) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/prometheus-releases.xml) | ✅ 33 releases |
 | [thanos-io/thanos](https://github.com/thanos-io/thanos) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/thanos-releases.xml) | ✅ 31 releases |
