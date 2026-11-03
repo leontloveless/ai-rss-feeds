@@ -113,7 +113,7 @@ jobs:
             exit 1
           fi
 
-      - name: Create draft pull request
+      - name: Publish native feed or open generated-feed draft
         id: pr
         if: >-
           steps.verify.outputs.verified == 'true' &&
@@ -124,24 +124,25 @@ jobs:
           CONFIG_NAME: ${{ steps.add-feed.outputs.config_name }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
           SOURCE_URL: ${{ steps.url.outputs.result }}
+          RESULT: ${{ steps.add-feed.outputs.result }}
+          VERIFIED: ${{ steps.verify.outputs.verified }}
         run: |
           set -euo pipefail
           BRANCH="feed/issue-${ISSUE_NUMBER}-${GITHUB_RUN_ID}"
           git config user.name "ai-rss-feeds[bot]"
           git config user.email "ai-rss-feeds[bot]@users.noreply.github.com"
           git checkout -b "$BRANCH"
-          git add configs/ feeds/ cache/ README.md
+          if [ "$RESULT" = "new_native" ]; then
+            git add "configs/${CONFIG_NAME}.json" README.md
+          else
+            git add configs/ feeds/ cache/ README.md
+          fi
           git commit -m "feat: add ${CONFIG_NAME} feed"
           git push origin "HEAD:$BRANCH"
 
-          printf -v PR_BODY 'Deterministically generated and locally verified from `%s`.\n\nCloses #%s' "$SOURCE_URL" "$ISSUE_NUMBER"
-          PR_URL=$(gh pr create \
-            --draft \
-            --base main \
-            --head "$BRANCH" \
-            --title "feat(feed): add ${CONFIG_NAME}" \
-            --body "$PR_BODY")
-          echo "url=$PR_URL" >> "$GITHUB_OUTPUT"
+          export BRANCH
+          export HEAD_SHA="$(git rev-parse HEAD)"
+          bash .github/scripts/publish-feed-pr.sh
 
       - name: Report result
         uses: actions/github-script@v8
@@ -151,6 +152,7 @@ jobs:
           FEED_URL: ${{ steps.verify.outputs.feed_url }}
           EXISTING_CONFIG: ${{ steps.add-feed.outputs.existing_config_name }}
           PR_URL: ${{ steps.pr.outputs.url }}
+          PUBLISHED: ${{ steps.pr.outputs.published }}
         with:
           script: |
             const result = process.env.RESULT;
@@ -158,13 +160,17 @@ jobs:
             const feedUrl = process.env.FEED_URL || '';
             const existingConfig = process.env.EXISTING_CONFIG || '';
             const prUrl = process.env.PR_URL || '';
+            const published = process.env.PUBLISHED === 'true';
 
             let body;
             let closeIssue = false;
             if (result === 'existing' && verified) {
               body = `✅ Feed already exists${existingConfig ? ` as \`${existingConfig}\`` : ''}.\n\n📖 Subscribe: \`${feedUrl}\``;
               closeIssue = true;
-            } else if ((result === 'new_generated' || result === 'new_native') && verified && prUrl) {
+            } else if (result === 'new_native' && verified && prUrl && published) {
+              body = `✅ Native RSS/Atom feed discovered, verified, and added automatically.\n\n📖 Subscribe: ${feedUrl}\n\n${prUrl}`;
+              closeIssue = true;
+            } else if (result === 'new_generated' && verified && prUrl) {
               body = `✅ Deterministic generation and validation passed. A draft pull request is ready for review:\n\n${prUrl}\n\nThe issue will close automatically after the PR is merged.`;
             } else if (result === 'agentic_fallback') {
               body = 'ℹ️ No native RSS/Atom feed was found, so the deterministic workflow stopped without changing the repository. For this complex page, apply the `agentic-feed` label or manually run **Add Feed (Agentic Trial)**.';

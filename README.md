@@ -73,11 +73,13 @@ https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/{name}.x
 
 1. [Open a new issue](https://github.com/leontloveless/ai-rss-feeds/issues/new?template=new_feed.yml)
 2. Paste the blog URL
-3. The deterministic workflow validates the source and opens a draft pull request
-4. Review and merge the pull request; the issue closes automatically
+3. The deterministic workflow discovers and validates the source
+4. Native RSS/Atom entries are added through an automatically merged PR, and the issue closes automatically. Generated feeds open a draft PR for review and merge.
 
 GitHub repository URLs use the Releases API. Pages with native RSS/Atom use that
-upstream feed directly. If neither path applies, the issue stays open and the
+upstream feed directly, without a manual publishing step. Normal branch protection
+still applies: a blocked merge fails visibly and leaves the request for follow-up.
+If neither path applies, the issue stays open and the
 workflow explains how to invoke the Agentic fallback.
 
 ## 🔧 How It Works
