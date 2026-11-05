@@ -4,11 +4,193 @@
         <title>prometheus Releases</title>
         <link>https://github.com/prometheus/prometheus/releases</link>
         <description>GitHub releases for prometheus/prometheus</description>
-        <lastBuildDate>Wed, 21 Oct 2026 16:15:57 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 05 Nov 2026 16:06:52 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>ai-rss-feeds (https://github.com/leontloveless/ai-rss-feeds)</generator>
         <language>en</language>
         <atom:link href="https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/prometheus-releases.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[3.16.0 / 2026-11-04]]></title>
+            <link>https://github.com/prometheus/prometheus/releases/tag/v3.16.0</link>
+            <guid>https://github.com/prometheus/prometheus/releases/tag/v3.16.0</guid>
+            <pubDate>Thu, 05 Nov 2026 16:06:52 GMT</pubDate>
+            <description><![CDATA[<ul>
+<li>[CHANGE] API: The experimental search endpoints now clamp <code>batch_size</code> to 1000. #19731</li>
+<li>[CHANGE] Configuration: Default --web.external-url to https when --web.config.file enables TLS. #19241</li>
+<li>[CHANGE] PromQL: Subquery samples are now included in the query TotalSamples and TotalSamplesPerStep statistics, and SamplesRead now counts reads from subqueries with an @ modifier in range queries. #19165</li>
+<li>[CHANGE] Remote write: Stop exposing the deprecated <code>prometheus_remote_storage_metadata_total</code>, <code>prometheus_remote_storage_metadata_failed_total</code>, <code>prometheus_remote_storage_metadata_retried_total</code>, and <code>prometheus_remote_storage_metadata_bytes_total</code> metrics for Remote Write 2.0 queues. #20080</li>
+<li>[CHANGE] Remote write receiver: Count Remote Write 2.x samples and histograms ingested without metadata in <code>prometheus_api_remote_write_without_metadata_appended_samples_total</code> even when <code>metadata-wal-records</code> is disabled. #19812</li>
+<li>[CHANGE] TSDB: Reject exemplars whose label names are not unique, instead of storing them and serving a duplicate JSON key from <code>/api/v1/query_exemplars</code>. #19896</li>
+<li>[FEATURE] API: Allow overriding PromQL Start Timestamp processing on a per-query basis using the <code>X-Prometheus-Use-Start-Timestamps</code> HTTP header. #19066</li>
+<li>[FEATURE] Agent: Support metadata-wal-records in Prometheus Agent mode. #19684</li>
+<li>[FEATURE] PromQL: Add experimental <code>integral()</code> function for computing integral-over-time of range vectors behind the <code>--enable-feature=promql-experimental-functions</code> flag. #14440</li>
+<li>[FEATURE] PromQL: Add experimental query cost estimation, actual cost reporting, and configurable execution limits, enabled with <code>--enable-feature=query-cost</code>. #20028</li>
+<li>[FEATURE] PromQL: Smoothed and Anchored vector selectors are now stable and always-on. #19697</li>
+<li>[FEATURE] PromQL: Use start timestamps to detect counter resets when float timeseries are queried using extended range selector modifiers (<code>anchored</code>, <code>smoothed</code>). This feature is hidden behind <code>use-start-timestamps</code> feature flag. #18966</li>
+<li>[FEATURE] Promtool: print test filename during promtool tests #18271</li>
+<li>[FEATURE] PromQL: Allow unquoted Unicode letters and dots behind a feature flag #20162</li>
+<li>[ENHANCEMENT] Search API: Warn when participating remote-read storage does not support search. #19992</li>
+<li>[ENHANCEMENT] Remote Read: Add native histogram prometheus_remote_read_handler_gate_wait_duration_seconds to measure concurrency-gate wait duration, including requests canceled while waiting. #18355</li>
+<li>[ENHANCEMENT] Remote Write: Add experimental flag <code>convert_nhcb_to_classic</code> to convert NHCB to classic histograms for external systems that dont support NHCBs. #17205</li>
+<li>[ENHANCEMENT] promtool: Add <code>--allow-incompatible-block-duration</code> so users can specify any max-block-duration instead of being restricted to the default Prometheus block durations. #19363</li>
+<li>[PERF] Remote write: Cache repeated OTLP histogram metric names. #19717</li>
+<li>[PERF] OpenMetrics 2.0 parser: Reuse classic histogram and summary expansion buffers across scrapes. #19907</li>
+<li>[PERF] PromQL: Decode only histogram sum/count (not buckets) for timestamp(), start_timestamp() and absent(). #19738</li>
+<li>[PERF] PromQL: Only select the fixed window for subqueries with an <code>@</code> modifier. #19863</li>
+<li>[PERF] Remote write / TSDB: Deduplicate per-series metadata structs in memory with <code>unique.Handle</code>. #20040</li>
+<li>[PERF] Scrape: Avoid some copies of scrape response bodies. #19394</li>
+<li>[PERF] TSDB: Improve XOR2 compression and append performance by selecting value windows based on encoding cost. #19962</li>
+<li>[PERF] TSDB: Reduce memory used writing and reading checkpoint metadata records. #19712</li>
+<li>[PERF] Scrape: Convert classic histograms to NHCB directly in the OpenMetrics 2.0 parser without wrapping in <code>NHCBParser</code>. #19880</li>
+<li>[PERF] Scrape: Reduce OpenMetrics 2.0 parser allocations and CPU overhead by lazily constructing composite series and exemplar labels. #19895</li>
+<li>[BUGFIX] Remote read: Abort failed streaming responses without writing duplicate headers or appending plain-text errors to the protobuf stream #19749</li>
+<li>[BUGFIX] TSDB: Fix loss of out-of-order samples when a WAL checkpoint drops a series record that the out-of-order write-behind log still needs #19737</li>
+<li>[BUGFIX] TSDB: Fix queries that seek within a head chunk returning samples committed after the query started #19854</li>
+<li>[BUGFIX] TSDB: Preserve mapped chunks when WAL replay merges multiple references for the same series, preventing missing out-of-order samples and duplicate in-order chunks after restart #19805</li>
+<li>[BUGFIX] Fix auto-reload logic to reload after reverting a failed configuration change #19838</li>
+<li>[BUGFIX] API: Do not match metric family metadata for doubled _total and _info suffixes in experimental search API. #19910</li>
+<li>[BUGFIX] API: Reject <code>timeout</code> and <code>lookback_delta</code> values that overflow int64 instead of turning them into a negative duration #19658</li>
+<li>[BUGFIX] API: Resolve metric family metadata for suffixed metric names in search results, in experimental search API. #19824</li>
+<li>[BUGFIX] AWS SD: Describe each ElastiCache cluster once instead of twice for clusters that are not replication group members. #19434</li>
+<li>[BUGFIX] Build: Allow installing promtool with version-suffixed go install commands #19754</li>
+<li>[BUGFIX] Discovery: Fix a panic in Azure service discovery when a VM tag has a null value. #19755</li>
+<li>[BUGFIX] Federation: fix corruption of float native histograms. #19679</li>
+<li>[BUGFIX] Fix ts_of_last_over_time for samples before the Unix epoch. #19828</li>
+<li>[BUGFIX] Histograms: Fix ConvertNHCBToClassic inflating classic bucket counts for integer native histograms whose spans have gaps. #19659</li>
+<li>[BUGFIX] Logging: Preserve rule and TSDB block values in JSON logs. #19572</li>
+<li>[BUGFIX] OTLP receiver: Drop exemplars with timestamps more than 10 minutes in the future instead of storing them and blocking subsequent exemplars for that series. #19812</li>
+<li>[BUGFIX] OTLP: Count only out-of-order exemplars in <code>prometheus_api_otlp_out_of_order_exemplars_total</code>, not every rejected exemplar. #20030</li>
+<li>[BUGFIX] OTLP: Do not drop exemplars that have a <code>trace_id</code> or <code>span_id</code> filtered attribute in addition to a trace or span ID. The trace context now takes precedence over the colliding attribute, as required by the OpenTelemetry specification. #20004</li>
+<li>[BUGFIX] OTLP: Do not emit <code>le=&quot;+Inf&quot;</code> twice when a histogram&#39;s explicit bounds end at <code>+Inf</code>, and warn about the bound. #19425</li>
+<li>[BUGFIX] OTLP: Stop dropping exemplars that arrive out of timestamp order within a data point. #20029</li>
+<li>[BUGFIX] OpenMetrics 2.0: Attach histogram exemplars to matching classic <code>_bucket</code> series and preserve them when scraping both native and classic histograms. #20020</li>
+<li>[BUGFIX] PromQL: Avoid intermediate overflow in <code>rad()</code> and <code>deg()</code> conversions. #19901</li>
+<li>[BUGFIX] PromQL: Consistently ignore and drop <code>__type__</code> and <code>__unit__</code> labels in <code>without</code> aggregations, <code>absent()</code>, <code>info()</code>, and binary operator fill matching. #19986</li>
+<li>[BUGFIX] PromQL: Do not panic when printing the partial AST returned alongside a parse error. #19797</li>
+<li>[BUGFIX] PromQL: Drop <strong>type</strong> and <strong>unit</strong> in binary operations so they are transparent to users, similar to how <strong>name</strong> is handled. #18680</li>
+<li>[BUGFIX] PromQL: Fix <code>==</code>, <code>!=</code>, <code>changes()</code> and <code>count_values</code> on native histograms giving wrong results inside <code>histogram_count()</code>, <code>histogram_sum()</code> and <code>histogram_avg()</code>. #20024</li>
+<li>[BUGFIX] PromQL: Fix histogram_fraction returning wrong results for native histograms with custom buckets when a bucket boundary is exactly 0. #19657</li>
+<li>[BUGFIX] PromQL: Fix histogram_quantile and histogram_quantiles interpolating within the wrong bucket for native histograms whose sum is NaN. #19973</li>
+<li>[BUGFIX] PromQL: Fix lexing of subqueries whose range is a duration keyword expression, e.g. <code>foo[range():1s]</code>. #19729</li>
+<li>[BUGFIX] PromQL: Fix warning and error locations for duration expressions <code>min_of</code> and <code>max_of</code>. #19742</li>
+<li>[BUGFIX] PromQL: Ignore NaN classic histogram bucket boundaries in <code>histogram_quantile</code>, <code>histogram_quantiles</code> and <code>histogram_fraction</code> and return correct value instead of NaN if there are normal buckets. #20057</li>
+<li>[BUGFIX] PromQL: Preserve infinite values at exact quantile ranks. #19899</li>
+<li>[BUGFIX] PromQL: Preserve original operand sides for experimental fill modifiers with group_right matching. #19939</li>
+<li>[BUGFIX] PromQL: Preserve subquery step expressions when printing queries after preprocessing. #19743</li>
+<li>[BUGFIX] PromQL: Range vector functions no longer raise a spurious &quot;vector cannot contain metrics with the same labelset&quot; error when series have different metric names but the same remaining labels, as long as their timestamps do not overlap within the evaluated range window #18631</li>
+<li>[BUGFIX] PromQL: do not count subquery materialized samples in total samples statistics #19873</li>
+<li>[BUGFIX] Remote write: Prevent future-dated exemplars from scaling shards down to the minimum. #19866</li>
+<li>[BUGFIX] Agent: Prevent future sent timestamps from advancing WAL truncation beyond the minimum retention window. #19866</li>
+<li>[BUGFIX] Rules: Restore firing alerts with for durations shorter than --rules.alert.for-grace-period after a restart. #19882</li>
+<li>[BUGFIX] Scrape: fix failing scrape when float histogram is emitted over protobuf with count, zero count and buckets all zero, for example a result of recording <code>rate(x[1m])</code> over constant histogram. #19682</li>
+<li>[BUGFIX] Search API: Return the lexically smallest label values when <code>limit</code> is set on <code>/api/v1/search/label_values</code>, instead of an arbitrary subset #19694</li>
+<li>[BUGFIX] TSDB: Fix WAL watcher permanently skipping checkpoint series garbage collection when lagging behind head truncation. #20041</li>
+<li>[BUGFIX] Search API: Avoid panics when the requested time range has no participating storage. #19992</li>
+<li>[BUGFIX] TSDB: Fix a race in selected-series and stale-series compaction where a sample committed after the block was written but before the series was evicted from the head could be silently lost. The fix no longer depends on isolation being enabled. #19666</li>
+<li>[BUGFIX] TSDB: Fix a rare case where a sample could be lost during selected-series or stale-series compaction if an unrelated write to the same series ran cleanup that erased the evidence needed to protect it. #19672</li>
+<li>[BUGFIX] TSDB: Fix spurious &quot;unknown series references&quot; warnings during WAL replay after a restart, when the only blocks on disk were produced by selected-series or stale-series compaction. #19734</li>
+<li>[BUGFIX] TSDB: Increment <code>prometheus_tsdb_wal_corruptions_total</code> when WAL corruption is detected during checkpoint creation, so the metric reflects corruption found at compaction time rather than only after a restart-triggered repair. #19858</li>
+<li>[BUGFIX] TSDB: Preserve series identities needed to recover exemplars after compaction and restart. #19940</li>
+<li>[BUGFIX] TSDB: Reject native histograms whose span offsets overflow the int32 bucket index instead of storing them with corrupted buckets. #20034</li>
+<li>[BUGFIX] TSDB: fix no passing metadata-wal-records to TSDB from main feature flag. #19678</li>
+<li>[BUGFIX] Templates: Preserve IPv6 addresses with dotted zone identifiers in <code>stripDomain</code>. #19908</li>
+<li>[BUGFIX] UI: Don&#39;t automatically open an autocomplete dropdown after closing a function call body or aggregation operator with a closing parenthesis. #19825</li>
+<li>[BUGFIX] Web: Fix HTTP/2 negotiation silently falling back to HTTP/1.1 under Go 1.27+ when TLS is enabled with <code>http2: true</code>. The server now correctly advertises <code>h2</code> via ALPN and multiplexes concurrent requests over a single connection. #19848</li>
+<li>[BUGFIX] mixin: Fix double-counting of failed samples in the <code>PrometheusRemoteStorageFailures</code> alert denominator. #19877</li>
+<li>[BUGFIX] promtool: Honor <code>--enable-feature</code> when evaluating rules in <code>test rules</code>. #20046</li>
+<li>[BUGFIX] Scrape: Ensure UTF-8 works with the experimental OpenMetrics 2.0 #19902</li>
+<li>[BUGFIX] Scrape: Reject sum-only classic histograms during NHCB conversion #19315</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<ul>
+<li>[CHANGE] API: The experimental search endpoints now clamp <code>batch_size</code> to 1000. #19731</li>
+<li>[CHANGE] Configuration: Default --web.external-url to https when --web.config.file enables TLS. #19241</li>
+<li>[CHANGE] PromQL: Subquery samples are now included in the query TotalSamples and TotalSamplesPerStep statistics, and SamplesRead now counts reads from subqueries with an @ modifier in range queries. #19165</li>
+<li>[CHANGE] Remote write: Stop exposing the deprecated <code>prometheus_remote_storage_metadata_total</code>, <code>prometheus_remote_storage_metadata_failed_total</code>, <code>prometheus_remote_storage_metadata_retried_total</code>, and <code>prometheus_remote_storage_metadata_bytes_total</code> metrics for Remote Write 2.0 queues. #20080</li>
+<li>[CHANGE] Remote write receiver: Count Remote Write 2.x samples and histograms ingested without metadata in <code>prometheus_api_remote_write_without_metadata_appended_samples_total</code> even when <code>metadata-wal-records</code> is disabled. #19812</li>
+<li>[CHANGE] TSDB: Reject exemplars whose label names are not unique, instead of storing them and serving a duplicate JSON key from <code>/api/v1/query_exemplars</code>. #19896</li>
+<li>[FEATURE] API: Allow overriding PromQL Start Timestamp processing on a per-query basis using the <code>X-Prometheus-Use-Start-Timestamps</code> HTTP header. #19066</li>
+<li>[FEATURE] Agent: Support metadata-wal-records in Prometheus Agent mode. #19684</li>
+<li>[FEATURE] PromQL: Add experimental <code>integral()</code> function for computing integral-over-time of range vectors behind the <code>--enable-feature=promql-experimental-functions</code> flag. #14440</li>
+<li>[FEATURE] PromQL: Add experimental query cost estimation, actual cost reporting, and configurable execution limits, enabled with <code>--enable-feature=query-cost</code>. #20028</li>
+<li>[FEATURE] PromQL: Smoothed and Anchored vector selectors are now stable and always-on. #19697</li>
+<li>[FEATURE] PromQL: Use start timestamps to detect counter resets when float timeseries are queried using extended range selector modifiers (<code>anchored</code>, <code>smoothed</code>). This feature is hidden behind <code>use-start-timestamps</code> feature flag. #18966</li>
+<li>[FEATURE] Promtool: print test filename during promtool tests #18271</li>
+<li>[FEATURE] PromQL: Allow unquoted Unicode letters and dots behind a feature flag #20162</li>
+<li>[ENHANCEMENT] Search API: Warn when participating remote-read storage does not support search. #19992</li>
+<li>[ENHANCEMENT] Remote Read: Add native histogram prometheus_remote_read_handler_gate_wait_duration_seconds to measure concurrency-gate wait duration, including requests canceled while waiting. #18355</li>
+<li>[ENHANCEMENT] Remote Write: Add experimental flag <code>convert_nhcb_to_classic</code> to convert NHCB to classic histograms for external systems that dont support NHCBs. #17205</li>
+<li>[ENHANCEMENT] promtool: Add <code>--allow-incompatible-block-duration</code> so users can specify any max-block-duration instead of being restricted to the default Prometheus block durations. #19363</li>
+<li>[PERF] Remote write: Cache repeated OTLP histogram metric names. #19717</li>
+<li>[PERF] OpenMetrics 2.0 parser: Reuse classic histogram and summary expansion buffers across scrapes. #19907</li>
+<li>[PERF] PromQL: Decode only histogram sum/count (not buckets) for timestamp(), start_timestamp() and absent(). #19738</li>
+<li>[PERF] PromQL: Only select the fixed window for subqueries with an <code>@</code> modifier. #19863</li>
+<li>[PERF] Remote write / TSDB: Deduplicate per-series metadata structs in memory with <code>unique.Handle</code>. #20040</li>
+<li>[PERF] Scrape: Avoid some copies of scrape response bodies. #19394</li>
+<li>[PERF] TSDB: Improve XOR2 compression and append performance by selecting value windows based on encoding cost. #19962</li>
+<li>[PERF] TSDB: Reduce memory used writing and reading checkpoint metadata records. #19712</li>
+<li>[PERF] Scrape: Convert classic histograms to NHCB directly in the OpenMetrics 2.0 parser without wrapping in <code>NHCBParser</code>. #19880</li>
+<li>[PERF] Scrape: Reduce OpenMetrics 2.0 parser allocations and CPU overhead by lazily constructing composite series and exemplar labels. #19895</li>
+<li>[BUGFIX] Remote read: Abort failed streaming responses without writing duplicate headers or appending plain-text errors to the protobuf stream #19749</li>
+<li>[BUGFIX] TSDB: Fix loss of out-of-order samples when a WAL checkpoint drops a series record that the out-of-order write-behind log still needs #19737</li>
+<li>[BUGFIX] TSDB: Fix queries that seek within a head chunk returning samples committed after the query started #19854</li>
+<li>[BUGFIX] TSDB: Preserve mapped chunks when WAL replay merges multiple references for the same series, preventing missing out-of-order samples and duplicate in-order chunks after restart #19805</li>
+<li>[BUGFIX] Fix auto-reload logic to reload after reverting a failed configuration change #19838</li>
+<li>[BUGFIX] API: Do not match metric family metadata for doubled _total and _info suffixes in experimental search API. #19910</li>
+<li>[BUGFIX] API: Reject <code>timeout</code> and <code>lookback_delta</code> values that overflow int64 instead of turning them into a negative duration #19658</li>
+<li>[BUGFIX] API: Resolve metric family metadata for suffixed metric names in search results, in experimental search API. #19824</li>
+<li>[BUGFIX] AWS SD: Describe each ElastiCache cluster once instead of twice for clusters that are not replication group members. #19434</li>
+<li>[BUGFIX] Build: Allow installing promtool with version-suffixed go install commands #19754</li>
+<li>[BUGFIX] Discovery: Fix a panic in Azure service discovery when a VM tag has a null value. #19755</li>
+<li>[BUGFIX] Federation: fix corruption of float native histograms. #19679</li>
+<li>[BUGFIX] Fix ts_of_last_over_time for samples before the Unix epoch. #19828</li>
+<li>[BUGFIX] Histograms: Fix ConvertNHCBToClassic inflating classic bucket counts for integer native histograms whose spans have gaps. #19659</li>
+<li>[BUGFIX] Logging: Preserve rule and TSDB block values in JSON logs. #19572</li>
+<li>[BUGFIX] OTLP receiver: Drop exemplars with timestamps more than 10 minutes in the future instead of storing them and blocking subsequent exemplars for that series. #19812</li>
+<li>[BUGFIX] OTLP: Count only out-of-order exemplars in <code>prometheus_api_otlp_out_of_order_exemplars_total</code>, not every rejected exemplar. #20030</li>
+<li>[BUGFIX] OTLP: Do not drop exemplars that have a <code>trace_id</code> or <code>span_id</code> filtered attribute in addition to a trace or span ID. The trace context now takes precedence over the colliding attribute, as required by the OpenTelemetry specification. #20004</li>
+<li>[BUGFIX] OTLP: Do not emit <code>le=&quot;+Inf&quot;</code> twice when a histogram&#39;s explicit bounds end at <code>+Inf</code>, and warn about the bound. #19425</li>
+<li>[BUGFIX] OTLP: Stop dropping exemplars that arrive out of timestamp order within a data point. #20029</li>
+<li>[BUGFIX] OpenMetrics 2.0: Attach histogram exemplars to matching classic <code>_bucket</code> series and preserve them when scraping both native and classic histograms. #20020</li>
+<li>[BUGFIX] PromQL: Avoid intermediate overflow in <code>rad()</code> and <code>deg()</code> conversions. #19901</li>
+<li>[BUGFIX] PromQL: Consistently ignore and drop <code>__type__</code> and <code>__unit__</code> labels in <code>without</code> aggregations, <code>absent()</code>, <code>info()</code>, and binary operator fill matching. #19986</li>
+<li>[BUGFIX] PromQL: Do not panic when printing the partial AST returned alongside a parse error. #19797</li>
+<li>[BUGFIX] PromQL: Drop <strong>type</strong> and <strong>unit</strong> in binary operations so they are transparent to users, similar to how <strong>name</strong> is handled. #18680</li>
+<li>[BUGFIX] PromQL: Fix <code>==</code>, <code>!=</code>, <code>changes()</code> and <code>count_values</code> on native histograms giving wrong results inside <code>histogram_count()</code>, <code>histogram_sum()</code> and <code>histogram_avg()</code>. #20024</li>
+<li>[BUGFIX] PromQL: Fix histogram_fraction returning wrong results for native histograms with custom buckets when a bucket boundary is exactly 0. #19657</li>
+<li>[BUGFIX] PromQL: Fix histogram_quantile and histogram_quantiles interpolating within the wrong bucket for native histograms whose sum is NaN. #19973</li>
+<li>[BUGFIX] PromQL: Fix lexing of subqueries whose range is a duration keyword expression, e.g. <code>foo[range():1s]</code>. #19729</li>
+<li>[BUGFIX] PromQL: Fix warning and error locations for duration expressions <code>min_of</code> and <code>max_of</code>. #19742</li>
+<li>[BUGFIX] PromQL: Ignore NaN classic histogram bucket boundaries in <code>histogram_quantile</code>, <code>histogram_quantiles</code> and <code>histogram_fraction</code> and return correct value instead of NaN if there are normal buckets. #20057</li>
+<li>[BUGFIX] PromQL: Preserve infinite values at exact quantile ranks. #19899</li>
+<li>[BUGFIX] PromQL: Preserve original operand sides for experimental fill modifiers with group_right matching. #19939</li>
+<li>[BUGFIX] PromQL: Preserve subquery step expressions when printing queries after preprocessing. #19743</li>
+<li>[BUGFIX] PromQL: Range vector functions no longer raise a spurious &quot;vector cannot contain metrics with the same labelset&quot; error when series have different metric names but the same remaining labels, as long as their timestamps do not overlap within the evaluated range window #18631</li>
+<li>[BUGFIX] PromQL: do not count subquery materialized samples in total samples statistics #19873</li>
+<li>[BUGFIX] Remote write: Prevent future-dated exemplars from scaling shards down to the minimum. #19866</li>
+<li>[BUGFIX] Agent: Prevent future sent timestamps from advancing WAL truncation beyond the minimum retention window. #19866</li>
+<li>[BUGFIX] Rules: Restore firing alerts with for durations shorter than --rules.alert.for-grace-period after a restart. #19882</li>
+<li>[BUGFIX] Scrape: fix failing scrape when float histogram is emitted over protobuf with count, zero count and buckets all zero, for example a result of recording <code>rate(x[1m])</code> over constant histogram. #19682</li>
+<li>[BUGFIX] Search API: Return the lexically smallest label values when <code>limit</code> is set on <code>/api/v1/search/label_values</code>, instead of an arbitrary subset #19694</li>
+<li>[BUGFIX] TSDB: Fix WAL watcher permanently skipping checkpoint series garbage collection when lagging behind head truncation. #20041</li>
+<li>[BUGFIX] Search API: Avoid panics when the requested time range has no participating storage. #19992</li>
+<li>[BUGFIX] TSDB: Fix a race in selected-series and stale-series compaction where a sample committed after the block was written but before the series was evicted from the head could be silently lost. The fix no longer depends on isolation being enabled. #19666</li>
+<li>[BUGFIX] TSDB: Fix a rare case where a sample could be lost during selected-series or stale-series compaction if an unrelated write to the same series ran cleanup that erased the evidence needed to protect it. #19672</li>
+<li>[BUGFIX] TSDB: Fix spurious &quot;unknown series references&quot; warnings during WAL replay after a restart, when the only blocks on disk were produced by selected-series or stale-series compaction. #19734</li>
+<li>[BUGFIX] TSDB: Increment <code>prometheus_tsdb_wal_corruptions_total</code> when WAL corruption is detected during checkpoint creation, so the metric reflects corruption found at compaction time rather than only after a restart-triggered repair. #19858</li>
+<li>[BUGFIX] TSDB: Preserve series identities needed to recover exemplars after compaction and restart. #19940</li>
+<li>[BUGFIX] TSDB: Reject native histograms whose span offsets overflow the int32 bucket index instead of storing them with corrupted buckets. #20034</li>
+<li>[BUGFIX] TSDB: fix no passing metadata-wal-records to TSDB from main feature flag. #19678</li>
+<li>[BUGFIX] Templates: Preserve IPv6 addresses with dotted zone identifiers in <code>stripDomain</code>. #19908</li>
+<li>[BUGFIX] UI: Don&#39;t automatically open an autocomplete dropdown after closing a function call body or aggregation operator with a closing parenthesis. #19825</li>
+<li>[BUGFIX] Web: Fix HTTP/2 negotiation silently falling back to HTTP/1.1 under Go 1.27+ when TLS is enabled with <code>http2: true</code>. The server now correctly advertises <code>h2</code> via ALPN and multiplexes concurrent requests over a single connection. #19848</li>
+<li>[BUGFIX] mixin: Fix double-counting of failed samples in the <code>PrometheusRemoteStorageFailures</code> alert denominator. #19877</li>
+<li>[BUGFIX] promtool: Honor <code>--enable-feature</code> when evaluating rules in <code>test rules</code>. #20046</li>
+<li>[BUGFIX] Scrape: Ensure UTF-8 works with the experimental OpenMetrics 2.0 #19902</li>
+<li>[BUGFIX] Scrape: Reject sum-only classic histograms during NHCB conversion #19315</li>
+</ul>
+]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[3.15.1 / 2026-10-21]]></title>
             <link>https://github.com/prometheus/prometheus/releases/tag/v3.15.1</link>
@@ -1566,20 +1748,6 @@ There are a number of new features, and no known breaking changes in this releas
 <ul>
 <li>[ENHANCEMENT] TSDB: Add backward compatibility with the upcoming TSDB block index v3 #16762</li>
 <li>[BUGFIX] Top-level: Update GOGC before loading TSDB #16521</li>
-</ul>
-]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[3.4.2 / 2025-06-26]]></title>
-            <link>https://github.com/prometheus/prometheus/releases/tag/v3.4.2</link>
-            <guid>https://github.com/prometheus/prometheus/releases/tag/v3.4.2</guid>
-            <pubDate>Thu, 26 Jun 2025 21:45:21 GMT</pubDate>
-            <description><![CDATA[<ul>
-<li>[BUGFIX] OTLP receiver: Fix default configuration not being respected if the <code>otlp:</code> block is unset in the config file. #16693</li>
-</ul>
-]]></description>
-            <content:encoded><![CDATA[<ul>
-<li>[BUGFIX] OTLP receiver: Fix default configuration not being respected if the <code>otlp:</code> block is unset in the config file. #16693</li>
 </ul>
 ]]></content:encoded>
         </item>
