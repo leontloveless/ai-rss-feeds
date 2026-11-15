@@ -4,11 +4,211 @@
         <title>OpenClaw Releases</title>
         <link>https://github.com/openclaw/openclaw/releases</link>
         <description>GitHub releases for OpenClaw - AI assistant framework</description>
-        <lastBuildDate>Thu, 12 Nov 2026 00:43:25 GMT</lastBuildDate>
+        <lastBuildDate>Sun, 15 Nov 2026 00:31:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>ai-rss-feeds (https://github.com/leontloveless/ai-rss-feeds)</generator>
         <language>en</language>
         <atom:link href="https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/openclaw-releases.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[openclaw 2026.11.5-beta.3]]></title>
+            <link>https://github.com/openclaw/openclaw/releases/tag/v2026.11.5-beta.3</link>
+            <guid>https://github.com/openclaw/openclaw/releases/tag/v2026.11.5-beta.3</guid>
+            <pubDate>Sun, 15 Nov 2026 00:31:00 GMT</pubDate>
+            <description><![CDATA[<h2>2026.11.5-beta.3</h2>
+<h3>Highlights</h3>
+<ul>
+<li><strong>Large-session reliability:</strong> reduce memory pressure during transcript indexing, trimming, and compaction; stream only selected hydration payloads and honor configurable summary limits. (#194099, #194066, #194536, #196207) Thanks @vincentkoc, @aniruddhaadak80, @RomneyDa, @garrytan.</li>
+<li><strong>Restart and delivery safety:</strong> preserve queued-message permission ceilings and accepted ingress during restarts, drain final chat writes before handoff, and retain delivery ownership through the final RPC. (#196540, #196923, #196493, #197427) Thanks @joshavant, @vincentkoc.</li>
+<li><strong>Recovery and setup:</strong> improve cold-start initialization, interrupted workspace recovery, installer permissions, and actionable iMessage Automation status. (#192552, #196423, #186782, #186117) Thanks @javiermv, @anmol0b, @RomneyDa, @vincentkoc.</li>
+</ul>
+<h3>Changes</h3>
+<ul>
+<li><strong>Models and tools:</strong> restore context-sized default output budgets, expose effective deferred MCP tools with bounded input hints, and deduplicate wrapped structured MCP results. (#193899, #196766, #196252, #196266, #196243) Thanks @RomneyDa, @jalehman, @GrahamMcBain, @VACInc, @vincentkoc.</li>
+<li><strong>Compaction:</strong> support a configurable summary-character limit while retaining foreground request-budget constraints and redacting credentials in quoted summary content. (#196207, #197349) Thanks @aniruddhaadak80, @RomneyDa, @garrytan, @obviyus.</li>
+<li><strong>Browser and workspaces:</strong> route Lightpanda navigation through its supported connection path and wait for sandbox files to become ready. (#196400, #197248) Thanks @RomneyDa, @mmaps.</li>
+</ul>
+<h3>Fixes</h3>
+<ul>
+<li><strong>Startup and updates:</strong> retry transient shared-state schema admission, defer cold-start runtime initialization, preserve external-plugin data during update rehearsals, keep idle cron workers disabled, and split timed-out SQLite header probes. Conflicting legacy exec-approval files no longer prevent startup; canonical policy remains authoritative. (#195398, #192552, #196301, #196387, #193970, #194239, #196401) Thanks @RomneyDa, @vincentkoc.</li>
+<li><strong>Sessions and storage:</strong> bound large-transcript indexing and trimming, stream selected compaction payloads, exclude consumed inputs from actor hydration, and recover cold PostgreSQL conversations after readers close. Preserve active turns across session rollover, settle suspended descendants, and repair persisted internal-wake titles. (#194099, #194066, #194536, #196277, #189991, #197345, #197323, #196362) Thanks @vincentkoc, @etzelm, @Jo2234, @obviyus, @abacha, @wr-web, @xRyann2255, @RomneyDa.</li>
+<li><strong>Authority and delivery:</strong> require effective authority for delegated changes, apply input-policy hooks to prepared images, preserve accepted queued ingress and original permissions through restart, and wait for final writes within the existing restart budget. Keep final-delivery ownership until its RPC settles. (#196984, #196337, #196923, #196540, #196493, #197427) Thanks @joshavant, @vincentkoc, @RomneyDa.</li>
+<li><strong>Execution and progress:</strong> collect process results at suspended capacity, retain accepted ClawHub attempts after timeouts, settle failed Code Mode calls without unresolved sibling waits, and detect silent model streams despite tool heartbeats. Bound silent Agents API startup and release retained completion authority for finished non-announcing children. (#196927, #196929, #196435, #196517, #196672) Thanks @RomneyDa.</li>
+<li><strong>Channels:</strong> retain iMessage Automation warnings until an accepted send, avoid Slack reasoning-stream freezes, handle empty IRC channel sender lists, and preserve local final replies in history. Cron and system replies no longer use closed plugin scopes. (#186117, #196250, #196293, #187795, #196750) Thanks @MertBasar0, @anmol0b, @RomneyDa, @mmaps, @masatohoshino, @obviyus, @ptu-gh.</li>
+<li><strong>Provider setup:</strong> retain Z.ai Coding Plan catalog models, deduplicate concurrent provider-catalog imports, preserve model API billing settings during config writes, recover cancelled Claude CLI login refreshes, and omit enums from non-string Gemini parameter schemas. (#195390, #196448, #191326, #197032, #196742) Thanks @jason-allen-oneal, @1052326311, @WG-Mojo, @etzelm, @obviyus, @kir1ll, @vincentkoc, @RomneyDa.</li>
+<li><strong>Diagnostics:</strong> avoid repeated redaction and serialization during opt-in OpenTelemetry content capture, bound oversized image capture, and redact raw multiline strings before JSON escaping. (#186666, #194353) Thanks @651juan, @amittell, @mmaps.</li>
+<li><strong>Platform recovery:</strong> compare Windows state paths case-insensitively, respect installer permission masks, and recover macOS LaunchAgents when Trash access is denied. Keep iOS gateway recovery reachable while reconnecting and remove legacy plaintext setup-code preferences; pasted setup codes stay in memory. (#185917, #186782, #189321, #191560, #197049) Thanks @YangManBOBO, @javiermv, @sukhdeepjohar, @obviyus, @TameTheGame, @RomneyDa, @vincentkoc.</li>
+<li><strong>Workspace and database recovery:</strong> recover interrupted workspace turns, avoid false admission after resumed database copies, and keep stopped-database Doctor inspection read-only on full disks. Open nested repositories outside mirror paths correctly. (#196423, #194595, #196346, #196747) Thanks @mmaps, @ylcn91, @reisball, @fuller-stack-dev.</li>
+<li><strong>Interface and release routing:</strong> keep session links and row actions usable on touch devices, avoid freezes from deep-path progress labels, and reject incompatible release routes. (#194840, #196282, #196878) Thanks @RomneyDa, @najef1979-code, @vyctorbrzezowski, @LeizhenZhang, @obviyus.</li>
+</ul>
+<h3>Complete contribution record</h3>
+<p>This audited record covers the complete v2026.11.5-beta.2..7f4704ecaf79dc747db8d7c73c614ccd08204acd history: 50 in-range PRs + 0 retained seed-only PRs = 50 unique PRs. The generation manifest also supplies direct commits as editorial input; the grouped notes above prioritize user impact.</p>
+<h4>Pull requests</h4>
+<ul>
+<li><strong>PR #195398</strong> Thanks @RomneyDa.</li>
+<li><strong>PR #196315</strong> Thanks @RomneyDa.</li>
+<li><strong>PR #196355</strong> Thanks @RomneyDa.</li>
+<li><strong>PR #196877</strong> Thanks @RomneyDa.</li>
+<li><strong>PR #196878</strong> Thanks @RomneyDa.</li>
+<li><strong>PR #194099</strong> Thanks @vincentkoc.</li>
+<li><strong>PR #196337</strong> Thanks @joshavant.</li>
+<li><strong>PR #196301</strong> Thanks @RomneyDa.</li>
+<li><strong>PR #196386</strong> Related #192547. Thanks @RomneyDa and @vincentkoc.</li>
+<li><strong>PR #196898</strong> Thanks @RomneyDa.</li>
+<li><strong>PR #196387</strong> Thanks @RomneyDa and @vincentkoc.</li>
+<li><strong>PR #195390</strong> Thanks @jason-allen-oneal.</li>
+<li><strong>PR #189991</strong> Thanks @etzelm.</li>
+<li><strong>PR #196448</strong> Related #195477. Thanks @1052326311 and @WG-Mojo.</li>
+<li><strong>PR #187795</strong> Thanks @MertBasar0.</li>
+<li><strong>PR #191326</strong> Thanks @etzelm.</li>
+<li><strong>PR #194840</strong> Thanks @najef1979-code and @vyctorbrzezowski.</li>
+<li><strong>PR #196927</strong> Thanks @RomneyDa.</li>
+<li><strong>PR #196929</strong> Thanks @RomneyDa.</li>
+<li><strong>PR #186666</strong> Related #158116. Thanks @651juan and @amittell.</li>
+<li><strong>PR #194353</strong> Thanks @mmaps.</li>
+<li><strong>PR #185917</strong> Related #185913. Authored by @steipete. Thanks @YangManBOBO.</li>
+<li><strong>PR #186782</strong> Thanks @javiermv.</li>
+<li><strong>PR #189321</strong> Thanks @sukhdeepjohar.</li>
+<li><strong>PR #186117</strong> Thanks @anmol0b and @RomneyDa.</li>
+<li><strong>PR #196207</strong> Related #194408. Thanks @aniruddhaadak80, @RomneyDa, and @garrytan.</li>
+<li><strong>PR #194066</strong> Thanks @vincentkoc.</li>
+<li><strong>PR #196282</strong> Thanks @LeizhenZhang and @obviyus.</li>
+<li><strong>PR #197032</strong> Related #189214. Thanks @obviyus and @kir1ll.</li>
+<li><strong>PR #196293</strong> Thanks @mmaps.</li>
+<li><strong>PR #196747</strong> Thanks @mmaps.</li>
+<li><strong>PR #196750</strong> Related #196749. Thanks @masatohoshino and @obviyus.</li>
+<li><strong>PR #196250</strong> Related #196249. Thanks @ptu-gh and @obviyus.</li>
+<li><strong>PR #197345</strong> Related #197324. Thanks @Jo2234, @obviyus, and @abacha.</li>
+<li><strong>PR #194595</strong> Related #194518. Thanks @ylcn91 and @reisball.</li>
+<li><strong>PR #196346</strong> Thanks @fuller-stack-dev.</li>
+<li><strong>PR #197323</strong> Related #197305. Thanks @wr-web, @obviyus, and @xRyann2255.</li>
+<li><strong>PR #197349</strong> Thanks @obviyus.</li>
+<li><strong>PR #196400</strong> Thanks @RomneyDa.</li>
+<li><strong>PR #197248</strong> Thanks @mmaps.</li>
+<li><strong>PR #196672</strong> Authored by @steipete.</li>
+<li><strong>PR #196517</strong> Authored by @steipete.</li>
+<li><strong>PR #196923</strong> Thanks @joshavant.</li>
+<li><strong>PR #197049</strong> Thanks @obviyus.</li>
+<li><strong>PR #196435</strong> Authored by @steipete.</li>
+<li><strong>PR #196423</strong> Authored by @steipete.</li>
+<li><strong>PR #196540</strong> Thanks @joshavant.</li>
+<li><strong>PR #196401</strong> Authored by @steipete.</li>
+<li><strong>PR #196493</strong> Authored by @steipete.</li>
+<li><strong>PR #197427</strong> Thanks @vincentkoc.</li>
+</ul>
+<h3>Release verification</h3>
+<ul>
+<li>npm package: <a href="https://www.npmjs.com/package/openclaw/v/2026.11.5-beta.3">https://www.npmjs.com/package/openclaw/v/2026.11.5-beta.3</a></li>
+<li>registry tarball: <a href="https://registry.npmjs.org/openclaw/-/openclaw-2026.11.5-beta.3.tgz">https://registry.npmjs.org/openclaw/-/openclaw-2026.11.5-beta.3.tgz</a></li>
+<li>integrity: <code>sha512-9qYGomM54gfe9q/EkjzUqQIHyYUYs/70eG+CVUqtSVX1U66YFjIPvz1+K8vefxlXktT9Llww89zr8A5K/IR61A==</code></li>
+<li>release SHA: <code>c2f4dde2638502fe506e234fb43ac65d8c391072</code></li>
+<li>full release CI report: <a href="https://github.com/openclaw/releases/blob/main/evidence/2026.11.5-beta.3/release-evidence.md">https://github.com/openclaw/releases/blob/main/evidence/2026.11.5-beta.3/release-evidence.md</a></li>
+<li>release publish: <a href="https://github.com/openclaw/openclaw/actions/runs/43651213220">https://github.com/openclaw/openclaw/actions/runs/43651213220</a></li>
+<li>npm preflight: <a href="https://github.com/openclaw/openclaw/actions/runs/43602309947">https://github.com/openclaw/openclaw/actions/runs/43602309947</a></li>
+<li>full release validation: <a href="https://github.com/openclaw/openclaw/actions/runs/43623689520">https://github.com/openclaw/openclaw/actions/runs/43623689520</a></li>
+<li>plugin npm publish: <a href="https://github.com/openclaw/openclaw/actions/runs/43652037167">https://github.com/openclaw/openclaw/actions/runs/43652037167</a></li>
+<li>ClawHub registry update: independent publication; see the release publish run summary for its status.</li>
+<li>OpenClaw npm publish: <a href="https://github.com/openclaw/openclaw/actions/runs/43652994126">https://github.com/openclaw/openclaw/actions/runs/43652994126</a></li>
+<li>npm Telegram beta E2E: not supplied</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h2>2026.11.5-beta.3</h2>
+<h3>Highlights</h3>
+<ul>
+<li><strong>Large-session reliability:</strong> reduce memory pressure during transcript indexing, trimming, and compaction; stream only selected hydration payloads and honor configurable summary limits. (#194099, #194066, #194536, #196207) Thanks @vincentkoc, @aniruddhaadak80, @RomneyDa, @garrytan.</li>
+<li><strong>Restart and delivery safety:</strong> preserve queued-message permission ceilings and accepted ingress during restarts, drain final chat writes before handoff, and retain delivery ownership through the final RPC. (#196540, #196923, #196493, #197427) Thanks @joshavant, @vincentkoc.</li>
+<li><strong>Recovery and setup:</strong> improve cold-start initialization, interrupted workspace recovery, installer permissions, and actionable iMessage Automation status. (#192552, #196423, #186782, #186117) Thanks @javiermv, @anmol0b, @RomneyDa, @vincentkoc.</li>
+</ul>
+<h3>Changes</h3>
+<ul>
+<li><strong>Models and tools:</strong> restore context-sized default output budgets, expose effective deferred MCP tools with bounded input hints, and deduplicate wrapped structured MCP results. (#193899, #196766, #196252, #196266, #196243) Thanks @RomneyDa, @jalehman, @GrahamMcBain, @VACInc, @vincentkoc.</li>
+<li><strong>Compaction:</strong> support a configurable summary-character limit while retaining foreground request-budget constraints and redacting credentials in quoted summary content. (#196207, #197349) Thanks @aniruddhaadak80, @RomneyDa, @garrytan, @obviyus.</li>
+<li><strong>Browser and workspaces:</strong> route Lightpanda navigation through its supported connection path and wait for sandbox files to become ready. (#196400, #197248) Thanks @RomneyDa, @mmaps.</li>
+</ul>
+<h3>Fixes</h3>
+<ul>
+<li><strong>Startup and updates:</strong> retry transient shared-state schema admission, defer cold-start runtime initialization, preserve external-plugin data during update rehearsals, keep idle cron workers disabled, and split timed-out SQLite header probes. Conflicting legacy exec-approval files no longer prevent startup; canonical policy remains authoritative. (#195398, #192552, #196301, #196387, #193970, #194239, #196401) Thanks @RomneyDa, @vincentkoc.</li>
+<li><strong>Sessions and storage:</strong> bound large-transcript indexing and trimming, stream selected compaction payloads, exclude consumed inputs from actor hydration, and recover cold PostgreSQL conversations after readers close. Preserve active turns across session rollover, settle suspended descendants, and repair persisted internal-wake titles. (#194099, #194066, #194536, #196277, #189991, #197345, #197323, #196362) Thanks @vincentkoc, @etzelm, @Jo2234, @obviyus, @abacha, @wr-web, @xRyann2255, @RomneyDa.</li>
+<li><strong>Authority and delivery:</strong> require effective authority for delegated changes, apply input-policy hooks to prepared images, preserve accepted queued ingress and original permissions through restart, and wait for final writes within the existing restart budget. Keep final-delivery ownership until its RPC settles. (#196984, #196337, #196923, #196540, #196493, #197427) Thanks @joshavant, @vincentkoc, @RomneyDa.</li>
+<li><strong>Execution and progress:</strong> collect process results at suspended capacity, retain accepted ClawHub attempts after timeouts, settle failed Code Mode calls without unresolved sibling waits, and detect silent model streams despite tool heartbeats. Bound silent Agents API startup and release retained completion authority for finished non-announcing children. (#196927, #196929, #196435, #196517, #196672) Thanks @RomneyDa.</li>
+<li><strong>Channels:</strong> retain iMessage Automation warnings until an accepted send, avoid Slack reasoning-stream freezes, handle empty IRC channel sender lists, and preserve local final replies in history. Cron and system replies no longer use closed plugin scopes. (#186117, #196250, #196293, #187795, #196750) Thanks @MertBasar0, @anmol0b, @RomneyDa, @mmaps, @masatohoshino, @obviyus, @ptu-gh.</li>
+<li><strong>Provider setup:</strong> retain Z.ai Coding Plan catalog models, deduplicate concurrent provider-catalog imports, preserve model API billing settings during config writes, recover cancelled Claude CLI login refreshes, and omit enums from non-string Gemini parameter schemas. (#195390, #196448, #191326, #197032, #196742) Thanks @jason-allen-oneal, @1052326311, @WG-Mojo, @etzelm, @obviyus, @kir1ll, @vincentkoc, @RomneyDa.</li>
+<li><strong>Diagnostics:</strong> avoid repeated redaction and serialization during opt-in OpenTelemetry content capture, bound oversized image capture, and redact raw multiline strings before JSON escaping. (#186666, #194353) Thanks @651juan, @amittell, @mmaps.</li>
+<li><strong>Platform recovery:</strong> compare Windows state paths case-insensitively, respect installer permission masks, and recover macOS LaunchAgents when Trash access is denied. Keep iOS gateway recovery reachable while reconnecting and remove legacy plaintext setup-code preferences; pasted setup codes stay in memory. (#185917, #186782, #189321, #191560, #197049) Thanks @YangManBOBO, @javiermv, @sukhdeepjohar, @obviyus, @TameTheGame, @RomneyDa, @vincentkoc.</li>
+<li><strong>Workspace and database recovery:</strong> recover interrupted workspace turns, avoid false admission after resumed database copies, and keep stopped-database Doctor inspection read-only on full disks. Open nested repositories outside mirror paths correctly. (#196423, #194595, #196346, #196747) Thanks @mmaps, @ylcn91, @reisball, @fuller-stack-dev.</li>
+<li><strong>Interface and release routing:</strong> keep session links and row actions usable on touch devices, avoid freezes from deep-path progress labels, and reject incompatible release routes. (#194840, #196282, #196878) Thanks @RomneyDa, @najef1979-code, @vyctorbrzezowski, @LeizhenZhang, @obviyus.</li>
+</ul>
+<h3>Complete contribution record</h3>
+<p>This audited record covers the complete v2026.11.5-beta.2..7f4704ecaf79dc747db8d7c73c614ccd08204acd history: 50 in-range PRs + 0 retained seed-only PRs = 50 unique PRs. The generation manifest also supplies direct commits as editorial input; the grouped notes above prioritize user impact.</p>
+<h4>Pull requests</h4>
+<ul>
+<li><strong>PR #195398</strong> Thanks @RomneyDa.</li>
+<li><strong>PR #196315</strong> Thanks @RomneyDa.</li>
+<li><strong>PR #196355</strong> Thanks @RomneyDa.</li>
+<li><strong>PR #196877</strong> Thanks @RomneyDa.</li>
+<li><strong>PR #196878</strong> Thanks @RomneyDa.</li>
+<li><strong>PR #194099</strong> Thanks @vincentkoc.</li>
+<li><strong>PR #196337</strong> Thanks @joshavant.</li>
+<li><strong>PR #196301</strong> Thanks @RomneyDa.</li>
+<li><strong>PR #196386</strong> Related #192547. Thanks @RomneyDa and @vincentkoc.</li>
+<li><strong>PR #196898</strong> Thanks @RomneyDa.</li>
+<li><strong>PR #196387</strong> Thanks @RomneyDa and @vincentkoc.</li>
+<li><strong>PR #195390</strong> Thanks @jason-allen-oneal.</li>
+<li><strong>PR #189991</strong> Thanks @etzelm.</li>
+<li><strong>PR #196448</strong> Related #195477. Thanks @1052326311 and @WG-Mojo.</li>
+<li><strong>PR #187795</strong> Thanks @MertBasar0.</li>
+<li><strong>PR #191326</strong> Thanks @etzelm.</li>
+<li><strong>PR #194840</strong> Thanks @najef1979-code and @vyctorbrzezowski.</li>
+<li><strong>PR #196927</strong> Thanks @RomneyDa.</li>
+<li><strong>PR #196929</strong> Thanks @RomneyDa.</li>
+<li><strong>PR #186666</strong> Related #158116. Thanks @651juan and @amittell.</li>
+<li><strong>PR #194353</strong> Thanks @mmaps.</li>
+<li><strong>PR #185917</strong> Related #185913. Authored by @steipete. Thanks @YangManBOBO.</li>
+<li><strong>PR #186782</strong> Thanks @javiermv.</li>
+<li><strong>PR #189321</strong> Thanks @sukhdeepjohar.</li>
+<li><strong>PR #186117</strong> Thanks @anmol0b and @RomneyDa.</li>
+<li><strong>PR #196207</strong> Related #194408. Thanks @aniruddhaadak80, @RomneyDa, and @garrytan.</li>
+<li><strong>PR #194066</strong> Thanks @vincentkoc.</li>
+<li><strong>PR #196282</strong> Thanks @LeizhenZhang and @obviyus.</li>
+<li><strong>PR #197032</strong> Related #189214. Thanks @obviyus and @kir1ll.</li>
+<li><strong>PR #196293</strong> Thanks @mmaps.</li>
+<li><strong>PR #196747</strong> Thanks @mmaps.</li>
+<li><strong>PR #196750</strong> Related #196749. Thanks @masatohoshino and @obviyus.</li>
+<li><strong>PR #196250</strong> Related #196249. Thanks @ptu-gh and @obviyus.</li>
+<li><strong>PR #197345</strong> Related #197324. Thanks @Jo2234, @obviyus, and @abacha.</li>
+<li><strong>PR #194595</strong> Related #194518. Thanks @ylcn91 and @reisball.</li>
+<li><strong>PR #196346</strong> Thanks @fuller-stack-dev.</li>
+<li><strong>PR #197323</strong> Related #197305. Thanks @wr-web, @obviyus, and @xRyann2255.</li>
+<li><strong>PR #197349</strong> Thanks @obviyus.</li>
+<li><strong>PR #196400</strong> Thanks @RomneyDa.</li>
+<li><strong>PR #197248</strong> Thanks @mmaps.</li>
+<li><strong>PR #196672</strong> Authored by @steipete.</li>
+<li><strong>PR #196517</strong> Authored by @steipete.</li>
+<li><strong>PR #196923</strong> Thanks @joshavant.</li>
+<li><strong>PR #197049</strong> Thanks @obviyus.</li>
+<li><strong>PR #196435</strong> Authored by @steipete.</li>
+<li><strong>PR #196423</strong> Authored by @steipete.</li>
+<li><strong>PR #196540</strong> Thanks @joshavant.</li>
+<li><strong>PR #196401</strong> Authored by @steipete.</li>
+<li><strong>PR #196493</strong> Authored by @steipete.</li>
+<li><strong>PR #197427</strong> Thanks @vincentkoc.</li>
+</ul>
+<h3>Release verification</h3>
+<ul>
+<li>npm package: <a href="https://www.npmjs.com/package/openclaw/v/2026.11.5-beta.3">https://www.npmjs.com/package/openclaw/v/2026.11.5-beta.3</a></li>
+<li>registry tarball: <a href="https://registry.npmjs.org/openclaw/-/openclaw-2026.11.5-beta.3.tgz">https://registry.npmjs.org/openclaw/-/openclaw-2026.11.5-beta.3.tgz</a></li>
+<li>integrity: <code>sha512-9qYGomM54gfe9q/EkjzUqQIHyYUYs/70eG+CVUqtSVX1U66YFjIPvz1+K8vefxlXktT9Llww89zr8A5K/IR61A==</code></li>
+<li>release SHA: <code>c2f4dde2638502fe506e234fb43ac65d8c391072</code></li>
+<li>full release CI report: <a href="https://github.com/openclaw/releases/blob/main/evidence/2026.11.5-beta.3/release-evidence.md">https://github.com/openclaw/releases/blob/main/evidence/2026.11.5-beta.3/release-evidence.md</a></li>
+<li>release publish: <a href="https://github.com/openclaw/openclaw/actions/runs/43651213220">https://github.com/openclaw/openclaw/actions/runs/43651213220</a></li>
+<li>npm preflight: <a href="https://github.com/openclaw/openclaw/actions/runs/43602309947">https://github.com/openclaw/openclaw/actions/runs/43602309947</a></li>
+<li>full release validation: <a href="https://github.com/openclaw/openclaw/actions/runs/43623689520">https://github.com/openclaw/openclaw/actions/runs/43623689520</a></li>
+<li>plugin npm publish: <a href="https://github.com/openclaw/openclaw/actions/runs/43652037167">https://github.com/openclaw/openclaw/actions/runs/43652037167</a></li>
+<li>ClawHub registry update: independent publication; see the release publish run summary for its status.</li>
+<li>OpenClaw npm publish: <a href="https://github.com/openclaw/openclaw/actions/runs/43652994126">https://github.com/openclaw/openclaw/actions/runs/43652994126</a></li>
+<li>npm Telegram beta E2E: not supplied</li>
+</ul>
+]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[openclaw 2026.11.5-beta.2]]></title>
             <link>https://github.com/openclaw/openclaw/releases/tag/v2026.11.5-beta.2</link>
@@ -32623,56 +32823,6 @@ This package was mistakenly published under the version <code>2026.9.1-beta.1</c
 <li>OpenClaw npm publish: <a href="https://github.com/openclaw/openclaw/actions/runs/33204945919">https://github.com/openclaw/openclaw/actions/runs/33204945919</a></li>
 <li>npm Telegram beta E2E: <a href="https://github.com/openclaw/openclaw/actions/runs/33171320616">https://github.com/openclaw/openclaw/actions/runs/33171320616</a></li>
 </ul>
-]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[OpenClaw 2026.8.1-beta.3]]></title>
-            <link>https://github.com/openclaw/openclaw/releases/tag/v2026.8.1-beta.3</link>
-            <guid>https://github.com/openclaw/openclaw/releases/tag/v2026.8.1-beta.3</guid>
-            <pubDate>Mon, 24 Aug 2026 04:40:41 GMT</pubDate>
-            <description><![CDATA[<h2>Highlights</h2>
-<ul>
-<li>GPT-5.6 Sol, Terra, Luna, and Ultra reasoning support across OpenClaw and the Codex runtime.</li>
-<li>Control UI first-run setup now continues verified model setup into Custodian and optional channel setup.</li>
-<li>Puppeteer-compatible CDP relay support for paired Chrome sessions.</li>
-<li>Explicit external Gateway lifecycle supervision with verified restart handoff.</li>
-<li>Compact, verified SQLite backup and fresh-target restore commands.</li>
-<li>Shared durable ingress monitors for channel plugins.</li>
-</ul>
-<h2>Publication evidence</h2>
-<ul>
-<li>npm: <a href="https://www.npmjs.com/package/openclaw/v/2026.8.1-beta.3">https://www.npmjs.com/package/openclaw/v/2026.8.1-beta.3</a></li>
-<li>Registry tarball: <a href="https://registry.npmjs.org/openclaw/-/openclaw-2026.8.1-beta.3.tgz">https://registry.npmjs.org/openclaw/-/openclaw-2026.8.1-beta.3.tgz</a></li>
-<li>Integrity: <code>sha512-8v+2Knr+0i1qzWXgJmtcBg78VaoMENahLxcuThOqyCmVaCGPj++mI9yv0R440wMv9Siv4fysd5e0YmBVftDvuQ==</code></li>
-<li>Core npm preflight: <a href="https://github.com/openclaw/openclaw/actions/runs/32687267214">https://github.com/openclaw/openclaw/actions/runs/32687267214</a></li>
-<li>Core npm publication: <a href="https://github.com/openclaw/openclaw/actions/runs/32689503061">https://github.com/openclaw/openclaw/actions/runs/32689503061</a></li>
-<li>Official plugin publication and reconciliation: <a href="https://github.com/openclaw/openclaw/actions/runs/32680190375">https://github.com/openclaw/openclaw/actions/runs/32680190375</a></li>
-<li>All 89 official npm plugins were read back at <code>2026.8.1-beta.3</code> with the <code>beta</code> selector and complete tarball integrity metadata.</li>
-<li><code>@openclaw/codex@2026.8.1-beta.3</code> ships the exact managed <code>@openai/codex@0.149.1</code> runtime.</li>
-</ul>
-<p>See <a href="https://github.com/openclaw/openclaw/blob/v2026.8.1-beta.3/CHANGELOG.md"><code>CHANGELOG.md</code></a> for the complete release notes.</p>
-]]></description>
-            <content:encoded><![CDATA[<h2>Highlights</h2>
-<ul>
-<li>GPT-5.6 Sol, Terra, Luna, and Ultra reasoning support across OpenClaw and the Codex runtime.</li>
-<li>Control UI first-run setup now continues verified model setup into Custodian and optional channel setup.</li>
-<li>Puppeteer-compatible CDP relay support for paired Chrome sessions.</li>
-<li>Explicit external Gateway lifecycle supervision with verified restart handoff.</li>
-<li>Compact, verified SQLite backup and fresh-target restore commands.</li>
-<li>Shared durable ingress monitors for channel plugins.</li>
-</ul>
-<h2>Publication evidence</h2>
-<ul>
-<li>npm: <a href="https://www.npmjs.com/package/openclaw/v/2026.8.1-beta.3">https://www.npmjs.com/package/openclaw/v/2026.8.1-beta.3</a></li>
-<li>Registry tarball: <a href="https://registry.npmjs.org/openclaw/-/openclaw-2026.8.1-beta.3.tgz">https://registry.npmjs.org/openclaw/-/openclaw-2026.8.1-beta.3.tgz</a></li>
-<li>Integrity: <code>sha512-8v+2Knr+0i1qzWXgJmtcBg78VaoMENahLxcuThOqyCmVaCGPj++mI9yv0R440wMv9Siv4fysd5e0YmBVftDvuQ==</code></li>
-<li>Core npm preflight: <a href="https://github.com/openclaw/openclaw/actions/runs/32687267214">https://github.com/openclaw/openclaw/actions/runs/32687267214</a></li>
-<li>Core npm publication: <a href="https://github.com/openclaw/openclaw/actions/runs/32689503061">https://github.com/openclaw/openclaw/actions/runs/32689503061</a></li>
-<li>Official plugin publication and reconciliation: <a href="https://github.com/openclaw/openclaw/actions/runs/32680190375">https://github.com/openclaw/openclaw/actions/runs/32680190375</a></li>
-<li>All 89 official npm plugins were read back at <code>2026.8.1-beta.3</code> with the <code>beta</code> selector and complete tarball integrity metadata.</li>
-<li><code>@openclaw/codex@2026.8.1-beta.3</code> ships the exact managed <code>@openai/codex@0.149.1</code> runtime.</li>
-</ul>
-<p>See <a href="https://github.com/openclaw/openclaw/blob/v2026.8.1-beta.3/CHANGELOG.md"><code>CHANGELOG.md</code></a> for the complete release notes.</p>
 ]]></content:encoded>
         </item>
     </channel>
