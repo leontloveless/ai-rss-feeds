@@ -35,7 +35,7 @@ GitHub release feeds and native RSS/Atom feeds are added without a model call. S
 | [文匯香港](https://www.wenweipo.com/hongkong) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/wenweipo-hongkong.xml) | ✅ 15 articles |
 | [Windsurf Blog](https://windsurf.com/blog) | [Subscribe](https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/windsurf.xml) | ✅ 50 articles |
 
-### External RSS (6)
+### External RSS (7)
 
 | Blog | Feed | Status |
 |------|------|--------|
@@ -45,6 +45,7 @@ GitHub release feeds and native RSS/Atom feeds are added without a model call. S
 | [OpenAI News](https://openai.com/news/) | [Subscribe](https://openai.com/news/rss.xml) | ✅ native RSS |
 | [Engineering Blog](https://engineering.roku.com/) | [Subscribe](https://engineering.roku.com/feed) | ✅ native RSS |
 | [Monzo – It's time for a new kind of bank](https://share.google/DVO0e53D9NBLGntfT) | [Subscribe](https://monzo.com/feed.xml) | ✅ native RSS |
+| [Table tennis teaching channel](https://www.youtube.com/@kakaluser) | [Subscribe](https://www.youtube.com/feeds/videos.xml?channel_id=UC9HfQ0MtTxlmPBE0MVEV-yg) | ✅ native RSS |
 
 ### GitHub Releases (9)
 
