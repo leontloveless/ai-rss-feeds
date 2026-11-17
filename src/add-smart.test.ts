@@ -56,9 +56,25 @@ describe("shouldIncludePrereleases", () => {
   });
 });
 
-test("normalizes URL variants without query or fragment", () => {
+test("normalizes URL variants without tracking parameters or fragment", () => {
   expect(normalizeUrl("https://example.com/blog/?utm_source=test#latest")).toBe(
     "https://example.com/blog"
+  );
+});
+
+test("keeps distinct channel and playlist feed identities", () => {
+  const feed = "https://www.youtube.com/feeds/videos.xml";
+  expect(normalizeUrl(feed + "?channel_id=channel-a&utm_source=test#latest")).toBe(
+    feed + "?channel_id=channel-a"
+  );
+  expect(normalizeUrl(feed + "?channel_id=channel-a")).not.toBe(
+    normalizeUrl(feed + "?channel_id=channel-b")
+  );
+  expect(normalizeUrl(feed + "?playlist_id=playlist-a")).not.toBe(
+    normalizeUrl(feed + "?playlist_id=playlist-b")
+  );
+  expect(normalizeUrl("https://example.com/feed?b=2&a=1")).toBe(
+    normalizeUrl("https://example.com/feed?a=1&b=2")
   );
 });
 
