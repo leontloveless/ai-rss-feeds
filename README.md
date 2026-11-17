@@ -216,8 +216,7 @@ Maintainer setup:
 
 1. Install the official compiler with `gh extension install github/gh-aw`.
 2. Create a fine-grained personal access token whose resource owner is your
-   user account with the **Copilot Requests** account permission required by
-   GitHub (currently **Read and write**).
+   user account and whose **Copilot Requests** account permission is **Read**.
    Store it as the repository secret `COPILOT_GITHUB_TOKEN`. The token owner
    must have an active GitHub Copilot plan.
 3. In **Settings → Actions → General → Workflow permissions**, enable GitHub
