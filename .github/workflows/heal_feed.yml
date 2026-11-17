@@ -94,6 +94,13 @@ jobs:
                 body: `🩹 Feed \`${feedName}\` stopped working and was automatically healed.\n\n📖 Subscribe: \`${feedUrl}\``,
               });
             } else {
+              const alreadyReported = issue.state === 'open' && issue.labels.some(
+                label => (typeof label === 'string' ? label : label.name) === 'feed-failed'
+              );
+              if (alreadyReported) {
+                console.log('Failure already reported on the open issue; skipping duplicate notification.');
+                return;
+              }
               await github.rest.issues.createComment({
                 owner: context.repo.owner,
                 repo: context.repo.repo,

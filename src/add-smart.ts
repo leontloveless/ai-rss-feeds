@@ -60,7 +60,14 @@ export function normalizeUrl(raw: string): string {
   try {
     const url = new URL(raw);
     url.hash = "";
-    url.search = "";
+    // Query parameters can identify a feed (YouTube channels and playlists).
+    // Remove tracking parameters while preserving source identity.
+    for (const key of [...url.searchParams.keys()]) {
+      if (/^utm_/i.test(key) || ["fbclid", "gclid"].includes(key)) {
+        url.searchParams.delete(key);
+      }
+    }
+    url.searchParams.sort();
     url.pathname = url.pathname.replace(/\/+$/, "") || "/";
     return url.href.replace(/\/$/, "");
   } catch {
