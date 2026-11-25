@@ -4,11 +4,325 @@
         <title>claude-code Releases</title>
         <link>https://github.com/anthropics/claude-code/releases</link>
         <description>GitHub releases for anthropics/claude-code</description>
-        <lastBuildDate>Mon, 23 Nov 2026 21:34:41 GMT</lastBuildDate>
+        <lastBuildDate>Wed, 25 Nov 2026 01:32:14 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>ai-rss-feeds (https://github.com/leontloveless/ai-rss-feeds)</generator>
         <language>en</language>
         <atom:link href="https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/claude-code-releases.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[v2.1.332]]></title>
+            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.332</link>
+            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.332</guid>
+            <pubDate>Wed, 25 Nov 2026 01:32:14 GMT</pubDate>
+            <description><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Added skills from MCP servers (beta). They show as <code>server:skill</code> in the <code>/</code> menu; other skills keep their names</li>
+<li>Added a <code>PreSkillShellCommand</code> hook event that can refuse a skill or command&#39;s inline shell commands as it loads; on 2.1.331 and older, a settings file naming it opens a dialog at start</li>
+<li>Added &quot;Always deliver&quot; to the prompt for held messages from other sessions</li>
+<li>Added a footer line that stays while a flagged message has your session on a different model, until you pick one with <code>/model</code></li>
+<li>Added an OpenTelemetry <code>assistant_response</code> event for text Claude sends through SendUserMessage or Cowork&#39;s message tool, when response logging is on</li>
+<li>Added a warning in VS Code and Desktop&#39;s Code tab when part of a session couldn&#39;t be saved, saying how to save it with <code>/compact</code></li>
+<li>Added a notice in VS Code and Desktop&#39;s Code tab when a resumed session&#39;s earlier messages weren&#39;t loaded, as the terminal already shows</li>
+<li>Added your Cyber Verification Program access tier to the startup header, beside the model name when your tier applies to that model and you&#39;re signed in with a claude.ai account</li>
+<li>Fixed <code>claude auth login</code> reporting <code>Login successful.</code> when a claude.ai login could not be saved: it now exits 1 and says what to check, such as a leftover lock file or a full disk</li>
+<li>Fixed Read, @-mentions and compaction hanging on a named pipe that nothing writes to, such as a <code>.env</code> mounted by a locked secrets manager; the read now fails after 20 seconds</li>
+<li>Fixed turns ending in &quot;Prompt is too long&quot; after repeated auto-compaction failures when one more compaction at the context limit could have kept them going</li>
+<li>Fixed compaction failing when a summary kept running past the output limit: after three cut-off replies, the last try now asks for a shorter summary</li>
+<li>Fixed a freeze when a permission rule or hook condition with several wildcards was checked against a long command</li>
+<li>Fixed freezes and runaway memory use in most cases while a hook prints output without end</li>
+<li>Fixed a freeze and context overflow when a hook blocks or fails during a turn, or after <code>/compact</code>, with a very large log; text over about 50,000 characters is now shortened</li>
+<li>Fixed the terminal freezing, and ignoring Ctrl+C, while a local MCP server floods its standard output</li>
+<li>Fixed a freeze when a prompt or piped input holds an <code>@</code> followed by a very long unbroken string, such as minified CSS with an embedded font</li>
+<li>Fixed a long freeze when opening a rewind point after a large tracked file was rewritten</li>
+<li>Fixed SSE MCP servers hanging or refusing every tool call after their event stream was cut and came back on a new endpoint or not at all, until reconnected by hand</li>
+<li>Fixed Remote Control showing a session in the desktop app, VS Code or the Agent SDK as running while it waited there on a dialog or an MCP server&#39;s question</li>
+<li>Fixed a usage limit being reported as reached to Remote Control, IDE and SDK clients after it had already reset</li>
+<li>Fixed CLAUDE.md and rules files being sent to the model a second time, in most cases, after a session moves into a worktree under <code>.claude/worktrees</code> with EnterWorktree or is resumed there</li>
+<li>Fixed tool calls that never ran being counted as done in a claude.ai chat&#39;s summary line after you declined a permission prompt in a session that had restarted</li>
+<li>Linux: Fixed the Bash edit diff showing an unchanged symlink as edited after Claude had read the file through it</li>
+<li>Fixed resuming a session and <code>/stats</code> freezing for seconds when a transcript holds many damaged lines</li>
+<li>Fixed a family name such as <code>sonnet</code> in <code>--fallback-model</code> being dropped when <code>availableModels</code> allows only an older version of it</li>
+<li>Fixed keys lagging for seconds while <code>/stats</code> reads large session transcripts, also after the dialog is closed, and with debug logging on while a language server floods its stderr</li>
+<li>Fixed a session failing when the cloud refused its default model and an <code>availableModels</code> list that isn&#39;t enforced named neither it nor an older model of that family</li>
+<li>Fixed an enforced list of older models failing on Google Cloud&#39;s Agent Platform and Foundry when the first is refused: it now steps down to the next in that family, if listed newest first</li>
+<li>Fixed <code>opus</code> failing on Bedrock, Google Cloud&#39;s Agent Platform and Foundry behind a gateway that refuses a model in its own words: it now steps down to an older model that answers</li>
+<li>Fixed the start-up model upgrade offer on Bedrock and Google Cloud&#39;s Agent Platform naming a model that your <code>availableModels</code> list leaves out</li>
+<li>Fixed Bedrock sub-agents failing when your account lists no profile for their model in the parent&#39;s region: they now use the model&#39;s own profile, which can be outside that region</li>
+<li>Fixed Foundry sessions leaving a model family when an admin&#39;s list blocks the version <code>sonnet</code>, <code>opus</code> or <code>haiku</code> points to: they now use its newest allowed version under a built-in or mapped name</li>
+<li>Fixed the <code>sonnet</code> alias on Bedrock Mantle resolving to Haiku 4.5: it now means Sonnet 5, not Sonnet 5.5, and an account without Sonnet 5 gets an error, so enable it first</li>
+<li>Fixed Ctrl+C at the prompt starting a new turn, and a double Ctrl+C not exiting, when a background agent it stopped had an unread subagent report</li>
+<li>Fixed <code>/install-github-app</code> ticking a workflow again after going back with Esc</li>
+<li>Fixed dictated text past 10,000 characters being lost</li>
+<li>Fixed raw &quot;JSON Parse error&quot; and &quot;The operation was aborted.&quot; API errors when the non-streaming retry got a broken response or was interrupted</li>
+<li>Fixed Esc not stopping computer use between actions on macOS when Claude Code&#39;s window or an app you allowed is in front; an Esc meant for that app&#39;s popup now stops computer use instead</li>
+<li>Fixed a rare hang when a helper command, such as an API key helper, ran past its time limit</li>
+<li>Fixed selecting text in fullscreen pushing the footer&#39;s right-hand label onto a second row, which moved the text under the mouse and could copy the wrong line</li>
+<li>Fixed a PreToolUse hook&#39;s reason for asking not showing on terminal Read, Grep, Glob, Edit and Write prompts (anthropics/claude-code#102892, anthropics/claude-code#105343)</li>
+<li>Fixed <code>temp_*</code> folders piling up in <code>~/.claude/plugins/cache</code> when a downloaded plugin couldn&#39;t be copied into place</li>
+<li>Fixed <code>--effort</code> being ignored when starting an interactive session with <code>--environment</code> while <code>CLAUDE_CODE_EFFORT_LEVEL</code> is set to the same level</li>
+<li>Fixed headless and cloud sessions reporting a foreground fork&#39;s Agent call as finished the moment the fork started</li>
+<li>Fixed local MCP servers seeing a new session ID after a Remote Control session&#39;s process restarts</li>
+<li>Fixed idle compaction being skipped for subscribers still well under their weekly limit</li>
+<li>Fixed an @-mentioned text file with an extension being silently dropped when even its first 2,000 lines exceed the read limit; Claude is now told its size and how to read it</li>
+<li>Fixed the plugin &quot;not cached&quot; error pointing to <code>/plugin</code> instead of <code>/reload-plugins</code>, the command that reloads plugins</li>
+<li>Fixed self-hosted runner sessions failing their first clone under Anthropic-managed git when the machine&#39;s git config has an <code>includeIf &quot;gitdir:&quot;</code> or (git 2.44 to 2.46) <code>&quot;onbranch:&quot;</code> section</li>
+<li>Fixed replies that start with phrases like &quot;You&#39;ve used&quot; or &quot;You&#39;ve hit your&quot; showing as a red usage limit error</li>
+<li>Fixed a resumed conversation sometimes missing its last messages after a crash or kill on Bedrock, Google Cloud&#39;s Agent Platform, Foundry and other third-party providers</li>
+<li>Fixed NotebookEdit saving an invalid notebook when an edit changes a cell&#39;s type; turning a cell with attachments into code is now refused</li>
+<li>Fixed a long README in a design system moved from standalone Claude Design losing its list of files to load when Claude starts a deck or design</li>
+<li>Fixed MCP tool calls failing with &quot;malformed task handle&quot; when the server&#39;s task ID is longer than 128 characters; IDs of up to 1,024 characters now work</li>
+<li>Self-hosted runner: Fixed <code>--configure-git</code> sometimes reporting a hung <code>git --version</code> as a git that isn&#39;t on PATH</li>
+<li>Fixed task ids being reused and deleted tasks coming back when several tasks were deleted or updated at once, and TaskGet listing completed tasks as blockers</li>
+<li>Fixed stale and repeated rows in the fullscreen Ctrl+R history picker when prompts share a timestamp</li>
+<li>Fixed Code Mode silently skipping a tool call whose input has a list of over 4,096 items, and freezing on a very large typed array in a tool&#39;s input, which is now refused</li>
+<li>Fixed Code Mode leaving a message unanswered when it was typed during a command and Esc was pressed before Claude replied; the message now starts a new turn, which a second Esc stops</li>
+<li>Fixed Code Mode not telling Claude when a slow command moved to the background and left its script with empty output, or of the time limit on background commands in <code>claude -p</code> and the Agent SDK</li>
+<li>Fixed Code Mode sometimes waiting for minutes on a command that had already been stopped</li>
+<li>Fixed a typed slash command&#39;s inline shell commands not running in Code Mode after a background script&#39;s output arrived</li>
+<li>Fixed Code Mode sessions in the Agent SDK and <code>claude -p</code> sometimes losing Claude&#39;s last reply on resume after being stopped while a script was running</li>
+<li>Remote Control: Fixed sessions hosted by the desktop app or VS Code showing as idle while /compact runs</li>
+<li>Fixed a session sometimes losing its &quot;needs input&quot; status after a background task&#39;s report in Claude Desktop</li>
+<li>Fixed Grep: -o missing an empty match at the end of a file with no last newline, -o with multiline adding an empty line or misnumbering lines in non-UTF-8 files, and -A and -B ignored beside a zero -C</li>
+<li>Fixed unbinding a chord in <code>keybindings.json</code> still leaving its first key waiting for a second when it was spelled <code>meta</code> and bound as <code>alt</code>, or the reverse</li>
+<li>Fixed moving an empty session to the background sometimes failing with &quot;Couldn&#39;t load transcript from file&quot;</li>
+<li>Fixed OpenTelemetry reporting a failed <code>mcp_server_connection</code> event at each start for a built-in server that isn&#39;t turned on for the account</li>
+<li>Fixed Esc not stopping a Bash command while it waited for its file diff in large or slow git repositories, which held the next message</li>
+<li>Fixed pasted links and relative paths ending in an image file name appearing late and swallowing an Enter pressed right after</li>
+<li>Fixed <code>/mcp reconnect all</code> and <code>/mcp disable all</code> counting a built-in server that isn&#39;t turned on for the account</li>
+<li>Fixed interrupting a turn while a mod&#39;s <code>turn.step</code> hook was waiting showing &quot;user-cancel&quot; as an error instead of &quot;Interrupted&quot;</li>
+<li>Fixed <code>~/.claude.json</code> being reported as corrupted when another session was in the middle of saving it</li>
+<li>Fixed web searches failing with an API error when Claude&#39;s list of allowed or blocked domains was empty or had duplicates</li>
+<li>Fixed resuming a paused workflow in Code Mode waiting for minutes while other background work was running</li>
+<li>Fixed subagents in Code Mode failing with &quot;Agent stalled&quot; and losing their command when a script ran for more than 10 minutes</li>
+<li>Improved <code>claude plugin marketplace add</code> on Windows to wait and try again in some cases when another program, such as a virus scanner, briefly holds the downloaded files</li>
+<li>Windows: Improved stability on some company PCs, where Claude Code could exit with no output shortly after start</li>
+<li>Improved computer use setup: the Screen Recording permission prompt can now restart Claude Code and resume the chat</li>
+<li>Improved computer use to take less context until Claude uses it</li>
+<li>Improved the error when a proxy or gateway cuts or damages a compressed response: a turn now ends in plain words instead of raw &quot;ZlibError fetching&quot; text</li>
+<li>Improved <code>/context</code>: shorter output in fullscreen, so the total is less likely to scroll off in a short window, and the legend names its unit once</li>
+<li>Improved peak memory use and speed of <code>/usage</code> on machines with many recent sessions</li>
+<li>Improved <code>/permissions</code> to refuse a rule that would be skipped at the next start, such as <code>rm -rf</code> with no tool name, and to show the reason</li>
+<li>Improved resuming a session in Code Mode: Claude is now told up front that its earlier script variables are gone</li>
+<li>Improved Claude in Code Mode to confirm before discarding worktree changes, to read artifact files before publishing them, and to update an existing artifact instead of creating a second one</li>
+<li>Improved Code Mode&#39;s tool search to show long MCP tool descriptions whole where they fit, as a cut description could lead to wrong calls</li>
+<li>Linux: Improved the Ctrl+V message to name the package to install (<code>wl-clipboard</code> or <code>xclip</code>) when images can&#39;t be read from the clipboard</li>
+<li>Improved recovery for long conversations behind a proxy or gateway with a request size limit, where every message and <code>/compact</code> failed with a 413</li>
+<li>Improved Glob speed in large local folders on Windows machines with 6 or more CPUs: folders are walked in parallel, and a search stopped at its time limit now lists what it found</li>
+<li>Improved memory use when resuming a long conversation</li>
+<li>Improved memory use at startup with MCP servers that list many tools</li>
+<li>Improved memory use of <code>claude -p</code> and SDK-hosted sessions at the start of a conversation</li>
+<li>Updated computer use on macOS to newer safety rules, so some actions are refused and typing can be slower</li>
+<li>Changed terminal and VS Code sessions moved to Sonnet 5 or 5.5 on Bedrock Mantle, Agent Platform and Foundry to start in auto mode if no mode is set; set <code>disableAutoMode</code> to <code>&quot;disable&quot;</code> to stop it</li>
+<li>Changed the <code>sonnet</code> model alias on Google Cloud&#39;s Agent Platform and Microsoft Foundry to Sonnet 5.5, and Foundry&#39;s <code>opus</code> alias to Opus 5.5; <code>sonnet</code> on Amazon Bedrock stays at Sonnet 4.5</li>
+<li>Changed the default model on Microsoft Foundry to Sonnet 5.5: deploy <code>claude-sonnet-5-5</code>, or set <code>ANTHROPIC_DEFAULT_SONNET_MODEL</code> to a model you have deployed</li>
+<li>Changed <code>sonnet</code> and background requests on Google Cloud&#39;s Agent Platform to read <code>VERTEX_REGION_CLAUDE_5_5_SONNET</code>; with only the <code>4_5</code> variable set they go to <code>CLOUD_ML_REGION</code> or <code>us-east5</code></li>
+<li>Changed <code>--model default</code> and a Default pick to move to an older model when that model isn&#39;t available, instead of stopping with an error; in auto mode, only to a model auto mode accepts</li>
+<li>Changed Microsoft Foundry: Claude Sonnet 4, Opus 4 and Opus 4.1 now count as retired, so step-downs stop above them and a pin to one warns that it was retired</li>
+<li>Changed the Claude apps gateway&#39;s built-in model list: Sonnet 5.5 replaces Sonnet 4.5 as its second model, and Claude Desktop starts on it where a policy allows no Opus 4.6</li>
+<li>Changed SDK and <code>claude -p</code> mid-turn messages to count as the user&#39;s where feature flags aren&#39;t fetched, as on clouds or with telemetry off, from Opus 4.8 on; mark relayed text <code>isSynthetic: true</code></li>
+<li>Changed <code>computer-use</code> to a reserved skill name on Macs with computer use on: your own skill or command of that name stops loading, and a start-up notice says to rename it</li>
+<li>Changed the default OpenTelemetry <code>service.name</code> of desktop Code tab sessions to <code>claude-code-desktop</code>; update filters keyed on <code>claude-code</code>, or set <code>OTEL_SERVICE_NAME</code> to keep the old name</li>
+<li>Changed OpenTelemetry <code>tool_input</code> to show only the length of text sent through SendUserMessage or Cowork&#39;s message tool, unless response logging is on (<code>OTEL_LOG_ASSISTANT_RESPONSES=1</code>)</li>
+<li>Self-hosted runner: Changed <code>CLAUDE_CODE_OAUTH_TOKEN</code>: its prefix can now end in <code>oat02-</code> as well as <code>oat01-</code>. Update proxy rules and log scrubbers that match <code>oat01-</code>, and mask the whole value</li>
+<li>Changed <code>claude self-hosted-runner setup</code> with no arguments on macOS and Linux to ask for the environment key in the terminal before Claude starts, and to hide it as you paste</li>
+<li>Changed Claude Desktop&#39;s Code tab on Anthropic&#39;s API to ignore default, side-request, alias and subagent model ids not starting with <code>claude</code> in your own settings beside a gateway address</li>
+<li>Changed Claude Desktop&#39;s Code tab on Anthropic&#39;s API to ignore a <code>CLAUDE_CODE_AUTO_COMPACT_WINDOW</code> under 200K in your own settings beside a gateway address; use <code>/autocompact</code> instead</li>
+<li>Changed plan mode in the desktop app&#39;s Code tab and VS Code to ask for approval instead of refusing when no auto mode safety check can judge a command, for plans entered from Manual or Accept edits</li>
+<li>Changed PgUp and Home to go to No on destructive questions, such as <code>/clear</code> from an agent&#39;s view</li>
+<li>Changed <code>/feedback</code> drafts in the terminal to open on Not now, above separate rows to send the report alone or with the transcript</li>
+<li>Changed tap-mode voice dictation to keep the microphone on until 60 seconds without new words or 10 minutes, up from 15 seconds and 2 minutes, then keep the text unsent; the next tap adds to it</li>
+<li>Changed tap-mode voice dictation to stop when you send the prompt, and to stop and say why when you edit it, a panel covers it, or the connection or a separate recorder program is lost</li>
+<li>Changed <code>/schedule</code>, permission prompts and <code>/loop</code>&#39;s cloud offer to say &quot;cloud scheduled task&quot; instead of &quot;routine&quot; or &quot;cloud schedule&quot;; <code>/routines</code> still works</li>
+<li>Changed model switches from the Claude mobile app or claude.ai to keep the effort level you saved for the previous model when none is saved for the new one</li>
+<li>Changed the <code>hint</code> a mod&#39;s <code>PromptHint</code> hook receives to leave out the hint for selected text when the fullscreen footer has a label on its right</li>
+<li>Changed <code>awsCredentialExport</code> to time out after 10 minutes instead of waiting forever</li>
+<li>[VSCode] Added a notification in more cases when closing a proposed diff leaves the edit unapplied, and stopped the diff notifications on a split copy of an answered diff</li>
+<li>[VSCode] Added a warning when restoring a conversation with <code>/rewind</code> in the side bar stops a self-paced <code>/loop</code></li>
+<li>[VSCode] Added the installed version to the rows of Manage plugins</li>
+<li>[VSCode] Fixed Rewind staying on &quot;Checking code changes…&quot; while Claude&#39;s process hung at its start</li>
+<li>[VSCode] Fixed the model picker&#39;s arrow keys starting from the wrong row right after it opens, and screen readers not announcing its highlighted model when opened with <code>/model</code> or the command menu</li>
+<li>[VSCode] Fixed the diff view&#39;s &quot;Copy deleted line&quot; and &quot;Copy changed line&quot; copying a different line than they name, and a double-click near the bottom copying unasked</li>
+<li>[VSCode] Fixed the blocked microphone&#39;s tooltip being cut off, long addresses running out of Web Fetch rows, usage bars looking full in High Contrast, and a Thinking row jumping away when clicked</li>
+<li>[VSCode] Fixed a second Logout in the same window reporting success while the first was still running, and added a Show logs button to the error when logout fails</li>
+<li>[VSCode] Fixed the chat showing no notice when a background command, agent, workflow or monitor finished while Claude was idle</li>
+<li>[VSCode] Fixed forking a conversation, opening and saving memories, and creating project output styles failing on NTFS drives in VS Code 1.101 and 1.102 on Windows 11 24H2 and later</li>
+<li>[VSCode] Fixed Web Fetch showing &quot;Fetched from&quot; with a success dot when the site returned an error or a redirect that wasn&#39;t followed</li>
+<li>[VSCode] Fixed the compaction summary showing as your own prompt, and in Rewind and prompt history, after reloading, resuming or forking a compacted conversation</li>
+<li>[VSCode] Fixed <code>spinnerVerbs</code> from Claude Code user and managed settings being ignored</li>
+<li>[VSCode] Fixed right-to-left text from mods showing its punctuation on the wrong side, and a mod&#39;s band or pane filling only part of its width when the panel font has no box-drawing characters</li>
+<li>[VSCode] Fixed an empty, locked editor pane staying beside the next file or Claude tab after the last Claude tab was closed</li>
+<li>[VSCode] Fixed a session rename that cannot be saved reverting silently, and screen readers not hearing a session&#39;s status, which session is open or which groups are collapsed</li>
+<li>[VSCode] Fixed a hidden panel&#39;s notice not naming the waiting session, Hebrew and Arabic questions reading out of order, and a question cut off when Claude&#39;s process ended showing only a red dot</li>
+<li>[VSCode] Fixed a sign-in that failed with no error message returning to the sign-in screen with nothing shown, and an authentication error still looking current after you signed in again in that tab</li>
+<li>[VSCode] Fixed the chat moving when a menu opened over some banners, and an agent&#39;s tool call count shrinking in long sessions; it now shows how many of the calls are listed</li>
+<li>[VSCode] Fixed most links to files without an extension, to folders, and with a line and column doing nothing</li>
+<li>[VSCode] Fixed queued messages and attached files showing in reverse order after a conversation was reopened</li>
+<li>[VSCode] Fixed a question that ended in an error showing &quot;Something went wrong&quot; when its stored result had no text</li>
+<li>[VSCode] Fixed redacted thinking showing as &quot;Unsupported content type&quot;</li>
+<li>[VSCode] Fixed the message box not underlining the word that an input method (IME) is composing</li>
+<li>[VSCode] Fixed a held Up key replacing an unsent message with an earlier prompt, and Down not bringing the message back after the recalled prompt got a new line or was cleared</li>
+<li>[VSCode] Fixed <code>/model</code> completed with Tab sometimes switching the model, and closing the model picker right away when nothing is running</li>
+<li>[VSCode] Improved the time it takes to open the Claude panel and long sessions, performance while long replies stream, and the speed of reading diagnostics in very large workspaces</li>
+<li>[VSCode] Improved commands and one-line output opened in a plain text tab: they now wrap</li>
+<li>[VSCode] Changed voice dictation to stop by itself after 60 seconds without recognized speech or 10 minutes, up from 15 seconds and 2 minutes, so the microphone can stay on longer</li>
+<li>[VSCode] Changed voice dictation to stop, and say why, when the microphone stops sending audio or the panel stays hidden</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
+<ul>
+<li>Added skills from MCP servers (beta). They show as <code>server:skill</code> in the <code>/</code> menu; other skills keep their names</li>
+<li>Added a <code>PreSkillShellCommand</code> hook event that can refuse a skill or command&#39;s inline shell commands as it loads; on 2.1.331 and older, a settings file naming it opens a dialog at start</li>
+<li>Added &quot;Always deliver&quot; to the prompt for held messages from other sessions</li>
+<li>Added a footer line that stays while a flagged message has your session on a different model, until you pick one with <code>/model</code></li>
+<li>Added an OpenTelemetry <code>assistant_response</code> event for text Claude sends through SendUserMessage or Cowork&#39;s message tool, when response logging is on</li>
+<li>Added a warning in VS Code and Desktop&#39;s Code tab when part of a session couldn&#39;t be saved, saying how to save it with <code>/compact</code></li>
+<li>Added a notice in VS Code and Desktop&#39;s Code tab when a resumed session&#39;s earlier messages weren&#39;t loaded, as the terminal already shows</li>
+<li>Added your Cyber Verification Program access tier to the startup header, beside the model name when your tier applies to that model and you&#39;re signed in with a claude.ai account</li>
+<li>Fixed <code>claude auth login</code> reporting <code>Login successful.</code> when a claude.ai login could not be saved: it now exits 1 and says what to check, such as a leftover lock file or a full disk</li>
+<li>Fixed Read, @-mentions and compaction hanging on a named pipe that nothing writes to, such as a <code>.env</code> mounted by a locked secrets manager; the read now fails after 20 seconds</li>
+<li>Fixed turns ending in &quot;Prompt is too long&quot; after repeated auto-compaction failures when one more compaction at the context limit could have kept them going</li>
+<li>Fixed compaction failing when a summary kept running past the output limit: after three cut-off replies, the last try now asks for a shorter summary</li>
+<li>Fixed a freeze when a permission rule or hook condition with several wildcards was checked against a long command</li>
+<li>Fixed freezes and runaway memory use in most cases while a hook prints output without end</li>
+<li>Fixed a freeze and context overflow when a hook blocks or fails during a turn, or after <code>/compact</code>, with a very large log; text over about 50,000 characters is now shortened</li>
+<li>Fixed the terminal freezing, and ignoring Ctrl+C, while a local MCP server floods its standard output</li>
+<li>Fixed a freeze when a prompt or piped input holds an <code>@</code> followed by a very long unbroken string, such as minified CSS with an embedded font</li>
+<li>Fixed a long freeze when opening a rewind point after a large tracked file was rewritten</li>
+<li>Fixed SSE MCP servers hanging or refusing every tool call after their event stream was cut and came back on a new endpoint or not at all, until reconnected by hand</li>
+<li>Fixed Remote Control showing a session in the desktop app, VS Code or the Agent SDK as running while it waited there on a dialog or an MCP server&#39;s question</li>
+<li>Fixed a usage limit being reported as reached to Remote Control, IDE and SDK clients after it had already reset</li>
+<li>Fixed CLAUDE.md and rules files being sent to the model a second time, in most cases, after a session moves into a worktree under <code>.claude/worktrees</code> with EnterWorktree or is resumed there</li>
+<li>Fixed tool calls that never ran being counted as done in a claude.ai chat&#39;s summary line after you declined a permission prompt in a session that had restarted</li>
+<li>Linux: Fixed the Bash edit diff showing an unchanged symlink as edited after Claude had read the file through it</li>
+<li>Fixed resuming a session and <code>/stats</code> freezing for seconds when a transcript holds many damaged lines</li>
+<li>Fixed a family name such as <code>sonnet</code> in <code>--fallback-model</code> being dropped when <code>availableModels</code> allows only an older version of it</li>
+<li>Fixed keys lagging for seconds while <code>/stats</code> reads large session transcripts, also after the dialog is closed, and with debug logging on while a language server floods its stderr</li>
+<li>Fixed a session failing when the cloud refused its default model and an <code>availableModels</code> list that isn&#39;t enforced named neither it nor an older model of that family</li>
+<li>Fixed an enforced list of older models failing on Google Cloud&#39;s Agent Platform and Foundry when the first is refused: it now steps down to the next in that family, if listed newest first</li>
+<li>Fixed <code>opus</code> failing on Bedrock, Google Cloud&#39;s Agent Platform and Foundry behind a gateway that refuses a model in its own words: it now steps down to an older model that answers</li>
+<li>Fixed the start-up model upgrade offer on Bedrock and Google Cloud&#39;s Agent Platform naming a model that your <code>availableModels</code> list leaves out</li>
+<li>Fixed Bedrock sub-agents failing when your account lists no profile for their model in the parent&#39;s region: they now use the model&#39;s own profile, which can be outside that region</li>
+<li>Fixed Foundry sessions leaving a model family when an admin&#39;s list blocks the version <code>sonnet</code>, <code>opus</code> or <code>haiku</code> points to: they now use its newest allowed version under a built-in or mapped name</li>
+<li>Fixed the <code>sonnet</code> alias on Bedrock Mantle resolving to Haiku 4.5: it now means Sonnet 5, not Sonnet 5.5, and an account without Sonnet 5 gets an error, so enable it first</li>
+<li>Fixed Ctrl+C at the prompt starting a new turn, and a double Ctrl+C not exiting, when a background agent it stopped had an unread subagent report</li>
+<li>Fixed <code>/install-github-app</code> ticking a workflow again after going back with Esc</li>
+<li>Fixed dictated text past 10,000 characters being lost</li>
+<li>Fixed raw &quot;JSON Parse error&quot; and &quot;The operation was aborted.&quot; API errors when the non-streaming retry got a broken response or was interrupted</li>
+<li>Fixed Esc not stopping computer use between actions on macOS when Claude Code&#39;s window or an app you allowed is in front; an Esc meant for that app&#39;s popup now stops computer use instead</li>
+<li>Fixed a rare hang when a helper command, such as an API key helper, ran past its time limit</li>
+<li>Fixed selecting text in fullscreen pushing the footer&#39;s right-hand label onto a second row, which moved the text under the mouse and could copy the wrong line</li>
+<li>Fixed a PreToolUse hook&#39;s reason for asking not showing on terminal Read, Grep, Glob, Edit and Write prompts (anthropics/claude-code#102892, anthropics/claude-code#105343)</li>
+<li>Fixed <code>temp_*</code> folders piling up in <code>~/.claude/plugins/cache</code> when a downloaded plugin couldn&#39;t be copied into place</li>
+<li>Fixed <code>--effort</code> being ignored when starting an interactive session with <code>--environment</code> while <code>CLAUDE_CODE_EFFORT_LEVEL</code> is set to the same level</li>
+<li>Fixed headless and cloud sessions reporting a foreground fork&#39;s Agent call as finished the moment the fork started</li>
+<li>Fixed local MCP servers seeing a new session ID after a Remote Control session&#39;s process restarts</li>
+<li>Fixed idle compaction being skipped for subscribers still well under their weekly limit</li>
+<li>Fixed an @-mentioned text file with an extension being silently dropped when even its first 2,000 lines exceed the read limit; Claude is now told its size and how to read it</li>
+<li>Fixed the plugin &quot;not cached&quot; error pointing to <code>/plugin</code> instead of <code>/reload-plugins</code>, the command that reloads plugins</li>
+<li>Fixed self-hosted runner sessions failing their first clone under Anthropic-managed git when the machine&#39;s git config has an <code>includeIf &quot;gitdir:&quot;</code> or (git 2.44 to 2.46) <code>&quot;onbranch:&quot;</code> section</li>
+<li>Fixed replies that start with phrases like &quot;You&#39;ve used&quot; or &quot;You&#39;ve hit your&quot; showing as a red usage limit error</li>
+<li>Fixed a resumed conversation sometimes missing its last messages after a crash or kill on Bedrock, Google Cloud&#39;s Agent Platform, Foundry and other third-party providers</li>
+<li>Fixed NotebookEdit saving an invalid notebook when an edit changes a cell&#39;s type; turning a cell with attachments into code is now refused</li>
+<li>Fixed a long README in a design system moved from standalone Claude Design losing its list of files to load when Claude starts a deck or design</li>
+<li>Fixed MCP tool calls failing with &quot;malformed task handle&quot; when the server&#39;s task ID is longer than 128 characters; IDs of up to 1,024 characters now work</li>
+<li>Self-hosted runner: Fixed <code>--configure-git</code> sometimes reporting a hung <code>git --version</code> as a git that isn&#39;t on PATH</li>
+<li>Fixed task ids being reused and deleted tasks coming back when several tasks were deleted or updated at once, and TaskGet listing completed tasks as blockers</li>
+<li>Fixed stale and repeated rows in the fullscreen Ctrl+R history picker when prompts share a timestamp</li>
+<li>Fixed Code Mode silently skipping a tool call whose input has a list of over 4,096 items, and freezing on a very large typed array in a tool&#39;s input, which is now refused</li>
+<li>Fixed Code Mode leaving a message unanswered when it was typed during a command and Esc was pressed before Claude replied; the message now starts a new turn, which a second Esc stops</li>
+<li>Fixed Code Mode not telling Claude when a slow command moved to the background and left its script with empty output, or of the time limit on background commands in <code>claude -p</code> and the Agent SDK</li>
+<li>Fixed Code Mode sometimes waiting for minutes on a command that had already been stopped</li>
+<li>Fixed a typed slash command&#39;s inline shell commands not running in Code Mode after a background script&#39;s output arrived</li>
+<li>Fixed Code Mode sessions in the Agent SDK and <code>claude -p</code> sometimes losing Claude&#39;s last reply on resume after being stopped while a script was running</li>
+<li>Remote Control: Fixed sessions hosted by the desktop app or VS Code showing as idle while /compact runs</li>
+<li>Fixed a session sometimes losing its &quot;needs input&quot; status after a background task&#39;s report in Claude Desktop</li>
+<li>Fixed Grep: -o missing an empty match at the end of a file with no last newline, -o with multiline adding an empty line or misnumbering lines in non-UTF-8 files, and -A and -B ignored beside a zero -C</li>
+<li>Fixed unbinding a chord in <code>keybindings.json</code> still leaving its first key waiting for a second when it was spelled <code>meta</code> and bound as <code>alt</code>, or the reverse</li>
+<li>Fixed moving an empty session to the background sometimes failing with &quot;Couldn&#39;t load transcript from file&quot;</li>
+<li>Fixed OpenTelemetry reporting a failed <code>mcp_server_connection</code> event at each start for a built-in server that isn&#39;t turned on for the account</li>
+<li>Fixed Esc not stopping a Bash command while it waited for its file diff in large or slow git repositories, which held the next message</li>
+<li>Fixed pasted links and relative paths ending in an image file name appearing late and swallowing an Enter pressed right after</li>
+<li>Fixed <code>/mcp reconnect all</code> and <code>/mcp disable all</code> counting a built-in server that isn&#39;t turned on for the account</li>
+<li>Fixed interrupting a turn while a mod&#39;s <code>turn.step</code> hook was waiting showing &quot;user-cancel&quot; as an error instead of &quot;Interrupted&quot;</li>
+<li>Fixed <code>~/.claude.json</code> being reported as corrupted when another session was in the middle of saving it</li>
+<li>Fixed web searches failing with an API error when Claude&#39;s list of allowed or blocked domains was empty or had duplicates</li>
+<li>Fixed resuming a paused workflow in Code Mode waiting for minutes while other background work was running</li>
+<li>Fixed subagents in Code Mode failing with &quot;Agent stalled&quot; and losing their command when a script ran for more than 10 minutes</li>
+<li>Improved <code>claude plugin marketplace add</code> on Windows to wait and try again in some cases when another program, such as a virus scanner, briefly holds the downloaded files</li>
+<li>Windows: Improved stability on some company PCs, where Claude Code could exit with no output shortly after start</li>
+<li>Improved computer use setup: the Screen Recording permission prompt can now restart Claude Code and resume the chat</li>
+<li>Improved computer use to take less context until Claude uses it</li>
+<li>Improved the error when a proxy or gateway cuts or damages a compressed response: a turn now ends in plain words instead of raw &quot;ZlibError fetching&quot; text</li>
+<li>Improved <code>/context</code>: shorter output in fullscreen, so the total is less likely to scroll off in a short window, and the legend names its unit once</li>
+<li>Improved peak memory use and speed of <code>/usage</code> on machines with many recent sessions</li>
+<li>Improved <code>/permissions</code> to refuse a rule that would be skipped at the next start, such as <code>rm -rf</code> with no tool name, and to show the reason</li>
+<li>Improved resuming a session in Code Mode: Claude is now told up front that its earlier script variables are gone</li>
+<li>Improved Claude in Code Mode to confirm before discarding worktree changes, to read artifact files before publishing them, and to update an existing artifact instead of creating a second one</li>
+<li>Improved Code Mode&#39;s tool search to show long MCP tool descriptions whole where they fit, as a cut description could lead to wrong calls</li>
+<li>Linux: Improved the Ctrl+V message to name the package to install (<code>wl-clipboard</code> or <code>xclip</code>) when images can&#39;t be read from the clipboard</li>
+<li>Improved recovery for long conversations behind a proxy or gateway with a request size limit, where every message and <code>/compact</code> failed with a 413</li>
+<li>Improved Glob speed in large local folders on Windows machines with 6 or more CPUs: folders are walked in parallel, and a search stopped at its time limit now lists what it found</li>
+<li>Improved memory use when resuming a long conversation</li>
+<li>Improved memory use at startup with MCP servers that list many tools</li>
+<li>Improved memory use of <code>claude -p</code> and SDK-hosted sessions at the start of a conversation</li>
+<li>Updated computer use on macOS to newer safety rules, so some actions are refused and typing can be slower</li>
+<li>Changed terminal and VS Code sessions moved to Sonnet 5 or 5.5 on Bedrock Mantle, Agent Platform and Foundry to start in auto mode if no mode is set; set <code>disableAutoMode</code> to <code>&quot;disable&quot;</code> to stop it</li>
+<li>Changed the <code>sonnet</code> model alias on Google Cloud&#39;s Agent Platform and Microsoft Foundry to Sonnet 5.5, and Foundry&#39;s <code>opus</code> alias to Opus 5.5; <code>sonnet</code> on Amazon Bedrock stays at Sonnet 4.5</li>
+<li>Changed the default model on Microsoft Foundry to Sonnet 5.5: deploy <code>claude-sonnet-5-5</code>, or set <code>ANTHROPIC_DEFAULT_SONNET_MODEL</code> to a model you have deployed</li>
+<li>Changed <code>sonnet</code> and background requests on Google Cloud&#39;s Agent Platform to read <code>VERTEX_REGION_CLAUDE_5_5_SONNET</code>; with only the <code>4_5</code> variable set they go to <code>CLOUD_ML_REGION</code> or <code>us-east5</code></li>
+<li>Changed <code>--model default</code> and a Default pick to move to an older model when that model isn&#39;t available, instead of stopping with an error; in auto mode, only to a model auto mode accepts</li>
+<li>Changed Microsoft Foundry: Claude Sonnet 4, Opus 4 and Opus 4.1 now count as retired, so step-downs stop above them and a pin to one warns that it was retired</li>
+<li>Changed the Claude apps gateway&#39;s built-in model list: Sonnet 5.5 replaces Sonnet 4.5 as its second model, and Claude Desktop starts on it where a policy allows no Opus 4.6</li>
+<li>Changed SDK and <code>claude -p</code> mid-turn messages to count as the user&#39;s where feature flags aren&#39;t fetched, as on clouds or with telemetry off, from Opus 4.8 on; mark relayed text <code>isSynthetic: true</code></li>
+<li>Changed <code>computer-use</code> to a reserved skill name on Macs with computer use on: your own skill or command of that name stops loading, and a start-up notice says to rename it</li>
+<li>Changed the default OpenTelemetry <code>service.name</code> of desktop Code tab sessions to <code>claude-code-desktop</code>; update filters keyed on <code>claude-code</code>, or set <code>OTEL_SERVICE_NAME</code> to keep the old name</li>
+<li>Changed OpenTelemetry <code>tool_input</code> to show only the length of text sent through SendUserMessage or Cowork&#39;s message tool, unless response logging is on (<code>OTEL_LOG_ASSISTANT_RESPONSES=1</code>)</li>
+<li>Self-hosted runner: Changed <code>CLAUDE_CODE_OAUTH_TOKEN</code>: its prefix can now end in <code>oat02-</code> as well as <code>oat01-</code>. Update proxy rules and log scrubbers that match <code>oat01-</code>, and mask the whole value</li>
+<li>Changed <code>claude self-hosted-runner setup</code> with no arguments on macOS and Linux to ask for the environment key in the terminal before Claude starts, and to hide it as you paste</li>
+<li>Changed Claude Desktop&#39;s Code tab on Anthropic&#39;s API to ignore default, side-request, alias and subagent model ids not starting with <code>claude</code> in your own settings beside a gateway address</li>
+<li>Changed Claude Desktop&#39;s Code tab on Anthropic&#39;s API to ignore a <code>CLAUDE_CODE_AUTO_COMPACT_WINDOW</code> under 200K in your own settings beside a gateway address; use <code>/autocompact</code> instead</li>
+<li>Changed plan mode in the desktop app&#39;s Code tab and VS Code to ask for approval instead of refusing when no auto mode safety check can judge a command, for plans entered from Manual or Accept edits</li>
+<li>Changed PgUp and Home to go to No on destructive questions, such as <code>/clear</code> from an agent&#39;s view</li>
+<li>Changed <code>/feedback</code> drafts in the terminal to open on Not now, above separate rows to send the report alone or with the transcript</li>
+<li>Changed tap-mode voice dictation to keep the microphone on until 60 seconds without new words or 10 minutes, up from 15 seconds and 2 minutes, then keep the text unsent; the next tap adds to it</li>
+<li>Changed tap-mode voice dictation to stop when you send the prompt, and to stop and say why when you edit it, a panel covers it, or the connection or a separate recorder program is lost</li>
+<li>Changed <code>/schedule</code>, permission prompts and <code>/loop</code>&#39;s cloud offer to say &quot;cloud scheduled task&quot; instead of &quot;routine&quot; or &quot;cloud schedule&quot;; <code>/routines</code> still works</li>
+<li>Changed model switches from the Claude mobile app or claude.ai to keep the effort level you saved for the previous model when none is saved for the new one</li>
+<li>Changed the <code>hint</code> a mod&#39;s <code>PromptHint</code> hook receives to leave out the hint for selected text when the fullscreen footer has a label on its right</li>
+<li>Changed <code>awsCredentialExport</code> to time out after 10 minutes instead of waiting forever</li>
+<li>[VSCode] Added a notification in more cases when closing a proposed diff leaves the edit unapplied, and stopped the diff notifications on a split copy of an answered diff</li>
+<li>[VSCode] Added a warning when restoring a conversation with <code>/rewind</code> in the side bar stops a self-paced <code>/loop</code></li>
+<li>[VSCode] Added the installed version to the rows of Manage plugins</li>
+<li>[VSCode] Fixed Rewind staying on &quot;Checking code changes…&quot; while Claude&#39;s process hung at its start</li>
+<li>[VSCode] Fixed the model picker&#39;s arrow keys starting from the wrong row right after it opens, and screen readers not announcing its highlighted model when opened with <code>/model</code> or the command menu</li>
+<li>[VSCode] Fixed the diff view&#39;s &quot;Copy deleted line&quot; and &quot;Copy changed line&quot; copying a different line than they name, and a double-click near the bottom copying unasked</li>
+<li>[VSCode] Fixed the blocked microphone&#39;s tooltip being cut off, long addresses running out of Web Fetch rows, usage bars looking full in High Contrast, and a Thinking row jumping away when clicked</li>
+<li>[VSCode] Fixed a second Logout in the same window reporting success while the first was still running, and added a Show logs button to the error when logout fails</li>
+<li>[VSCode] Fixed the chat showing no notice when a background command, agent, workflow or monitor finished while Claude was idle</li>
+<li>[VSCode] Fixed forking a conversation, opening and saving memories, and creating project output styles failing on NTFS drives in VS Code 1.101 and 1.102 on Windows 11 24H2 and later</li>
+<li>[VSCode] Fixed Web Fetch showing &quot;Fetched from&quot; with a success dot when the site returned an error or a redirect that wasn&#39;t followed</li>
+<li>[VSCode] Fixed the compaction summary showing as your own prompt, and in Rewind and prompt history, after reloading, resuming or forking a compacted conversation</li>
+<li>[VSCode] Fixed <code>spinnerVerbs</code> from Claude Code user and managed settings being ignored</li>
+<li>[VSCode] Fixed right-to-left text from mods showing its punctuation on the wrong side, and a mod&#39;s band or pane filling only part of its width when the panel font has no box-drawing characters</li>
+<li>[VSCode] Fixed an empty, locked editor pane staying beside the next file or Claude tab after the last Claude tab was closed</li>
+<li>[VSCode] Fixed a session rename that cannot be saved reverting silently, and screen readers not hearing a session&#39;s status, which session is open or which groups are collapsed</li>
+<li>[VSCode] Fixed a hidden panel&#39;s notice not naming the waiting session, Hebrew and Arabic questions reading out of order, and a question cut off when Claude&#39;s process ended showing only a red dot</li>
+<li>[VSCode] Fixed a sign-in that failed with no error message returning to the sign-in screen with nothing shown, and an authentication error still looking current after you signed in again in that tab</li>
+<li>[VSCode] Fixed the chat moving when a menu opened over some banners, and an agent&#39;s tool call count shrinking in long sessions; it now shows how many of the calls are listed</li>
+<li>[VSCode] Fixed most links to files without an extension, to folders, and with a line and column doing nothing</li>
+<li>[VSCode] Fixed queued messages and attached files showing in reverse order after a conversation was reopened</li>
+<li>[VSCode] Fixed a question that ended in an error showing &quot;Something went wrong&quot; when its stored result had no text</li>
+<li>[VSCode] Fixed redacted thinking showing as &quot;Unsupported content type&quot;</li>
+<li>[VSCode] Fixed the message box not underlining the word that an input method (IME) is composing</li>
+<li>[VSCode] Fixed a held Up key replacing an unsent message with an earlier prompt, and Down not bringing the message back after the recalled prompt got a new line or was cleared</li>
+<li>[VSCode] Fixed <code>/model</code> completed with Tab sometimes switching the model, and closing the model picker right away when nothing is running</li>
+<li>[VSCode] Improved the time it takes to open the Claude panel and long sessions, performance while long replies stream, and the speed of reading diagnostics in very large workspaces</li>
+<li>[VSCode] Improved commands and one-line output opened in a plain text tab: they now wrap</li>
+<li>[VSCode] Changed voice dictation to stop by itself after 60 seconds without recognized speech or 10 minutes, up from 15 seconds and 2 minutes, so the microphone can stay on longer</li>
+<li>[VSCode] Changed voice dictation to stop, and say why, when the microphone stops sending audio or the panel stays hidden</li>
+</ul>
+]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[v2.1.331]]></title>
             <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.331</link>
@@ -9878,212 +10192,6 @@
             <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
 <ul>
 <li>Fixed every request failing with <code>400 … Input tag &#39;advisor_20260301&#39;</code> when <code>ANTHROPIC_BASE_URL</code> points at a proxy or gateway (2.1.275 regression)</li>
-</ul>
-]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[v2.1.275]]></title>
-            <link>https://github.com/anthropics/claude-code/releases/tag/v2.1.275</link>
-            <guid>https://github.com/anthropics/claude-code/releases/tag/v2.1.275</guid>
-            <pubDate>Thu, 17 Sep 2026 22:33:17 GMT</pubDate>
-            <description><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>Added the signed-in account to Claude apps gateway sign-in: when the gateway names it, you confirm it before the credential is saved, and <code>/status</code> shows it</li>
-<li>Added a send-now key (ctrl+enter, or ctrl+x ctrl+s) that interrupts the current turn and sends all queued messages at once; sent and queued messages show in gray until the model receives them</li>
-<li>Added a startup warning when a configured <code>otelHeadersHelper</code> fails, so sessions that silently export no telemetry are noticed</li>
-<li>Added syncing of the skills and plugins enabled on your claude.ai account to terminal sessions signed in with it; opt out with <code>syncClaudeAiSkills: false</code> or <code>syncClaudeAiPlugins: false</code></li>
-<li>Added <code>/plugin install &lt;plugin&gt; --marketplace &lt;source&gt;</code>, which offers to add the marketplace before installing the plugin</li>
-<li>Fixed a restored memory file&#39;s age note changing between requests after a compaction or resume, which caused prompt cache misses</li>
-<li>Fixed <code>--forward-subagent-text</code> stream-json and SDK output dropping the messages of subagents spawned by a <code>context: fork</code> skill, and of forked skills invoked by a subagent or another forked skill</li>
-<li>Fixed @-mention file suggestions being buried below MCP resources when using a custom <code>fileSuggestion</code> command or typing <code>@.</code>/<code>@./</code></li>
-<li>Fixed fullscreen mode placing background-task completion notices beneath a long turn&#39;s collapsed tool row instead of where they arrived; each notice now closes the open row</li>
-<li>Fixed <code>claude plugin marketplace update</code> deleting a GitHub marketplace&#39;s local copy when the fetch failed and the marketplace was named after its repository</li>
-<li>Fixed plugin and marketplace messages, logs and <code>claude plugin marketplace list</code> showing a password or token stored in a git, ssh or marketplace URL</li>
-<li>Fixed a resumed cloud session leaving an unanswered question open in the transcript after a queued message superseded it</li>
-<li>Fixed vim mode placing the cursor one character right after a dot-repeated &quot;!&quot; or a fast-typed &quot;i!&quot; switched a non-empty prompt into shell mode</li>
-<li>Fixed fullscreen mode freezing or blanking for several seconds when scrolling up past a large file diff</li>
-<li>Fixed a stray <code>&lt;/ccmemory&gt;</code>-style closing tag occasionally appearing in responses</li>
-<li>Fixed plugin messages, logs and the VS Code plugin dialog showing the wrong server for some git addresses</li>
-<li>Fixed a terminal <code>API Error: 400</code> on every turn for users behind a network gateway that rewrites API error responses when a beta request header is rejected</li>
-<li>Fixed sandboxed Bash commands on Linux reporting exit code 0 for failed commands when the shell is zsh</li>
-<li>Fixed the Read tool hanging instead of reporting an error when part of a large file could not be decoded under memory pressure</li>
-<li>Fixed <code>--resume</code>, the resume picker preview, resumed background agents and the transcript view failing on a session whose saved history contains a malformed task-reminder or @-file attachment entry</li>
-<li>Fixed a crash when resuming a conversation whose transcript contains a malformed message entry, and a fullscreen crash when such a conversation received new messages while scrolled up</li>
-<li>Fixed sessions failing to resume or start when their saved transcript contains a malformed message content block</li>
-<li>Fixed Grep, Glob and @-file suggestions hanging or running out of memory on searches over the 20MB output cap, and system ripgrep reporting &quot;no matches&quot; instead of an error after a flood of warnings</li>
-<li>Fixed <code>/rewind</code> in a forked or background session restoring a zero-filled or truncated file when the session&#39;s file-history backups could not be fully copied</li>
-<li>Fixed fullscreen sessions sometimes exiting with &quot;Claude Code exited after an unrecoverable interface error&quot; when typing fast or holding a key with the slash-command dropdown open</li>
-<li>Fixed background sessions crashing and restarting their worker when a command fed through stdin ran on a machine that had run out of file descriptors</li>
-<li>Fixed a crash at launch when <code>~/.claude.json</code> holds a malformed <code>mcpNeedsAuthNoticed</code> value</li>
-<li>Fixed <code>--resume</code> and <code>--continue</code> dropping a conversation&#39;s earlier thinking when a built-in tool it started with has since been switched off by a server-side flag</li>
-<li>Fixed text selected with the mouse in the fullscreen <code>claude --resume</code> session picker never reaching the clipboard</li>
-<li>Fixed plugin reload previews replacing a running session&#39;s extracted plugin files when the plugin was loaded from a <code>--plugin-dir</code> or <code>--plugin-url</code> archive</li>
-<li>Fixed self-hosted runners with <code>--drain-wait-sec</code> losing the final result of a turn that finished during a SIGTERM drain; the runner now waits briefly for the turn to be reported</li>
-<li>Fixed <code>SubagentStop</code> hooks with a specific <code>matcher</code> firing for every stopping subagent whose agent type was empty</li>
-<li>Fixed sandboxed Bash commands being unable to write to project directories named <code>hooks/</code> or <code>config/</code></li>
-<li>Fixed Artifact updates failing with &quot;File not found&quot; after a session resumes on another machine or its scratchpad is cleared: the page&#39;s last published version is restored</li>
-<li>Fixed <code>/update-config</code> writing <code>Write(path)</code> permission rules, which file permission checks don&#39;t match, instead of <code>Edit(path)</code> rules</li>
-<li>Fixed four dead documentation URLs (Pricing, Computer Use, Skills, CLI) in the bundled claude-api skill&#39;s live-sources table</li>
-<li>Improved prompt caching for a <code>--system-prompt</code> that contains a <code>__SYSTEM_PROMPT_DYNAMIC_BOUNDARY__</code> line: the text above it is now cached globally, as the SDK&#39;s array form already is</li>
-<li>Improved the <code>/desktop</code> error when Claude Desktop does not open: it now says why and what to do next</li>
-<li>Improved the Artifact tool&#39;s publish and read results: they now say who can open the page and what the owner&#39;s Share menu offers</li>
-<li>Improved artifact publish results: they name the tab icon sent, warn when the page contains a NUL byte, and retry a flaky fetch of the newer page to merge after a stale publish</li>
-<li>Improved pasted and attached images: they are now saved where Claude can open them as files without a permission prompt, including in Desktop and VS Code</li>
-<li>Improved the Artifact tool&#39;s guidance so Claude updates a shared artifact in place when you were given edit access to it, instead of publishing a separate copy</li>
-<li>Improved plan-usage reads: editor windows and non-interactive sessions on one machine now share a read made in the last minute instead of each calling the usage endpoint</li>
-<li>Improved the <code>ListPlugins</code> tool description so Claude knows it lists plugins enabled on your claude.ai account, not plugins installed locally with <code>/plugin</code></li>
-<li>Improved responsiveness when the terminal is slow or paused: output no longer falls further behind while the terminal catches up</li>
-<li>Improved Write and Edit results for files in the synced account-skills folder: they now say the change is not saved to your account and how to save it</li>
-<li>Updated <code>/logout</code> for Claude apps gateway sign-ins to also end the session on gateways that advertise token revocation</li>
-<li>Changed hosted sessions to keep an unanswered permission prompt up after a container restart, instead of asking again</li>
-<li>Changed the Artifact tool to ask for a one-word tab icon on a first publish instead of an emoji favicon</li>
-<li>Changed Claude in Chrome in auto mode to skip the extension&#39;s per-site check for classifier-approved calls, as bypass mode does, fixing <code>browser_batch</code> &quot;Permission denied&quot; after a redirect</li>
-<li>Changed plugins installed from an npm source to be fetched with <code>npm pack --ignore-scripts</code> and integrity-verified, so a package&#39;s install scripts no longer run</li>
-<li>Changed scheduled and Run now routine runs to save data to, and republish the page of, an artifact you can edit without asking; public artifacts, first publishes and deletes still ask</li>
-<li>Removed the startup notice that told you a one-off scheduled routine had run since your last session</li>
-<li>[VSCode] Added viewing, editing and deleting a saved memory inside the Memory dialog</li>
-<li>[VSCode] Added sending an attached image without typing any text</li>
-<li>[VSCode] Added a Retry link to the MCP servers dialog when the server list fails to load</li>
-<li>[VSCode] Added accept and reject buttons under each change in the proposed-change diff tab, so an edit can be reviewed change by change</li>
-<li>[VSCode] Fixed the transcript creeping toward the bottom in small steps while a permission card waits and content keeps arriving</li>
-<li>[VSCode] Fixed rewound and forked conversations not keeping the permission mode you had picked for the original conversation</li>
-<li>[VSCode] Fixed an empty <code>CLAUDE_CONFIG_DIR</code> entry in the <code>environmentVariables</code> setting making Claude Code keep its files in the workspace</li>
-<li>[VSCode] Fixed plugin install links opening the Manage plugins dialog for plugin names and marketplace addresses that can&#39;t be used in a link</li>
-<li>[VSCode] Fixed Remote Control staying shown as connected after a turn-off that Claude Code reported as failed; it now shows as off</li>
-<li>[VSCode] Fixed the scroll to the bottom on send stopping short of the reply when the reply starts arriving during the scroll</li>
-<li>[VSCode] Fixed the agent map showing agents a crash left unfinished as stopped instead of failed once the session is reopened</li>
-<li>[VSCode] Fixed the &quot;Continuing the step&quot; notice not appearing, and the continue limit resetting, after a reload that follows a crash with background tasks still running</li>
-<li>[VSCode] Fixed the session list showing when a session was last reopened, such as after a window reload, instead of when its last message was sent</li>
-<li>[VSCode] Fixed &quot;Fork conversation from here&quot; failing on the message right after one sent while Claude was working</li>
-<li>[VSCode] Fixed the prompt cache clock showing too few minutes after reopening a session with a message sent while Claude was working</li>
-<li>[VSCode] Fixed a background agent that finished while Claude was running a tool losing its completion notice, and its result on the agent map, after a window reload</li>
-<li>[VSCode] Fixed a rare case where text selected in a git-ignored file could be sent to Claude after the extension was unresponsive for several seconds</li>
-<li>[VSCode] Fixed renaming a running session reverting to the generated name (regression in 2.1.269)</li>
-<li>[VSCode] Fixed some claude.ai/code sessions opening in VS Code as an empty conversation with no messages</li>
-<li>[VSCode] Fixed slash commands typed while Claude is responding being sent to the model as text instead of running once the response finishes</li>
-<li>[VSCode] Fixed unreadable code in the plan preview and the Hooks and Permission rules dialogs with the High Contrast Light theme</li>
-<li>[VSCode] Fixed <code>/remote-control</code> being ignored while Remote Control is still connecting: running it again now turns Remote Control off immediately</li>
-<li>[VSCode] Fixed the conversation pulling you back to the bottom while a reply streams after you scroll up, and added a <code>claudeCode.scrollToBottomOnSend</code> setting to turn off the jump on send</li>
-<li>[VSCode] Fixed the Manage plugins dialog showing a password or token that was typed into a marketplace URL</li>
-<li>[VSCode] Improved the agent map: the pill counts running agents and turns red after a failure, the main agent stays in view while the map scrolls, and agents sort by state then end time</li>
-<li>[VSCode] Changed New session in a Claude editor tab to open in the sidebar when Preferred Location is set to Sidebar, instead of always opening another tab</li>
-<li>[VSCode] Changed a message sent while Claude is working to wait at the bottom of the conversation until Claude starts on it</li>
-<li>[Claude Code on the web] Added a &quot;New routine&quot; button to the page shown when a routine link no longer resolves, next to the link back to your routines list</li>
-<li>[Claude Code on the web] Fixed routine &quot;paused&quot; and &quot;on hold&quot; notifications being cut off mid-sentence; the paused-subscription notice now says to turn the routine back on yourself</li>
-<li>[Claude Code on the web] Fixed cloud environments with a very long allowed-domains list saving fine and then failing every session start; saving now fails up front and says how much to trim</li>
-<li>[Claude Code on the web] Fixed Claude&#39;s guidance when a cloud session on a personal account is denied GitHub access: it now links to claude.ai/connect-github instead of an admin settings page</li>
-<li>[Claude Code on the web] Improved what Claude tells you when asked to edit, delete or run a routine it didn&#39;t create: it now links to the routine&#39;s page so you can do it yourself</li>
-<li>[Claude Tag] Added attach conditions for access bundles in Claude Tag settings: an Owner can let a bundle also apply in channels with guests or Slack Connect channels, not just member-only</li>
-<li>[Claude Tag] Added Amazon CloudWatch, CloudWatch Logs, Amazon SNS, Google Cloud Monitoring and Cloud Logging presets to an access bundle&#39;s Credentials tab in Claude Tag admin settings</li>
-<li>[Claude Tag] Added Datadog presets for the US3, AP1, AP2 and US1-FED sites; new Datadog connections are now limited to Datadog&#39;s read and query API routes</li>
-<li>[Claude Tag] Fixed S3 uploads from recent AWS CLI and SDK versions failing with a 502 error when sent through an AWS connection</li>
-<li>[Claude Tag] Fixed Claude treating a channel as inactive, and skipping untagged messages there, while it was still posting in that channel from a routine or a thread</li>
-<li>[Claude Tag] Fixed a thread&#39;s &quot;Claude [task]&quot; display name reverting to plain &quot;Claude&quot; after the session behind that thread was refreshed or restarted</li>
-<li>[Claude Tag] Fixed the model you switched to in a Slack thread silently reverting to the channel&#39;s default after that thread&#39;s session was restarted or refreshed</li>
-<li>[Claude Tag] Fixed Claude sometimes replying twice when another app or bot @mentioned it in a top-level channel message</li>
-<li>[Claude Tag] Improved Claude&#39;s notices in Enterprise Grid channels shared across workspaces: they now say when no workspace is set up yet, or why only organization defaults apply</li>
-<li>[Code Review] Fixed reviews occasionally dropping part of their analysis when one of the reviewing agents returned its findings in an unexpected format</li>
-<li>[Code Review] Fixed pull requests with more than 100 Claude reviews getting a full re-review on every clean merge from the base branch instead of the lighter merge-focused review</li>
-</ul>
-]]></description>
-            <content:encoded><![CDATA[<h2>What&#39;s changed</h2>
-<ul>
-<li>Added the signed-in account to Claude apps gateway sign-in: when the gateway names it, you confirm it before the credential is saved, and <code>/status</code> shows it</li>
-<li>Added a send-now key (ctrl+enter, or ctrl+x ctrl+s) that interrupts the current turn and sends all queued messages at once; sent and queued messages show in gray until the model receives them</li>
-<li>Added a startup warning when a configured <code>otelHeadersHelper</code> fails, so sessions that silently export no telemetry are noticed</li>
-<li>Added syncing of the skills and plugins enabled on your claude.ai account to terminal sessions signed in with it; opt out with <code>syncClaudeAiSkills: false</code> or <code>syncClaudeAiPlugins: false</code></li>
-<li>Added <code>/plugin install &lt;plugin&gt; --marketplace &lt;source&gt;</code>, which offers to add the marketplace before installing the plugin</li>
-<li>Fixed a restored memory file&#39;s age note changing between requests after a compaction or resume, which caused prompt cache misses</li>
-<li>Fixed <code>--forward-subagent-text</code> stream-json and SDK output dropping the messages of subagents spawned by a <code>context: fork</code> skill, and of forked skills invoked by a subagent or another forked skill</li>
-<li>Fixed @-mention file suggestions being buried below MCP resources when using a custom <code>fileSuggestion</code> command or typing <code>@.</code>/<code>@./</code></li>
-<li>Fixed fullscreen mode placing background-task completion notices beneath a long turn&#39;s collapsed tool row instead of where they arrived; each notice now closes the open row</li>
-<li>Fixed <code>claude plugin marketplace update</code> deleting a GitHub marketplace&#39;s local copy when the fetch failed and the marketplace was named after its repository</li>
-<li>Fixed plugin and marketplace messages, logs and <code>claude plugin marketplace list</code> showing a password or token stored in a git, ssh or marketplace URL</li>
-<li>Fixed a resumed cloud session leaving an unanswered question open in the transcript after a queued message superseded it</li>
-<li>Fixed vim mode placing the cursor one character right after a dot-repeated &quot;!&quot; or a fast-typed &quot;i!&quot; switched a non-empty prompt into shell mode</li>
-<li>Fixed fullscreen mode freezing or blanking for several seconds when scrolling up past a large file diff</li>
-<li>Fixed a stray <code>&lt;/ccmemory&gt;</code>-style closing tag occasionally appearing in responses</li>
-<li>Fixed plugin messages, logs and the VS Code plugin dialog showing the wrong server for some git addresses</li>
-<li>Fixed a terminal <code>API Error: 400</code> on every turn for users behind a network gateway that rewrites API error responses when a beta request header is rejected</li>
-<li>Fixed sandboxed Bash commands on Linux reporting exit code 0 for failed commands when the shell is zsh</li>
-<li>Fixed the Read tool hanging instead of reporting an error when part of a large file could not be decoded under memory pressure</li>
-<li>Fixed <code>--resume</code>, the resume picker preview, resumed background agents and the transcript view failing on a session whose saved history contains a malformed task-reminder or @-file attachment entry</li>
-<li>Fixed a crash when resuming a conversation whose transcript contains a malformed message entry, and a fullscreen crash when such a conversation received new messages while scrolled up</li>
-<li>Fixed sessions failing to resume or start when their saved transcript contains a malformed message content block</li>
-<li>Fixed Grep, Glob and @-file suggestions hanging or running out of memory on searches over the 20MB output cap, and system ripgrep reporting &quot;no matches&quot; instead of an error after a flood of warnings</li>
-<li>Fixed <code>/rewind</code> in a forked or background session restoring a zero-filled or truncated file when the session&#39;s file-history backups could not be fully copied</li>
-<li>Fixed fullscreen sessions sometimes exiting with &quot;Claude Code exited after an unrecoverable interface error&quot; when typing fast or holding a key with the slash-command dropdown open</li>
-<li>Fixed background sessions crashing and restarting their worker when a command fed through stdin ran on a machine that had run out of file descriptors</li>
-<li>Fixed a crash at launch when <code>~/.claude.json</code> holds a malformed <code>mcpNeedsAuthNoticed</code> value</li>
-<li>Fixed <code>--resume</code> and <code>--continue</code> dropping a conversation&#39;s earlier thinking when a built-in tool it started with has since been switched off by a server-side flag</li>
-<li>Fixed text selected with the mouse in the fullscreen <code>claude --resume</code> session picker never reaching the clipboard</li>
-<li>Fixed plugin reload previews replacing a running session&#39;s extracted plugin files when the plugin was loaded from a <code>--plugin-dir</code> or <code>--plugin-url</code> archive</li>
-<li>Fixed self-hosted runners with <code>--drain-wait-sec</code> losing the final result of a turn that finished during a SIGTERM drain; the runner now waits briefly for the turn to be reported</li>
-<li>Fixed <code>SubagentStop</code> hooks with a specific <code>matcher</code> firing for every stopping subagent whose agent type was empty</li>
-<li>Fixed sandboxed Bash commands being unable to write to project directories named <code>hooks/</code> or <code>config/</code></li>
-<li>Fixed Artifact updates failing with &quot;File not found&quot; after a session resumes on another machine or its scratchpad is cleared: the page&#39;s last published version is restored</li>
-<li>Fixed <code>/update-config</code> writing <code>Write(path)</code> permission rules, which file permission checks don&#39;t match, instead of <code>Edit(path)</code> rules</li>
-<li>Fixed four dead documentation URLs (Pricing, Computer Use, Skills, CLI) in the bundled claude-api skill&#39;s live-sources table</li>
-<li>Improved prompt caching for a <code>--system-prompt</code> that contains a <code>__SYSTEM_PROMPT_DYNAMIC_BOUNDARY__</code> line: the text above it is now cached globally, as the SDK&#39;s array form already is</li>
-<li>Improved the <code>/desktop</code> error when Claude Desktop does not open: it now says why and what to do next</li>
-<li>Improved the Artifact tool&#39;s publish and read results: they now say who can open the page and what the owner&#39;s Share menu offers</li>
-<li>Improved artifact publish results: they name the tab icon sent, warn when the page contains a NUL byte, and retry a flaky fetch of the newer page to merge after a stale publish</li>
-<li>Improved pasted and attached images: they are now saved where Claude can open them as files without a permission prompt, including in Desktop and VS Code</li>
-<li>Improved the Artifact tool&#39;s guidance so Claude updates a shared artifact in place when you were given edit access to it, instead of publishing a separate copy</li>
-<li>Improved plan-usage reads: editor windows and non-interactive sessions on one machine now share a read made in the last minute instead of each calling the usage endpoint</li>
-<li>Improved the <code>ListPlugins</code> tool description so Claude knows it lists plugins enabled on your claude.ai account, not plugins installed locally with <code>/plugin</code></li>
-<li>Improved responsiveness when the terminal is slow or paused: output no longer falls further behind while the terminal catches up</li>
-<li>Improved Write and Edit results for files in the synced account-skills folder: they now say the change is not saved to your account and how to save it</li>
-<li>Updated <code>/logout</code> for Claude apps gateway sign-ins to also end the session on gateways that advertise token revocation</li>
-<li>Changed hosted sessions to keep an unanswered permission prompt up after a container restart, instead of asking again</li>
-<li>Changed the Artifact tool to ask for a one-word tab icon on a first publish instead of an emoji favicon</li>
-<li>Changed Claude in Chrome in auto mode to skip the extension&#39;s per-site check for classifier-approved calls, as bypass mode does, fixing <code>browser_batch</code> &quot;Permission denied&quot; after a redirect</li>
-<li>Changed plugins installed from an npm source to be fetched with <code>npm pack --ignore-scripts</code> and integrity-verified, so a package&#39;s install scripts no longer run</li>
-<li>Changed scheduled and Run now routine runs to save data to, and republish the page of, an artifact you can edit without asking; public artifacts, first publishes and deletes still ask</li>
-<li>Removed the startup notice that told you a one-off scheduled routine had run since your last session</li>
-<li>[VSCode] Added viewing, editing and deleting a saved memory inside the Memory dialog</li>
-<li>[VSCode] Added sending an attached image without typing any text</li>
-<li>[VSCode] Added a Retry link to the MCP servers dialog when the server list fails to load</li>
-<li>[VSCode] Added accept and reject buttons under each change in the proposed-change diff tab, so an edit can be reviewed change by change</li>
-<li>[VSCode] Fixed the transcript creeping toward the bottom in small steps while a permission card waits and content keeps arriving</li>
-<li>[VSCode] Fixed rewound and forked conversations not keeping the permission mode you had picked for the original conversation</li>
-<li>[VSCode] Fixed an empty <code>CLAUDE_CONFIG_DIR</code> entry in the <code>environmentVariables</code> setting making Claude Code keep its files in the workspace</li>
-<li>[VSCode] Fixed plugin install links opening the Manage plugins dialog for plugin names and marketplace addresses that can&#39;t be used in a link</li>
-<li>[VSCode] Fixed Remote Control staying shown as connected after a turn-off that Claude Code reported as failed; it now shows as off</li>
-<li>[VSCode] Fixed the scroll to the bottom on send stopping short of the reply when the reply starts arriving during the scroll</li>
-<li>[VSCode] Fixed the agent map showing agents a crash left unfinished as stopped instead of failed once the session is reopened</li>
-<li>[VSCode] Fixed the &quot;Continuing the step&quot; notice not appearing, and the continue limit resetting, after a reload that follows a crash with background tasks still running</li>
-<li>[VSCode] Fixed the session list showing when a session was last reopened, such as after a window reload, instead of when its last message was sent</li>
-<li>[VSCode] Fixed &quot;Fork conversation from here&quot; failing on the message right after one sent while Claude was working</li>
-<li>[VSCode] Fixed the prompt cache clock showing too few minutes after reopening a session with a message sent while Claude was working</li>
-<li>[VSCode] Fixed a background agent that finished while Claude was running a tool losing its completion notice, and its result on the agent map, after a window reload</li>
-<li>[VSCode] Fixed a rare case where text selected in a git-ignored file could be sent to Claude after the extension was unresponsive for several seconds</li>
-<li>[VSCode] Fixed renaming a running session reverting to the generated name (regression in 2.1.269)</li>
-<li>[VSCode] Fixed some claude.ai/code sessions opening in VS Code as an empty conversation with no messages</li>
-<li>[VSCode] Fixed slash commands typed while Claude is responding being sent to the model as text instead of running once the response finishes</li>
-<li>[VSCode] Fixed unreadable code in the plan preview and the Hooks and Permission rules dialogs with the High Contrast Light theme</li>
-<li>[VSCode] Fixed <code>/remote-control</code> being ignored while Remote Control is still connecting: running it again now turns Remote Control off immediately</li>
-<li>[VSCode] Fixed the conversation pulling you back to the bottom while a reply streams after you scroll up, and added a <code>claudeCode.scrollToBottomOnSend</code> setting to turn off the jump on send</li>
-<li>[VSCode] Fixed the Manage plugins dialog showing a password or token that was typed into a marketplace URL</li>
-<li>[VSCode] Improved the agent map: the pill counts running agents and turns red after a failure, the main agent stays in view while the map scrolls, and agents sort by state then end time</li>
-<li>[VSCode] Changed New session in a Claude editor tab to open in the sidebar when Preferred Location is set to Sidebar, instead of always opening another tab</li>
-<li>[VSCode] Changed a message sent while Claude is working to wait at the bottom of the conversation until Claude starts on it</li>
-<li>[Claude Code on the web] Added a &quot;New routine&quot; button to the page shown when a routine link no longer resolves, next to the link back to your routines list</li>
-<li>[Claude Code on the web] Fixed routine &quot;paused&quot; and &quot;on hold&quot; notifications being cut off mid-sentence; the paused-subscription notice now says to turn the routine back on yourself</li>
-<li>[Claude Code on the web] Fixed cloud environments with a very long allowed-domains list saving fine and then failing every session start; saving now fails up front and says how much to trim</li>
-<li>[Claude Code on the web] Fixed Claude&#39;s guidance when a cloud session on a personal account is denied GitHub access: it now links to claude.ai/connect-github instead of an admin settings page</li>
-<li>[Claude Code on the web] Improved what Claude tells you when asked to edit, delete or run a routine it didn&#39;t create: it now links to the routine&#39;s page so you can do it yourself</li>
-<li>[Claude Tag] Added attach conditions for access bundles in Claude Tag settings: an Owner can let a bundle also apply in channels with guests or Slack Connect channels, not just member-only</li>
-<li>[Claude Tag] Added Amazon CloudWatch, CloudWatch Logs, Amazon SNS, Google Cloud Monitoring and Cloud Logging presets to an access bundle&#39;s Credentials tab in Claude Tag admin settings</li>
-<li>[Claude Tag] Added Datadog presets for the US3, AP1, AP2 and US1-FED sites; new Datadog connections are now limited to Datadog&#39;s read and query API routes</li>
-<li>[Claude Tag] Fixed S3 uploads from recent AWS CLI and SDK versions failing with a 502 error when sent through an AWS connection</li>
-<li>[Claude Tag] Fixed Claude treating a channel as inactive, and skipping untagged messages there, while it was still posting in that channel from a routine or a thread</li>
-<li>[Claude Tag] Fixed a thread&#39;s &quot;Claude [task]&quot; display name reverting to plain &quot;Claude&quot; after the session behind that thread was refreshed or restarted</li>
-<li>[Claude Tag] Fixed the model you switched to in a Slack thread silently reverting to the channel&#39;s default after that thread&#39;s session was restarted or refreshed</li>
-<li>[Claude Tag] Fixed Claude sometimes replying twice when another app or bot @mentioned it in a top-level channel message</li>
-<li>[Claude Tag] Improved Claude&#39;s notices in Enterprise Grid channels shared across workspaces: they now say when no workspace is set up yet, or why only organization defaults apply</li>
-<li>[Code Review] Fixed reviews occasionally dropping part of their analysis when one of the reviewing agents returned its findings in an unexpected format</li>
-<li>[Code Review] Fixed pull requests with more than 100 Claude reviews getting a full re-review on every clean merge from the base branch instead of the lighter merge-focused review</li>
 </ul>
 ]]></content:encoded>
         </item>

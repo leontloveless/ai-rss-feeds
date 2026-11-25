@@ -4,11 +4,217 @@
         <title>OpenClaw Releases</title>
         <link>https://github.com/openclaw/openclaw/releases</link>
         <description>GitHub releases for OpenClaw - AI assistant framework</description>
-        <lastBuildDate>Tue, 24 Nov 2026 11:54:30 GMT</lastBuildDate>
+        <lastBuildDate>Wed, 25 Nov 2026 00:47:32 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>ai-rss-feeds (https://github.com/leontloveless/ai-rss-feeds)</generator>
         <language>en</language>
         <atom:link href="https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/openclaw-releases.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[openclaw 2026.11.9]]></title>
+            <link>https://github.com/openclaw/openclaw/releases/tag/v2026.11.9</link>
+            <guid>https://github.com/openclaw/openclaw/releases/tag/v2026.11.9</guid>
+            <pubDate>Wed, 25 Nov 2026 00:47:32 GMT</pubDate>
+            <description><![CDATA[<h2>2026.11.9</h2>
+<h3>Highlights</h3>
+<ul>
+<li><strong>Safer command and channel boundaries:</strong> Keep <code>env -S</code> shell-startup assignments visible to exec guards, enforce current Discord DM access before reusing an existing session binding, and keep self-hosted web tool redirects on their configured host. (#203934, #196848, #196847) Thanks @pgondhi987 and @drobison00.</li>
+<li><strong>Claude CLI background completions:</strong> Deliver secret input after an asynchronous stdin prompt, so direct Claude CLI background runs no longer fail with an unavailable secret descriptor. (#202646) Thanks @obviyus.</li>
+<li><strong>Tool Search on strict providers:</strong> Keep <code>web_search</code> through Tool Search working on chat-completions providers that reject assistant prefill. (#202436) Related #202415 Thanks @obviyus and @paulsimmondsplato.</li>
+<li><strong>Cheaper session forks:</strong> OpenAI session forks reuse the parent&#39;s prompt cache, and Anthropic forks stop writing cache checkpoints on their own one-off suffix. (#197226, #197224) Thanks @obviyus.</li>
+<li><strong>Complete ACP replies:</strong> ACP clients receive the whole reply when a prompt waits behind other work. (#202658) Thanks @obviyus.</li>
+</ul>
+<h3>Changes</h3>
+<p>This maintenance release concentrates on the fixes below. Upcoming compatibility deadlines are listed after the fixes.</p>
+<h3>Fixes</h3>
+<ul>
+<li><strong>Command, channel, and web boundaries:</strong> Keep <code>env -S</code> payload assignments visible to blocked-key and shell-startup guards, apply current Discord DM pairing and allowlist policy before using a bound session, and confine self-hosted web endpoint redirects to the configured host. (#203934, #196848, #196847) Thanks @pgondhi987 and @drobison00.</li>
+<li><strong>Claude CLI and ACP delivery:</strong> Retain secret input pipes through asynchronous child readiness and deliver the complete final reply to ACP clients whose prompt was queued behind other work. (#202646, #202658) Thanks @obviyus.</li>
+<li><strong>Provider requests and prompt caching:</strong> Keep callable Tool Search history native on chat-completions providers, reuse the parent prompt cache for OpenAI session forks, and stop Anthropic forks from caching their own suffix. (#202436, #197226, #197224) Related #202415 Thanks @obviyus and @paulsimmondsplato.</li>
+<li><strong>Model configuration:</strong> Keep configured model rows, including explicit thinking-level entries, unchanged when you sign in to a provider again. (#201742) Related #201558 Thanks @MertBasar0, @obviyus, and @Caitoz.</li>
+<li><strong>Bundled Codex:</strong> Update the bundled Codex app-server to 0.172.0 and its generated app-server protocol. Thanks @RomneyDa.</li>
+<li><strong>Browser screenshots:</strong> Keep screenshots working for background tabs in headed Chrome instead of timing out and blocking later captures. (#202878) Related #165312 Thanks @obviyus and @titan550.</li>
+</ul>
+<h3>Upcoming deprecations</h3>
+<p>The following compatibility records reach their earliest removal date within seven days of this release preparation (November 24, 2026). They remain present in this release; removal still requires the documented upgrade conditions and maintainer review. Run <code>openclaw doctor</code> and migrate to the replacements before these dates.</p>
+<ul>
+<li><strong><code>doctor-pre-july-retired-state</code> — 2026-11-29:</strong> canonical SQLite state and byte-preserving archives for obsolete sources. <a href="https://docs.openclaw.ai/cli/doctor/state-migrations">Migration guide</a>.</li>
+<li><strong><code>doctor-context-budget-one-knob</code> — 2026-11-29:</strong> models.providers.<provider>.models[].contextTokens active-input caps and per-model contextWindow metadata. <a href="https://docs.openclaw.ai/concepts/model-providers">Migration guide</a>.</li>
+<li><strong><code>doctor-cli-backends-plugin-registration</code> — 2026-11-29:</strong> registerCliBackend plugin registrations and model-scoped agentRuntime.id. <a href="https://docs.openclaw.ai/plugins/cli-backend-plugins">Migration guide</a>.</li>
+<li><strong><code>doctor-model-compat-catalog-ownership</code> — 2026-11-29:</strong> provider catalog compat metadata, with config compat reserved for custom routes. <a href="https://docs.openclaw.ai/gateway/config-tools">Migration guide</a>. Thanks @etzelm and @RomneyDa.</li>
+<li><strong><code>doctor-tier-eval-tranche</code> — 2026-11-29:</strong> canonical config owners, shared SQLite state, built-in defaults, and plugin hooks. <a href="https://docs.openclaw.ai/gateway/doctor">Migration guide</a>. Thanks @etzelm and @RomneyDa.</li>
+<li><strong><code>doctor-final-layout-polish</code> — 2026-11-29:</strong> canonical final layout and built-in defaults. <a href="https://docs.openclaw.ai/gateway/doctor">Migration guide</a>.</li>
+<li><strong><code>doctor-phase4-product-config-retirements</code> — 2026-11-29:</strong> built-in rescue, marketplace, banner, and retired commitments behavior. <a href="https://docs.openclaw.ai/gateway/doctor">Migration guide</a>.</li>
+<li><strong><code>doctor-media-models-consolidation</code> — 2026-11-29:</strong> capability-tagged tools.media.models plus per-capability policy and defaults. <a href="https://docs.openclaw.ai/nodes/media-understanding">Migration guide</a>.</li>
+<li><strong><code>doctor-runtime-tuning-knobs-purge</code> — 2026-11-29:</strong> built-in runtime and channel defaults. <a href="https://docs.openclaw.ai/gateway/doctor">Migration guide</a>.</li>
+<li><strong><code>doctor-phase2-channel-dm-aliases</code> — 2026-11-29:</strong> dmPolicy and allowFrom at the same channel or account level. <a href="https://docs.openclaw.ai/cli/doctor">Migration guide</a>.</li>
+<li><strong><code>doctor-phase1-retired-runtime-config</code> — 2026-11-29:</strong> canonical channel, media providerOptions, crossContext, and speakerVoice settings. <a href="https://docs.openclaw.ai/cli/doctor">Migration guide</a>.</li>
+<li><strong><code>doctor-root-default-model</code> — 2026-11-29:</strong> agents.defaults.model. <a href="https://docs.openclaw.ai/gateway/doctor">Migration guide</a>.</li>
+<li><strong><code>doctor-session-prune-reset-aliases</code> — 2026-11-29:</strong> session.maintenance.pruneAfter; session.resetByType.direct. <a href="https://docs.openclaw.ai/gateway/configuration-reference">Migration guide</a>.</li>
+<li><strong><code>doctor-mcp-timeout-aliases</code> — 2026-11-29:</strong> connectionTimeoutMs; requestTimeoutMs. <a href="https://docs.openclaw.ai/cli/mcp">Migration guide</a>.</li>
+<li><strong><code>doctor-cron-webhook-fallback</code> — 2026-11-29:</strong> per-job delivery.to or delivery.completionDestination. <a href="https://docs.openclaw.ai/automation/cron-jobs">Migration guide</a>.</li>
+<li><strong><code>doctor-canvas-host-root</code> — 2026-11-29:</strong> plugins.entries.canvas.config.host. <a href="https://docs.openclaw.ai/plugins">Migration guide</a>.</li>
+<li><strong><code>doctor-phase1-channel-noops-aliases</code> — 2026-11-29:</strong> canonical channel settings or removal. <a href="https://docs.openclaw.ai/channels/channel-routing">Migration guide</a>.</li>
+<li><strong><code>doctor-memory-search-owner-consolidation</code> — 2026-11-29:</strong> memory.search; agents.list[].memory.search. <a href="https://docs.openclaw.ai/reference/memory-config">Migration guide</a>.</li>
+<li><strong><code>doctor-session-typing-mode-owner</code> — 2026-11-29:</strong> agents.defaults.typingMode or agents.list[].typingMode. <a href="https://docs.openclaw.ai/concepts/typing-indicators">Migration guide</a>.</li>
+<li><strong><code>doctor-mcp-server-type-alias</code> — 2026-11-29:</strong> mcp.servers.*.transport. <a href="https://docs.openclaw.ai/cli/mcp">Migration guide</a>.</li>
+<li><strong><code>doctor-gateway-bind-host-aliases</code> — 2026-11-29:</strong> gateway.bind.mode values such as lan, loopback, custom, tailnet, and auto. <a href="https://docs.openclaw.ai/gateway/configuration">Migration guide</a>.</li>
+<li><strong><code>doctor-audio-transcription-command</code> — 2026-11-29:</strong> capability-tagged tools.media.models. <a href="https://docs.openclaw.ai/tools/media-overview">Migration guide</a>.</li>
+<li><strong><code>doctor-channel-thread-binding-ttl</code> — 2026-11-29:</strong> threadBindings.idleHours. <a href="https://docs.openclaw.ai/channels/channel-routing">Migration guide</a>.</li>
+<li><strong><code>doctor-channel-dm-aliases</code> — 2026-11-29:</strong> channels.<id>.dmPolicy and channels.<id>.allowFrom. <a href="https://docs.openclaw.ai/channels/channel-routing">Migration guide</a>.</li>
+<li><strong><code>doctor-channel-streaming-aliases</code> — 2026-11-29:</strong> channels.<id>.streaming.*. <a href="https://docs.openclaw.ai/channels/channel-routing">Migration guide</a>.</li>
+<li><strong><code>doctor-tts-top-level-owner</code> — 2026-11-29:</strong> top-level tts. <a href="https://docs.openclaw.ai/tools/tts">Migration guide</a>.</li>
+<li><strong><code>doctor-tts-provider-aliases</code> — 2026-11-29:</strong> tts.providers.<provider> and microsoft instead of edge. <a href="https://docs.openclaw.ai/tools/tts">Migration guide</a>.</li>
+<li><strong><code>doctor-tts-enabled-auto-mode</code> — 2026-11-29:</strong> supported top-level/agents/channels/plugins TTS auto mode, for example auto: &quot;always&quot; or auto: &quot;off&quot;. <a href="https://docs.openclaw.ai/tools/tts">Migration guide</a>.</li>
+<li><strong><code>doctor-tts-speaker-selection-fields</code> — 2026-11-29:</strong> speakerVoice and speakerVoiceId. <a href="https://docs.openclaw.ai/tools/tts">Migration guide</a>.</li>
+<li><strong><code>doctor-bundled-plugin-load-paths</code> — 2026-11-29:</strong> packaged bundled plugins and the persisted plugin registry. <a href="https://docs.openclaw.ai/cli/plugins#registry">Migration guide</a>.</li>
+<li><strong><code>doctor-bundled-provider-discovery-allowlist</code> — 2026-11-29:</strong> plugins.bundledDiscovery allowlist mode plus explicit plugin/provider entries. <a href="https://docs.openclaw.ai/cli/plugins#registry">Migration guide</a>.</li>
+<li><strong><code>doctor-codex-supervisor-plugin-config</code> — 2026-11-29:</strong> plugins.entries.codex.config.supervision. <a href="https://docs.openclaw.ai/plugins/codex-supervision">Migration guide</a>.</li>
+<li><strong><code>doctor-web-search-plugin-config</code> — 2026-11-29:</strong> plugins.entries.<plugin>.config.webSearch. <a href="https://docs.openclaw.ai/tools/web">Migration guide</a>.</li>
+<li><strong><code>doctor-web-fetch-plugin-config</code> — 2026-11-29:</strong> plugins.entries.firecrawl.config.webFetch. <a href="https://docs.openclaw.ai/tools/web-fetch">Migration guide</a>.</li>
+<li><strong><code>doctor-x-search-plugin-config</code> — 2026-11-29:</strong> plugins.entries.xai.config.webSearch.apiKey. <a href="https://docs.openclaw.ai/tools/grok-search">Migration guide</a>.</li>
+<li><strong><code>doctor-talk-provider-shape</code> — 2026-11-29:</strong> talk.providers.<provider>. <a href="https://docs.openclaw.ai/tools/tts">Migration guide</a>.</li>
+<li><strong><code>doctor-legacy-tools-by-sender</code> — 2026-11-29:</strong> typed id:, e164:, username:, or name: sender keys. <a href="https://docs.openclaw.ai/tools/exec-approvals">Migration guide</a>.</li>
+<li><strong><code>plugin-sdk-session-agent-resolution-aliases</code> — 2026-11-29:</strong> <code>resolveSessionAgentIdsStrict</code> and <code>resolveSessionAgentIdStrict</code> with an explicit agent, agent-scoped session key, prepared fallback, or persisted owner. <a href="https://docs.openclaw.ai/plugins/compatibility#session-agent-resolution-aliases">Migration guide</a>. Thanks @RomneyDa.</li>
+<li><strong><code>agent-harness-credential-prompt-string-argument</code> — 2026-11-30:</strong> options object <code>{ controlToolsAvailable }</code>. <a href="https://docs.openclaw.ai/plugins/sdk-migration/removed-surfaces#credential-prompt-builder">Migration guide</a>.</li>
+</ul>
+<h3>Complete contribution record</h3>
+<p>This audited record covers the complete v2026.11.8..48a327268c8094a6482f3d9719f8326ee22a0d93 history: 15 in-range PRs + 0 retained seed-only PRs = 15 unique PRs. The generation manifest also supplies direct commits as editorial input; the grouped notes above prioritize user impact.</p>
+<h4>Pull requests</h4>
+<ul>
+<li><strong>PR #203934</strong> Thanks @pgondhi987.</li>
+<li><strong>PR #196848</strong> Thanks @drobison00.</li>
+<li><strong>PR #196847</strong> Thanks @drobison00.</li>
+<li><strong>PR #202646</strong> Thanks @obviyus.</li>
+<li><strong>PR #202436</strong> Related #202415. Thanks @obviyus and @paulsimmondsplato.</li>
+<li><strong>PR #174797</strong> Related #174779. Authored by @steipete. Thanks @ericcaiwx-star and @gorendac.</li>
+<li><strong>PR #201742</strong> Related #201558. Thanks @MertBasar0, @obviyus, and @Caitoz.</li>
+<li><strong>PR #202658</strong> Thanks @obviyus.</li>
+<li><strong>PR #172810</strong> Thanks @shakkernerd.</li>
+<li><strong>PR #197226</strong> Thanks @obviyus.</li>
+<li><strong>PR #197224</strong> Thanks @obviyus.</li>
+<li><strong>PR #202878</strong> Related #165312. Thanks @obviyus and @titan550.</li>
+<li><strong>PR #134400</strong> Authored by @steipete. Thanks @scotthuang.</li>
+<li><strong>PR #105356</strong> Authored by @steipete. Thanks @solavrc.</li>
+<li><strong>PR #135315</strong> Authored by @steipete.</li>
+</ul>
+<h3>Release verification</h3>
+<ul>
+<li>npm package: <a href="https://www.npmjs.com/package/openclaw/v/2026.11.9">https://www.npmjs.com/package/openclaw/v/2026.11.9</a></li>
+<li>registry tarball: <a href="https://registry.npmjs.org/openclaw/-/openclaw-2026.11.9.tgz">https://registry.npmjs.org/openclaw/-/openclaw-2026.11.9.tgz</a></li>
+<li>integrity: <code>sha512-Yr0UWw8GHmMywkhAYAs/ltDqvcIp8oEFfffhiaPlCmIQr+O6bRifHiLImpdffQv3/SvdmSLMgbcWPiv1fqyH3w==</code></li>
+<li>release SHA: <code>0032b1d7ffd0a59afdf7d2223d8df3250df9057e</code></li>
+<li>full release CI report: <a href="https://github.com/openclaw/releases/blob/main/evidence/2026.11.9/release-evidence.md">https://github.com/openclaw/releases/blob/main/evidence/2026.11.9/release-evidence.md</a></li>
+<li>release publish: <a href="https://github.com/openclaw/openclaw/actions/runs/45504260935">https://github.com/openclaw/openclaw/actions/runs/45504260935</a></li>
+<li>npm preflight: <a href="https://github.com/openclaw/openclaw/actions/runs/45494093023">https://github.com/openclaw/openclaw/actions/runs/45494093023</a></li>
+<li>full release validation: <a href="https://github.com/openclaw/openclaw/actions/runs/45493628110">https://github.com/openclaw/openclaw/actions/runs/45493628110</a></li>
+<li>plugin npm publish: <a href="https://github.com/openclaw/openclaw/actions/runs/45509361419">https://github.com/openclaw/openclaw/actions/runs/45509361419</a></li>
+<li>ClawHub registry update: independent publication; see the release publish run summary for its status.</li>
+<li>OpenClaw npm publish: <a href="https://github.com/openclaw/openclaw/actions/runs/45514365648">https://github.com/openclaw/openclaw/actions/runs/45514365648</a></li>
+<li>npm Telegram beta E2E: not supplied</li>
+<li>Android APK: skipped — Android releases are independent of Gateway releases.</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<h2>2026.11.9</h2>
+<h3>Highlights</h3>
+<ul>
+<li><strong>Safer command and channel boundaries:</strong> Keep <code>env -S</code> shell-startup assignments visible to exec guards, enforce current Discord DM access before reusing an existing session binding, and keep self-hosted web tool redirects on their configured host. (#203934, #196848, #196847) Thanks @pgondhi987 and @drobison00.</li>
+<li><strong>Claude CLI background completions:</strong> Deliver secret input after an asynchronous stdin prompt, so direct Claude CLI background runs no longer fail with an unavailable secret descriptor. (#202646) Thanks @obviyus.</li>
+<li><strong>Tool Search on strict providers:</strong> Keep <code>web_search</code> through Tool Search working on chat-completions providers that reject assistant prefill. (#202436) Related #202415 Thanks @obviyus and @paulsimmondsplato.</li>
+<li><strong>Cheaper session forks:</strong> OpenAI session forks reuse the parent&#39;s prompt cache, and Anthropic forks stop writing cache checkpoints on their own one-off suffix. (#197226, #197224) Thanks @obviyus.</li>
+<li><strong>Complete ACP replies:</strong> ACP clients receive the whole reply when a prompt waits behind other work. (#202658) Thanks @obviyus.</li>
+</ul>
+<h3>Changes</h3>
+<p>This maintenance release concentrates on the fixes below. Upcoming compatibility deadlines are listed after the fixes.</p>
+<h3>Fixes</h3>
+<ul>
+<li><strong>Command, channel, and web boundaries:</strong> Keep <code>env -S</code> payload assignments visible to blocked-key and shell-startup guards, apply current Discord DM pairing and allowlist policy before using a bound session, and confine self-hosted web endpoint redirects to the configured host. (#203934, #196848, #196847) Thanks @pgondhi987 and @drobison00.</li>
+<li><strong>Claude CLI and ACP delivery:</strong> Retain secret input pipes through asynchronous child readiness and deliver the complete final reply to ACP clients whose prompt was queued behind other work. (#202646, #202658) Thanks @obviyus.</li>
+<li><strong>Provider requests and prompt caching:</strong> Keep callable Tool Search history native on chat-completions providers, reuse the parent prompt cache for OpenAI session forks, and stop Anthropic forks from caching their own suffix. (#202436, #197226, #197224) Related #202415 Thanks @obviyus and @paulsimmondsplato.</li>
+<li><strong>Model configuration:</strong> Keep configured model rows, including explicit thinking-level entries, unchanged when you sign in to a provider again. (#201742) Related #201558 Thanks @MertBasar0, @obviyus, and @Caitoz.</li>
+<li><strong>Bundled Codex:</strong> Update the bundled Codex app-server to 0.172.0 and its generated app-server protocol. Thanks @RomneyDa.</li>
+<li><strong>Browser screenshots:</strong> Keep screenshots working for background tabs in headed Chrome instead of timing out and blocking later captures. (#202878) Related #165312 Thanks @obviyus and @titan550.</li>
+</ul>
+<h3>Upcoming deprecations</h3>
+<p>The following compatibility records reach their earliest removal date within seven days of this release preparation (November 24, 2026). They remain present in this release; removal still requires the documented upgrade conditions and maintainer review. Run <code>openclaw doctor</code> and migrate to the replacements before these dates.</p>
+<ul>
+<li><strong><code>doctor-pre-july-retired-state</code> — 2026-11-29:</strong> canonical SQLite state and byte-preserving archives for obsolete sources. <a href="https://docs.openclaw.ai/cli/doctor/state-migrations">Migration guide</a>.</li>
+<li><strong><code>doctor-context-budget-one-knob</code> — 2026-11-29:</strong> models.providers.<provider>.models[].contextTokens active-input caps and per-model contextWindow metadata. <a href="https://docs.openclaw.ai/concepts/model-providers">Migration guide</a>.</li>
+<li><strong><code>doctor-cli-backends-plugin-registration</code> — 2026-11-29:</strong> registerCliBackend plugin registrations and model-scoped agentRuntime.id. <a href="https://docs.openclaw.ai/plugins/cli-backend-plugins">Migration guide</a>.</li>
+<li><strong><code>doctor-model-compat-catalog-ownership</code> — 2026-11-29:</strong> provider catalog compat metadata, with config compat reserved for custom routes. <a href="https://docs.openclaw.ai/gateway/config-tools">Migration guide</a>. Thanks @etzelm and @RomneyDa.</li>
+<li><strong><code>doctor-tier-eval-tranche</code> — 2026-11-29:</strong> canonical config owners, shared SQLite state, built-in defaults, and plugin hooks. <a href="https://docs.openclaw.ai/gateway/doctor">Migration guide</a>. Thanks @etzelm and @RomneyDa.</li>
+<li><strong><code>doctor-final-layout-polish</code> — 2026-11-29:</strong> canonical final layout and built-in defaults. <a href="https://docs.openclaw.ai/gateway/doctor">Migration guide</a>.</li>
+<li><strong><code>doctor-phase4-product-config-retirements</code> — 2026-11-29:</strong> built-in rescue, marketplace, banner, and retired commitments behavior. <a href="https://docs.openclaw.ai/gateway/doctor">Migration guide</a>.</li>
+<li><strong><code>doctor-media-models-consolidation</code> — 2026-11-29:</strong> capability-tagged tools.media.models plus per-capability policy and defaults. <a href="https://docs.openclaw.ai/nodes/media-understanding">Migration guide</a>.</li>
+<li><strong><code>doctor-runtime-tuning-knobs-purge</code> — 2026-11-29:</strong> built-in runtime and channel defaults. <a href="https://docs.openclaw.ai/gateway/doctor">Migration guide</a>.</li>
+<li><strong><code>doctor-phase2-channel-dm-aliases</code> — 2026-11-29:</strong> dmPolicy and allowFrom at the same channel or account level. <a href="https://docs.openclaw.ai/cli/doctor">Migration guide</a>.</li>
+<li><strong><code>doctor-phase1-retired-runtime-config</code> — 2026-11-29:</strong> canonical channel, media providerOptions, crossContext, and speakerVoice settings. <a href="https://docs.openclaw.ai/cli/doctor">Migration guide</a>.</li>
+<li><strong><code>doctor-root-default-model</code> — 2026-11-29:</strong> agents.defaults.model. <a href="https://docs.openclaw.ai/gateway/doctor">Migration guide</a>.</li>
+<li><strong><code>doctor-session-prune-reset-aliases</code> — 2026-11-29:</strong> session.maintenance.pruneAfter; session.resetByType.direct. <a href="https://docs.openclaw.ai/gateway/configuration-reference">Migration guide</a>.</li>
+<li><strong><code>doctor-mcp-timeout-aliases</code> — 2026-11-29:</strong> connectionTimeoutMs; requestTimeoutMs. <a href="https://docs.openclaw.ai/cli/mcp">Migration guide</a>.</li>
+<li><strong><code>doctor-cron-webhook-fallback</code> — 2026-11-29:</strong> per-job delivery.to or delivery.completionDestination. <a href="https://docs.openclaw.ai/automation/cron-jobs">Migration guide</a>.</li>
+<li><strong><code>doctor-canvas-host-root</code> — 2026-11-29:</strong> plugins.entries.canvas.config.host. <a href="https://docs.openclaw.ai/plugins">Migration guide</a>.</li>
+<li><strong><code>doctor-phase1-channel-noops-aliases</code> — 2026-11-29:</strong> canonical channel settings or removal. <a href="https://docs.openclaw.ai/channels/channel-routing">Migration guide</a>.</li>
+<li><strong><code>doctor-memory-search-owner-consolidation</code> — 2026-11-29:</strong> memory.search; agents.list[].memory.search. <a href="https://docs.openclaw.ai/reference/memory-config">Migration guide</a>.</li>
+<li><strong><code>doctor-session-typing-mode-owner</code> — 2026-11-29:</strong> agents.defaults.typingMode or agents.list[].typingMode. <a href="https://docs.openclaw.ai/concepts/typing-indicators">Migration guide</a>.</li>
+<li><strong><code>doctor-mcp-server-type-alias</code> — 2026-11-29:</strong> mcp.servers.*.transport. <a href="https://docs.openclaw.ai/cli/mcp">Migration guide</a>.</li>
+<li><strong><code>doctor-gateway-bind-host-aliases</code> — 2026-11-29:</strong> gateway.bind.mode values such as lan, loopback, custom, tailnet, and auto. <a href="https://docs.openclaw.ai/gateway/configuration">Migration guide</a>.</li>
+<li><strong><code>doctor-audio-transcription-command</code> — 2026-11-29:</strong> capability-tagged tools.media.models. <a href="https://docs.openclaw.ai/tools/media-overview">Migration guide</a>.</li>
+<li><strong><code>doctor-channel-thread-binding-ttl</code> — 2026-11-29:</strong> threadBindings.idleHours. <a href="https://docs.openclaw.ai/channels/channel-routing">Migration guide</a>.</li>
+<li><strong><code>doctor-channel-dm-aliases</code> — 2026-11-29:</strong> channels.<id>.dmPolicy and channels.<id>.allowFrom. <a href="https://docs.openclaw.ai/channels/channel-routing">Migration guide</a>.</li>
+<li><strong><code>doctor-channel-streaming-aliases</code> — 2026-11-29:</strong> channels.<id>.streaming.*. <a href="https://docs.openclaw.ai/channels/channel-routing">Migration guide</a>.</li>
+<li><strong><code>doctor-tts-top-level-owner</code> — 2026-11-29:</strong> top-level tts. <a href="https://docs.openclaw.ai/tools/tts">Migration guide</a>.</li>
+<li><strong><code>doctor-tts-provider-aliases</code> — 2026-11-29:</strong> tts.providers.<provider> and microsoft instead of edge. <a href="https://docs.openclaw.ai/tools/tts">Migration guide</a>.</li>
+<li><strong><code>doctor-tts-enabled-auto-mode</code> — 2026-11-29:</strong> supported top-level/agents/channels/plugins TTS auto mode, for example auto: &quot;always&quot; or auto: &quot;off&quot;. <a href="https://docs.openclaw.ai/tools/tts">Migration guide</a>.</li>
+<li><strong><code>doctor-tts-speaker-selection-fields</code> — 2026-11-29:</strong> speakerVoice and speakerVoiceId. <a href="https://docs.openclaw.ai/tools/tts">Migration guide</a>.</li>
+<li><strong><code>doctor-bundled-plugin-load-paths</code> — 2026-11-29:</strong> packaged bundled plugins and the persisted plugin registry. <a href="https://docs.openclaw.ai/cli/plugins#registry">Migration guide</a>.</li>
+<li><strong><code>doctor-bundled-provider-discovery-allowlist</code> — 2026-11-29:</strong> plugins.bundledDiscovery allowlist mode plus explicit plugin/provider entries. <a href="https://docs.openclaw.ai/cli/plugins#registry">Migration guide</a>.</li>
+<li><strong><code>doctor-codex-supervisor-plugin-config</code> — 2026-11-29:</strong> plugins.entries.codex.config.supervision. <a href="https://docs.openclaw.ai/plugins/codex-supervision">Migration guide</a>.</li>
+<li><strong><code>doctor-web-search-plugin-config</code> — 2026-11-29:</strong> plugins.entries.<plugin>.config.webSearch. <a href="https://docs.openclaw.ai/tools/web">Migration guide</a>.</li>
+<li><strong><code>doctor-web-fetch-plugin-config</code> — 2026-11-29:</strong> plugins.entries.firecrawl.config.webFetch. <a href="https://docs.openclaw.ai/tools/web-fetch">Migration guide</a>.</li>
+<li><strong><code>doctor-x-search-plugin-config</code> — 2026-11-29:</strong> plugins.entries.xai.config.webSearch.apiKey. <a href="https://docs.openclaw.ai/tools/grok-search">Migration guide</a>.</li>
+<li><strong><code>doctor-talk-provider-shape</code> — 2026-11-29:</strong> talk.providers.<provider>. <a href="https://docs.openclaw.ai/tools/tts">Migration guide</a>.</li>
+<li><strong><code>doctor-legacy-tools-by-sender</code> — 2026-11-29:</strong> typed id:, e164:, username:, or name: sender keys. <a href="https://docs.openclaw.ai/tools/exec-approvals">Migration guide</a>.</li>
+<li><strong><code>plugin-sdk-session-agent-resolution-aliases</code> — 2026-11-29:</strong> <code>resolveSessionAgentIdsStrict</code> and <code>resolveSessionAgentIdStrict</code> with an explicit agent, agent-scoped session key, prepared fallback, or persisted owner. <a href="https://docs.openclaw.ai/plugins/compatibility#session-agent-resolution-aliases">Migration guide</a>. Thanks @RomneyDa.</li>
+<li><strong><code>agent-harness-credential-prompt-string-argument</code> — 2026-11-30:</strong> options object <code>{ controlToolsAvailable }</code>. <a href="https://docs.openclaw.ai/plugins/sdk-migration/removed-surfaces#credential-prompt-builder">Migration guide</a>.</li>
+</ul>
+<h3>Complete contribution record</h3>
+<p>This audited record covers the complete v2026.11.8..48a327268c8094a6482f3d9719f8326ee22a0d93 history: 15 in-range PRs + 0 retained seed-only PRs = 15 unique PRs. The generation manifest also supplies direct commits as editorial input; the grouped notes above prioritize user impact.</p>
+<h4>Pull requests</h4>
+<ul>
+<li><strong>PR #203934</strong> Thanks @pgondhi987.</li>
+<li><strong>PR #196848</strong> Thanks @drobison00.</li>
+<li><strong>PR #196847</strong> Thanks @drobison00.</li>
+<li><strong>PR #202646</strong> Thanks @obviyus.</li>
+<li><strong>PR #202436</strong> Related #202415. Thanks @obviyus and @paulsimmondsplato.</li>
+<li><strong>PR #174797</strong> Related #174779. Authored by @steipete. Thanks @ericcaiwx-star and @gorendac.</li>
+<li><strong>PR #201742</strong> Related #201558. Thanks @MertBasar0, @obviyus, and @Caitoz.</li>
+<li><strong>PR #202658</strong> Thanks @obviyus.</li>
+<li><strong>PR #172810</strong> Thanks @shakkernerd.</li>
+<li><strong>PR #197226</strong> Thanks @obviyus.</li>
+<li><strong>PR #197224</strong> Thanks @obviyus.</li>
+<li><strong>PR #202878</strong> Related #165312. Thanks @obviyus and @titan550.</li>
+<li><strong>PR #134400</strong> Authored by @steipete. Thanks @scotthuang.</li>
+<li><strong>PR #105356</strong> Authored by @steipete. Thanks @solavrc.</li>
+<li><strong>PR #135315</strong> Authored by @steipete.</li>
+</ul>
+<h3>Release verification</h3>
+<ul>
+<li>npm package: <a href="https://www.npmjs.com/package/openclaw/v/2026.11.9">https://www.npmjs.com/package/openclaw/v/2026.11.9</a></li>
+<li>registry tarball: <a href="https://registry.npmjs.org/openclaw/-/openclaw-2026.11.9.tgz">https://registry.npmjs.org/openclaw/-/openclaw-2026.11.9.tgz</a></li>
+<li>integrity: <code>sha512-Yr0UWw8GHmMywkhAYAs/ltDqvcIp8oEFfffhiaPlCmIQr+O6bRifHiLImpdffQv3/SvdmSLMgbcWPiv1fqyH3w==</code></li>
+<li>release SHA: <code>0032b1d7ffd0a59afdf7d2223d8df3250df9057e</code></li>
+<li>full release CI report: <a href="https://github.com/openclaw/releases/blob/main/evidence/2026.11.9/release-evidence.md">https://github.com/openclaw/releases/blob/main/evidence/2026.11.9/release-evidence.md</a></li>
+<li>release publish: <a href="https://github.com/openclaw/openclaw/actions/runs/45504260935">https://github.com/openclaw/openclaw/actions/runs/45504260935</a></li>
+<li>npm preflight: <a href="https://github.com/openclaw/openclaw/actions/runs/45494093023">https://github.com/openclaw/openclaw/actions/runs/45494093023</a></li>
+<li>full release validation: <a href="https://github.com/openclaw/openclaw/actions/runs/45493628110">https://github.com/openclaw/openclaw/actions/runs/45493628110</a></li>
+<li>plugin npm publish: <a href="https://github.com/openclaw/openclaw/actions/runs/45509361419">https://github.com/openclaw/openclaw/actions/runs/45509361419</a></li>
+<li>ClawHub registry update: independent publication; see the release publish run summary for its status.</li>
+<li>OpenClaw npm publish: <a href="https://github.com/openclaw/openclaw/actions/runs/45514365648">https://github.com/openclaw/openclaw/actions/runs/45514365648</a></li>
+<li>npm Telegram beta E2E: not supplied</li>
+<li>Android APK: skipped — Android releases are independent of Gateway releases.</li>
+</ul>
+]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[openclaw 2026.11.8]]></title>
             <link>https://github.com/openclaw/openclaw/releases/tag/v2026.11.8</link>
@@ -20980,386 +21186,6 @@ the hundreds-row audit.</p>
 <li>Operator lane waiver: &quot;2026.9.6 Operator lane waiver approved by Peter (2026-09-23, &quot;release this now&quot;): non-proof CI, plugin and release-check lane failures are advisory for the 2026.9.6 stable; artifacts, install smoke, upgrade survivors and pack budget stay required.&quot;; waived lanes: normalCi checks-node-agentic-control-plane-agent-chat (failure); normalCi checks-node-bundle-infra-small-runtime-2 (failure); normalCi openclaw/ci-gate (failure)</li>
 <li>npm Telegram beta E2E: not supplied</li>
 <li>Android APK: skipped — apps/android/version.json is 2026.8.2, release train is 2026.9.6; run the shared mobile cutter (scripts/mobile-release-version.ts --prepare) before the next tag.</li>
-</ul>
-]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[openclaw 2026.7.35]]></title>
-            <link>https://github.com/openclaw/openclaw/releases/tag/v2026.7.35</link>
-            <guid>https://github.com/openclaw/openclaw/releases/tag/v2026.7.35</guid>
-            <pubDate>Mon, 21 Sep 2026 13:14:04 GMT</pubDate>
-            <description><![CDATA[<p>This is a gateway-only <code>extended-stable</code> release, which is our current equivalent to LTS. This release is OpenClaw from the end of July 2026, plus critical security updates, reliability and performance fixes, and features like new model support. The latest version of OpenClaw at the time of this release is <a href="https://github.com/openclaw/openclaw/releases#release-v2026.9.5">2026.9.5</a></p>
-<h2>2026.7.35</h2>
-<h3>Fixes</h3>
-<ul>
-<li><strong>Doctor plugin registry:</strong> preserve the complete bundled plugin inventory when Doctor creates or repairs registry state, so default Browser, Canvas, pairing, file-transfer, phone-control, Talk voice, and Bonjour plugins remain available after restart. State-migration discovery now also recovers from the partial registry written by 2026.7.34 while retaining external plugin install records. Backported from #136045. Thanks @wangmiao0668000666.</li>
-</ul>
-<h3>Complete contribution record</h3>
-<p>This extended-stable follow-up was selected from a complete 1,418-commit audit after the prior 2026.7.34 audit cursor. No other defect observed during clean install or the 2026.6.35 upgrade required a July-line backport.</p>
-<h2>Cumulative July extended-stable notes</h2>
-<p>OpenClaw 2026.7.33 and 2026.7.34 were unstable extended-stable builds and were intentionally not published as GitHub Releases. Because 2026.7.35 is the first GitHub Release for the July maintenance line, it includes their complete changelogs below.</p>
-<h2>2026.7.33</h2>
-<h3>Highlights</h3>
-<ul>
-<li><strong>Security and credential safety:</strong> harden command parsing, browser origin checks, plugin Git installs, diagnostics, service credentials, and webhook logging across Gateway and official plugins.</li>
-<li><strong>Message and session integrity:</strong> preserve queued, imported, streamed, and tool-result messages across retries, hooks, recovery, and channel lifecycle transitions.</li>
-<li><strong>Gateway reliability:</strong> close failed HTTP and Responses streams, bound expensive reads and history queries, and settle shutdown work before reporting completion. Thanks @RomneyDa.</li>
-<li><strong>Channel delivery:</strong> repair Discord, Matrix, Telegram, Slack, WhatsApp, LINE, Feishu, Zalo, and meeting-plugin edge cases that could lose, corrupt, or stall messages.</li>
-<li><strong>Provider and media robustness:</strong> bound provider requests and diagnostics, reject malformed payloads, and preserve valid tool schemas and response lifecycles. Thanks @RomneyDa.</li>
-</ul>
-<h3>Changes</h3>
-<ul>
-<li><strong>Extended-stable release tooling:</strong> carry the current Docker channel classifier, promoter, verification policy, and tests so <code>v2026.7.33</code> can move only the <code>extended-stable*</code> aliases. Thanks @RomneyDa.</li>
-</ul>
-<h3>Fixes</h3>
-<ul>
-<li><strong>Security boundaries:</strong> reject escaped-newline command words, exact-origin mismatches, injected Git option arguments, inherited secret-response identifiers, unsafe browser mutations, and malformed or oversized node payloads.</li>
-<li><strong>Delivery and transcript recovery:</strong> keep retry delays accurate, preserve imported messages and plugin-blocked tool results, retain detached admissions, and avoid silently dropping channel actions or recovery work. Thanks @RomneyDa.</li>
-<li><strong>Resource and lifecycle safety:</strong> bound catalog, history, media, stderr, API, and provider waits; stop canceled parallel tools; drain channel shutdown; and reject queued worker requests after close. Thanks @RomneyDa.</li>
-<li><strong>Text and schema correctness:</strong> preserve UTF-16 boundaries across user-visible truncation paths, keep root tool-schema properties, reject non-finite schema values, and report exact UTF-8 write sizes.</li>
-<li><strong>Official plugins:</strong> repair message parsing, proxy paths, request timeouts, media handling, privacy-safe logging, and runtime aliases across the npm-published plugin inventory.</li>
-</ul>
-<h3>Complete contribution record</h3>
-<p>This audited record covers the complete v2026.7.1-2..42625327f91254cfe66cbeb6d7a1812780b1a694 history: 126 merged PRs. The generation manifest also supplies direct commits as editorial input; the grouped notes above prioritize user impact.</p>
-<h4>Pull requests</h4>
-<ul>
-<li><strong>PR #102438</strong> fix: auth bookkeeping no longer reverts rotated OpenAI OAuth credentials. Related #102430. Thanks @obviyus.</li>
-<li><strong>PR #102125</strong> fix(gateway): finish plugin HTTP responses after post-header failures. Thanks @mushuiyu886.</li>
-<li><strong>PR #102451</strong> fix(memory-host): reject queued worker requests on shutdown. Thanks @QiuYuang.</li>
-<li><strong>PR #102276</strong> fix(agent-core): stop canceled parallel tools from starting. Related #102252. Thanks @harjothkhara and @yetval.</li>
-<li><strong>PR #101739</strong> fix(secrets): reject inherited exec response ids. Thanks @Alix-007.</li>
-<li><strong>PR #102089</strong> fix(twilio): redact webhook turnToken diagnostics. Thanks @Alix-007.</li>
-<li><strong>PR #102403</strong> fix(backup): write backup archive with owner-only 0o600 permissions. Thanks @yetval.</li>
-<li><strong>PR #102398</strong> fix(plugins): terminate git clone args so git: specs cannot inject options. Thanks @yetval.</li>
-<li><strong>PR #38290</strong> Gateway: allow extension origins in browser allowlist. Related #46520. Thanks @brunowowk and @mosidevv.</li>
-<li><strong>PR #102013</strong> fix(gateway): bound sessions.usage all-agent session discovery concurrency. Thanks @masatohoshino.</li>
-<li><strong>PR #102825</strong> fix(gateway): parse image data URLs linearly. Related #102393. Thanks @wangyan2026 and @yetval.</li>
-<li><strong>PR #102426</strong> fix: redact diagnostic config fields with schema hints [AI]. Thanks @pgondhi987.</li>
-<li><strong>PR #101000</strong> fix(plugins): bound hosted catalog feed reads on non-streaming responses. Thanks @hugenshen and @cursoragent.</li>
-<li><strong>PR #104625</strong> fix(gateway): demote startup close transport races.</li>
-<li><strong>PR #104540</strong> fix(sessions): prevent corrupted Unicode in persisted tool details. Thanks @zhangguiping-xydt.</li>
-<li><strong>PR #104734</strong> fix(models): redact synthetic auth credentials from models status --json. Related #104713. Thanks @ObliviateRickLin and @davefano.</li>
-<li><strong>PR #104811</strong> fix(gateway): keep channels stopped during shutdown and reload. Thanks @ShiroKSH.</li>
-<li><strong>PR #102881</strong> fix(gateway): reject disallowed browser Origin before accepting auth.mode=none on HTTP (#102834). Thanks @wangyan2026 and @yetval.</li>
-<li><strong>PR #101469</strong> fix(hooks): bound HOOK.md reads during hook install validation. Thanks @cxbAsDev.</li>
-<li><strong>PR #103562</strong> fix(discord): retry reply session init conflicts to prevent silent message loss. Related #102381. Thanks @cxbAsDev and @zuofengboss.</li>
-<li><strong>PR #113700</strong> fix: recover outbound messages after the correct retry delay.</li>
-<li><strong>PR #113703</strong> fix: preserve distinct imported CLI session messages.</li>
-<li><strong>PR #113697</strong> fix: repair tool-call transcripts when plugins block results.</li>
-<li><strong>PR #114134</strong> fix: require approval for escaped newline shell words [AI]. Thanks @pgondhi987.</li>
-<li><strong>PR #102331</strong> fix(google-meet): keep Meet sessions on the agent that joined them. Thanks @steipete-oai.</li>
-<li><strong>PR #101630</strong> fix(mattermost): truncate inbound preview on code-point boundary. Thanks @hugenshen and @cursoragent.</li>
-<li><strong>PR #101736</strong> fix(agents): keep steering metadata truncation UTF-16 safe. Thanks @chengzhichao-xydt and @Alix-007.</li>
-<li><strong>PR #101617</strong> fix(discord): prevent stale gateway error listeners after restart. Thanks @zhangguiping-xydt.</li>
-<li><strong>PR #102246</strong> fix(discord): keep gateway close reasons UTF-16 safe. Thanks @mushuiyu886.</li>
-<li><strong>PR #102332</strong> fix(agents): keep truncation surrogate-safe. Thanks @QiuYuang.</li>
-<li><strong>PR #101815</strong> fix(discord): split encoded video URLs from captions. Thanks @VectorPeak.</li>
-<li><strong>PR #102090</strong> fix(gateway): keep session title and preview text truncation UTF-16 safe. Thanks @wm0018.</li>
-<li><strong>PR #101976</strong> fix(acp): keep background-task summaries UTF-16 safe at truncation boundaries. Thanks @MoerAI.</li>
-<li><strong>PR #102378</strong> fix(acp): keep session update text truncation surrogate-safe. Thanks @zw-xysk.</li>
-<li><strong>PR #102085</strong> fix(agents): keep chunkString and buildResumeMessage truncation UTF-16 safe. Thanks @wm0018.</li>
-<li><strong>PR #102105</strong> fix(google-meet): handle stdout/stderr stream errors in node host. Thanks @wangmiao0668000666.</li>
-<li><strong>PR #102157</strong> fix(google-meet): bound Calendar v3 events.list request deadline. Thanks @wangmiao0668000666.</li>
-<li><strong>PR #102395</strong> fix(matrix): keep HTTP error and tool-progress truncations UTF-16 safe. Thanks @wangmiao0668000666.</li>
-<li><strong>PR #102266</strong> fix(security): keep channel-metadata and install-policy truncation surrogate-safe. Thanks @zw-xysk.</li>
-<li><strong>PR #101781</strong> fix(telegram): keep DM topic auto-rename user message UTF-16 safe. Thanks @hugenshen and @cursoragent.</li>
-<li><strong>PR #101934</strong> fix: keep task title truncation UTF-16 safe in restart/diagnostic output. Thanks @wm0018.</li>
-<li><strong>PR #102407</strong> fix(channels): keep inbound log previews UTF-16 safe. Thanks @miorbnli.</li>
-<li><strong>PR #102466</strong> fix(agents): keep tool-result context guard truncation UTF-16 safe. Thanks @chengzhichao-xydt.</li>
-<li><strong>PR #102464</strong> fix(tool-policy-audit): use truncateUtf16Safe for audit field truncation. Thanks @lsr911.</li>
-<li><strong>PR #102467</strong> fix(native-hook-relay): use truncateUtf16Safe for hook display text truncation. Thanks @lsr911.</li>
-<li><strong>PR #102470</strong> fix(gateway): keep chat history display text truncation surrogate-safe. Thanks @zw-xysk.</li>
-<li><strong>PR #102483</strong> fix(auto-reply,infra): keep startup context and heartbeat event text UTF-16 safe. Thanks @wings1029.</li>
-<li><strong>PR #102478</strong> fix(memory): snippets split emoji when truncated. Thanks @qingminglong.</li>
-<li><strong>PR #101649</strong> fix(zalouser): clear probe timeout after auth resolves. Thanks @Alix-007.</li>
-<li><strong>PR #101506</strong> fix(browser): bound Chrome launch stderr diagnostics. Thanks @mikasa0818.</li>
-<li><strong>PR #102484</strong> fix(gateway): keep live chat assistant buffer tail truncation UTF-16 safe. Thanks @wings1029.</li>
-<li><strong>PR #102477</strong> fix(talk): use truncateUtf16Safe for LLM-prompt-facing text truncation. Thanks @xydt-tanshanshan.</li>
-<li><strong>PR #102496</strong> fix(agents): keep provider error detail truncation UTF-16 safe. Thanks @chengzhichao-xydt.</li>
-<li><strong>PR #102500</strong> fix(mcp-runtime): use truncateUtf16Safe for MCP metadata text truncation. Thanks @lsr911.</li>
-<li><strong>PR #102515</strong> fix(compaction): use truncateUtf16Safe for post-compaction context text. Thanks @lsr911.</li>
-<li><strong>PR #102525</strong> fix(discord): use truncateUtf16Safe for deploy error body truncation. Thanks @lsr911.</li>
-<li><strong>PR #102527</strong> fix(oc-path): use truncateUtf16Safe for error message path truncation. Thanks @lsr911.</li>
-<li><strong>PR #102536</strong> fix(nodes): restore Mac app allowlist execution. Related #102528.</li>
-<li><strong>PR #102149</strong> fix(google-meet): bound Meet v2 + Drive files.export request deadlines. Thanks @wangmiao0668000666.</li>
-<li><strong>PR #102524</strong> fix(memory-core): use truncateUtf16Safe for diary context truncation. Thanks @lsr911.</li>
-<li><strong>PR #102389</strong> fix(web-fetch): report exact-limit response bodies as complete, not truncated [AI-assisted]. Related #101837. Thanks @Supsumintong and @qingminglong.</li>
-<li><strong>PR #101832</strong> fix: keep Gemini thinking disabled after clamp. Related #101785. Thanks @MonkeyLeeT and @aniruddhaadak80.</li>
-<li><strong>PR #104049</strong> fix: installer removes temporary files after failed commands.</li>
-<li><strong>PR #97828</strong> fix(telegram): clear reasoning preview before forceNewMessage rotation (#80862). Thanks @ly-wang19 and @kyle20026.</li>
-<li><strong>PR #102859</strong> fix(nextcloud-talk): add timeout to room info lookup. Thanks @Alix-007 and @Leon-SK668.</li>
-<li><strong>PR #102862</strong> fix(minimax): add timeouts to OAuth HTTP requests. Thanks @Alix-007 and @Leon-SK668.</li>
-<li><strong>PR #103547</strong> fix(voice-call): redact phone numbers in event logs via subsystem logger. Thanks @xialonglee.</li>
-<li><strong>PR #103555</strong> fix(voice-call): consolidate webhook logs on the injected plugin logger and assert transcript privacy boundary. Thanks @xialonglee.</li>
-<li><strong>PR #104229</strong> fix: live updater builds complete runtime assets.</li>
-<li><strong>PR #104306</strong> fix: start local embedding services on demand. Related #104214. Thanks @vincentkoc.</li>
-<li><strong>PR #102965</strong> fix(inworld): add timeout to voices list request. Thanks @chengzhichao-xydt.</li>
-<li><strong>PR #103752</strong> fix(google-meet): validate chrome node policy params. Thanks @Leon-SK668.</li>
-<li><strong>PR #103728</strong> fix(memory): skip blank search provider bootstrap. Thanks @Leon-SK668 and @vincentkoc.</li>
-<li><strong>PR #104426</strong> fix(commitments): isolate extraction batches by agent. Related #104425.</li>
-<li><strong>PR #103731</strong> fix(plugins): honor empty document extractor scope. Thanks @Leon-SK668 and @vincentkoc.</li>
-<li><strong>PR #104263</strong> fix(gateway): cap history when numeric limit is huge. Thanks @qingminglong.</li>
-<li><strong>PR #104156</strong> fix(agents): truncate multibyte middleware details at byte limit. Thanks @qingminglong.</li>
-<li><strong>PR #104173</strong> fix(onboard): wait for gateway warnings before installing service. Thanks @qingminglong.</li>
-<li><strong>PR #104110</strong> fix(agents): cancel pending bundle LSP requests when the agent stops. Thanks @zhangguiping-xydt and @vincentkoc.</li>
-<li><strong>PR #104404</strong> fix(agents): preserve UTF-16 boundaries in context pruning. Thanks @mushuiyu886 and @vincentkoc.</li>
-<li><strong>PR #104440</strong> fix(browser): reject hex click coordinates in act route. Thanks @qingminglong.</li>
-<li><strong>PR #104260</strong> fix(voice-call): use sliceUtf16Safe for bounded child output tail cap. Thanks @hugenshen.</li>
-<li><strong>PR #104151</strong> fix(file-transfer): keep bounded stderr tail UTF-16 safe. Thanks @hugenshen.</li>
-<li><strong>PR #104148</strong> fix(agents): keep scp stderr tail UTF-16 safe. Thanks @hugenshen.</li>
-<li><strong>PR #104414</strong> fix(nodes): reject malformed media payloads when base64 is invalid. Thanks @qingminglong.</li>
-<li><strong>PR #104556</strong> fix(file-transfer): reject oversized inline file writes before node dispatch. Thanks @qingminglong.</li>
-<li><strong>PR #102974</strong> fix(google): stream Gemini batch JSONL output instead of res.text(). Thanks @hugenshen.</li>
-<li><strong>PR #104610</strong> fix(gateway): demote expected startup socket aborts.</li>
-<li><strong>PR #104301</strong> fix(utils): use UTF-16 safe truncation for long URL timeout logs. Thanks @whiteyzy.</li>
-<li><strong>PR #103445</strong> fix(slack): preserve unrelated action rows after interactions. Thanks @zw-xysk and @cursoragent.</li>
-<li><strong>PR #104677</strong> fix(browser): run mutation guard before JSON parsing. Thanks @Leon-SK668.</li>
-<li><strong>PR #104423</strong> fix(agents): preserve UTF-16 boundaries in bootstrap context. Thanks @mushuiyu886.</li>
-<li><strong>PR #104560</strong> fix(write): report actual UTF-8 byte count in success message. Thanks @wings1029.</li>
-<li><strong>PR #104454</strong> fix(attempt-execution): use truncateUtf16Safe for summary text truncation. Thanks @chenyangjun-xy.</li>
-<li><strong>PR #104715</strong> fix(browser): apply profile proxy policy to tab list redaction. Thanks @Leon-SK668.</li>
-<li><strong>PR #104470</strong> fix(ai): reject non-finite tool schema numbers. Related #104469. Thanks @VectorPeak.</li>
-<li><strong>PR #104498</strong> fix(feishu): avoid logging raw duplicate card-action tokens. Thanks @VectorPeak.</li>
-<li><strong>PR #113259</strong> fix(gateway): reject incomplete usage date ranges. Thanks @lzw112.</li>
-<li><strong>PR #112855</strong> fix: doctor preserves locks owned by exact gateway process title. Related #112854. Thanks @fr-meyer.</li>
-<li><strong>PR #113609</strong> fix(gateway): return 404 for disabled OpenAI API routes.</li>
-<li><strong>PR #113683</strong> fix: route skill verification through the managed proxy.</li>
-<li><strong>PR #113685</strong> fix: preserve child process signal exit codes.</li>
-<li><strong>PR #113106</strong> fix(xiaomi): reject malformed base64 audio in TTS responses. Thanks @zenglingbiao.</li>
-<li><strong>PR #113109</strong> fix(volcengine): reject malformed base64 audio in TTS responses. Thanks @zenglingbiao.</li>
-<li><strong>PR #113790</strong> fix: recognize Bash completion installed in login profiles.</li>
-<li><strong>PR #113897</strong> fix(models): keep empty model lists machine-readable.</li>
-<li><strong>PR #114051</strong> fix(agents): prevent session stalls under concurrent load.</li>
-<li><strong>PR #114061</strong> fix(gateway): prevent missing assets on nested dashboard routes.</li>
-<li><strong>PR #114280</strong> fix(gateway): keep failed account stops from stranding siblings. Thanks @yangxiansheng.</li>
-<li><strong>PR #114325</strong> fix: report unavailable system Node versions accurately. Thanks @RomneyDa.</li>
-<li><strong>PR #93516</strong> fix(matrix): reverse-proxy path support for Matrix homeserver URLs. Related #102885. Thanks @Papilionidae.</li>
-<li><strong>PR #114450</strong> fix(zalo): deliver text when optional media is blank. Related #105078. Thanks @VectorPeak.</li>
-<li><strong>PR #114512</strong> fix(cron): avoid false agent timeouts while execution lanes are busy. Thanks @hugin-bot.</li>
-<li><strong>PR #112352</strong> fix(model): report the model change before the thinking remap it triggers. Thanks @kesava500.</li>
-<li><strong>PR #114540</strong> fix(cron): prevent local model preflight socket leaks. Thanks @hugenshen.</li>
-<li><strong>PR #114500</strong> fix(auto-reply): normalize newline-delimited silent tokens. Related #103735. Thanks @Maless88.</li>
-<li><strong>PR #97024</strong> fix(session-delivery): propagate non-ENOENT retry persistence failures. Thanks @0xghost42.</li>
-<li><strong>PR #114076</strong> fix: debug proxy respects response backpressure (issue #105701). Thanks @qingminglong and @aniruddhaadak80.</li>
-<li><strong>PR #128799</strong> fix(ai): preserve root properties when flattening root-level anyOf tool schemas. Related #128743. Thanks @LiuwqGit and @Patrick-Erichsen and @schaba21.</li>
-<li><strong>PR #131546</strong> fix(copilot): own BYOK response stream lifecycles. Related #131544.</li>
-<li><strong>PR #131195</strong> fix(line): /card splits an action, list item, or receipt entry at a comma inside its data. Related #129349. Thanks @edenfunf and @obviyus.</li>
-<li><strong>PR #131783</strong> fix(agents): keep dangling symlinks visible in ls listings.</li>
-<li><strong>PR #132014</strong> fix(line): give the agent the selection a postback carries. Related #132000. Thanks @edenfunf and @obviyus.</li>
-<li><strong>PR #102636</strong> fix(handoff): skip orchestrator framing for solo agents without subagents. Related #102628. Thanks @Gary-Jia-new and @altaywtf and @Joakim-Emanuelson.</li>
-<li><strong>PR #132545</strong> fix(plugins): keep compiled plugin aliases on the built runtime.</li>
-<li><strong>PR #102160</strong> fix(agents): run-lifecycle reliability — bounded release, evidence-based liveness, watchdog semantics. Related #85826, #96168. Thanks @obviyus and @kiagentkronos-cell and @alvelda.</li>
-</ul>
-<h2>2026.7.34</h2>
-<h3>Highlights</h3>
-<ul>
-<li><strong>Current model families:</strong> add GPT-6 Astra, GPT Image 2.5 Flare/Sunburst, Muse Spark 1.3, Claude Opus 5, Gemini 3.6/3.7 Flash, Grok 4.6, Kimi K3, GLM 5.3, Qwen 3.8, DeepSeek V4 Flash Vision Experimental, and Nemotron 3.5 Lightning support across the provider catalogs and runtime policies that ship on extended stable. Fable 5.1 remains deferred because its prefix-bound reasoning contract requires the newer append-only replay lifecycle.</li>
-<li><strong>GPT-5.6 compatibility:</strong> retain and verify the complete GPT-5.6 Sol, Terra, and Luna family across direct OpenAI and Codex OAuth routing, reasoning controls, pricing, context, and vision metadata.</li>
-</ul>
-<h3>Fixes</h3>
-<ul>
-<li><strong>Installer recovery:</strong> preserve the original npm recovery diagnostics when an install repair attempt also fails, so operators see the actionable package-manager error instead of a secondary cleanup failure.</li>
-</ul>
-<h3>Complete contribution record</h3>
-<p>This extended-stable candidate was selected from a complete 11,198-commit audit after <code>v2026.7.33</code>. It adapts the approved provider and installer slices to the 7.33 SDK and configuration surface without importing later architectural refactors.</p>
-<h3>Release verification</h3>
-<ul>
-<li>npm package: <a href="https://www.npmjs.com/package/openclaw/v/2026.7.35">https://www.npmjs.com/package/openclaw/v/2026.7.35</a></li>
-<li>registry tarball: <a href="https://registry.npmjs.org/openclaw/-/openclaw-2026.7.35.tgz">https://registry.npmjs.org/openclaw/-/openclaw-2026.7.35.tgz</a></li>
-<li>integrity: <code>sha512-2ZzpVrK4sOzKLRyS5S6rHjkXQS11FHe361FQSvUy8CBBG0TkzZUisBCmCZ0PLfK8Hpym2ZPHHpknZQaD4WONGQ==</code></li>
-<li>release SHA: <code>aa94808cb05668cdf1c10bc8f034a8176deba483</code></li>
-<li>full release validation: <a href="https://github.com/openclaw/openclaw/actions/runs/35574936025/attempts/2">https://github.com/openclaw/openclaw/actions/runs/35574936025/attempts/2</a></li>
-<li>plugin npm publication: <a href="https://github.com/openclaw/openclaw/actions/runs/35595949221">https://github.com/openclaw/openclaw/actions/runs/35595949221</a></li>
-<li>OpenClaw npm publication: <a href="https://github.com/openclaw/openclaw/actions/runs/35597355437">https://github.com/openclaw/openclaw/actions/runs/35597355437</a> — npm accepted publication; the job failed only because bounded registry readback expired before propagation completed.</li>
-<li>Docker publication recovery: <a href="https://github.com/openclaw/openclaw/actions/runs/35598889849">https://github.com/openclaw/openclaw/actions/runs/35598889849</a></li>
-<li>Manual finalization: owner-approved after independent verification of npm signatures and provenance, the <code>extended-stable</code> selector, all 70 plugin readbacks, Docker digests and attestations, and npm/OCM/Gateway/container smoke tests.</li>
-</ul>
-]]></description>
-            <content:encoded><![CDATA[<p>This is a gateway-only <code>extended-stable</code> release, which is our current equivalent to LTS. This release is OpenClaw from the end of July 2026, plus critical security updates, reliability and performance fixes, and features like new model support. The latest version of OpenClaw at the time of this release is <a href="https://github.com/openclaw/openclaw/releases#release-v2026.9.5">2026.9.5</a></p>
-<h2>2026.7.35</h2>
-<h3>Fixes</h3>
-<ul>
-<li><strong>Doctor plugin registry:</strong> preserve the complete bundled plugin inventory when Doctor creates or repairs registry state, so default Browser, Canvas, pairing, file-transfer, phone-control, Talk voice, and Bonjour plugins remain available after restart. State-migration discovery now also recovers from the partial registry written by 2026.7.34 while retaining external plugin install records. Backported from #136045. Thanks @wangmiao0668000666.</li>
-</ul>
-<h3>Complete contribution record</h3>
-<p>This extended-stable follow-up was selected from a complete 1,418-commit audit after the prior 2026.7.34 audit cursor. No other defect observed during clean install or the 2026.6.35 upgrade required a July-line backport.</p>
-<h2>Cumulative July extended-stable notes</h2>
-<p>OpenClaw 2026.7.33 and 2026.7.34 were unstable extended-stable builds and were intentionally not published as GitHub Releases. Because 2026.7.35 is the first GitHub Release for the July maintenance line, it includes their complete changelogs below.</p>
-<h2>2026.7.33</h2>
-<h3>Highlights</h3>
-<ul>
-<li><strong>Security and credential safety:</strong> harden command parsing, browser origin checks, plugin Git installs, diagnostics, service credentials, and webhook logging across Gateway and official plugins.</li>
-<li><strong>Message and session integrity:</strong> preserve queued, imported, streamed, and tool-result messages across retries, hooks, recovery, and channel lifecycle transitions.</li>
-<li><strong>Gateway reliability:</strong> close failed HTTP and Responses streams, bound expensive reads and history queries, and settle shutdown work before reporting completion. Thanks @RomneyDa.</li>
-<li><strong>Channel delivery:</strong> repair Discord, Matrix, Telegram, Slack, WhatsApp, LINE, Feishu, Zalo, and meeting-plugin edge cases that could lose, corrupt, or stall messages.</li>
-<li><strong>Provider and media robustness:</strong> bound provider requests and diagnostics, reject malformed payloads, and preserve valid tool schemas and response lifecycles. Thanks @RomneyDa.</li>
-</ul>
-<h3>Changes</h3>
-<ul>
-<li><strong>Extended-stable release tooling:</strong> carry the current Docker channel classifier, promoter, verification policy, and tests so <code>v2026.7.33</code> can move only the <code>extended-stable*</code> aliases. Thanks @RomneyDa.</li>
-</ul>
-<h3>Fixes</h3>
-<ul>
-<li><strong>Security boundaries:</strong> reject escaped-newline command words, exact-origin mismatches, injected Git option arguments, inherited secret-response identifiers, unsafe browser mutations, and malformed or oversized node payloads.</li>
-<li><strong>Delivery and transcript recovery:</strong> keep retry delays accurate, preserve imported messages and plugin-blocked tool results, retain detached admissions, and avoid silently dropping channel actions or recovery work. Thanks @RomneyDa.</li>
-<li><strong>Resource and lifecycle safety:</strong> bound catalog, history, media, stderr, API, and provider waits; stop canceled parallel tools; drain channel shutdown; and reject queued worker requests after close. Thanks @RomneyDa.</li>
-<li><strong>Text and schema correctness:</strong> preserve UTF-16 boundaries across user-visible truncation paths, keep root tool-schema properties, reject non-finite schema values, and report exact UTF-8 write sizes.</li>
-<li><strong>Official plugins:</strong> repair message parsing, proxy paths, request timeouts, media handling, privacy-safe logging, and runtime aliases across the npm-published plugin inventory.</li>
-</ul>
-<h3>Complete contribution record</h3>
-<p>This audited record covers the complete v2026.7.1-2..42625327f91254cfe66cbeb6d7a1812780b1a694 history: 126 merged PRs. The generation manifest also supplies direct commits as editorial input; the grouped notes above prioritize user impact.</p>
-<h4>Pull requests</h4>
-<ul>
-<li><strong>PR #102438</strong> fix: auth bookkeeping no longer reverts rotated OpenAI OAuth credentials. Related #102430. Thanks @obviyus.</li>
-<li><strong>PR #102125</strong> fix(gateway): finish plugin HTTP responses after post-header failures. Thanks @mushuiyu886.</li>
-<li><strong>PR #102451</strong> fix(memory-host): reject queued worker requests on shutdown. Thanks @QiuYuang.</li>
-<li><strong>PR #102276</strong> fix(agent-core): stop canceled parallel tools from starting. Related #102252. Thanks @harjothkhara and @yetval.</li>
-<li><strong>PR #101739</strong> fix(secrets): reject inherited exec response ids. Thanks @Alix-007.</li>
-<li><strong>PR #102089</strong> fix(twilio): redact webhook turnToken diagnostics. Thanks @Alix-007.</li>
-<li><strong>PR #102403</strong> fix(backup): write backup archive with owner-only 0o600 permissions. Thanks @yetval.</li>
-<li><strong>PR #102398</strong> fix(plugins): terminate git clone args so git: specs cannot inject options. Thanks @yetval.</li>
-<li><strong>PR #38290</strong> Gateway: allow extension origins in browser allowlist. Related #46520. Thanks @brunowowk and @mosidevv.</li>
-<li><strong>PR #102013</strong> fix(gateway): bound sessions.usage all-agent session discovery concurrency. Thanks @masatohoshino.</li>
-<li><strong>PR #102825</strong> fix(gateway): parse image data URLs linearly. Related #102393. Thanks @wangyan2026 and @yetval.</li>
-<li><strong>PR #102426</strong> fix: redact diagnostic config fields with schema hints [AI]. Thanks @pgondhi987.</li>
-<li><strong>PR #101000</strong> fix(plugins): bound hosted catalog feed reads on non-streaming responses. Thanks @hugenshen and @cursoragent.</li>
-<li><strong>PR #104625</strong> fix(gateway): demote startup close transport races.</li>
-<li><strong>PR #104540</strong> fix(sessions): prevent corrupted Unicode in persisted tool details. Thanks @zhangguiping-xydt.</li>
-<li><strong>PR #104734</strong> fix(models): redact synthetic auth credentials from models status --json. Related #104713. Thanks @ObliviateRickLin and @davefano.</li>
-<li><strong>PR #104811</strong> fix(gateway): keep channels stopped during shutdown and reload. Thanks @ShiroKSH.</li>
-<li><strong>PR #102881</strong> fix(gateway): reject disallowed browser Origin before accepting auth.mode=none on HTTP (#102834). Thanks @wangyan2026 and @yetval.</li>
-<li><strong>PR #101469</strong> fix(hooks): bound HOOK.md reads during hook install validation. Thanks @cxbAsDev.</li>
-<li><strong>PR #103562</strong> fix(discord): retry reply session init conflicts to prevent silent message loss. Related #102381. Thanks @cxbAsDev and @zuofengboss.</li>
-<li><strong>PR #113700</strong> fix: recover outbound messages after the correct retry delay.</li>
-<li><strong>PR #113703</strong> fix: preserve distinct imported CLI session messages.</li>
-<li><strong>PR #113697</strong> fix: repair tool-call transcripts when plugins block results.</li>
-<li><strong>PR #114134</strong> fix: require approval for escaped newline shell words [AI]. Thanks @pgondhi987.</li>
-<li><strong>PR #102331</strong> fix(google-meet): keep Meet sessions on the agent that joined them. Thanks @steipete-oai.</li>
-<li><strong>PR #101630</strong> fix(mattermost): truncate inbound preview on code-point boundary. Thanks @hugenshen and @cursoragent.</li>
-<li><strong>PR #101736</strong> fix(agents): keep steering metadata truncation UTF-16 safe. Thanks @chengzhichao-xydt and @Alix-007.</li>
-<li><strong>PR #101617</strong> fix(discord): prevent stale gateway error listeners after restart. Thanks @zhangguiping-xydt.</li>
-<li><strong>PR #102246</strong> fix(discord): keep gateway close reasons UTF-16 safe. Thanks @mushuiyu886.</li>
-<li><strong>PR #102332</strong> fix(agents): keep truncation surrogate-safe. Thanks @QiuYuang.</li>
-<li><strong>PR #101815</strong> fix(discord): split encoded video URLs from captions. Thanks @VectorPeak.</li>
-<li><strong>PR #102090</strong> fix(gateway): keep session title and preview text truncation UTF-16 safe. Thanks @wm0018.</li>
-<li><strong>PR #101976</strong> fix(acp): keep background-task summaries UTF-16 safe at truncation boundaries. Thanks @MoerAI.</li>
-<li><strong>PR #102378</strong> fix(acp): keep session update text truncation surrogate-safe. Thanks @zw-xysk.</li>
-<li><strong>PR #102085</strong> fix(agents): keep chunkString and buildResumeMessage truncation UTF-16 safe. Thanks @wm0018.</li>
-<li><strong>PR #102105</strong> fix(google-meet): handle stdout/stderr stream errors in node host. Thanks @wangmiao0668000666.</li>
-<li><strong>PR #102157</strong> fix(google-meet): bound Calendar v3 events.list request deadline. Thanks @wangmiao0668000666.</li>
-<li><strong>PR #102395</strong> fix(matrix): keep HTTP error and tool-progress truncations UTF-16 safe. Thanks @wangmiao0668000666.</li>
-<li><strong>PR #102266</strong> fix(security): keep channel-metadata and install-policy truncation surrogate-safe. Thanks @zw-xysk.</li>
-<li><strong>PR #101781</strong> fix(telegram): keep DM topic auto-rename user message UTF-16 safe. Thanks @hugenshen and @cursoragent.</li>
-<li><strong>PR #101934</strong> fix: keep task title truncation UTF-16 safe in restart/diagnostic output. Thanks @wm0018.</li>
-<li><strong>PR #102407</strong> fix(channels): keep inbound log previews UTF-16 safe. Thanks @miorbnli.</li>
-<li><strong>PR #102466</strong> fix(agents): keep tool-result context guard truncation UTF-16 safe. Thanks @chengzhichao-xydt.</li>
-<li><strong>PR #102464</strong> fix(tool-policy-audit): use truncateUtf16Safe for audit field truncation. Thanks @lsr911.</li>
-<li><strong>PR #102467</strong> fix(native-hook-relay): use truncateUtf16Safe for hook display text truncation. Thanks @lsr911.</li>
-<li><strong>PR #102470</strong> fix(gateway): keep chat history display text truncation surrogate-safe. Thanks @zw-xysk.</li>
-<li><strong>PR #102483</strong> fix(auto-reply,infra): keep startup context and heartbeat event text UTF-16 safe. Thanks @wings1029.</li>
-<li><strong>PR #102478</strong> fix(memory): snippets split emoji when truncated. Thanks @qingminglong.</li>
-<li><strong>PR #101649</strong> fix(zalouser): clear probe timeout after auth resolves. Thanks @Alix-007.</li>
-<li><strong>PR #101506</strong> fix(browser): bound Chrome launch stderr diagnostics. Thanks @mikasa0818.</li>
-<li><strong>PR #102484</strong> fix(gateway): keep live chat assistant buffer tail truncation UTF-16 safe. Thanks @wings1029.</li>
-<li><strong>PR #102477</strong> fix(talk): use truncateUtf16Safe for LLM-prompt-facing text truncation. Thanks @xydt-tanshanshan.</li>
-<li><strong>PR #102496</strong> fix(agents): keep provider error detail truncation UTF-16 safe. Thanks @chengzhichao-xydt.</li>
-<li><strong>PR #102500</strong> fix(mcp-runtime): use truncateUtf16Safe for MCP metadata text truncation. Thanks @lsr911.</li>
-<li><strong>PR #102515</strong> fix(compaction): use truncateUtf16Safe for post-compaction context text. Thanks @lsr911.</li>
-<li><strong>PR #102525</strong> fix(discord): use truncateUtf16Safe for deploy error body truncation. Thanks @lsr911.</li>
-<li><strong>PR #102527</strong> fix(oc-path): use truncateUtf16Safe for error message path truncation. Thanks @lsr911.</li>
-<li><strong>PR #102536</strong> fix(nodes): restore Mac app allowlist execution. Related #102528.</li>
-<li><strong>PR #102149</strong> fix(google-meet): bound Meet v2 + Drive files.export request deadlines. Thanks @wangmiao0668000666.</li>
-<li><strong>PR #102524</strong> fix(memory-core): use truncateUtf16Safe for diary context truncation. Thanks @lsr911.</li>
-<li><strong>PR #102389</strong> fix(web-fetch): report exact-limit response bodies as complete, not truncated [AI-assisted]. Related #101837. Thanks @Supsumintong and @qingminglong.</li>
-<li><strong>PR #101832</strong> fix: keep Gemini thinking disabled after clamp. Related #101785. Thanks @MonkeyLeeT and @aniruddhaadak80.</li>
-<li><strong>PR #104049</strong> fix: installer removes temporary files after failed commands.</li>
-<li><strong>PR #97828</strong> fix(telegram): clear reasoning preview before forceNewMessage rotation (#80862). Thanks @ly-wang19 and @kyle20026.</li>
-<li><strong>PR #102859</strong> fix(nextcloud-talk): add timeout to room info lookup. Thanks @Alix-007 and @Leon-SK668.</li>
-<li><strong>PR #102862</strong> fix(minimax): add timeouts to OAuth HTTP requests. Thanks @Alix-007 and @Leon-SK668.</li>
-<li><strong>PR #103547</strong> fix(voice-call): redact phone numbers in event logs via subsystem logger. Thanks @xialonglee.</li>
-<li><strong>PR #103555</strong> fix(voice-call): consolidate webhook logs on the injected plugin logger and assert transcript privacy boundary. Thanks @xialonglee.</li>
-<li><strong>PR #104229</strong> fix: live updater builds complete runtime assets.</li>
-<li><strong>PR #104306</strong> fix: start local embedding services on demand. Related #104214. Thanks @vincentkoc.</li>
-<li><strong>PR #102965</strong> fix(inworld): add timeout to voices list request. Thanks @chengzhichao-xydt.</li>
-<li><strong>PR #103752</strong> fix(google-meet): validate chrome node policy params. Thanks @Leon-SK668.</li>
-<li><strong>PR #103728</strong> fix(memory): skip blank search provider bootstrap. Thanks @Leon-SK668 and @vincentkoc.</li>
-<li><strong>PR #104426</strong> fix(commitments): isolate extraction batches by agent. Related #104425.</li>
-<li><strong>PR #103731</strong> fix(plugins): honor empty document extractor scope. Thanks @Leon-SK668 and @vincentkoc.</li>
-<li><strong>PR #104263</strong> fix(gateway): cap history when numeric limit is huge. Thanks @qingminglong.</li>
-<li><strong>PR #104156</strong> fix(agents): truncate multibyte middleware details at byte limit. Thanks @qingminglong.</li>
-<li><strong>PR #104173</strong> fix(onboard): wait for gateway warnings before installing service. Thanks @qingminglong.</li>
-<li><strong>PR #104110</strong> fix(agents): cancel pending bundle LSP requests when the agent stops. Thanks @zhangguiping-xydt and @vincentkoc.</li>
-<li><strong>PR #104404</strong> fix(agents): preserve UTF-16 boundaries in context pruning. Thanks @mushuiyu886 and @vincentkoc.</li>
-<li><strong>PR #104440</strong> fix(browser): reject hex click coordinates in act route. Thanks @qingminglong.</li>
-<li><strong>PR #104260</strong> fix(voice-call): use sliceUtf16Safe for bounded child output tail cap. Thanks @hugenshen.</li>
-<li><strong>PR #104151</strong> fix(file-transfer): keep bounded stderr tail UTF-16 safe. Thanks @hugenshen.</li>
-<li><strong>PR #104148</strong> fix(agents): keep scp stderr tail UTF-16 safe. Thanks @hugenshen.</li>
-<li><strong>PR #104414</strong> fix(nodes): reject malformed media payloads when base64 is invalid. Thanks @qingminglong.</li>
-<li><strong>PR #104556</strong> fix(file-transfer): reject oversized inline file writes before node dispatch. Thanks @qingminglong.</li>
-<li><strong>PR #102974</strong> fix(google): stream Gemini batch JSONL output instead of res.text(). Thanks @hugenshen.</li>
-<li><strong>PR #104610</strong> fix(gateway): demote expected startup socket aborts.</li>
-<li><strong>PR #104301</strong> fix(utils): use UTF-16 safe truncation for long URL timeout logs. Thanks @whiteyzy.</li>
-<li><strong>PR #103445</strong> fix(slack): preserve unrelated action rows after interactions. Thanks @zw-xysk and @cursoragent.</li>
-<li><strong>PR #104677</strong> fix(browser): run mutation guard before JSON parsing. Thanks @Leon-SK668.</li>
-<li><strong>PR #104423</strong> fix(agents): preserve UTF-16 boundaries in bootstrap context. Thanks @mushuiyu886.</li>
-<li><strong>PR #104560</strong> fix(write): report actual UTF-8 byte count in success message. Thanks @wings1029.</li>
-<li><strong>PR #104454</strong> fix(attempt-execution): use truncateUtf16Safe for summary text truncation. Thanks @chenyangjun-xy.</li>
-<li><strong>PR #104715</strong> fix(browser): apply profile proxy policy to tab list redaction. Thanks @Leon-SK668.</li>
-<li><strong>PR #104470</strong> fix(ai): reject non-finite tool schema numbers. Related #104469. Thanks @VectorPeak.</li>
-<li><strong>PR #104498</strong> fix(feishu): avoid logging raw duplicate card-action tokens. Thanks @VectorPeak.</li>
-<li><strong>PR #113259</strong> fix(gateway): reject incomplete usage date ranges. Thanks @lzw112.</li>
-<li><strong>PR #112855</strong> fix: doctor preserves locks owned by exact gateway process title. Related #112854. Thanks @fr-meyer.</li>
-<li><strong>PR #113609</strong> fix(gateway): return 404 for disabled OpenAI API routes.</li>
-<li><strong>PR #113683</strong> fix: route skill verification through the managed proxy.</li>
-<li><strong>PR #113685</strong> fix: preserve child process signal exit codes.</li>
-<li><strong>PR #113106</strong> fix(xiaomi): reject malformed base64 audio in TTS responses. Thanks @zenglingbiao.</li>
-<li><strong>PR #113109</strong> fix(volcengine): reject malformed base64 audio in TTS responses. Thanks @zenglingbiao.</li>
-<li><strong>PR #113790</strong> fix: recognize Bash completion installed in login profiles.</li>
-<li><strong>PR #113897</strong> fix(models): keep empty model lists machine-readable.</li>
-<li><strong>PR #114051</strong> fix(agents): prevent session stalls under concurrent load.</li>
-<li><strong>PR #114061</strong> fix(gateway): prevent missing assets on nested dashboard routes.</li>
-<li><strong>PR #114280</strong> fix(gateway): keep failed account stops from stranding siblings. Thanks @yangxiansheng.</li>
-<li><strong>PR #114325</strong> fix: report unavailable system Node versions accurately. Thanks @RomneyDa.</li>
-<li><strong>PR #93516</strong> fix(matrix): reverse-proxy path support for Matrix homeserver URLs. Related #102885. Thanks @Papilionidae.</li>
-<li><strong>PR #114450</strong> fix(zalo): deliver text when optional media is blank. Related #105078. Thanks @VectorPeak.</li>
-<li><strong>PR #114512</strong> fix(cron): avoid false agent timeouts while execution lanes are busy. Thanks @hugin-bot.</li>
-<li><strong>PR #112352</strong> fix(model): report the model change before the thinking remap it triggers. Thanks @kesava500.</li>
-<li><strong>PR #114540</strong> fix(cron): prevent local model preflight socket leaks. Thanks @hugenshen.</li>
-<li><strong>PR #114500</strong> fix(auto-reply): normalize newline-delimited silent tokens. Related #103735. Thanks @Maless88.</li>
-<li><strong>PR #97024</strong> fix(session-delivery): propagate non-ENOENT retry persistence failures. Thanks @0xghost42.</li>
-<li><strong>PR #114076</strong> fix: debug proxy respects response backpressure (issue #105701). Thanks @qingminglong and @aniruddhaadak80.</li>
-<li><strong>PR #128799</strong> fix(ai): preserve root properties when flattening root-level anyOf tool schemas. Related #128743. Thanks @LiuwqGit and @Patrick-Erichsen and @schaba21.</li>
-<li><strong>PR #131546</strong> fix(copilot): own BYOK response stream lifecycles. Related #131544.</li>
-<li><strong>PR #131195</strong> fix(line): /card splits an action, list item, or receipt entry at a comma inside its data. Related #129349. Thanks @edenfunf and @obviyus.</li>
-<li><strong>PR #131783</strong> fix(agents): keep dangling symlinks visible in ls listings.</li>
-<li><strong>PR #132014</strong> fix(line): give the agent the selection a postback carries. Related #132000. Thanks @edenfunf and @obviyus.</li>
-<li><strong>PR #102636</strong> fix(handoff): skip orchestrator framing for solo agents without subagents. Related #102628. Thanks @Gary-Jia-new and @altaywtf and @Joakim-Emanuelson.</li>
-<li><strong>PR #132545</strong> fix(plugins): keep compiled plugin aliases on the built runtime.</li>
-<li><strong>PR #102160</strong> fix(agents): run-lifecycle reliability — bounded release, evidence-based liveness, watchdog semantics. Related #85826, #96168. Thanks @obviyus and @kiagentkronos-cell and @alvelda.</li>
-</ul>
-<h2>2026.7.34</h2>
-<h3>Highlights</h3>
-<ul>
-<li><strong>Current model families:</strong> add GPT-6 Astra, GPT Image 2.5 Flare/Sunburst, Muse Spark 1.3, Claude Opus 5, Gemini 3.6/3.7 Flash, Grok 4.6, Kimi K3, GLM 5.3, Qwen 3.8, DeepSeek V4 Flash Vision Experimental, and Nemotron 3.5 Lightning support across the provider catalogs and runtime policies that ship on extended stable. Fable 5.1 remains deferred because its prefix-bound reasoning contract requires the newer append-only replay lifecycle.</li>
-<li><strong>GPT-5.6 compatibility:</strong> retain and verify the complete GPT-5.6 Sol, Terra, and Luna family across direct OpenAI and Codex OAuth routing, reasoning controls, pricing, context, and vision metadata.</li>
-</ul>
-<h3>Fixes</h3>
-<ul>
-<li><strong>Installer recovery:</strong> preserve the original npm recovery diagnostics when an install repair attempt also fails, so operators see the actionable package-manager error instead of a secondary cleanup failure.</li>
-</ul>
-<h3>Complete contribution record</h3>
-<p>This extended-stable candidate was selected from a complete 11,198-commit audit after <code>v2026.7.33</code>. It adapts the approved provider and installer slices to the 7.33 SDK and configuration surface without importing later architectural refactors.</p>
-<h3>Release verification</h3>
-<ul>
-<li>npm package: <a href="https://www.npmjs.com/package/openclaw/v/2026.7.35">https://www.npmjs.com/package/openclaw/v/2026.7.35</a></li>
-<li>registry tarball: <a href="https://registry.npmjs.org/openclaw/-/openclaw-2026.7.35.tgz">https://registry.npmjs.org/openclaw/-/openclaw-2026.7.35.tgz</a></li>
-<li>integrity: <code>sha512-2ZzpVrK4sOzKLRyS5S6rHjkXQS11FHe361FQSvUy8CBBG0TkzZUisBCmCZ0PLfK8Hpym2ZPHHpknZQaD4WONGQ==</code></li>
-<li>release SHA: <code>aa94808cb05668cdf1c10bc8f034a8176deba483</code></li>
-<li>full release validation: <a href="https://github.com/openclaw/openclaw/actions/runs/35574936025/attempts/2">https://github.com/openclaw/openclaw/actions/runs/35574936025/attempts/2</a></li>
-<li>plugin npm publication: <a href="https://github.com/openclaw/openclaw/actions/runs/35595949221">https://github.com/openclaw/openclaw/actions/runs/35595949221</a></li>
-<li>OpenClaw npm publication: <a href="https://github.com/openclaw/openclaw/actions/runs/35597355437">https://github.com/openclaw/openclaw/actions/runs/35597355437</a> — npm accepted publication; the job failed only because bounded registry readback expired before propagation completed.</li>
-<li>Docker publication recovery: <a href="https://github.com/openclaw/openclaw/actions/runs/35598889849">https://github.com/openclaw/openclaw/actions/runs/35598889849</a></li>
-<li>Manual finalization: owner-approved after independent verification of npm signatures and provenance, the <code>extended-stable</code> selector, all 70 plugin readbacks, Docker digests and attestations, and npm/OCM/Gateway/container smoke tests.</li>
 </ul>
 ]]></content:encoded>
         </item>
