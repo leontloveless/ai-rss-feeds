@@ -4,11 +4,377 @@
         <title>OpenClaw Releases</title>
         <link>https://github.com/openclaw/openclaw/releases</link>
         <description>GitHub releases for OpenClaw - AI assistant framework</description>
-        <lastBuildDate>Wed, 25 Nov 2026 05:42:47 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 26 Nov 2026 01:37:32 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>ai-rss-feeds (https://github.com/leontloveless/ai-rss-feeds)</generator>
         <language>en</language>
         <atom:link href="https://raw.githubusercontent.com/leontloveless/ai-rss-feeds/main/feeds/openclaw-releases.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[openclaw 2026.10.34]]></title>
+            <link>https://github.com/openclaw/openclaw/releases/tag/v2026.10.34</link>
+            <guid>https://github.com/openclaw/openclaw/releases/tag/v2026.10.34</guid>
+            <pubDate>Thu, 26 Nov 2026 01:37:32 GMT</pubDate>
+            <description><![CDATA[<p>This is a gateway-only <code>extended-stable</code> release, which is our current equivalent to LTS. This release is OpenClaw from the end of October 2026, plus critical security updates, reliability and performance fixes, and features like new model support. The latest version of OpenClaw at the time of this release is <a href="https://github.com/openclaw/openclaw/releases#release-v2026.11.10">2026.11.10</a></p>
+<h2>2026.10.34</h2>
+<p>This extended-stable patch updates the Gateway and official npm plugins from 2026.10.33. It includes the core npm package and Gateway Docker images, but no native-app releases.</p>
+<h3>Highlights</h3>
+<ul>
+<li>OpenAI and ClawRouter: select GPT-6.2 Astra and Sol, with system-prompt caching on the OpenAI API-key and Sign in with ChatGPT Responses routes. (#200766, #201094) Authored by @steipete. Thanks @RomneyDa, @fuller-stack-dev, and @obviyus.</li>
+<li>Tlon: group DMs use their own approval policy, and approved clubs remain authorized across Gateway restarts. (#202775) Thanks @joshavant.</li>
+<li>Update recovery: avoid leaving the Gateway offline when an update runs alongside database readers or replaces a running checkout, and recover the service after a failed Windows update rolls back. (#201330, #202541, #203241, #203264) Authored by @steipete. Thanks @RomneyDa.</li>
+<li>Conversation continuity: deliver ready child results without waiting for other helpers to finish, and accept follow-up chat messages after the preceding run completes. (#203176, #203102, #201790) Authored by @steipete. Thanks @obviyus, @RomneyDa, and @vincentkoc.</li>
+<li>Channel delivery: recover Telegram polling when update IDs reset, keep an undownloadable attachment from blocking replies, and reconnect all Discord accounts after a network outage. (#201167, #200682, #201415, #162189) Thanks @RomneyDa, @obviyus, and @mattreyes0824.</li>
+</ul>
+<h3>Changes</h3>
+<ul>
+<li>MiniMax: stop offering retired M2 models, including during live discovery, and use MiniMax-M3 for PDF text extraction. If your configuration explicitly selects an M2 model, switch it to a supported model. (#203998) Thanks @RomneyDa.</li>
+</ul>
+<h3>Fixes</h3>
+<ul>
+<li>Access controls: apply the session permission mode consistently on Gateway tool calls, recheck bound Discord DMs against current policy, and keep Signal view-once attachments out of assistant context. (#202941, #196848, #196841) Thanks @obviyus and @drobison00.</li>
+<li>Channel setup: save new tokens through the channel secret store rather than writing them to config as plaintext. (#201428, #175333) Thanks @anmol0b, @sallyom, and @masatohoshino.</li>
+<li>Discord and Slack: queue independent Discord requests instead of replacing an active task, show when the target session is busy, and leave Slack question buttons available when a click comes from someone who cannot answer. (#201518, #201363, #201371, #201348) Authored by @steipete. Thanks @vincentkoc, @obviyus, and @shannon0430.</li>
+<li>Conversation delivery: return complete queued ACP replies, preserve Claude CLI final answers after progress messages, and avoid repeating tool work on a fallback model during long Claude CLI turns. (#202658, #200470, #200801, #200744) Thanks @obviyus, @chaeyn, @fede-kamel, and @jzmudzinski.</li>
+<li>Conversation recovery: resume saved requests when transcript metadata advances, and keep pending child results when the requesting run ends or a follow-up takes over. (#201477, #195275) Authored by @steipete. Thanks @RomneyDa and @jalehman.</li>
+<li>OpenAI and Codex: preserve session affinity for Sign in with ChatGPT and let Codex subagents start from agent folders with capital letters. (#197588, #197532, #201520, #201423) Thanks @sukhdeepjohar, @aatreya, @obviyus, and @thejeys19.</li>
+<li>Provider reliability: compact before predicted context overflow instead of trimming tool results already cached by the provider, stop retrying Anthropic requests that require credits, and preserve user-configured model rows on provider sign-in. (#199530, #201997, #201742, #201558) Authored by @steipete. Thanks @obviyus, @LinzeShi, @MertBasar0, and @Caitoz.</li>
+<li>Install and update: avoid hanging at NodeSource on Ubuntu 26.04, preserve pnpm-linked checkouts when switching to the npm release, and complete updates with read-only, unchanged config or old plugin leases. (#203538, #201701, #201331, #201314) Authored by @steipete. Thanks @fuller-stack-dev.</li>
+<li>Storage and backups: let large PostgreSQL maintenance operations finish, recover after silent database connection loss, port upgraded stores to PostgreSQL, and reclaim space when backup staging databases are deleted. (#201869, #201856, #201299, #201250, #199666) Thanks @VACInc, @chelsealong, @evemorgen, and @etzelm.</li>
+<li>Doctor: reuse the existing state database for offline update checks after backup, avoiding extra copies of large databases. (#202985) Authored by @steipete.</li>
+<li>Browser and Control UI: capture background tabs in headed or headless Chrome, keep final answers out of the collapsed Worked fold, and preserve pending dictation transcripts while showing progress. (#202878, #165312, #201626, #197429, #200235) Thanks @obviyus, @titan550, @Marvinthebored, @vyctorbrzezowski, @Peetiegonzalez, and @daniel-lxs.</li>
+<li>Automation and Feishu: deliver automation failure notices back to the chat that created the job and finish long replies in the same streaming card. (#203056, #161777, #139443) Thanks @obviyus, @ArthurNie, and @Simon2256928.</li>
+</ul>
+<h3>Complete contribution record</h3>
+<p>This audited record covers the complete v2026.10.33..3656180a44de203e4b3be5fb02d768fcdb306767 history: 129 in-range PRs + 0 retained seed-only PRs = 129 unique PRs. The generation manifest also supplies direct commits as editorial input; the grouped notes above prioritize user impact.</p>
+<h4>Pull requests</h4>
+<ul>
+<li><strong>PR #200658</strong> Authored by @steipete.</li>
+<li><strong>PR #203538</strong> Authored by @steipete.</li>
+<li><strong>PR #202801</strong> Related #202772. Thanks @yy19971996, @vincentkoc, @RomneyDa, and @cjn119-ui.</li>
+<li><strong>PR #202775</strong> Thanks @joshavant.</li>
+<li><strong>PR #203934</strong> Thanks @pgondhi987.</li>
+<li><strong>PR #204129</strong> Related #203604. Authored by @steipete. Thanks @AS76.</li>
+<li><strong>PR #200555</strong> Thanks @RomneyDa.</li>
+<li><strong>PR #203998</strong> Thanks @RomneyDa.</li>
+<li><strong>PR #204062</strong> Thanks @RomneyDa and @vincentkoc.</li>
+<li><strong>PR #196172</strong> Thanks @montrellcruse and @RomneyDa.</li>
+<li><strong>PR #203222</strong> Authored by @steipete.</li>
+<li><strong>PR #200766</strong> Thanks @fuller-stack-dev.</li>
+<li><strong>PR #202359</strong> Authored by @steipete.</li>
+<li><strong>PR #201094</strong> Authored by @steipete. Thanks @obviyus.</li>
+<li><strong>PR #202646</strong> Thanks @obviyus.</li>
+<li><strong>PR #202353</strong> Related #202021. Thanks @qodelicious and @henrylast42.</li>
+<li><strong>PR #201547</strong> Thanks @vincentkoc.</li>
+<li><strong>PR #202658</strong> Thanks @obviyus.</li>
+<li><strong>PR #202541</strong> Authored by @steipete.</li>
+<li><strong>PR #201583</strong> Related #201573. Thanks @MasterSwords1, @VACInc, and @synapse-homeroot.</li>
+<li><strong>PR #196367</strong> Related #196312. Thanks @indra622, @obviyus, and @judeKim.</li>
+<li><strong>PR #201678</strong> Thanks @vincentkoc.</li>
+<li><strong>PR #193596</strong> Thanks @ceckert.</li>
+<li><strong>PR #201636</strong> Related #201605. Thanks @obviyus and @mike1122real-hub.</li>
+<li><strong>PR #201557</strong> Thanks @vincentkoc.</li>
+<li><strong>PR #196659</strong> Related #196658. Thanks @martins-oss and @obviyus.</li>
+<li><strong>PR #197588</strong> Related #197532. Thanks @sukhdeepjohar and @aatreya.</li>
+<li><strong>PR #197595</strong> Thanks @clawSean.</li>
+<li><strong>PR #201062</strong> Thanks @obviyus.</li>
+<li><strong>PR #201371</strong> Related #201348. Thanks @obviyus and @shannon0430.</li>
+<li><strong>PR #201434</strong> Thanks @obviyus.</li>
+<li><strong>PR #199666</strong> Thanks @etzelm and @VACInc.</li>
+<li><strong>PR #201415</strong> Related #162189. Thanks @obviyus and @mattreyes0824.</li>
+<li><strong>PR #201306</strong> Authored by @steipete.</li>
+<li><strong>PR #201272</strong> Thanks @vincentkoc.</li>
+<li><strong>PR #195679</strong> Related #195649. Thanks @ElNeMeR70, @obviyus, and @609NFT.</li>
+<li><strong>PR #200470</strong> Thanks @chaeyn and @obviyus.</li>
+<li><strong>PR #200226</strong> Related #199633. Thanks @etzelm, @VACInc, and @mulderp82.</li>
+<li><strong>PR #201742</strong> Related #201558. Thanks @MertBasar0, @obviyus, and @Caitoz.</li>
+<li><strong>PR #201997</strong> Thanks @LinzeShi and @obviyus.</li>
+<li><strong>PR #203854</strong> Thanks @RomneyDa and @vincentkoc.</li>
+<li><strong>PR #203264</strong> Authored by @steipete.</li>
+<li><strong>PR #203147</strong> Related #201589. Authored by @steipete. Thanks @SunnyShu0925, @welfo-beo, and @JIRBOY.</li>
+<li><strong>PR #202924</strong> Authored by @steipete.</li>
+<li><strong>PR #202941</strong> Thanks @obviyus.</li>
+<li><strong>PR #203102</strong> Authored by @steipete.</li>
+<li><strong>PR #203130</strong> Thanks @obviyus.</li>
+<li><strong>PR #203152</strong> Authored by @steipete.</li>
+<li><strong>PR #203097</strong> Thanks @RomneyDa.</li>
+<li><strong>PR #201331</strong> Thanks @fuller-stack-dev.</li>
+<li><strong>PR #186942</strong> Related #186842. Thanks @wr-web, @obviyus, and @bluet.</li>
+<li><strong>PR #190124</strong> Thanks @etzelm and @VACInc.</li>
+<li><strong>PR #201487</strong> Related #194857. Thanks @vincentkoc and @lyrakat.</li>
+<li><strong>PR #161777</strong> Related #139443. Thanks @ArthurNie, @obviyus, and @Simon2256928.</li>
+<li><strong>PR #202048</strong> Related #202047. Thanks @ElanHasson and @obviyus.</li>
+<li><strong>PR #202031</strong> Thanks @mmaps.</li>
+<li><strong>PR #187427</strong> Thanks @Satoshi-Kusumoto and @sallyom.</li>
+<li><strong>PR #196848</strong> Thanks @drobison00.</li>
+<li><strong>PR #196841</strong> Thanks @drobison00.</li>
+<li><strong>PR #202088</strong> Related #202023. Thanks @etzelm and @anmol0b.</li>
+<li><strong>PR #201501</strong> Thanks @vincentkoc.</li>
+<li><strong>PR #196847</strong> Thanks @drobison00.</li>
+<li><strong>PR #201701</strong> Thanks @fuller-stack-dev.</li>
+<li><strong>PR #190287</strong> Thanks @alkor2000 and @obviyus.</li>
+<li><strong>PR #201845</strong> Thanks @freeqaz.</li>
+<li><strong>PR #201790</strong> Thanks @RomneyDa and @vincentkoc.</li>
+<li><strong>PR #199365</strong> Related #199155. Thanks @EnesKartal, @RomneyDa, and @nash-quickfi.</li>
+<li><strong>PR #196907</strong> Thanks @drobison00.</li>
+<li><strong>PR #136506</strong> Thanks @drobison00.</li>
+<li><strong>PR #198968</strong> Authored by @steipete.</li>
+<li><strong>PR #200786</strong> Related #200773. Authored by @steipete. Thanks @cbhawthorne84.</li>
+<li><strong>PR #201336</strong> Authored by @steipete.</li>
+<li><strong>PR #200742</strong> Authored by @steipete.</li>
+<li><strong>PR #201520</strong> Related #201423. Thanks @obviyus and @thejeys19.</li>
+<li><strong>PR #200518</strong> Thanks @RomneyDa and @vincentkoc.</li>
+<li><strong>PR #200801</strong> Related #200744. Thanks @fede-kamel, @obviyus, and @jzmudzinski.</li>
+<li><strong>PR #201167</strong> Thanks @obviyus.</li>
+<li><strong>PR #201626</strong> Thanks @obviyus.</li>
+<li><strong>PR #201460</strong> Authored by @steipete.</li>
+<li><strong>PR #201314</strong> Authored by @steipete.</li>
+<li><strong>PR #200659</strong> Related #200594. Authored by @steipete. Thanks @SimonAIbot.</li>
+<li><strong>PR #200733</strong> Authored by @steipete.</li>
+<li><strong>PR #200577</strong> Thanks @RomneyDa.</li>
+<li><strong>PR #200669</strong> Authored by @steipete.</li>
+<li><strong>PR #201482</strong> Thanks @RomneyDa and @vincentkoc.</li>
+<li><strong>PR #197768</strong> Thanks @bdjben and @VACInc.</li>
+<li><strong>PR #201127</strong> Thanks @RomneyDa.</li>
+<li><strong>PR #200682</strong> Thanks @obviyus.</li>
+<li><strong>PR #201299</strong> Related #201250. Thanks @chelsealong and @evemorgen.</li>
+<li><strong>PR #201333</strong> Authored by @steipete.</li>
+<li><strong>PR #201363</strong> Authored by @steipete.</li>
+<li><strong>PR #200835</strong> Thanks @freeqaz.</li>
+<li><strong>PR #201373</strong> Authored by @steipete.</li>
+<li><strong>PR #195612</strong> Related #194303. Thanks @amittell and @obviyus.</li>
+<li><strong>PR #201271</strong> Related #194451. Thanks @VACInc and @alexph-dev.</li>
+<li><strong>PR #200458</strong> Thanks @Patrick-Erichsen.</li>
+<li><strong>PR #201330</strong> Authored by @steipete.</li>
+<li><strong>PR #202608</strong> Authored by @steipete.</li>
+<li><strong>PR #201428</strong> Related #175333. Thanks @anmol0b, @sallyom, and @masatohoshino.</li>
+<li><strong>PR #201856</strong> Thanks @VACInc.</li>
+<li><strong>PR #201869</strong> Thanks @VACInc.</li>
+<li><strong>PR #197429</strong> Thanks @Marvinthebored, @vyctorbrzezowski, and @Peetiegonzalez.</li>
+<li><strong>PR #202420</strong> Authored by @steipete.</li>
+<li><strong>PR #202647</strong> Authored by @steipete.</li>
+<li><strong>PR #202453</strong> Thanks @vincentkoc.</li>
+<li><strong>PR #203113</strong> Thanks @obviyus.</li>
+<li><strong>PR #203056</strong> Thanks @obviyus.</li>
+<li><strong>PR #203241</strong> Authored by @steipete.</li>
+<li><strong>PR #200873</strong> Authored by @steipete.</li>
+<li><strong>PR #200967</strong> Authored by @steipete.</li>
+<li><strong>PR #203176</strong> Thanks @obviyus.</li>
+<li><strong>PR #204326</strong> Thanks @RomneyDa.</li>
+<li><strong>PR #203411</strong> Thanks @vincentkoc.</li>
+<li><strong>PR #201198</strong> Thanks @RomneyDa and @vincentkoc.</li>
+<li><strong>PR #204280</strong></li>
+<li><strong>PR #202894</strong></li>
+<li><strong>PR #204360</strong> Thanks @RomneyDa and @vincentkoc.</li>
+<li><strong>PR #204304</strong> Related #204312. Thanks @daniel-lxs.</li>
+<li><strong>PR #202514</strong> Related #202501. Thanks @daniel-lxs.</li>
+<li><strong>PR #201518</strong> Thanks @vincentkoc.</li>
+<li><strong>PR #199530</strong> Authored by @steipete. Thanks @obviyus.</li>
+<li><strong>PR #196797</strong> Thanks @PollyBot13.</li>
+<li><strong>PR #200235</strong> Thanks @daniel-lxs.</li>
+<li><strong>PR #201535</strong> Thanks @vishnusenthil-16.</li>
+<li><strong>PR #201600</strong> Thanks @fuller-stack-dev.</li>
+<li><strong>PR #202878</strong> Related #165312. Thanks @obviyus and @titan550.</li>
+<li><strong>PR #201477</strong> Authored by @steipete.</li>
+<li><strong>PR #195275</strong> Thanks @jalehman.</li>
+<li><strong>PR #202985</strong> Authored by @steipete.</li>
+</ul>
+<h3>Release verification</h3>
+<ul>
+<li>npm package: <a href="https://www.npmjs.com/package/openclaw/v/2026.10.34">https://www.npmjs.com/package/openclaw/v/2026.10.34</a></li>
+<li>registry tarball: <a href="https://registry.npmjs.org/openclaw/-/openclaw-2026.10.34.tgz">https://registry.npmjs.org/openclaw/-/openclaw-2026.10.34.tgz</a></li>
+<li>integrity: <code>sha512-az4HjZ7KhL8qeZBBgGgiZfBRhtL9/rsJKWN6eXDuQZE3yhPMXo2FEwDm3r2qq+jUtOPSb1m8HmUJ+0lww2+viQ==</code></li>
+<li>release SHA: <code>c50d7cc6ef660ce9b59a4ad2cbb01a86715c35ec</code></li>
+<li>full release CI report: <a href="https://github.com/openclaw/releases/blob/main/evidence/2026.10.34/release-evidence.md">https://github.com/openclaw/releases/blob/main/evidence/2026.10.34/release-evidence.md</a></li>
+<li>release publish: <a href="https://github.com/openclaw/openclaw/actions/runs/45731853140">https://github.com/openclaw/openclaw/actions/runs/45731853140</a></li>
+<li>npm preflight: <a href="https://github.com/openclaw/openclaw/actions/runs/45546075742">https://github.com/openclaw/openclaw/actions/runs/45546075742</a></li>
+<li>full release validation: <a href="https://github.com/openclaw/openclaw/actions/runs/45570766551">https://github.com/openclaw/openclaw/actions/runs/45570766551</a></li>
+<li>plugin npm publish: <a href="https://github.com/openclaw/openclaw/actions/runs/45733054864">https://github.com/openclaw/openclaw/actions/runs/45733054864</a></li>
+<li>ClawHub: not published for extended-stable releases.</li>
+<li>OpenClaw npm publish: <a href="https://github.com/openclaw/openclaw/actions/runs/45726581930/attempts/1">https://github.com/openclaw/openclaw/actions/runs/45726581930/attempts/1</a></li>
+<li>npm Telegram beta E2E: not supplied</li>
+</ul>
+]]></description>
+            <content:encoded><![CDATA[<p>This is a gateway-only <code>extended-stable</code> release, which is our current equivalent to LTS. This release is OpenClaw from the end of October 2026, plus critical security updates, reliability and performance fixes, and features like new model support. The latest version of OpenClaw at the time of this release is <a href="https://github.com/openclaw/openclaw/releases#release-v2026.11.10">2026.11.10</a></p>
+<h2>2026.10.34</h2>
+<p>This extended-stable patch updates the Gateway and official npm plugins from 2026.10.33. It includes the core npm package and Gateway Docker images, but no native-app releases.</p>
+<h3>Highlights</h3>
+<ul>
+<li>OpenAI and ClawRouter: select GPT-6.2 Astra and Sol, with system-prompt caching on the OpenAI API-key and Sign in with ChatGPT Responses routes. (#200766, #201094) Authored by @steipete. Thanks @RomneyDa, @fuller-stack-dev, and @obviyus.</li>
+<li>Tlon: group DMs use their own approval policy, and approved clubs remain authorized across Gateway restarts. (#202775) Thanks @joshavant.</li>
+<li>Update recovery: avoid leaving the Gateway offline when an update runs alongside database readers or replaces a running checkout, and recover the service after a failed Windows update rolls back. (#201330, #202541, #203241, #203264) Authored by @steipete. Thanks @RomneyDa.</li>
+<li>Conversation continuity: deliver ready child results without waiting for other helpers to finish, and accept follow-up chat messages after the preceding run completes. (#203176, #203102, #201790) Authored by @steipete. Thanks @obviyus, @RomneyDa, and @vincentkoc.</li>
+<li>Channel delivery: recover Telegram polling when update IDs reset, keep an undownloadable attachment from blocking replies, and reconnect all Discord accounts after a network outage. (#201167, #200682, #201415, #162189) Thanks @RomneyDa, @obviyus, and @mattreyes0824.</li>
+</ul>
+<h3>Changes</h3>
+<ul>
+<li>MiniMax: stop offering retired M2 models, including during live discovery, and use MiniMax-M3 for PDF text extraction. If your configuration explicitly selects an M2 model, switch it to a supported model. (#203998) Thanks @RomneyDa.</li>
+</ul>
+<h3>Fixes</h3>
+<ul>
+<li>Access controls: apply the session permission mode consistently on Gateway tool calls, recheck bound Discord DMs against current policy, and keep Signal view-once attachments out of assistant context. (#202941, #196848, #196841) Thanks @obviyus and @drobison00.</li>
+<li>Channel setup: save new tokens through the channel secret store rather than writing them to config as plaintext. (#201428, #175333) Thanks @anmol0b, @sallyom, and @masatohoshino.</li>
+<li>Discord and Slack: queue independent Discord requests instead of replacing an active task, show when the target session is busy, and leave Slack question buttons available when a click comes from someone who cannot answer. (#201518, #201363, #201371, #201348) Authored by @steipete. Thanks @vincentkoc, @obviyus, and @shannon0430.</li>
+<li>Conversation delivery: return complete queued ACP replies, preserve Claude CLI final answers after progress messages, and avoid repeating tool work on a fallback model during long Claude CLI turns. (#202658, #200470, #200801, #200744) Thanks @obviyus, @chaeyn, @fede-kamel, and @jzmudzinski.</li>
+<li>Conversation recovery: resume saved requests when transcript metadata advances, and keep pending child results when the requesting run ends or a follow-up takes over. (#201477, #195275) Authored by @steipete. Thanks @RomneyDa and @jalehman.</li>
+<li>OpenAI and Codex: preserve session affinity for Sign in with ChatGPT and let Codex subagents start from agent folders with capital letters. (#197588, #197532, #201520, #201423) Thanks @sukhdeepjohar, @aatreya, @obviyus, and @thejeys19.</li>
+<li>Provider reliability: compact before predicted context overflow instead of trimming tool results already cached by the provider, stop retrying Anthropic requests that require credits, and preserve user-configured model rows on provider sign-in. (#199530, #201997, #201742, #201558) Authored by @steipete. Thanks @obviyus, @LinzeShi, @MertBasar0, and @Caitoz.</li>
+<li>Install and update: avoid hanging at NodeSource on Ubuntu 26.04, preserve pnpm-linked checkouts when switching to the npm release, and complete updates with read-only, unchanged config or old plugin leases. (#203538, #201701, #201331, #201314) Authored by @steipete. Thanks @fuller-stack-dev.</li>
+<li>Storage and backups: let large PostgreSQL maintenance operations finish, recover after silent database connection loss, port upgraded stores to PostgreSQL, and reclaim space when backup staging databases are deleted. (#201869, #201856, #201299, #201250, #199666) Thanks @VACInc, @chelsealong, @evemorgen, and @etzelm.</li>
+<li>Doctor: reuse the existing state database for offline update checks after backup, avoiding extra copies of large databases. (#202985) Authored by @steipete.</li>
+<li>Browser and Control UI: capture background tabs in headed or headless Chrome, keep final answers out of the collapsed Worked fold, and preserve pending dictation transcripts while showing progress. (#202878, #165312, #201626, #197429, #200235) Thanks @obviyus, @titan550, @Marvinthebored, @vyctorbrzezowski, @Peetiegonzalez, and @daniel-lxs.</li>
+<li>Automation and Feishu: deliver automation failure notices back to the chat that created the job and finish long replies in the same streaming card. (#203056, #161777, #139443) Thanks @obviyus, @ArthurNie, and @Simon2256928.</li>
+</ul>
+<h3>Complete contribution record</h3>
+<p>This audited record covers the complete v2026.10.33..3656180a44de203e4b3be5fb02d768fcdb306767 history: 129 in-range PRs + 0 retained seed-only PRs = 129 unique PRs. The generation manifest also supplies direct commits as editorial input; the grouped notes above prioritize user impact.</p>
+<h4>Pull requests</h4>
+<ul>
+<li><strong>PR #200658</strong> Authored by @steipete.</li>
+<li><strong>PR #203538</strong> Authored by @steipete.</li>
+<li><strong>PR #202801</strong> Related #202772. Thanks @yy19971996, @vincentkoc, @RomneyDa, and @cjn119-ui.</li>
+<li><strong>PR #202775</strong> Thanks @joshavant.</li>
+<li><strong>PR #203934</strong> Thanks @pgondhi987.</li>
+<li><strong>PR #204129</strong> Related #203604. Authored by @steipete. Thanks @AS76.</li>
+<li><strong>PR #200555</strong> Thanks @RomneyDa.</li>
+<li><strong>PR #203998</strong> Thanks @RomneyDa.</li>
+<li><strong>PR #204062</strong> Thanks @RomneyDa and @vincentkoc.</li>
+<li><strong>PR #196172</strong> Thanks @montrellcruse and @RomneyDa.</li>
+<li><strong>PR #203222</strong> Authored by @steipete.</li>
+<li><strong>PR #200766</strong> Thanks @fuller-stack-dev.</li>
+<li><strong>PR #202359</strong> Authored by @steipete.</li>
+<li><strong>PR #201094</strong> Authored by @steipete. Thanks @obviyus.</li>
+<li><strong>PR #202646</strong> Thanks @obviyus.</li>
+<li><strong>PR #202353</strong> Related #202021. Thanks @qodelicious and @henrylast42.</li>
+<li><strong>PR #201547</strong> Thanks @vincentkoc.</li>
+<li><strong>PR #202658</strong> Thanks @obviyus.</li>
+<li><strong>PR #202541</strong> Authored by @steipete.</li>
+<li><strong>PR #201583</strong> Related #201573. Thanks @MasterSwords1, @VACInc, and @synapse-homeroot.</li>
+<li><strong>PR #196367</strong> Related #196312. Thanks @indra622, @obviyus, and @judeKim.</li>
+<li><strong>PR #201678</strong> Thanks @vincentkoc.</li>
+<li><strong>PR #193596</strong> Thanks @ceckert.</li>
+<li><strong>PR #201636</strong> Related #201605. Thanks @obviyus and @mike1122real-hub.</li>
+<li><strong>PR #201557</strong> Thanks @vincentkoc.</li>
+<li><strong>PR #196659</strong> Related #196658. Thanks @martins-oss and @obviyus.</li>
+<li><strong>PR #197588</strong> Related #197532. Thanks @sukhdeepjohar and @aatreya.</li>
+<li><strong>PR #197595</strong> Thanks @clawSean.</li>
+<li><strong>PR #201062</strong> Thanks @obviyus.</li>
+<li><strong>PR #201371</strong> Related #201348. Thanks @obviyus and @shannon0430.</li>
+<li><strong>PR #201434</strong> Thanks @obviyus.</li>
+<li><strong>PR #199666</strong> Thanks @etzelm and @VACInc.</li>
+<li><strong>PR #201415</strong> Related #162189. Thanks @obviyus and @mattreyes0824.</li>
+<li><strong>PR #201306</strong> Authored by @steipete.</li>
+<li><strong>PR #201272</strong> Thanks @vincentkoc.</li>
+<li><strong>PR #195679</strong> Related #195649. Thanks @ElNeMeR70, @obviyus, and @609NFT.</li>
+<li><strong>PR #200470</strong> Thanks @chaeyn and @obviyus.</li>
+<li><strong>PR #200226</strong> Related #199633. Thanks @etzelm, @VACInc, and @mulderp82.</li>
+<li><strong>PR #201742</strong> Related #201558. Thanks @MertBasar0, @obviyus, and @Caitoz.</li>
+<li><strong>PR #201997</strong> Thanks @LinzeShi and @obviyus.</li>
+<li><strong>PR #203854</strong> Thanks @RomneyDa and @vincentkoc.</li>
+<li><strong>PR #203264</strong> Authored by @steipete.</li>
+<li><strong>PR #203147</strong> Related #201589. Authored by @steipete. Thanks @SunnyShu0925, @welfo-beo, and @JIRBOY.</li>
+<li><strong>PR #202924</strong> Authored by @steipete.</li>
+<li><strong>PR #202941</strong> Thanks @obviyus.</li>
+<li><strong>PR #203102</strong> Authored by @steipete.</li>
+<li><strong>PR #203130</strong> Thanks @obviyus.</li>
+<li><strong>PR #203152</strong> Authored by @steipete.</li>
+<li><strong>PR #203097</strong> Thanks @RomneyDa.</li>
+<li><strong>PR #201331</strong> Thanks @fuller-stack-dev.</li>
+<li><strong>PR #186942</strong> Related #186842. Thanks @wr-web, @obviyus, and @bluet.</li>
+<li><strong>PR #190124</strong> Thanks @etzelm and @VACInc.</li>
+<li><strong>PR #201487</strong> Related #194857. Thanks @vincentkoc and @lyrakat.</li>
+<li><strong>PR #161777</strong> Related #139443. Thanks @ArthurNie, @obviyus, and @Simon2256928.</li>
+<li><strong>PR #202048</strong> Related #202047. Thanks @ElanHasson and @obviyus.</li>
+<li><strong>PR #202031</strong> Thanks @mmaps.</li>
+<li><strong>PR #187427</strong> Thanks @Satoshi-Kusumoto and @sallyom.</li>
+<li><strong>PR #196848</strong> Thanks @drobison00.</li>
+<li><strong>PR #196841</strong> Thanks @drobison00.</li>
+<li><strong>PR #202088</strong> Related #202023. Thanks @etzelm and @anmol0b.</li>
+<li><strong>PR #201501</strong> Thanks @vincentkoc.</li>
+<li><strong>PR #196847</strong> Thanks @drobison00.</li>
+<li><strong>PR #201701</strong> Thanks @fuller-stack-dev.</li>
+<li><strong>PR #190287</strong> Thanks @alkor2000 and @obviyus.</li>
+<li><strong>PR #201845</strong> Thanks @freeqaz.</li>
+<li><strong>PR #201790</strong> Thanks @RomneyDa and @vincentkoc.</li>
+<li><strong>PR #199365</strong> Related #199155. Thanks @EnesKartal, @RomneyDa, and @nash-quickfi.</li>
+<li><strong>PR #196907</strong> Thanks @drobison00.</li>
+<li><strong>PR #136506</strong> Thanks @drobison00.</li>
+<li><strong>PR #198968</strong> Authored by @steipete.</li>
+<li><strong>PR #200786</strong> Related #200773. Authored by @steipete. Thanks @cbhawthorne84.</li>
+<li><strong>PR #201336</strong> Authored by @steipete.</li>
+<li><strong>PR #200742</strong> Authored by @steipete.</li>
+<li><strong>PR #201520</strong> Related #201423. Thanks @obviyus and @thejeys19.</li>
+<li><strong>PR #200518</strong> Thanks @RomneyDa and @vincentkoc.</li>
+<li><strong>PR #200801</strong> Related #200744. Thanks @fede-kamel, @obviyus, and @jzmudzinski.</li>
+<li><strong>PR #201167</strong> Thanks @obviyus.</li>
+<li><strong>PR #201626</strong> Thanks @obviyus.</li>
+<li><strong>PR #201460</strong> Authored by @steipete.</li>
+<li><strong>PR #201314</strong> Authored by @steipete.</li>
+<li><strong>PR #200659</strong> Related #200594. Authored by @steipete. Thanks @SimonAIbot.</li>
+<li><strong>PR #200733</strong> Authored by @steipete.</li>
+<li><strong>PR #200577</strong> Thanks @RomneyDa.</li>
+<li><strong>PR #200669</strong> Authored by @steipete.</li>
+<li><strong>PR #201482</strong> Thanks @RomneyDa and @vincentkoc.</li>
+<li><strong>PR #197768</strong> Thanks @bdjben and @VACInc.</li>
+<li><strong>PR #201127</strong> Thanks @RomneyDa.</li>
+<li><strong>PR #200682</strong> Thanks @obviyus.</li>
+<li><strong>PR #201299</strong> Related #201250. Thanks @chelsealong and @evemorgen.</li>
+<li><strong>PR #201333</strong> Authored by @steipete.</li>
+<li><strong>PR #201363</strong> Authored by @steipete.</li>
+<li><strong>PR #200835</strong> Thanks @freeqaz.</li>
+<li><strong>PR #201373</strong> Authored by @steipete.</li>
+<li><strong>PR #195612</strong> Related #194303. Thanks @amittell and @obviyus.</li>
+<li><strong>PR #201271</strong> Related #194451. Thanks @VACInc and @alexph-dev.</li>
+<li><strong>PR #200458</strong> Thanks @Patrick-Erichsen.</li>
+<li><strong>PR #201330</strong> Authored by @steipete.</li>
+<li><strong>PR #202608</strong> Authored by @steipete.</li>
+<li><strong>PR #201428</strong> Related #175333. Thanks @anmol0b, @sallyom, and @masatohoshino.</li>
+<li><strong>PR #201856</strong> Thanks @VACInc.</li>
+<li><strong>PR #201869</strong> Thanks @VACInc.</li>
+<li><strong>PR #197429</strong> Thanks @Marvinthebored, @vyctorbrzezowski, and @Peetiegonzalez.</li>
+<li><strong>PR #202420</strong> Authored by @steipete.</li>
+<li><strong>PR #202647</strong> Authored by @steipete.</li>
+<li><strong>PR #202453</strong> Thanks @vincentkoc.</li>
+<li><strong>PR #203113</strong> Thanks @obviyus.</li>
+<li><strong>PR #203056</strong> Thanks @obviyus.</li>
+<li><strong>PR #203241</strong> Authored by @steipete.</li>
+<li><strong>PR #200873</strong> Authored by @steipete.</li>
+<li><strong>PR #200967</strong> Authored by @steipete.</li>
+<li><strong>PR #203176</strong> Thanks @obviyus.</li>
+<li><strong>PR #204326</strong> Thanks @RomneyDa.</li>
+<li><strong>PR #203411</strong> Thanks @vincentkoc.</li>
+<li><strong>PR #201198</strong> Thanks @RomneyDa and @vincentkoc.</li>
+<li><strong>PR #204280</strong></li>
+<li><strong>PR #202894</strong></li>
+<li><strong>PR #204360</strong> Thanks @RomneyDa and @vincentkoc.</li>
+<li><strong>PR #204304</strong> Related #204312. Thanks @daniel-lxs.</li>
+<li><strong>PR #202514</strong> Related #202501. Thanks @daniel-lxs.</li>
+<li><strong>PR #201518</strong> Thanks @vincentkoc.</li>
+<li><strong>PR #199530</strong> Authored by @steipete. Thanks @obviyus.</li>
+<li><strong>PR #196797</strong> Thanks @PollyBot13.</li>
+<li><strong>PR #200235</strong> Thanks @daniel-lxs.</li>
+<li><strong>PR #201535</strong> Thanks @vishnusenthil-16.</li>
+<li><strong>PR #201600</strong> Thanks @fuller-stack-dev.</li>
+<li><strong>PR #202878</strong> Related #165312. Thanks @obviyus and @titan550.</li>
+<li><strong>PR #201477</strong> Authored by @steipete.</li>
+<li><strong>PR #195275</strong> Thanks @jalehman.</li>
+<li><strong>PR #202985</strong> Authored by @steipete.</li>
+</ul>
+<h3>Release verification</h3>
+<ul>
+<li>npm package: <a href="https://www.npmjs.com/package/openclaw/v/2026.10.34">https://www.npmjs.com/package/openclaw/v/2026.10.34</a></li>
+<li>registry tarball: <a href="https://registry.npmjs.org/openclaw/-/openclaw-2026.10.34.tgz">https://registry.npmjs.org/openclaw/-/openclaw-2026.10.34.tgz</a></li>
+<li>integrity: <code>sha512-az4HjZ7KhL8qeZBBgGgiZfBRhtL9/rsJKWN6eXDuQZE3yhPMXo2FEwDm3r2qq+jUtOPSb1m8HmUJ+0lww2+viQ==</code></li>
+<li>release SHA: <code>c50d7cc6ef660ce9b59a4ad2cbb01a86715c35ec</code></li>
+<li>full release CI report: <a href="https://github.com/openclaw/releases/blob/main/evidence/2026.10.34/release-evidence.md">https://github.com/openclaw/releases/blob/main/evidence/2026.10.34/release-evidence.md</a></li>
+<li>release publish: <a href="https://github.com/openclaw/openclaw/actions/runs/45731853140">https://github.com/openclaw/openclaw/actions/runs/45731853140</a></li>
+<li>npm preflight: <a href="https://github.com/openclaw/openclaw/actions/runs/45546075742">https://github.com/openclaw/openclaw/actions/runs/45546075742</a></li>
+<li>full release validation: <a href="https://github.com/openclaw/openclaw/actions/runs/45570766551">https://github.com/openclaw/openclaw/actions/runs/45570766551</a></li>
+<li>plugin npm publish: <a href="https://github.com/openclaw/openclaw/actions/runs/45733054864">https://github.com/openclaw/openclaw/actions/runs/45733054864</a></li>
+<li>ClawHub: not published for extended-stable releases.</li>
+<li>OpenClaw npm publish: <a href="https://github.com/openclaw/openclaw/actions/runs/45726581930/attempts/1">https://github.com/openclaw/openclaw/actions/runs/45726581930/attempts/1</a></li>
+<li>npm Telegram beta E2E: not supplied</li>
+</ul>
+]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[openclaw 2026.11.10]]></title>
             <link>https://github.com/openclaw/openclaw/releases/tag/v2026.11.10</link>
@@ -20972,66 +21338,6 @@ the hundreds-row audit.</p>
 <li>OpenClaw npm publish: <a href="https://github.com/openclaw/openclaw/actions/runs/36664180615/attempts/1">https://github.com/openclaw/openclaw/actions/runs/36664180615/attempts/1</a></li>
 <li>Telegram integration checks: waived by the release owner for 2026.9.7 (source QA, Package Acceptance, published-package E2E); not run.</li>
 <li>Android APK: skipped — apps/android/version.json is 2026.8.2, release train is 2026.9.7; run pnpm android:version:pin -- --from-gateway before the next tag.</li>
-</ul>
-]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[openclaw 2026.8.33]]></title>
-            <link>https://github.com/openclaw/openclaw/releases/tag/v2026.8.33</link>
-            <guid>https://github.com/openclaw/openclaw/releases/tag/v2026.8.33</guid>
-            <pubDate>Tue, 29 Sep 2026 03:12:00 GMT</pubDate>
-            <description><![CDATA[<p>This is a gateway-only <code>extended-stable</code> release, which is our current equivalent to LTS. This release is OpenClaw from the end of August 2026, plus critical security updates, reliability and performance fixes, and features like new model support. The latest version of OpenClaw at the time of this release is <a href="https://github.com/openclaw/openclaw/releases#release-v2026.9.6">2026.9.6</a></p>
-<h2>2026.8.33</h2>
-<h3>Highlights</h3>
-<ul>
-<li><strong>Current flagship models:</strong> add Meta Muse Spark 1.3, Anthropic Fable 5.1, OpenAI GPT-6 Astra, and OpenAI/fal GPT Image 2.5 support to the extended-stable line. (#135638, #136553, #137550, #143068, #143069)</li>
-<li><strong>Complete GPT-5.6 family support:</strong> preserve Sol, Terra, and Luna catalog, routing, migration, image, vision, and thinking behavior, including Ultra reasoning across model-runtime boundaries and Bedrock tool-result images. (#135397, #149336)</li>
-<li><strong>Extended-stable security rollup:</strong> reconcile all repository advisories that affect 2026.8.2, harden Prometheus metrics authorization and Discord asset/voice ownership, and clear the production Nodemailer advisory gate. (#136700, #137433, #140334, #140903)</li>
-</ul>
-<h3>Changes</h3>
-<ul>
-<li><strong>Extended-stable release preparation:</strong> normalize OpenClaw, all publishable plugins, and native version metadata to 2026.8.33 while retaining the release-line-compatible publication workflows from 2026.8.2.</li>
-</ul>
-<h3>Fixes</h3>
-<ul>
-<li><strong>Anthropic reasoning continuity:</strong> preserve Fable 5.1 reasoning through model switches and runtime events. (#136782)</li>
-<li><strong>OpenAI discovery:</strong> require successful model discovery before offering GPT-6 Astra through OAuth. (#137561)</li>
-<li><strong>Doctor skill state:</strong> preserve explicitly enabled skills during automatic updates. (#138730)</li>
-<li><strong>Generated media:</strong> retain generated images when a later tool call fails. (#131226)</li>
-<li><strong>Matrix verification:</strong> refresh verification state before reporting device trust. (#136226)</li>
-<li><strong>Prometheus authorization:</strong> reject metric scrapes that lack the configured operator-read scope. (#140903)</li>
-<li><strong>Discord media policy:</strong> enforce sender media policy for guild asset uploads. (#140334)</li>
-<li><strong>Discord realtime ownership:</strong> preserve speaker and playback ownership across voice lifecycle transitions. (#137433)</li>
-<li><strong>Discord consult cancellation:</strong> record host-cancelled realtime consults as cancellation, suppress the generic error fallback, and keep the voice session ready for the next request. (#134924, #135380)</li>
-<li><strong>Dependency security:</strong> override the IMAP dependency graph to Nodemailer 9.1.1, clearing the address-parser denial-of-service and related domain/content-access advisories. (#136700)</li>
-<li><strong>iOS release validation:</strong> update the WebRTC binary dependency to 152.0.0 after the 151.0.0 artifact was withdrawn. (#134942)</li>
-</ul>
-]]></description>
-            <content:encoded><![CDATA[<p>This is a gateway-only <code>extended-stable</code> release, which is our current equivalent to LTS. This release is OpenClaw from the end of August 2026, plus critical security updates, reliability and performance fixes, and features like new model support. The latest version of OpenClaw at the time of this release is <a href="https://github.com/openclaw/openclaw/releases#release-v2026.9.6">2026.9.6</a></p>
-<h2>2026.8.33</h2>
-<h3>Highlights</h3>
-<ul>
-<li><strong>Current flagship models:</strong> add Meta Muse Spark 1.3, Anthropic Fable 5.1, OpenAI GPT-6 Astra, and OpenAI/fal GPT Image 2.5 support to the extended-stable line. (#135638, #136553, #137550, #143068, #143069)</li>
-<li><strong>Complete GPT-5.6 family support:</strong> preserve Sol, Terra, and Luna catalog, routing, migration, image, vision, and thinking behavior, including Ultra reasoning across model-runtime boundaries and Bedrock tool-result images. (#135397, #149336)</li>
-<li><strong>Extended-stable security rollup:</strong> reconcile all repository advisories that affect 2026.8.2, harden Prometheus metrics authorization and Discord asset/voice ownership, and clear the production Nodemailer advisory gate. (#136700, #137433, #140334, #140903)</li>
-</ul>
-<h3>Changes</h3>
-<ul>
-<li><strong>Extended-stable release preparation:</strong> normalize OpenClaw, all publishable plugins, and native version metadata to 2026.8.33 while retaining the release-line-compatible publication workflows from 2026.8.2.</li>
-</ul>
-<h3>Fixes</h3>
-<ul>
-<li><strong>Anthropic reasoning continuity:</strong> preserve Fable 5.1 reasoning through model switches and runtime events. (#136782)</li>
-<li><strong>OpenAI discovery:</strong> require successful model discovery before offering GPT-6 Astra through OAuth. (#137561)</li>
-<li><strong>Doctor skill state:</strong> preserve explicitly enabled skills during automatic updates. (#138730)</li>
-<li><strong>Generated media:</strong> retain generated images when a later tool call fails. (#131226)</li>
-<li><strong>Matrix verification:</strong> refresh verification state before reporting device trust. (#136226)</li>
-<li><strong>Prometheus authorization:</strong> reject metric scrapes that lack the configured operator-read scope. (#140903)</li>
-<li><strong>Discord media policy:</strong> enforce sender media policy for guild asset uploads. (#140334)</li>
-<li><strong>Discord realtime ownership:</strong> preserve speaker and playback ownership across voice lifecycle transitions. (#137433)</li>
-<li><strong>Discord consult cancellation:</strong> record host-cancelled realtime consults as cancellation, suppress the generic error fallback, and keep the voice session ready for the next request. (#134924, #135380)</li>
-<li><strong>Dependency security:</strong> override the IMAP dependency graph to Nodemailer 9.1.1, clearing the address-parser denial-of-service and related domain/content-access advisories. (#136700)</li>
-<li><strong>iOS release validation:</strong> update the WebRTC binary dependency to 152.0.0 after the 151.0.0 artifact was withdrawn. (#134942)</li>
 </ul>
 ]]></content:encoded>
         </item>
